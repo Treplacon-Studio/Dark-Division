@@ -21,17 +21,16 @@ public class GlobalPlayerSpawnerManager : MonoBehaviourPunCallbacks
             Debug.Log(PhotonNetwork.NickName + " connected to lobby!");
             if (playerPrefab != null) 
             {
-                Debug.Log("Spawning player...");
+                Debug.Log("Spawning in " + PhotonNetwork.NickName);
                 int randomPoints = Random.Range(0, 5);
                 Vector3[] points = new Vector3[] {
-                    new Vector3(-3.13f, 1, 0.1884947f),
-                    new Vector3(-1.16f, 1, 0.1884947f),
-                    new Vector3(0.4f, 1, 0.1884947f),
-                    new Vector3(0.3f, 1, 0.1884947f),
-                    new Vector3(0.5f, 1, 0.1884947f),
-                    new Vector3(0.6f, 1, 0.1884947f)
+                    new Vector3(-2.182329f, 2.307999f, 0.4655762f),
+                    new Vector3(2.97f, 1.04f, 0.08f),
+                    new Vector3(3.59f, 1.04f, -2.64f),
+                    new Vector3(0.52f, 1.04f, -2.43f)
                 };
                 PhotonNetwork.Instantiate(playerPrefab.name, points[randomPoints], Quaternion.identity);
+                Debug.Log(PhotonNetwork.NickName + " spawned in!");
             }
         }
     }
