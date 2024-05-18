@@ -7,19 +7,21 @@ public class LaunchManager : MonoBehaviourPunCallbacks
     public GameObject UsernameCreationMenu;
     public GameObject SelectGamePanel;
     public GameObject ButtonPanel;
+    public GameObject LoadoutPanel;
 
     #region Unity Methods
 
     void Start()
     {
-        SetPanelViewability(true, false, false);
+        SetPanelViewability(true, false, false, false);
     }
 
-    public void SetPanelViewability(bool usernameCreationMenu, bool selectGamePanel, bool buttonPanel)
+    public void SetPanelViewability(bool usernameCreationMenu, bool selectGamePanel, bool buttonPanel, bool loadoutPanel)
     {
         UsernameCreationMenu.SetActive(usernameCreationMenu);
         SelectGamePanel.SetActive(selectGamePanel);
         ButtonPanel.SetActive(buttonPanel);
+        LoadoutPanel.SetActive(loadoutPanel);
     }
 
     #endregion
@@ -31,14 +33,14 @@ public class LaunchManager : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsConnected)
         {
             PhotonNetwork.ConnectUsingSettings();
-            SetPanelViewability(false, false, true);
+            SetPanelViewability(false, false, true, false);
         }
     }
 
     public override void OnConnectedToMaster()
     {
         Debug.Log(PhotonNetwork.NickName + " connected to Photon Server");
-        SetPanelViewability(false, true, true);
+        SetPanelViewability(false, true, true, false);
         CreateRoom();
     }
 

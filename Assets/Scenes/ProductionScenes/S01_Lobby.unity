@@ -387,6 +387,7 @@ GameObject:
   m_Component:
   - component: {fileID: 259294000}
   - component: {fileID: 259293999}
+  - component: {fileID: 259294001}
   m_Layer: 0
   m_Name: LobbyManager
   m_TagString: Untagged
@@ -406,7 +407,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b034fa04d7fffcf4583af9c570909694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 8244409117362271513, guid: cda0836daf1cf1a469ba79820f63de6c, type: 3}
 --- !u!4 &259294000
 Transform:
   m_ObjectHideFlags: 0
@@ -422,6 +422,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &259294001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259293998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc047b1436f536a4aa734e6e31ab2492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 8244409117362271513, guid: cda0836daf1cf1a469ba79820f63de6c, type: 3}
 --- !u!1 &1395643901
 GameObject:
   m_ObjectHideFlags: 0
