@@ -1,5 +1,6 @@
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class LaunchManager : MonoBehaviourPunCallbacks
 {
@@ -12,6 +13,13 @@ public class LaunchManager : MonoBehaviourPunCallbacks
     void Start()
     {
         SetPanelViewability(true, false, false);
+    }
+
+    public void SetPanelViewability(bool usernameCreationMenu, bool connectionStatusPanel, bool selectGamePanel)
+    {
+        UsernameCreationMenu.SetActive(usernameCreationMenu);
+        ConnectionStatusPanel.SetActive(connectionStatusPanel);
+        SelectGamePanel.SetActive(selectGamePanel);
     }
 
     #endregion
@@ -35,11 +43,19 @@ public class LaunchManager : MonoBehaviourPunCallbacks
 
     public override void OnConnected() => Debug.Log("Connected to Internet");
 
-    public void SetPanelViewability(bool usernameCreationMenu, bool connectionStatusPanel, bool selectGamePanel)
+    public void JoinOrCreateRoom()
     {
-        UsernameCreationMenu.SetActive(usernameCreationMenu);
-        ConnectionStatusPanel.SetActive(connectionStatusPanel);
-        SelectGamePanel.SetActive(selectGamePanel);
+        PhotonNetwork.JoinRandomRoom();
+    }
+
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 12});
+    }
+
+    public override void OnJoinedRoom()
+    {
+        PhotonNetwork.LoadLevel("S01_Lobby");
     }
 
     #endregion
