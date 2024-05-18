@@ -1,18 +1,17 @@
 using UnityEngine;
 using Photon.Pun;
-using UnityEditor.MemoryProfiler;
 
 public class LaunchManager : MonoBehaviourPunCallbacks
 {
     public GameObject UsernameCreationMenu;
     public GameObject ConnectionStatusPanel;
+    public GameObject SelectGamePanel;
 
     #region Unity Methods
 
     void Start()
     {
-        UsernameCreationMenu.SetActive(true);
-        ConnectionStatusPanel.SetActive(false);
+        SetPanelViewability(true, false, false);
     }
 
     #endregion
@@ -24,19 +23,23 @@ public class LaunchManager : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsConnected)
         {
             PhotonNetwork.ConnectUsingSettings();
-            ConnectionStatusPanel.SetActive(true);
-            UsernameCreationMenu.SetActive(false);
+            SetPanelViewability(false, true, false);
         }
     }
 
     public override void OnConnectedToMaster()
     {
         Debug.Log(PhotonNetwork.NickName + " connected to Photon Server");
+        SetPanelViewability(false, false, true);
     }
 
-    public override void OnConnected()
+    public override void OnConnected() => Debug.Log("Connected to Internet");
+
+    public void SetPanelViewability(bool usernameCreationMenu, bool connectionStatusPanel, bool selectGamePanel)
     {
-        Debug.Log("Connected to Internet");
+        UsernameCreationMenu.SetActive(usernameCreationMenu);
+        ConnectionStatusPanel.SetActive(connectionStatusPanel);
+        SelectGamePanel.SetActive(selectGamePanel);
     }
 
     #endregion
