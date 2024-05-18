@@ -5,20 +5,20 @@ using Photon.Realtime;
 public class LaunchManager : MonoBehaviourPunCallbacks
 {
     public GameObject UsernameCreationMenu;
-    public GameObject ConnectionStatusPanel;
     public GameObject SelectGamePanel;
+
+    public GameObject playerPrefab;
 
     #region Unity Methods
 
     void Start()
     {
-        SetPanelViewability(true, false, false);
+        SetPanelViewability(true, false);
     }
 
-    public void SetPanelViewability(bool usernameCreationMenu, bool connectionStatusPanel, bool selectGamePanel)
+    public void SetPanelViewability(bool usernameCreationMenu, bool selectGamePanel)
     {
         UsernameCreationMenu.SetActive(usernameCreationMenu);
-        ConnectionStatusPanel.SetActive(connectionStatusPanel);
         SelectGamePanel.SetActive(selectGamePanel);
     }
 
@@ -31,14 +31,15 @@ public class LaunchManager : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsConnected)
         {
             PhotonNetwork.ConnectUsingSettings();
-            SetPanelViewability(false, true, false);
+            SetPanelViewability(false, false);
         }
     }
 
     public override void OnConnectedToMaster()
     {
         Debug.Log(PhotonNetwork.NickName + " connected to Photon Server");
-        SetPanelViewability(false, false, true);
+        SetPanelViewability(false, true);
+        CreateRoom();
     }
 
     public override void OnConnected() => Debug.Log("Connected to Internet");
@@ -48,6 +49,11 @@ public class LaunchManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRandomRoom();
     }
 
+    public void CreateRoom()
+    {
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 1});
+    }
+
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 12});
@@ -55,7 +61,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.LoadLevel("S01_Lobby");
+        GlobalPlayerSpawnerManager.instance.SpawnPlayersInMainMenu();
     }
 
     #endregion
