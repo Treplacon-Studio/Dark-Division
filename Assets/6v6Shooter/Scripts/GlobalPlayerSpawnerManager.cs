@@ -22,7 +22,7 @@ public class GlobalPlayerSpawnerManager : MonoBehaviourPunCallbacks
             if (playerPrefab != null) 
             {
                 Debug.Log("Spawning in " + PhotonNetwork.NickName);
-                int randomPoints = Random.Range(0, 5);
+                int randomPoints = Random.Range(0, 3);
                 Vector3[] points = new Vector3[] {
                     new Vector3(-2.182329f, 2.307999f, 0.4655762f),
                     new Vector3(2.97f, 1.04f, 0.08f),
