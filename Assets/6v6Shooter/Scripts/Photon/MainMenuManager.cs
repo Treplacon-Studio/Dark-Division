@@ -7,7 +7,8 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public GameObject UsernameCreationMenu;
     public GameObject SelectGamePanel;
     public GameObject ButtonPanel;
-    public GameObject LoadoutPanel;
+    public GameObject SelectLoadoutPanel;
+    public GameObject EditLoadoutPanel;
 
     #region Unity Methods
 
@@ -16,21 +17,24 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         SetPanelViewability(usernameCreationMenu:true);
     }
 
-    public void SetPanelViewability(bool usernameCreationMenu = false, bool selectGamePanel = false, bool buttonPanel = false, bool loadoutPanel = false)
+    public void SetPanelViewability(bool usernameCreationMenu = false, 
+                                    bool selectGamePanel = false, 
+                                    bool buttonPanel = false, 
+                                    bool selectLoadoutPanel = false)
     {
         UsernameCreationMenu.SetActive(usernameCreationMenu);
         SelectGamePanel.SetActive(selectGamePanel);
         ButtonPanel.SetActive(buttonPanel);
-        LoadoutPanel.SetActive(loadoutPanel);
+        SelectLoadoutPanel.SetActive(selectLoadoutPanel);
     }
 
-    public void OnCreateClassSelected()
-    {
-        SetPanelViewability(loadoutPanel:true);
-    }
+    public void OnCreateClassSelected() => SetPanelViewability(selectLoadoutPanel:true);
+    public void BackToMainMenuButton() => SetPanelViewability(buttonPanel:true);
 
-    public void BackToButtonPanel()
+    public void SelectLoadout(int loadoutNum)
     {
+        //Eventually call loadoutmanager and pass in this loadoutnum parameter
+
         SetPanelViewability(buttonPanel:true);
     }
 
