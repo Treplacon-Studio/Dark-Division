@@ -41,6 +41,11 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         SetPanelViewability(editLoadoutPanel:true);
     }
 
+    public void FindAnOpenMatch()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
     #endregion
 
     #region Photon Callbacks
@@ -75,12 +80,17 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 12});
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 4});
     }
 
     public override void OnJoinedRoom()
     {
         GlobalPlayerSpawnerManager.instance.SpawnPlayersInMainMenu();
+    }
+
+    public override void OnLeftRoom()
+    {
+        PhotonNetwork.LoadLevel("S01_Lobby");
     }
 
     #endregion
