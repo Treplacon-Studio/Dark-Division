@@ -9,6 +9,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public GameObject ButtonPanel;
     public GameObject SelectLoadoutPanel;
     public GameObject EditLoadoutPanel;
+    public GameObject GameSelectionPanel;
 
     #region Unity Methods
 
@@ -21,13 +22,15 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
                                     bool selectGamePanel = false, 
                                     bool buttonPanel = false, 
                                     bool selectLoadoutPanel = false,
-                                    bool editLoadoutPanel = false)
+                                    bool editLoadoutPanel = false,
+                                    bool gameSelectionPanel = false)
     {
         UsernameCreationMenu.SetActive(usernameCreationMenu);
         SelectGamePanel.SetActive(selectGamePanel);
         ButtonPanel.SetActive(buttonPanel);
         SelectLoadoutPanel.SetActive(selectLoadoutPanel);
         EditLoadoutPanel.SetActive(editLoadoutPanel);
+        GameSelectionPanel.SetActive(gameSelectionPanel);
     }
 
     public void OnCreateClassSelected() => SetPanelViewability(selectLoadoutPanel:true);
@@ -39,6 +42,11 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         //Eventually call loadoutmanager and pass in this loadoutnum parameter
 
         SetPanelViewability(editLoadoutPanel:true);
+    }
+
+    public void OnPlayGameSelected()
+    {
+        SetPanelViewability(gameSelectionPanel:true);
     }
 
     public void FindAnOpenMatch()

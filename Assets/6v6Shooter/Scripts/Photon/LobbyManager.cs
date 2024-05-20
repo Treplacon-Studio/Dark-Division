@@ -17,6 +17,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         ConnectToPhotonServer();
     }
 
+    private void ClearPlayerListings() {
+        for (int i = playersContainer.childCount - 1; i >= 0; i--)  {
+            Destroy(playersContainer.GetChild(i).gameObject);
+        }
+    }
+
     private void ListPlayers() {
         foreach (Player player in PhotonNetwork.PlayerList) {
             GameObject tempListing = Instantiate(playerListingPrefab, playersContainer);
@@ -42,11 +48,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Debug.Log($"{PhotonNetwork.NickName} joined to {PhotonNetwork.CurrentRoom.Name}");
         ListPlayers();
         GameManager.instance.CloseLoadingScreen();
-    }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer) 
-    {
-        Debug.Log($"{newPlayer.NickName} joined to {PhotonNetwork.CurrentRoom.Name} {PhotonNetwork.CurrentRoom.PlayerCount}");
+        ClearPlayerListings();
+        ListPlayers();
     }
 
     public override void OnLeftRoom() 
@@ -57,5 +61,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void LeaveRoom() 
     {
         PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer) {
+        Debug.Log($"{newPlayer.NickName} joined to {PhotonNetwork.CurrentRoom.Name} {PhotonNetwork.CurrentRoom.PlayerCount}");
+        ClearPlayerListings();
+        ListPlayers();
+    }
+    
+    public override void OnPlayerLeftRoom(Player otherPlayer) {
+        ClearPlayerListings();
+        ListPlayers();
     }
 }
