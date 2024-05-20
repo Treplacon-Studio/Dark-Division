@@ -43,6 +43,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
     public void FindAnOpenMatch()
     {
+        GameManager.instance.OpenLoadingScreen();
         PhotonNetwork.LeaveRoom();
     }
 
@@ -54,6 +55,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsConnected)
         {
+            GameManager.instance.OpenLoadingScreen();
             PhotonNetwork.ConnectUsingSettings();
             SetPanelViewability(buttonPanel:true);
         }
@@ -86,6 +88,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         GlobalPlayerSpawnerManager.instance.SpawnPlayersInMainMenu();
+        GameManager.instance.CloseLoadingScreen();
     }
 
     public override void OnLeftRoom()

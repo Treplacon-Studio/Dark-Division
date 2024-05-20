@@ -41,6 +41,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         Debug.Log($"{PhotonNetwork.NickName} joined to {PhotonNetwork.CurrentRoom.Name}");
         ListPlayers();
+        GameManager.instance.CloseLoadingScreen();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer) 
