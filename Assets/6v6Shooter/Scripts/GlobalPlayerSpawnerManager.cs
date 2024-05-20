@@ -43,7 +43,7 @@ public class GlobalPlayerSpawnerManager : MonoBehaviourPunCallbacks
                 Debug.Log("Spawning in " + PhotonNetwork.NickName);
                 int randomPoints = Random.Range(0, 0);
                 Vector3[] points = new Vector3[] {
-                    new Vector3(-0.119f, 1f, -9.53f),
+                    new Vector3(-0.119f, 1f, -0.42f),
                 };
                 PhotonNetwork.Instantiate(playerPrefab.name, points[randomPoints], Quaternion.identity);
                 Debug.Log(PhotonNetwork.NickName + " spawned in!");
