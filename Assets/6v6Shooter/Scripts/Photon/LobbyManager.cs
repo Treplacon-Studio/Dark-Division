@@ -1,6 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 using Photon.Realtime;
+using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +11,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     [SerializeField] Transform playersContainer;
     [SerializeField] GameObject playerListingPrefab;
-    [SerializeField] Text roomNameDisplay;
+    [SerializeField] Text gameModeNameText;
+    [SerializeField] Text countdownDisplay;
+    [SerializeField] int countdownTime = 10;
 
     void Start() {
         if (instance == null) instance = this;
@@ -29,6 +32,31 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             Text tempText = tempListing.transform.GetChild(0).GetComponent<Text>();
             tempText.text = player.NickName;
         }
+    }
+
+    public void StartCountdown()
+    {
+        StartCoroutine(CountdownRoutine());
+    }
+
+    private IEnumerator CountdownRoutine()
+    {
+        int currentTime = countdownTime;
+        while (currentTime > 0)
+        {
+            countdownDisplay.text = $"Time remaining: {currentTime.ToString()}";
+            yield return new WaitForSeconds(1);
+            currentTime--;
+        }
+
+        countdownDisplay.text = "Time remaining: 0";
+        LoadMap();
+    }
+
+    public void LoadMap()
+    {
+        Debug.Log("LOADING MAP...");
+        PhotonNetwork.LoadLevel("S03_PublicMatch");
     }
 
     public void ConnectToPhotonServer()
@@ -58,7 +86,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         SceneManager.LoadScene("S00_MainMenu");
     }
 
-    public void LeaveRoom() 
+    public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
     }
