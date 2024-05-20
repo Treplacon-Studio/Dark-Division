@@ -228,6 +228,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!224 &66373887 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 736782216433409713, guid: 2a4fa4597bcc6fb48a88653100e03107, type: 3}
+  m_PrefabInstance: {fileID: 5215124502006531112}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &202675877
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,11 +697,11 @@ PrefabInstance:
     - target: {fileID: 6113919238159495891, guid: edff0c671e04e8e4c8c5fb256670e803, type: 3}
       propertyPath: teamAPlayersContainer
       value: 
-      objectReference: {fileID: 5215124502006531119}
+      objectReference: {fileID: 66373887}
     - target: {fileID: 6113919238159495891, guid: edff0c671e04e8e4c8c5fb256670e803, type: 3}
       propertyPath: teamBPlayersContainer
       value: 
-      objectReference: {fileID: 1721351623}
+      objectReference: {fileID: 287010875}
     - target: {fileID: 8687073160013442816, guid: edff0c671e04e8e4c8c5fb256670e803, type: 3}
       propertyPath: m_Name
       value: LobbyManager
@@ -720,10 +725,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 736782216433409713, guid: 2a4fa4597bcc6fb48a88653100e03107, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 72.9436
       objectReference: {fileID: 0}
     - target: {fileID: 736782216433409713, guid: 2a4fa4597bcc6fb48a88653100e03107, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: -36.4718
+      objectReference: {fileID: 0}
+    - target: {fileID: 4317595002021511880, guid: 2a4fa4597bcc6fb48a88653100e03107, type: 3}
+      propertyPath: m_Horizontal
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5509295917500274320, guid: 2a4fa4597bcc6fb48a88653100e03107, type: 3}
@@ -811,6 +820,18 @@ PrefabInstance:
       value: LobbyCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 6494589477144273360, guid: 2a4fa4597bcc6fb48a88653100e03107, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 495.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494589477144273360, guid: 2a4fa4597bcc6fb48a88653100e03107, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 428.8566
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494589477144273360, guid: 2a4fa4597bcc6fb48a88653100e03107, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -426.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494589477144273360, guid: 2a4fa4597bcc6fb48a88653100e03107, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 253
       objectReference: {fileID: 0}
@@ -832,11 +853,6 @@ PrefabInstance:
 --- !u!224 &5215124502006531113 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7703299561406114944, guid: 2a4fa4597bcc6fb48a88653100e03107, type: 3}
-  m_PrefabInstance: {fileID: 5215124502006531112}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &5215124502006531119 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6494589477144273360, guid: 2a4fa4597bcc6fb48a88653100e03107, type: 3}
   m_PrefabInstance: {fileID: 5215124502006531112}
   m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
