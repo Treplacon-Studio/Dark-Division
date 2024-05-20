@@ -4,12 +4,14 @@ using Photon.Realtime;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Photon.Pun.UtilityScripts;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
     public static LobbyManager instance;
 
-    [SerializeField] Transform playersContainer;
+    [SerializeField] Transform teamAPlayersContainer;
+    [SerializeField] Transform teamBPlayersContainer;
     [SerializeField] GameObject playerListingPrefab;
     [SerializeField] Text gameModeNameText;
     [SerializeField] Text countdownDisplay;
@@ -18,17 +20,19 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     void Start() {
         if (instance == null) instance = this;
         ConnectToPhotonServer();
+
+        GetAvailableTeams();
     }
 
     private void ClearPlayerListings() {
-        for (int i = playersContainer.childCount - 1; i >= 0; i--)  {
-            Destroy(playersContainer.GetChild(i).gameObject);
+        for (int i = teamAPlayersContainer.childCount - 1; i >= 0; i--)  {
+            Destroy(teamAPlayersContainer.GetChild(i).gameObject);
         }
     }
 
     private void ListPlayers() {
         foreach (Player player in PhotonNetwork.PlayerList) {
-            GameObject tempListing = Instantiate(playerListingPrefab, playersContainer);
+            GameObject tempListing = Instantiate(playerListingPrefab, teamAPlayersContainer);
             Text tempText = tempListing.transform.GetChild(0).GetComponent<Text>();
             tempText.text = player.NickName;
         }
@@ -100,5 +104,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer) {
         ClearPlayerListings();
         ListPlayers();
+    }
+
+    public void GetAvailableTeams()
+    {
+        PhotonTeam[] teams = PhotonTeamsManager.Instance.GetAvailableTeams();
+        foreach (PhotonTeam team in teams)
+        {
+            Debug.Log($"Team: {team.Name}, Code: {team.Code}");
+        }
     }
 }
