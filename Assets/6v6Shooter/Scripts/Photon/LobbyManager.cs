@@ -20,13 +20,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     void Start() {
         if (instance == null) instance = this;
         ConnectToPhotonServer();
-
-        GetAvailableTeams();
     }
 
     private void ClearPlayerListings() {
         for (int i = teamAPlayersContainer.childCount - 1; i >= 0; i--)  {
             Destroy(teamAPlayersContainer.GetChild(i).gameObject);
+        }
+
+        for (int i = teamBPlayersContainer.childCount - 1; i >= 0; i--)  {
+            Destroy(teamBPlayersContainer.GetChild(i).gameObject);
         }
     }
 
@@ -99,6 +101,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Debug.Log($"{newPlayer.NickName} joined to {PhotonNetwork.CurrentRoom.Name} {PhotonNetwork.CurrentRoom.PlayerCount}");
         ClearPlayerListings();
         ListPlayers();
+        JoinPlayerToATeam(newPlayer);
     }
     
     public override void OnPlayerLeftRoom(Player otherPlayer) {
@@ -106,12 +109,20 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         ListPlayers();
     }
 
-    public void GetAvailableTeams()
+    public void JoinPlayerToATeam(Player newPlayer)
     {
-        PhotonTeam[] teams = PhotonTeamsManager.Instance.GetAvailableTeams();
-        foreach (PhotonTeam team in teams)
+        int blueTeamCount = PhotonTeamsManager.Instance.GetTeamMembersCount("Blue");
+        int redTeamCount = PhotonTeamsManager.Instance.GetTeamMembersCount("Red");
+        Debug.Log($"{blueTeamCount} .. {redTeamCount}");
+        if (PhotonNetwork.LocalPlayer.JoinTeam("Blue"))
         {
-            Debug.Log($"Team: {team.Name}, Code: {team.Code}");
+            Debug.Log($"{newPlayer.NickName} joined team blue.");
         }
+        else
+        {
+            Debug.Log($"Failed to join team blue.");
+        }
+
+        ListPlayers();
     }
 }
