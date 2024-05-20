@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class MainMenuCameraController : MonoBehaviour
 {
+    public static MainMenuCameraController instance;
+
     public Transform[] focusPoints;
     public float transitionSpeed = 2.0f;
+    public float rotationSpeed = 2.0f;
 
     private Transform targetPoint;
     private Vector3 originalPosition;
+    private Quaternion originalRotation;
+
+    void Awake()
+    {
+        if (instance == null) 
+            instance = this;
+    }
 
     void Start()
     {
         originalPosition = transform.position;
+        originalRotation = transform.rotation;
     }
 
     void Update()
@@ -20,7 +31,7 @@ public class MainMenuCameraController : MonoBehaviour
         if (targetPoint != null)
         {
             transform.position = Vector3.Lerp(transform.position, targetPoint.position, Time.deltaTime * transitionSpeed);
-            transform.LookAt(targetPoint);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetPoint.rotation, Time.deltaTime * rotationSpeed);
         }
     }
 
@@ -34,5 +45,6 @@ public class MainMenuCameraController : MonoBehaviour
     {
         targetPoint = null;
         transform.position = originalPosition;
+        transform.rotation = originalRotation;
     }
 }
