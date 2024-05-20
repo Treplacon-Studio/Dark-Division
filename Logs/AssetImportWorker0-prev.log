@@ -15,7 +15,7 @@ E:/Unity projects/GitHub Projects/6v6-Shooter
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-51664
+51749
 Successfully changed project path to: E:/Unity projects/GitHub Projects/6v6-Shooter
 E:/Unity projects/GitHub Projects/6v6-Shooter
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -49,12 +49,12 @@ E:/Unity projects/GitHub Projects/6v6-Shooter
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [56232] Host "[IP] 192.168.0.6 [Port] 0 [Flags] 2 [Guid] 3819276737 [EditorId] 3819276737 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-9GKVU7B) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+Player connection [55964] Host "[IP] 192.168.0.6 [Port] 0 [Flags] 2 [Guid] 2937525477 [EditorId] 2937525477 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-9GKVU7B) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
 
-Player connection [56232] Host "[IP] 192.168.0.6 [Port] 0 [Flags] 2 [Guid] 3819276737 [EditorId] 3819276737 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-9GKVU7B) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [55964] Host "[IP] 192.168.0.6 [Port] 0 [Flags] 2 [Guid] 2937525477 [EditorId] 2937525477 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-9GKVU7B) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
 
 [Physics::Module] Initialized MultithreadedJobDispatcher with 15 workers.
-Refreshing native plugins compatible for Editor in 5.07 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 6.80 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2022.3.24f1 (334eb2a0b267)
 [Subsystems] Discovering subsystems at path D:/Unity/2022.3.24f1/Editor/Data/Resources/UnitySubsystems
@@ -70,45 +70,45 @@ Initialize mono
 Mono path[0] = 'D:/Unity/2022.3.24f1/Editor/Data/Managed'
 Mono path[1] = 'D:/Unity/2022.3.24f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'D:/Unity/2022.3.24f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56048
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56232
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: D:/Unity/2022.3.24f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
 Register platform support module: D:/Unity/2022.3.24f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.003169 seconds.
-- Loaded All Assemblies, in  0.296 seconds
+Registered in 0.003143 seconds.
+- Loaded All Assemblies, in  0.279 seconds
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.237 seconds
-Domain Reload Profiling: 533ms
-	BeginReloadAssembly (92ms)
+- Finished resetting the current domain, in  0.246 seconds
+Domain Reload Profiling: 525ms
+	BeginReloadAssembly (83ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
 		CreateAndSetChildDomain (1ms)
-	RebuildCommonClasses (28ms)
-	RebuildNativeTypeToScriptingClass (10ms)
+	RebuildCommonClasses (27ms)
+	RebuildNativeTypeToScriptingClass (9ms)
 	initialDomainReloadingComplete (41ms)
-	LoadAllAssembliesAndSetupDomain (125ms)
-		LoadAssemblies (90ms)
+	LoadAllAssembliesAndSetupDomain (119ms)
+		LoadAssemblies (82ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (123ms)
-			TypeCache.Refresh (122ms)
-				TypeCache.ScanAssembly (111ms)
+		AnalyzeDomain (118ms)
+			TypeCache.Refresh (117ms)
+				TypeCache.ScanAssembly (105ms)
 			ScanForSourceGeneratedMonoScriptInfo (0ms)
 			ResolveRequiredComponents (0ms)
-	FinalizeReload (237ms)
+	FinalizeReload (246ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (183ms)
+		SetupLoadedEditorAssemblies (195ms)
 			LogAssemblyErrors (0ms)
 			InitializePlatformSupportModulesInManaged (8ms)
 			SetLoadedEditorAssemblies (5ms)
 			RefreshPlugins (0ms)
 			BeforeProcessingInitializeOnLoad (2ms)
-			ProcessInitializeOnLoadAttributes (127ms)
+			ProcessInitializeOnLoadAttributes (139ms)
 			ProcessInitializeOnLoadMethodAttributes (41ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
@@ -117,8 +117,8 @@ Domain Reload Profiling: 533ms
 ========================================================================
 Worker process is ready to serve import requests
 Begin MonoManager ReloadAssembly
-- Loaded All Assemblies, in  0.481 seconds
-Refreshing native plugins compatible for Editor in 1.42 ms, found 3 plugins.
+- Loaded All Assemblies, in  0.519 seconds
+Refreshing native plugins compatible for Editor in 1.88 ms, found 3 plugins.
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
 Package Manager log level set to [2]
@@ -126,47 +126,47 @@ Package Manager log level set to [2]
 [Package Manager] UpmClient::Send -- Unable to send message (not connected to UPM process).
 [Package Manager] Cannot connect to Unity Package Manager local server
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.551 seconds
-Domain Reload Profiling: 1032ms
-	BeginReloadAssembly (117ms)
+- Finished resetting the current domain, in  0.579 seconds
+Domain Reload Profiling: 1098ms
+	BeginReloadAssembly (115ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (5ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (17ms)
-	RebuildCommonClasses (31ms)
+		CreateAndSetChildDomain (16ms)
+	RebuildCommonClasses (34ms)
 	RebuildNativeTypeToScriptingClass (9ms)
 	initialDomainReloadingComplete (29ms)
-	LoadAllAssembliesAndSetupDomain (294ms)
-		LoadAssemblies (212ms)
+	LoadAllAssembliesAndSetupDomain (331ms)
+		LoadAssemblies (236ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (150ms)
-			TypeCache.Refresh (132ms)
-				TypeCache.ScanAssembly (121ms)
-			ScanForSourceGeneratedMonoScriptInfo (12ms)
+		AnalyzeDomain (162ms)
+			TypeCache.Refresh (141ms)
+				TypeCache.ScanAssembly (129ms)
+			ScanForSourceGeneratedMonoScriptInfo (14ms)
 			ResolveRequiredComponents (5ms)
-	FinalizeReload (551ms)
+	FinalizeReload (579ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (421ms)
+		SetupLoadedEditorAssemblies (444ms)
 			LogAssemblyErrors (0ms)
 			InitializePlatformSupportModulesInManaged (5ms)
 			SetLoadedEditorAssemblies (4ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (70ms)
-			ProcessInitializeOnLoadAttributes (322ms)
-			ProcessInitializeOnLoadMethodAttributes (18ms)
+			BeforeProcessingInitializeOnLoad (77ms)
+			ProcessInitializeOnLoadAttributes (337ms)
+			ProcessInitializeOnLoadMethodAttributes (19ms)
 			AfterProcessingInitializeOnLoad (2ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
 		AwakeInstancesAfterBackupRestoration (5ms)
 Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
-Refreshing native plugins compatible for Editor in 1.37 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 1.89 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3093 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 32 unused Assets / (57.1 KB). Loaded Objects now: 3554.
-Memory consumption went from 121.3 MB to 121.3 MB.
-Total: 2.067500 ms (FindLiveObjects: 0.186000 ms CreateObjectMapping: 0.157700 ms MarkObjects: 1.658600 ms  DeleteObjects: 0.064600 ms)
+Unloading 3246 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 39 unused Assets / (60.0 KB). Loaded Objects now: 3702.
+Memory consumption went from 128.4 MB to 128.3 MB.
+Total: 2.445100 ms (FindLiveObjects: 0.228500 ms CreateObjectMapping: 0.206000 ms MarkObjects: 1.910500 ms  DeleteObjects: 0.099600 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
@@ -182,19 +182,35 @@ AssetImportParameters requested are different than current active one (requested
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
+Received Import Request.
+  Time since last request: 177746.035339 seconds.
+  path: Assets/Scenes/ProductionScenes
+  artifactKey: Guid(ba81bbac49e751941a7776479df9ca3b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/ProductionScenes using Guid(ba81bbac49e751941a7776479df9ca3b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '496c245a12964f05661be38559afbe92') in 0.001786 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 0.799805 seconds.
+  path: Assets/Scenes/ProductionScenes/S00_MainMenu.unity
+  artifactKey: Guid(92d87234fc7995f4b9622c812b56fb9b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/ProductionScenes/S00_MainMenu.unity using Guid(92d87234fc7995f4b9622c812b56fb9b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e3d873d360a165eb52e42e1c868d6693') in 0.000306 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
 Received Prepare
 Begin MonoManager ReloadAssembly
-- Loaded All Assemblies, in  0.328 seconds
-Refreshing native plugins compatible for Editor in 2.18 ms, found 3 plugins.
+- Loaded All Assemblies, in  0.345 seconds
+Refreshing native plugins compatible for Editor in 1.87 ms, found 3 plugins.
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
 [Package Manager] Server::EnsureServerProcessIsRunning -- launch failed, reason: Unity was launched with the -noUpm command-line argument
 [Package Manager] UpmClient::Send -- Unable to send message (not connected to UPM process).
 [Package Manager] Cannot connect to Unity Package Manager local server
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.678 seconds
-Domain Reload Profiling: 1006ms
-	BeginReloadAssembly (122ms)
+- Finished resetting the current domain, in  0.695 seconds
+Domain Reload Profiling: 1040ms
+	BeginReloadAssembly (118ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (5ms)
 		BackupInstance (0ms)
@@ -203,35 +219,35 @@ Domain Reload Profiling: 1006ms
 	RebuildCommonClasses (26ms)
 	RebuildNativeTypeToScriptingClass (9ms)
 	initialDomainReloadingComplete (19ms)
-	LoadAllAssembliesAndSetupDomain (151ms)
-		LoadAssemblies (205ms)
+	LoadAllAssembliesAndSetupDomain (172ms)
+		LoadAssemblies (224ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (13ms)
+		AnalyzeDomain (12ms)
 			TypeCache.Refresh (5ms)
 				TypeCache.ScanAssembly (0ms)
 			ScanForSourceGeneratedMonoScriptInfo (0ms)
-			ResolveRequiredComponents (7ms)
-	FinalizeReload (678ms)
+			ResolveRequiredComponents (6ms)
+	FinalizeReload (695ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (390ms)
+		SetupLoadedEditorAssemblies (402ms)
 			LogAssemblyErrors (0ms)
 			InitializePlatformSupportModulesInManaged (5ms)
-			SetLoadedEditorAssemblies (4ms)
+			SetLoadedEditorAssemblies (3ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (75ms)
-			ProcessInitializeOnLoadAttributes (287ms)
-			ProcessInitializeOnLoadMethodAttributes (17ms)
+			BeforeProcessingInitializeOnLoad (78ms)
+			ProcessInitializeOnLoadAttributes (293ms)
+			ProcessInitializeOnLoadMethodAttributes (20ms)
 			AfterProcessingInitializeOnLoad (2ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
 		AwakeInstancesAfterBackupRestoration (5ms)
-Refreshing native plugins compatible for Editor in 1.50 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 1.88 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3086 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 23 unused Assets / (31.0 KB). Loaded Objects now: 3557.
-Memory consumption went from 122.3 MB to 122.3 MB.
-Total: 2.092900 ms (FindLiveObjects: 0.187300 ms CreateObjectMapping: 0.187700 ms MarkObjects: 1.682600 ms  DeleteObjects: 0.034900 ms)
+Unloading 3225 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 28 unused Assets / (33.7 KB). Loaded Objects now: 3706.
+Memory consumption went from 126.1 MB to 126.1 MB.
+Total: 3.000900 ms (FindLiveObjects: 0.199900 ms CreateObjectMapping: 0.176700 ms MarkObjects: 2.583700 ms  DeleteObjects: 0.040100 ms)
 
 Prepare: number of updated asset objects reloaded= 0
 AssetImportParameters requested are different than current active one (requested -> active):
@@ -249,9 +265,1025 @@ AssetImportParameters requested are different than current active one (requested
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 177545.996418 seconds.
-  path: Assets/Scenes/SampleScene.unity
-  artifactKey: Guid(9fc0d4010bbf28b4594072e72b8655ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scenes/SampleScene.unity using Guid(9fc0d4010bbf28b4594072e72b8655ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a709945c793e915586eb497a0329f32e') in 0.002018 seconds
+  Time since last request: 60.877765 seconds.
+  path: Assets/6v6Shooter
+  artifactKey: Guid(f7efa6726c3666a4086e879aaad1e12a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter using Guid(f7efa6726c3666a4086e879aaad1e12a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '32e7a4fb9f5e0822ec78669e836d7150') in 0.001505 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 4.438200 seconds.
+  path: Assets/6v6Shooter/Prefabs
+  artifactKey: Guid(9c6bd3853a5e6664e82117a30c08a181) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Prefabs using Guid(9c6bd3853a5e6664e82117a30c08a181) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c0565230f926791c7758ddf11c54a5c4') in 0.000294 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 9.666579 seconds.
+  path: Assets/6v6Shooter/Meshes
+  artifactKey: Guid(498e47c0bbf65f74fabd79a8774a5ab3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes using Guid(498e47c0bbf65f74fabd79a8774a5ab3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8822b2003649b6ee5d7f995a81ca1d8a') in 0.000296 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 20.127263 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons
+  artifactKey: Guid(cc66cef71b82d4540812720ef44e11ed) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons using Guid(cc66cef71b82d4540812720ef44e11ed) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '068ba814357c67063c5089d2206944d7') in 0.000342 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 13.722489 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons
+  artifactKey: Guid(685185bc14dc081458e32e3e0c40d4c4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons using Guid(685185bc14dc081458e32e3e0c40d4c4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '68e1baf4df3fb83129a2f31177e37da2') in 0.000324 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 8.155637 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Secondary Weapons
+  artifactKey: Guid(94f7457dfea4e604ca2017997a8c85b3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Secondary Weapons using Guid(94f7457dfea4e604ca2017997a8c85b3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a7b556c3e205d67c94843d5de69b57e9') in 0.000297 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 15.319096 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Melee Weapons
+  artifactKey: Guid(692f2a4b443cf0a4bb73d250b56682bb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Melee Weapons using Guid(692f2a4b443cf0a4bb73d250b56682bb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b18ccb8da3e7c2cde49e16c29d51380c') in 0.000321 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 14.481658 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR
+  artifactKey: Guid(09140529c8035be4fb71def19ddeefcd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR using Guid(09140529c8035be4fb71def19ddeefcd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '202db59a3068f81ba7abba4bedbb0a09') in 0.000304 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 6.292310 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM
+  artifactKey: Guid(36a78ce6f597fab4ca0031c8564b01e7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM using Guid(36a78ce6f597fab4ca0031c8564b01e7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '46d2045fb9e1ce775edea79d89ba6c76') in 0.000298 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 3.961533 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR
+  artifactKey: Guid(4e20cd54d880e5d43b4d2a7709d98941) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR using Guid(4e20cd54d880e5d43b4d2a7709d98941) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '22aef0377c5725fc82efc44d24dceab6') in 0.000303 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 4.914868 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG
+  artifactKey: Guid(549a977255db76445bbdb9834139baf7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG using Guid(549a977255db76445bbdb9834139baf7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '86a3bfa1471288a6f3fe4291b845abb3') in 0.000307 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 10.602971 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS
+  artifactKey: Guid(b7a62f50e2a24a8498b9b7bb7c76a05e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS using Guid(b7a62f50e2a24a8498b9b7bb7c76a05e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6a353a0b23be8be00e227c6fc027c9af') in 0.000324 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 30.711597 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/AR Mags
+  artifactKey: Guid(4f1083fbd06cf9840a2fc8d75bf06d4a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/AR Mags using Guid(4f1083fbd06cf9840a2fc8d75bf06d4a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5d0f659c18e176d42c1b189d9edfe47b') in 0.000309 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 11.917151 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/SM Mags
+  artifactKey: Guid(ec45453ba97826b47a32c861a9ac04ea) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/SM Mags using Guid(ec45453ba97826b47a32c861a9ac04ea) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ac9900b63af1969d98d8259cc68656a9') in 0.000312 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 12.865191 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/PS Mags
+  artifactKey: Guid(824973742182bcd4387e33cfb43ba0af) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/PS Mags using Guid(824973742182bcd4387e33cfb43ba0af) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '62cf3ad58438c202354801f04abc248a') in 0.000301 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 14.532111 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/SR Mags
+  artifactKey: Guid(e63fbd9c8d8d3a24d81f4d6dd4eff394) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/SR Mags using Guid(e63fbd9c8d8d3a24d81f4d6dd4eff394) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '800dad4231913550d4576b8d462ce72a') in 0.000320 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 81.932351 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment - Generic
+  artifactKey: Guid(cfa7c473b76644943ba94d2ce4640884) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment - Generic using Guid(cfa7c473b76644943ba94d2ce4640884) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ae46538dc0b8fb0eb0c1be4dbfbcff17') in 0.000354 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 4.702777 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment] - Generic
+  artifactKey: Guid(cfa7c473b76644943ba94d2ce4640884) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment] - Generic using Guid(cfa7c473b76644943ba94d2ce4640884) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '78245b62a16e9aa98913b851c7adda76') in 0.000368 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 4.215008 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment] - Generic 1
+  artifactKey: Guid(fa2da7e6a1a1a17469524a5b7ccd059a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment] - Generic 1 using Guid(fa2da7e6a1a1a17469524a5b7ccd059a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1257ad5de5ad0fbf96ee1cf5ad57dfa3') in 0.000342 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 4.464616 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment] - Sniper
+  artifactKey: Guid(fa2da7e6a1a1a17469524a5b7ccd059a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment] - Sniper using Guid(fa2da7e6a1a1a17469524a5b7ccd059a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '65e55884eeb4c9c991b6ef711ebc77fa') in 0.000325 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 4.678081 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment] - SR
+  artifactKey: Guid(fa2da7e6a1a1a17469524a5b7ccd059a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment] - SR using Guid(fa2da7e6a1a1a17469524a5b7ccd059a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '577115d38e14acfff0b885090f41ba2e') in 0.000326 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 9.695840 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment] - ARSM
+  artifactKey: Guid(cfa7c473b76644943ba94d2ce4640884) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment] - ARSM using Guid(cfa7c473b76644943ba94d2ce4640884) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b42db5c6ac8daa1ac855646dfa3252c5') in 0.000320 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 11.683974 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment] - SR 1
+  artifactKey: Guid(ad9021aa22d68174fae9d14fb9d3dd44) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment] - SR 1 using Guid(ad9021aa22d68174fae9d14fb9d3dd44) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8da97970372f160af6619e6a19aa8066') in 0.000320 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 2.768784 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment] - SG
+  artifactKey: Guid(ad9021aa22d68174fae9d14fb9d3dd44) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment] - SG using Guid(ad9021aa22d68174fae9d14fb9d3dd44) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9bdd65256b0b9cc9b4ab0cf031228d44') in 0.000319 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 3.434265 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment] - SR 1
+  artifactKey: Guid(227135ab19f27cd4b8692d5df76de734) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment] - SR 1 using Guid(227135ab19f27cd4b8692d5df76de734) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c8234016bd69bda62a3b93c3ff3e7e7f') in 0.000319 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 12.477932 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment] - PS
+  artifactKey: Guid(227135ab19f27cd4b8692d5df76de734) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/[Attachment] - PS using Guid(227135ab19f27cd4b8692d5df76de734) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cd64479cc17a09511cdfa9b9b9dd4bd1') in 0.000318 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 318.401620 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] M4A1-Sentinel 254/[Assault rifle] M4A1-Sentinel 254.fbx
+  artifactKey: Guid(5ec271b929e791d48909874ee67193d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] M4A1-Sentinel 254/[Assault rifle] M4A1-Sentinel 254.fbx using Guid(5ec271b929e791d48909874ee67193d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '12954d65c38fe63bb206851e5eeee449') in 0.288966 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 20
+========================================================================
+Received Import Request.
+  Time since last request: 12.488123 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] M4A1-Sentinel 254/[Assault rifle] M4A1-Sentinel 254.fbx
+  artifactKey: Guid(5ec271b929e791d48909874ee67193d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] M4A1-Sentinel 254/[Assault rifle] M4A1-Sentinel 254.fbx using Guid(5ec271b929e791d48909874ee67193d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '063ccf8cc492e79e3f8ecee2d1c98926') in 0.081814 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 14.351642 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] M4A1-Sentinel 254/Stock - Default (M4A1-Sentinel 254).fbx
+  artifactKey: Guid(bc04254285b74594591df4460b28b903) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] M4A1-Sentinel 254/Stock - Default (M4A1-Sentinel 254).fbx using Guid(bc04254285b74594591df4460b28b903) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '20f9c397fa341c5b1970107c9cb30ac8') in 0.017793 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 2.542816 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] M4A1-Sentinel 254/Stock - Default (M4A1-Sentinel 254).fbx
+  artifactKey: Guid(bc04254285b74594591df4460b28b903) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] M4A1-Sentinel 254/Stock - Default (M4A1-Sentinel 254).fbx using Guid(bc04254285b74594591df4460b28b903) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'edced79d5538a9236aa0b3856be3f795') in 0.013378 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 10.254544 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] M4A1-Sentinel 254/Stock - Default (M4A1-Sentinel 254).fbx
+  artifactKey: Guid(bc04254285b74594591df4460b28b903) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] M4A1-Sentinel 254/Stock - Default (M4A1-Sentinel 254).fbx using Guid(bc04254285b74594591df4460b28b903) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f7ca6b690efd925e84187e138ab39bdd') in 0.012603 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 9.029961 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557
+  artifactKey: Guid(8a844fbba1458294aa2400de3c0ca0c1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557 using Guid(8a844fbba1458294aa2400de3c0ca0c1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '03baa8b2a4b11ee33d28c041343822c5') in 0.000358 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 0.756906 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/[Assault rifle] SCAR-Enforcer 557.fbx
+  artifactKey: Guid(f56367abcc6a55c4eabded13c374f7e7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/[Assault rifle] SCAR-Enforcer 557.fbx using Guid(f56367abcc6a55c4eabded13c374f7e7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '36c98c3737437445fe721b4064751a53') in 0.024259 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 20
+========================================================================
+Received Import Request.
+  Time since last request: 4.302669 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Sight - Default (SCAR-Enforcer 557).fbx
+  artifactKey: Guid(05ca4bb0434a1354ea91e4607e0eaeba) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Sight - Default (SCAR-Enforcer 557).fbx using Guid(05ca4bb0434a1354ea91e4607e0eaeba) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd93ced369bf139c71ed6111361888997') in 0.017203 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 2.566876 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Sight - Default (SCAR-Enforcer 557).fbx
+  artifactKey: Guid(05ca4bb0434a1354ea91e4607e0eaeba) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Sight - Default (SCAR-Enforcer 557).fbx using Guid(05ca4bb0434a1354ea91e4607e0eaeba) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '959e77e4513a0a695d0e89dc20380fde') in 0.015026 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 0.875954 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Stock - Default (SCAR-Enforcer 557).fbx
+  artifactKey: Guid(059b4a4dfa451bf4783dfd2d5d0fff1f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Stock - Default (SCAR-Enforcer 557).fbx using Guid(059b4a4dfa451bf4783dfd2d5d0fff1f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1725d51212689898a069ec1b196c0cb7') in 0.024827 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 2.893757 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Stock - Default (SCAR-Enforcer 557).fbx
+  artifactKey: Guid(059b4a4dfa451bf4783dfd2d5d0fff1f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Stock - Default (SCAR-Enforcer 557).fbx using Guid(059b4a4dfa451bf4783dfd2d5d0fff1f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cbbb1674bbb45a78f721cc295ea49819') in 0.018129 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 3.398983 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Stock - Default (SCAR-Enforcer 557).fbx
+  artifactKey: Guid(059b4a4dfa451bf4783dfd2d5d0fff1f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Stock - Default (SCAR-Enforcer 557).fbx using Guid(059b4a4dfa451bf4783dfd2d5d0fff1f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd17dcf0a8c065fdf7dd23566c374915a') in 0.013241 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 3.020022 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Sight - Default (SCAR-Enforcer 557).fbx
+  artifactKey: Guid(05ca4bb0434a1354ea91e4607e0eaeba) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Sight - Default (SCAR-Enforcer 557).fbx using Guid(05ca4bb0434a1354ea91e4607e0eaeba) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1b0b93a13c81e99c0097bffdc1e8292e') in 0.016084 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 4.446770 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/[Assault rifle] SCAR-Enforcer 557.fbx
+  artifactKey: Guid(f56367abcc6a55c4eabded13c374f7e7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/[Assault rifle] SCAR-Enforcer 557.fbx using Guid(f56367abcc6a55c4eabded13c374f7e7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6572769f2c419b345da3a7b622695e19') in 0.016942 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 29.404509 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Barrel - Default (SCAR-Enforcer 557).fbx
+  artifactKey: Guid(18468624741967c4687213085d717386) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Barrel - Default (SCAR-Enforcer 557).fbx using Guid(18468624741967c4687213085d717386) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ab9ae88ddf892eae932a8df401d96dfe') in 0.014606 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 2.297845 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Barrel - Default (SCAR-Enforcer 557).fbx
+  artifactKey: Guid(18468624741967c4687213085d717386) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Barrel - Default (SCAR-Enforcer 557).fbx using Guid(18468624741967c4687213085d717386) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '88eee2cbca882509646e7e0d358f2dad') in 0.027603 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 2.604072 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Barrel - Default (SCAR-Enforcer 557).fbx
+  artifactKey: Guid(18468624741967c4687213085d717386) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Barrel - Default (SCAR-Enforcer 557).fbx using Guid(18468624741967c4687213085d717386) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '908e8396a32671fcce151cb6b902f01b') in 0.016007 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 156.037633 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45
+  artifactKey: Guid(aa01dc131144e25499c8a0221eb8342a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45 using Guid(aa01dc131144e25499c8a0221eb8342a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cc2aca5779d7226a5cc22937ec5c4ac3') in 0.000381 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 2.081469 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/ Barrel - Default (TAC 45).fbx
+  artifactKey: Guid(566302d0e78242a47ae8f13217812e06) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/ Barrel - Default (TAC 45).fbx using Guid(566302d0e78242a47ae8f13217812e06) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4edc90e123958f44890b63c155264958') in 0.017260 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 0.419823 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/[Pistol] Tac - 45.fbx
+  artifactKey: Guid(514cc6d7b4afc524290b1bd6e9b62db1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/[Pistol] Tac - 45.fbx using Guid(514cc6d7b4afc524290b1bd6e9b62db1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2eee50556cd65847cfcfa8c0596e6f55') in 0.021797 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 21
+========================================================================
+Received Import Request.
+  Time since last request: 58.908737 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/ Slide - TAC 45.fbx
+  artifactKey: Guid(d49375c9a1045214ca0ab29638250a67) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/ Slide - TAC 45.fbx using Guid(d49375c9a1045214ca0ab29638250a67) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '26312473386f69617e9207ed5e50f71e') in 0.019545 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 1.780623 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/Slide - TAC 45.fbx
+  artifactKey: Guid(d49375c9a1045214ca0ab29638250a67) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/Slide - TAC 45.fbx using Guid(d49375c9a1045214ca0ab29638250a67) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c6a6961442a3793938441759185aabef') in 0.018391 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 39.744924 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/Slide - TAC 45.fbx
+  artifactKey: Guid(d49375c9a1045214ca0ab29638250a67) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/Slide - TAC 45.fbx using Guid(d49375c9a1045214ca0ab29638250a67) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a4e1eddefc830e8cdfd72fc7fb608407') in 0.014570 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 2.384757 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/[Pistol] Tac - 45.fbx
+  artifactKey: Guid(514cc6d7b4afc524290b1bd6e9b62db1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/[Pistol] Tac - 45.fbx using Guid(514cc6d7b4afc524290b1bd6e9b62db1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cbf8ab735a078dde78ab6ae635166c66') in 0.019936 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 21
+========================================================================
+Received Import Request.
+  Time since last request: 16.035967 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45/Barrel - Default (TAC 45).fbx
+  artifactKey: Guid(7e7599842809bed4a8591c331b92518a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45/Barrel - Default (TAC 45).fbx using Guid(7e7599842809bed4a8591c331b92518a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '71093e8d9aaa38ac9d5982e15dd372f1') in 0.019247 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 7.393806 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45/Sight - Default (TAC 45).fbx
+  artifactKey: Guid(6ded005ffa4b4784bb41dfe412fd3d42) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45/Sight - Default (TAC 45).fbx using Guid(6ded005ffa4b4784bb41dfe412fd3d42) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6155b3462677706de10ea9f42add4fc6') in 0.018290 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 6.193534 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45/Sight - Default (TAC 45).fbx
+  artifactKey: Guid(6ded005ffa4b4784bb41dfe412fd3d42) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45/Sight - Default (TAC 45).fbx using Guid(6ded005ffa4b4784bb41dfe412fd3d42) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7da8d2d0234d72e3e33415eda8093d97') in 0.017719 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 9.537741 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45/[Pistol] Tac - 45.fbx
+  artifactKey: Guid(514cc6d7b4afc524290b1bd6e9b62db1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45/[Pistol] Tac - 45.fbx using Guid(514cc6d7b4afc524290b1bd6e9b62db1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9b96564d4ade8938dae2c8c2e4d81f45') in 0.016978 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 20
+========================================================================
+Received Import Request.
+  Time since last request: 0.913846 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45/Barrel - Default (TAC 45).fbx
+  artifactKey: Guid(7e7599842809bed4a8591c331b92518a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45/Barrel - Default (TAC 45).fbx using Guid(7e7599842809bed4a8591c331b92518a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '05b2cd937c4f67c28d12490d7c5d0bec') in 0.017137 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 1.877963 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45/Barrel - Default (TAC 45).fbx
+  artifactKey: Guid(7e7599842809bed4a8591c331b92518a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45/Barrel - Default (TAC 45).fbx using Guid(7e7599842809bed4a8591c331b92518a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8743ab2e64faedaa3469acc861809ea8') in 0.034688 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 2.772109 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45/Sight - Default (TAC 45).fbx
+  artifactKey: Guid(6ded005ffa4b4784bb41dfe412fd3d42) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45/Sight - Default (TAC 45).fbx using Guid(6ded005ffa4b4784bb41dfe412fd3d42) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '46366091d2b062f8445d9079278bf340') in 0.011898 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 3.431910 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45/Slide - TAC 45.fbx
+  artifactKey: Guid(d49375c9a1045214ca0ab29638250a67) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45/Slide - TAC 45.fbx using Guid(d49375c9a1045214ca0ab29638250a67) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '058fed926a0de5232334753673bbf658') in 0.015375 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 25.058156 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45/Sight - Default (TAC 45).fbx
+  artifactKey: Guid(6ded005ffa4b4784bb41dfe412fd3d42) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/TAC 45/Sight - Default (TAC 45).fbx using Guid(6ded005ffa4b4784bb41dfe412fd3d42) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f53f5215b5d4e69b5027ef99fb23e839') in 0.008999 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 5.461930 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] M4A1-Sentinel 254
+  artifactKey: Guid(02b57340f6c23d54a97f8f8e50a00122) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] M4A1-Sentinel 254 using Guid(02b57340f6c23d54a97f8f8e50a00122) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd79a041487cd833e7c440007965a2b6b') in 0.000347 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 3.792308 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] M4A1-Sentinel 254/Stock - Default (M4A1-Sentinel 254).fbx
+  artifactKey: Guid(bc04254285b74594591df4460b28b903) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] M4A1-Sentinel 254/Stock - Default (M4A1-Sentinel 254).fbx using Guid(bc04254285b74594591df4460b28b903) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a871bd2d97173c8d3b556fd29aaf7cce') in 0.012137 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 14.820034 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Stock - Default (SCAR-Enforcer 557).fbx
+  artifactKey: Guid(059b4a4dfa451bf4783dfd2d5d0fff1f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Stock - Default (SCAR-Enforcer 557).fbx using Guid(059b4a4dfa451bf4783dfd2d5d0fff1f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0291658d341ac6191337d78548052d4f') in 0.011943 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 2.548347 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Barrel - Default (SCAR-Enforcer 557).fbx
+  artifactKey: Guid(18468624741967c4687213085d717386) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/AR/[Assault rifle] SCAR-Enforcer 557/Barrel - Default (SCAR-Enforcer 557).fbx using Guid(18468624741967c4687213085d717386) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5dae71abd653972b5387d218d73637ba') in 0.013103 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 182.576477 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/[Pistol] TAC 45
+  artifactKey: Guid(2985f0040fb41a149a26be4ad99e3682) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/[Pistol] TAC 45 using Guid(2985f0040fb41a149a26be4ad99e3682) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f6b7be3d7d18125066b8debe36adb53d') in 0.000490 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 1.963786 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/[Pistol] FN Five - Eight
+  artifactKey: Guid(36492b6b0fb7a8f429120d4e903a58cc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/PS/[Pistol] FN Five - Eight using Guid(36492b6b0fb7a8f429120d4e903a58cc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dbb8d00dd7783d74d8ba3ce739ebea48') in 0.000303 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 226.266407 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Stoeger - 22
+  artifactKey: Guid(403b626be5f8eda45b55a14ba85ab7c9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Stoeger - 22 using Guid(403b626be5f8eda45b55a14ba85ab7c9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f9642f46e209c728c0f6c7e8f72def5c') in 0.000364 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 2.994418 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Stoeger - 22/[Shotgun] Stoeger - 22.fbx
+  artifactKey: Guid(6821dcc209693444899969cfacf8ec96) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Stoeger - 22/[Shotgun] Stoeger - 22.fbx using Guid(6821dcc209693444899969cfacf8ec96) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7618c459ab35652fb647db01f4f305f1') in 0.028004 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 17
+========================================================================
+Received Import Request.
+  Time since last request: 3.496243 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Stoeger - 22/[Shotgun] Stoeger - 22.fbx
+  artifactKey: Guid(6821dcc209693444899969cfacf8ec96) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Stoeger - 22/[Shotgun] Stoeger - 22.fbx using Guid(6821dcc209693444899969cfacf8ec96) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd42a81e7d010f001c441827704972665') in 0.016534 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 16
+========================================================================
+Received Import Request.
+  Time since last request: 1.027148 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Stoeger - 22/Stock - Default (Stoeger - 22).fbx
+  artifactKey: Guid(ba948df2dc0609548abbee9054fa3e36) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Stoeger - 22/Stock - Default (Stoeger - 22).fbx using Guid(ba948df2dc0609548abbee9054fa3e36) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'afe21b60c1af7224f776361b08d48d52') in 0.041523 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 2.430549 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Stoeger - 22/Stock - Default (Stoeger - 22).fbx
+  artifactKey: Guid(ba948df2dc0609548abbee9054fa3e36) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Stoeger - 22/Stock - Default (Stoeger - 22).fbx using Guid(ba948df2dc0609548abbee9054fa3e36) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '64bc767ad381fbb9a16aa79355fea3d4') in 0.012257 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 3.917030 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Stoeger - 22/Stock - Default (Stoeger - 22).fbx
+  artifactKey: Guid(ba948df2dc0609548abbee9054fa3e36) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Stoeger - 22/Stock - Default (Stoeger - 22).fbx using Guid(ba948df2dc0609548abbee9054fa3e36) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '53b14102e38c854ce1f2f0c9d15db314') in 0.025906 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 2.025911 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Stoeger - 22/Stock - Default (Stoeger - 22).fbx
+  artifactKey: Guid(ba948df2dc0609548abbee9054fa3e36) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Stoeger - 22/Stock - Default (Stoeger - 22).fbx using Guid(ba948df2dc0609548abbee9054fa3e36) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5f3b727588e350b763df10cab8e17f0c') in 0.008713 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 93.606237 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Gauge 320 Pump
+  artifactKey: Guid(9dcacc7063a5c6f46990706133160d62) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Gauge 320 Pump using Guid(9dcacc7063a5c6f46990706133160d62) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6b5d876da2a06fd4faeba54a530dab82') in 0.000385 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 1.276686 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Gauge 320 Pump/Barrel - Default (Gauge 320 Pump).fbx
+  artifactKey: Guid(fa73acb6d5efa2f45b8ed04e45969b7d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Gauge 320 Pump/Barrel - Default (Gauge 320 Pump).fbx using Guid(fa73acb6d5efa2f45b8ed04e45969b7d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '51ea72b1764ba2e5804af0dcbc97c6fb') in 0.018083 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 6.761113 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Gauge 320 Pump/Barrel - Default (Gauge 320 Pump).fbx
+  artifactKey: Guid(fa73acb6d5efa2f45b8ed04e45969b7d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Gauge 320 Pump/Barrel - Default (Gauge 320 Pump).fbx using Guid(fa73acb6d5efa2f45b8ed04e45969b7d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7f8af8e9cee28aeab438616c1d174897') in 0.041066 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 2.355618 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Gauge 320 Pump/Barrel - Default (Gauge 320 Pump).fbx
+  artifactKey: Guid(fa73acb6d5efa2f45b8ed04e45969b7d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Gauge 320 Pump/Barrel - Default (Gauge 320 Pump).fbx using Guid(fa73acb6d5efa2f45b8ed04e45969b7d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a21e56d7d4d7a3f73071b3be2df13a18') in 0.018083 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 4.198663 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Gauge 320 Pump/Barrel - Default (Gauge 320 Pump).fbx
+  artifactKey: Guid(fa73acb6d5efa2f45b8ed04e45969b7d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Gauge 320 Pump/Barrel - Default (Gauge 320 Pump).fbx using Guid(fa73acb6d5efa2f45b8ed04e45969b7d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c1a057e2db587b93cb4a4615eb1304f0') in 0.011969 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 0.716960 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Gauge 320 Pump/Stock -Default (Gauge 320).fbx
+  artifactKey: Guid(5f30548f93d83634cbf60ede560bb421) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Gauge 320 Pump/Stock -Default (Gauge 320).fbx using Guid(5f30548f93d83634cbf60ede560bb421) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b9e15716e8bc665e85b7726508014b46') in 0.018478 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 2.405173 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Gauge 320 Pump/Stock -Default (Gauge 320).fbx
+  artifactKey: Guid(5f30548f93d83634cbf60ede560bb421) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Gauge 320 Pump/Stock -Default (Gauge 320).fbx using Guid(5f30548f93d83634cbf60ede560bb421) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '38365b8597f55c52fdc6aa781b3f32a8') in 0.013126 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 1.165747 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Gauge 320 Pump/[Shotgun] Gauge 320 Pump.fbx
+  artifactKey: Guid(f4b7c31efe90151408bbe6a2c7795662) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Gauge 320 Pump/[Shotgun] Gauge 320 Pump.fbx using Guid(f4b7c31efe90151408bbe6a2c7795662) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0b7431db61015c7a8172019515756d75') in 0.025625 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 17
+========================================================================
+Received Import Request.
+  Time since last request: 3.063668 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Gauge 320 Pump/[Shotgun] Gauge 320 Pump.fbx
+  artifactKey: Guid(f4b7c31efe90151408bbe6a2c7795662) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SG/[Shotgun] Gauge 320 Pump/[Shotgun] Gauge 320 Pump.fbx using Guid(f4b7c31efe90151408bbe6a2c7795662) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1ad62c46eed2ec401eb0596890c85322') in 0.016970 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 16
+========================================================================
+Received Import Request.
+  Time since last request: 168.448364 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500
+  artifactKey: Guid(12cd59f2385cbbe4c8fd5033c6f44a0f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500 using Guid(12cd59f2385cbbe4c8fd5033c6f44a0f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '06f1a573fabcbaecbdacbe89d41eb575') in 0.000489 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 0.641454 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500/[Submachine gun] Vector-Ghost 500.fbx
+  artifactKey: Guid(c01b094503e9fc248b0d92fa38dd9fdf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500/[Submachine gun] Vector-Ghost 500.fbx using Guid(c01b094503e9fc248b0d92fa38dd9fdf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3afeb0a08ff2be29869f25ce1843e2f3') in 0.019362 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 1.423463 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500/Sight - Default (Vector-Ghost 500).fbx
+  artifactKey: Guid(fbab9f95f699cb94faf637ec92790682) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500/Sight - Default (Vector-Ghost 500).fbx using Guid(fbab9f95f699cb94faf637ec92790682) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '33a27dd324011caf9cc970006ecd8881') in 0.015175 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 0.783447 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500/Stock - Default (Vector-Ghost 500).fbx
+  artifactKey: Guid(eecca2cd033ece046b0f586ba3c04fb6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500/Stock - Default (Vector-Ghost 500).fbx using Guid(eecca2cd033ece046b0f586ba3c04fb6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'df24c1579e96975265b8bc0b8b216cec') in 0.017912 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 7.008742 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500/Stock - Default (Vector-Ghost 500).fbx
+  artifactKey: Guid(eecca2cd033ece046b0f586ba3c04fb6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500/Stock - Default (Vector-Ghost 500).fbx using Guid(eecca2cd033ece046b0f586ba3c04fb6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '83465ea56ae56d3352b032b6f012b1f5') in 0.017950 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 1.971537 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500/Stock - Default (Vector-Ghost 500).fbx
+  artifactKey: Guid(eecca2cd033ece046b0f586ba3c04fb6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500/Stock - Default (Vector-Ghost 500).fbx using Guid(eecca2cd033ece046b0f586ba3c04fb6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e6f23893a5e7adf6d15e5979dfe4b67a') in 0.026196 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 1.251690 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500/Sight - Default (Vector-Ghost 500).fbx
+  artifactKey: Guid(fbab9f95f699cb94faf637ec92790682) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500/Sight - Default (Vector-Ghost 500).fbx using Guid(fbab9f95f699cb94faf637ec92790682) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ff93b1710b74b53e638eaa3bf7f3969e') in 0.016151 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 2.648245 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500/Sight - Default (Vector-Ghost 500).fbx
+  artifactKey: Guid(fbab9f95f699cb94faf637ec92790682) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500/Sight - Default (Vector-Ghost 500).fbx using Guid(fbab9f95f699cb94faf637ec92790682) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3c9ad4dfcaaad5191f86d8d573b6525f') in 0.012689 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 3.160703 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500/Stock - Default (Vector-Ghost 500).fbx
+  artifactKey: Guid(eecca2cd033ece046b0f586ba3c04fb6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500/Stock - Default (Vector-Ghost 500).fbx using Guid(eecca2cd033ece046b0f586ba3c04fb6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '69bfde0e8ed7eee84efc0a4c5d7ebd7f') in 0.013625 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 3.356925 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500/[Submachine gun] Vector-Ghost 500.fbx
+  artifactKey: Guid(c01b094503e9fc248b0d92fa38dd9fdf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] Vector Ghost 500/[Submachine gun] Vector-Ghost 500.fbx using Guid(c01b094503e9fc248b0d92fa38dd9fdf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '11e1a54f6003732ec95c0f1d1af6f7c6') in 0.017812 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 18
+========================================================================
+Received Import Request.
+  Time since last request: 274.767227 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308
+  artifactKey: Guid(d0cd9d28d1bf10b499e3e39a81e7e6ee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308 using Guid(d0cd9d28d1bf10b499e3e39a81e7e6ee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4dc004136d0fc7a583977eed27f30ffe') in 0.000447 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 1.418023 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Barrel - Default (VEL-Ironclad 308).fbx
+  artifactKey: Guid(118445072103a6b4a9edab9f6362175a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Barrel - Default (VEL-Ironclad 308).fbx using Guid(118445072103a6b4a9edab9f6362175a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0162fa8dafe0b744063b4e6f477d29a0') in 0.017118 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 0.401099 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Stock - Default (VEL-Ironclad 308).fbx
+  artifactKey: Guid(fa47b11656b8d5347a1207b9e5073fdf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Stock - Default (VEL-Ironclad 308).fbx using Guid(fa47b11656b8d5347a1207b9e5073fdf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a06e643685350fd26e44d88f10e3eb38') in 0.016999 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 4.492858 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Stock - Default (VEL-Ironclad 308).fbx
+  artifactKey: Guid(fa47b11656b8d5347a1207b9e5073fdf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Stock - Default (VEL-Ironclad 308).fbx using Guid(fa47b11656b8d5347a1207b9e5073fdf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b4f373cc8f3d44de80b5407d6f2ac6bc') in 0.017726 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 3.661401 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/[Sub machine gun] VEL-Ironclad 308.fbx
+  artifactKey: Guid(19fc4639cd465d94585dd167aff1459d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/[Sub machine gun] VEL-Ironclad 308.fbx using Guid(19fc4639cd465d94585dd167aff1459d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4bd6af32a0f4a9b2fca3e8d0e29b9243') in 0.029362 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 2.971751 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/[Sub machine gun] VEL-Ironclad 308.fbx
+  artifactKey: Guid(19fc4639cd465d94585dd167aff1459d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/[Sub machine gun] VEL-Ironclad 308.fbx using Guid(19fc4639cd465d94585dd167aff1459d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0f3716baa716f943d1a9d6a6df3763d9') in 0.017034 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 18
+========================================================================
+Received Import Request.
+  Time since last request: 0.827152 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Sight - Default (VEL-Ironclad 308).fbx
+  artifactKey: Guid(2a53cc8ecc2b94f42a5c1d3f37ee25b6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Sight - Default (VEL-Ironclad 308).fbx using Guid(2a53cc8ecc2b94f42a5c1d3f37ee25b6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dfbbd312ea4434fc3929d4c7fd564f85') in 0.040815 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 0.441731 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Barrel - Default (VEL-Ironclad 308).fbx
+  artifactKey: Guid(118445072103a6b4a9edab9f6362175a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Barrel - Default (VEL-Ironclad 308).fbx using Guid(118445072103a6b4a9edab9f6362175a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c845ddf09d2ba5c5a29ebc088a1ed610') in 0.016789 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 1.777024 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Barrel - Default (VEL-Ironclad 308).fbx
+  artifactKey: Guid(118445072103a6b4a9edab9f6362175a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Barrel - Default (VEL-Ironclad 308).fbx using Guid(118445072103a6b4a9edab9f6362175a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a61608d4a976ec5bf4412db1526bcf54') in 0.012083 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 2.527378 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Sight - Default (VEL-Ironclad 308).fbx
+  artifactKey: Guid(2a53cc8ecc2b94f42a5c1d3f37ee25b6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Sight - Default (VEL-Ironclad 308).fbx using Guid(2a53cc8ecc2b94f42a5c1d3f37ee25b6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bdb34ad5ccb16239339898761bd3d038') in 0.040256 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 5.056718 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Stock - Default (VEL-Ironclad 308).fbx
+  artifactKey: Guid(fa47b11656b8d5347a1207b9e5073fdf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Stock - Default (VEL-Ironclad 308).fbx using Guid(fa47b11656b8d5347a1207b9e5073fdf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7818cc4a952cb9bc38397c77257aed51') in 0.012264 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 140.916310 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Stock - Default (VEL-Ironclad 308).fbx
+  artifactKey: Guid(fa47b11656b8d5347a1207b9e5073fdf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Stock - Default (VEL-Ironclad 308).fbx using Guid(fa47b11656b8d5347a1207b9e5073fdf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3a6c5371efb2f03da0fd4b282d3eab1e') in 0.012091 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 5.832725 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Sight - Default (VEL-Ironclad 308).fbx
+  artifactKey: Guid(2a53cc8ecc2b94f42a5c1d3f37ee25b6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Sight - Default (VEL-Ironclad 308).fbx using Guid(2a53cc8ecc2b94f42a5c1d3f37ee25b6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a1111a23203e625255092413ef213bf7') in 0.008894 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 1.549476 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Barrel - Default (VEL-Ironclad 308).fbx
+  artifactKey: Guid(118445072103a6b4a9edab9f6362175a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SM/[Submachine gun] VEL-Ironclad 308/Barrel - Default (VEL-Ironclad 308).fbx using Guid(118445072103a6b4a9edab9f6362175a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b0101acaba705f3cadd9a78439666d45') in 0.012093 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 96.125657 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper
+  artifactKey: Guid(f7f87670c79700b49b02c6cc4369bc5d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper using Guid(f7f87670c79700b49b02c6cc4369bc5d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fb2f5c859030eff96b40f0331963b07e') in 0.000366 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 15.308652 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex
+  artifactKey: Guid(f7f87670c79700b49b02c6cc4369bc5d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex using Guid(f7f87670c79700b49b02c6cc4369bc5d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'de215a6a27d3076445af835505da9a28') in 0.000316 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 0.880406 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex 1
+  artifactKey: Guid(19bf5e5668b3a8d4f884253895bb7f11) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex 1 using Guid(19bf5e5668b3a8d4f884253895bb7f11) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7fa1fd94fa3ebc2abf944c0fadbc6bbd') in 0.000329 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 7.717280 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50
+  artifactKey: Guid(19bf5e5668b3a8d4f884253895bb7f11) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50 using Guid(19bf5e5668b3a8d4f884253895bb7f11) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c028e8af531318f966a98b756548a95d') in 0.000315 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 79.573895 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex/[Sniper rifle] Ballista Vortex.fbx
+  artifactKey: Guid(2587de9bc9352f2448adfe163e113469) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex/[Sniper rifle] Ballista Vortex.fbx using Guid(2587de9bc9352f2448adfe163e113469) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7fd960343d86f8e233efc7e79afddb46') in 0.021903 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 21
+========================================================================
+Received Import Request.
+  Time since last request: 3.690887 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex/[Sniper rifle] Ballista Vortex.fbx
+  artifactKey: Guid(2587de9bc9352f2448adfe163e113469) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex/[Sniper rifle] Ballista Vortex.fbx using Guid(2587de9bc9352f2448adfe163e113469) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7f183aa8b9788c92bf6285160d291da4') in 0.017137 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 20
+========================================================================
+Received Import Request.
+  Time since last request: 1.213013 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex/Sight - Default (Ballista Vortex).fbx
+  artifactKey: Guid(c367062bbb40c274aab0982cf446f6b7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex/Sight - Default (Ballista Vortex).fbx using Guid(c367062bbb40c274aab0982cf446f6b7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'eaf8a50708fa4ec19ad382968cfb7f23') in 0.033120 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 0.242361 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex/Stock - Default (Ballista Vortex).fbx
+  artifactKey: Guid(aaad59cb8b590514a8026afb7a149bc4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex/Stock - Default (Ballista Vortex).fbx using Guid(aaad59cb8b590514a8026afb7a149bc4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8eb385ff85181a8d0938600b3473e07d') in 0.023273 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 5.072130 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex/Stock - Default (Ballista Vortex).fbx
+  artifactKey: Guid(aaad59cb8b590514a8026afb7a149bc4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex/Stock - Default (Ballista Vortex).fbx using Guid(aaad59cb8b590514a8026afb7a149bc4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2d77cc31899aefa16bd749f7ef5e191e') in 0.060174 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 2.262234 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex/Stock - Default (Ballista Vortex).fbx
+  artifactKey: Guid(aaad59cb8b590514a8026afb7a149bc4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex/Stock - Default (Ballista Vortex).fbx using Guid(aaad59cb8b590514a8026afb7a149bc4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1760a4183c04961365dd816ff444d1f3') in 0.015625 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 2.734889 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex/Sight - Default (Ballista Vortex).fbx
+  artifactKey: Guid(c367062bbb40c274aab0982cf446f6b7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex/Sight - Default (Ballista Vortex).fbx using Guid(c367062bbb40c274aab0982cf446f6b7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '30b2f2a4ae919c3a879f03e5284e7e9c') in 0.017417 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 1.925169 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex/Sight - Default (Ballista Vortex).fbx
+  artifactKey: Guid(c367062bbb40c274aab0982cf446f6b7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex/Sight - Default (Ballista Vortex).fbx using Guid(c367062bbb40c274aab0982cf446f6b7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9ef21641bce925a34b6b12487e56f164') in 0.011497 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 11.445628 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex/Stock - Default (Ballista Vortex).fbx
+  artifactKey: Guid(aaad59cb8b590514a8026afb7a149bc4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] Balista Vortex/Stock - Default (Ballista Vortex).fbx using Guid(aaad59cb8b590514a8026afb7a149bc4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3fe1f6d7fcb70aa8d2835ebda12ae910') in 0.012895 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 214.416010 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/[Sniper rifle] DSR - 50.fbx
+  artifactKey: Guid(50c4d85c2b24cbc469455d0b78a46eba) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/[Sniper rifle] DSR - 50.fbx using Guid(50c4d85c2b24cbc469455d0b78a46eba) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1a80a7fd7fac06ea7d721ab5e3a98bd5') in 0.033325 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 21
+========================================================================
+Received Import Request.
+  Time since last request: 2.963006 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/[Sniper rifle] DSR - 50.fbx
+  artifactKey: Guid(50c4d85c2b24cbc469455d0b78a46eba) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/[Sniper rifle] DSR - 50.fbx using Guid(50c4d85c2b24cbc469455d0b78a46eba) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bb3b63b3946aa14726e648b022bf478a') in 0.018976 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 20
+========================================================================
+Received Import Request.
+  Time since last request: 2.226319 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/Sight - Default (DSR - 50).fbx
+  artifactKey: Guid(c21eee0268762c14a9a29b06a27524d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/Sight - Default (DSR - 50).fbx using Guid(c21eee0268762c14a9a29b06a27524d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a98f6e8b3924a33244e498d423dd0d97') in 0.016931 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 2.843030 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/Sight - Default (DSR - 50).fbx
+  artifactKey: Guid(c21eee0268762c14a9a29b06a27524d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/Sight - Default (DSR - 50).fbx using Guid(c21eee0268762c14a9a29b06a27524d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd8adaa4fade5b2b12417c24ba9dc9257') in 0.024538 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 1.910802 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/Sight - Default (DSR - 50).fbx
+  artifactKey: Guid(c21eee0268762c14a9a29b06a27524d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/Sight - Default (DSR - 50).fbx using Guid(c21eee0268762c14a9a29b06a27524d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ebc471649204b205e0c1f3dc07c94767') in 0.008930 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 2.333327 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/Sight - Default (DSR - 50).fbx
+  artifactKey: Guid(c21eee0268762c14a9a29b06a27524d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/Sight - Default (DSR - 50).fbx using Guid(c21eee0268762c14a9a29b06a27524d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '423151c93279f75590ada9b257c6696a') in 0.008128 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
+========================================================================
+Received Import Request.
+  Time since last request: 0.979347 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/SniperBarrel - Default (DSR - 50).fbx
+  artifactKey: Guid(cfb55eca0d4423c41a9f455970803f76) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/SniperBarrel - Default (DSR - 50).fbx using Guid(cfb55eca0d4423c41a9f455970803f76) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '354be0bc25288458e5a371bc4145e1c0') in 0.018374 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 2.943301 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/SniperBarrel - Default (DSR - 50).fbx
+  artifactKey: Guid(cfb55eca0d4423c41a9f455970803f76) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/SniperBarrel - Default (DSR - 50).fbx using Guid(cfb55eca0d4423c41a9f455970803f76) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '05a9d7d403eb1c247f446902f5e8e15f') in 0.015312 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 2.095035 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/SniperBarrel - Default (DSR - 50).fbx
+  artifactKey: Guid(cfb55eca0d4423c41a9f455970803f76) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/SniperBarrel - Default (DSR - 50).fbx using Guid(cfb55eca0d4423c41a9f455970803f76) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '752e0e85943c6065887ab3a8ede847ef') in 0.017091 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 8
+========================================================================
+Received Import Request.
+  Time since last request: 2.179266 seconds.
+  path: Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/SniperBarrel - Default (DSR - 50).fbx
+  artifactKey: Guid(cfb55eca0d4423c41a9f455970803f76) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/6v6Shooter/Meshes/Weapons/Primary Weapons/SR/[Sniper rifle] DSR - 50/SniperBarrel - Default (DSR - 50).fbx using Guid(cfb55eca0d4423c41a9f455970803f76) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fbbfdfae879b941f33d93bd7cca34737') in 0.011790 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7
