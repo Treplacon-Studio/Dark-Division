@@ -32,13 +32,27 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
-    private void ListPlayers() {
-        foreach (Player player in PhotonNetwork.PlayerList) {
-            GameObject tempListing = Instantiate(playerListingPrefab, teamAPlayersContainer);
+    public void ListPlayers()
+    {
+        ClearPlayerListings();
+
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            Team? team = TeamManager.GetTeam(player);
+            GameObject tempListing;
+
+            if (team == Team.Blue)
+                tempListing = Instantiate(playerListingPrefab, teamAPlayersContainer);
+            else if (team == Team.Red)
+                tempListing = Instantiate(playerListingPrefab, teamBPlayersContainer);
+            else
+                continue;
+
             Text tempText = tempListing.transform.GetChild(0).GetComponent<Text>();
             tempText.text = player.NickName;
         }
     }
+
 
     public void StartCountdown()
     {
@@ -80,11 +94,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom() 
     {
         Debug.Log($"{PhotonNetwork.NickName} joined to {PhotonNetwork.CurrentRoom.Name}");
+        TeamManager.AssignTeam(PhotonNetwork.LocalPlayer);
         ListPlayers();
         GameManager.instance.CloseLoadingScreen();
-
-        ClearPlayerListings();
-        ListPlayers();
     }
 
     public override void OnLeftRoom() 
@@ -99,30 +111,31 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer) {
         Debug.Log($"{newPlayer.NickName} joined to {PhotonNetwork.CurrentRoom.Name} {PhotonNetwork.CurrentRoom.PlayerCount}");
-        ClearPlayerListings();
         ListPlayers();
-        JoinPlayerToATeam(newPlayer);
     }
     
     public override void OnPlayerLeftRoom(Player otherPlayer) {
-        ClearPlayerListings();
         ListPlayers();
     }
 
-    public void JoinPlayerToATeam(Player newPlayer)
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        int blueTeamCount = PhotonTeamsManager.Instance.GetTeamMembersCount("Blue");
-        int redTeamCount = PhotonTeamsManager.Instance.GetTeamMembersCount("Red");
-        Debug.Log($"{blueTeamCount} .. {redTeamCount}");
-        if (PhotonNetwork.LocalPlayer.JoinTeam("Blue"))
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+        
+        if (changedProps.ContainsKey("team"))
         {
-            Debug.Log($"{newPlayer.NickName} joined team blue.");
+            Team? team = TeamManager.GetTeam(targetPlayer);
+            if (team.HasValue)
+            {
+                Debug.Log($"{targetPlayer.NickName} assigned to {team.Value} team.");
+            }
+            else
+            {
+                Debug.Log($"{targetPlayer.NickName} has not been assigned to any team.");
+            }
+            
+            ListPlayers();
         }
-        else
-        {
-            Debug.Log($"Failed to join team blue.");
-        }
-
-        ListPlayers();
     }
+
 }
