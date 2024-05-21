@@ -5,7 +5,7 @@ public class UserLoginManager : MonoBehaviour
 {
     public void SetPlayerName(string playerName)
     {
-        if (string.IsNullOrWhiteSpace(playerName))
+        if (string.IsNullOrEmpty(playerName))
         {
             Debug.Log("Player name is invalid!");
             return;
