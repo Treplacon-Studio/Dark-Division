@@ -31,6 +31,9 @@ public class WeaponManager : MonoBehaviour
     public WeaponType currentWeaponType;
     public Weapon currentWeapon;
 
+    public GameObject[] primaryWeapons;
+    public GameObject[] secondaryWeapons;
+
     public Transform firePoint;
     public string bulletType;
 
