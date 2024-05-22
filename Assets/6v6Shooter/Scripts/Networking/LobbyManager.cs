@@ -17,21 +17,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] Text countdownDisplay;
     [SerializeField] int countdownTime = 10;
 
-    void Start()
-    {
+    void Start() {
         if (instance == null) instance = this;
         ConnectToPhotonServer();
     }
 
-    private void ClearPlayerListings()
-    {
-        for (int i = teamAPlayersContainer.childCount - 1; i >= 0; i--)
-        {
+    private void ClearPlayerListings() {
+        for (int i = teamAPlayersContainer.childCount - 1; i >= 0; i--)  {
             Destroy(teamAPlayersContainer.GetChild(i).gameObject);
         }
 
-        for (int i = teamBPlayersContainer.childCount - 1; i >= 0; i--)
-        {
+        for (int i = teamBPlayersContainer.childCount - 1; i >= 0; i--)  {
             Destroy(teamBPlayersContainer.GetChild(i).gameObject);
         }
     }
@@ -56,6 +52,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             tempText.text = player.NickName;
         }
     }
+
 
     public void StartCountdown()
     {
@@ -94,7 +91,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRandomOrCreateRoom();
     }
 
-    public override void OnJoinedRoom()
+    public override void OnJoinedRoom() 
     {
         Debug.Log($"{PhotonNetwork.NickName} joined to {PhotonNetwork.CurrentRoom.Name}");
         TeamManager.AssignTeam(PhotonNetwork.LocalPlayer);
@@ -102,7 +99,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         GameManager.instance.CloseLoadingScreen();
     }
 
-    public override void OnLeftRoom()
+    public override void OnLeftRoom() 
     {
         SceneManager.LoadScene("S00_MainMenu");
     }
@@ -112,21 +109,19 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LeaveRoom();
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
+    public override void OnPlayerEnteredRoom(Player newPlayer) {
         Debug.Log($"{newPlayer.NickName} joined to {PhotonNetwork.CurrentRoom.Name} {PhotonNetwork.CurrentRoom.PlayerCount}");
         ListPlayers();
     }
-
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
+    
+    public override void OnPlayerLeftRoom(Player otherPlayer) {
         ListPlayers();
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
-
+        
         if (changedProps.ContainsKey("team"))
         {
             Team? team = TeamManager.GetTeam(targetPlayer);
@@ -138,8 +133,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             {
                 Debug.Log($"{targetPlayer.NickName} has not been assigned to any team.");
             }
-
+            
             ListPlayers();
         }
     }
+
 }
