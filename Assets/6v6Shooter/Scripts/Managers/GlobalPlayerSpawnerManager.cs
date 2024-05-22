@@ -45,8 +45,6 @@ public class GlobalPlayerSpawnerManager : MonoBehaviourPunCallbacks
                 Vector3[] points = new Vector3[] {
                     new Vector3(-0.119f, 1f, -0.42f),
                 };
-                Debug.Log("preee", playerPrefab);
-                Debug.Log(PhotonNetwork.NickName);
                 PhotonNetwork.Instantiate(playerPrefab.name, points[randomPoints], Quaternion.identity);
                 Debug.Log(PhotonNetwork.NickName + " spawned in!");
             }
