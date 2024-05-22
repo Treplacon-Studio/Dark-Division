@@ -2,14 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum WeaponsType {
-	none,
-    scar
+public enum WeaponType {
+    Primary,
+    Secondary,
+    Melee
+}
+
+public enum Weapon {
+    SCAREnforcer557,
+    M4A1Sentinel254,
+    VectorGhost500,
+    VELIronclad308,
+    BalistaVortex,
+    DSR50,
+    Gauge320,
+    Stoeger22,
+    TAC45,
+    FNFive8,
+    DefaultKnife,
+    ButterflyKnife,
+    BattleAxe,
+    Katana,
+    PlasmaSword
 }
 
 public class WeaponManager : MonoBehaviour
 {
-    public WeaponsType currentWeapon;
+    public WeaponType currentWeaponType;
+    public Weapon currentWeapon;
 
     public Transform firePoint;
     public string bulletType;
@@ -23,7 +43,8 @@ public class WeaponManager : MonoBehaviour
 
     void Awake()
     {
-        currentWeapon = WeaponsType.scar;
+        currentWeaponType = WeaponType.Primary;
+        currentWeapon = Weapon.SCAREnforcer557;
 
         bulletPool = GetComponent<BulletPoolingManager>();
         if (bulletPool == null)
@@ -32,7 +53,7 @@ public class WeaponManager : MonoBehaviour
 
     void Update()
     {
-        if (currentWeapon == WeaponsType.scar && Time.time >= nextTimeToFire)
+        if (currentWeapon == Weapon.SCAREnforcer557 && Time.time >= nextTimeToFire)
         {
             if (Input.GetButton("Fire1"))
             {
