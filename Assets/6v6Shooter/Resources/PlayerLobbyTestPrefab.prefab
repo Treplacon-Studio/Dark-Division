@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 281856028475478666}
   - component: {fileID: 8733589516370866513}
   - component: {fileID: -4064538469183905606}
+  - component: {fileID: 4709266925164794139}
   - component: {fileID: 4246056579019153633}
   m_Layer: 0
   m_Name: PlayerLobbyTestPrefab
@@ -294,10 +295,27 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 1
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 4709266925164794139}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &4709266925164794139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8244409117362271513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!114 &4246056579019153633
 MonoBehaviour:
   m_ObjectHideFlags: 0

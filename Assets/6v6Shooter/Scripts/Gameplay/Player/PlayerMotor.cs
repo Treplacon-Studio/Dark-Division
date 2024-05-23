@@ -127,4 +127,36 @@ public class MovementController : MonoBehaviourPunCallbacks {
     void OnCollisionStay(){
         isGrounded = true;
     }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+		if (stream.IsWriting) {
+			Vector3 pos = body.position;
+			Quaternion rot = body.rotation;
+			Vector3 vel = body.velocity;
+			Vector3 rotVel = body.angularVelocity;
+
+			stream.Serialize(ref pos);
+			stream.Serialize(ref rot);
+			//stream.Serialize(ref input);
+			stream.Serialize(ref vel);
+			stream.Serialize(ref rotVel);
+		}
+		else {
+			Vector3 pos = Vector3.zero;
+			Quaternion rot = Quaternion.identity;
+			Vector3 vel = Vector3.zero;
+			Vector3 rotVel = Vector3.zero;
+
+			stream.Serialize(ref pos);
+			stream.Serialize(ref rot);
+			//stream.Serialize(ref input);
+			stream.Serialize(ref vel);
+			stream.Serialize(ref rotVel);
+
+			body.position = pos;
+			body.rotation = rot;
+			body.velocity = vel;
+			body.angularVelocity = rotVel;
+		}
+	}
 }

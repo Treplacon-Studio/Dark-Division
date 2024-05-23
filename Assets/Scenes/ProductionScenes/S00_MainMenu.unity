@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 691283555}
-  m_IndirectSpecularColor: {r: 0.5540011, g: 0.70056987, b: 0.81330884, a: 1}
+  m_IndirectSpecularColor: {r: 1.2570184, g: 1.2337594, b: 1.2209738, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1124,24 +1124,6 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!1 &1918967509 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3312712809168790984, guid: a73ad6c08ea146b479195484ea151cc9, type: 3}
-  m_PrefabInstance: {fileID: 2532378011497925764}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1918967512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1918967509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc047b1436f536a4aa734e6e31ab2492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 8244409117362271513, guid: cda0836daf1cf1a469ba79820f63de6c, type: 3}
 --- !u!1 &1942720676 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 693661096364317053, guid: 0044755d5701bb744a0ae21bcb7aa52a, type: 3}
@@ -1842,17 +1824,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 4495080273101416359, guid: a73ad6c08ea146b479195484ea151cc9, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3312712809168790984, guid: a73ad6c08ea146b479195484ea151cc9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1918967512}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a73ad6c08ea146b479195484ea151cc9, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
