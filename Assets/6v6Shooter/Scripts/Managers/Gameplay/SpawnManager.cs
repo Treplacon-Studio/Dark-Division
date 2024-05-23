@@ -56,7 +56,7 @@ public class SpawnManager : MonoBehaviour
         return spawnPoint;
     }
 
-    public void SpawnPlayer(GameObject playerPrefab, string team)
+    public void SpawnPlayer(string team)
     {
         Transform spawnPoint = GetNextSpawnPoint(team);
 
@@ -66,6 +66,7 @@ public class SpawnManager : MonoBehaviour
             return;
         }
 
-        PhotonNetwork.Instantiate(playerPrefab.name, spawnPoint.position, spawnPoint.rotation);
+        GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "PlayerTestPrefab"), spawnPoint.position, spawnPoint.rotation);
+        Debug.Log($"Spawning in {newPlayer}. SPAWNED IN!");
     }
 }

@@ -15,7 +15,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] GameObject playerListingPrefab;
     [SerializeField] Text gameModeNameText;
     [SerializeField] Text countdownDisplay;
-    [SerializeField] int countdownTime = 10;
 
     private PhotonView photonView;
 
