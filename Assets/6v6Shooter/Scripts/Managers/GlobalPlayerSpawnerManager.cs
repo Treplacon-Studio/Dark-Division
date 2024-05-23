@@ -15,10 +15,10 @@ public class GlobalPlayerSpawnerManager : MonoBehaviourPunCallbacks
 
     public void SpawnPlayersInMainMenu()
     {
-        if (PhotonNetwork.IsConnected) 
+        if (PhotonNetwork.IsConnected)
         {
             Debug.Log(PhotonNetwork.NickName + " connected to lobby!");
-            if (playerPrefab != null) 
+            if (playerPrefab != null)
             {
                 Debug.Log("Spawning in " + PhotonNetwork.NickName);
                 int randomPoints = Random.Range(0, 3);
@@ -36,18 +36,27 @@ public class GlobalPlayerSpawnerManager : MonoBehaviourPunCallbacks
 
     public void SpawnPlayersInGame()
     {
-        if (PhotonNetwork.IsConnected) 
+        if (PhotonNetwork.IsConnected)
         {
-            if (playerPrefab != null) 
+            if (playerPrefab != null)
             {
                 Debug.Log("Spawning in " + PhotonNetwork.NickName);
-                int randomPoints = Random.Range(0, 0);
-                Vector3[] points = new Vector3[] {
-                    new Vector3(-0.119f, 1f, -0.42f),
-                };
-                PhotonNetwork.Instantiate(playerPrefab.name, points[randomPoints], Quaternion.identity);
-                Debug.Log(PhotonNetwork.NickName + " spawned in!");
+
+
+                string team = TeamManager.GetTeam(PhotonNetwork.LocalPlayer).ToString().ToLower();
+
+                SpawnManager.instance.SpawnPlayer(playerPrefab, team);
+
+                Debug.Log(PhotonNetwork.NickName + " spawned in at team " + team + " spawn point");
             }
+            else
+            {
+                Debug.LogError("playerPrefab null");
+            }
+        }
+        else
+        {
+            Debug.LogError("PhotonNetwork is not connected!");
         }
     }
 }
