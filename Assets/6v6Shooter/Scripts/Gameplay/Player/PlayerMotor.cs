@@ -23,34 +23,29 @@ public class MovementController : MonoBehaviourPunCallbacks {
     float cameraUpAndDownRotation = 0f;
     float currentCamRotation = 0;
 
+    public PhotonView pv;
+
     Rigidbody body;
     //Animator anim;
 
     void Start() {
         body = GetComponent<Rigidbody>();
         jump = new Vector3(0.0f, 1.5f, 0.0f);
+        pv = GetComponent<PhotonView>();
         //anim = GetComponent<Animator>();
     }
 
     void Update() {
+        // Only process input for the local player
+        if (!pv.IsMine) {
+            return;
+        }
+
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
 
         Vector3 horizontalMovement = transform.right * x;
         Vector3 verticalMovement = transform.forward * z;
-
-        //Setting walk animations
-        /*anim.SetFloat("Horizontal", x);
-		anim.SetFloat("Vertical", z);
-
-        //Sprinting
-        anim.SetBool("isRunning", Input.GetKey(KeyCode.LeftShift) || Input.GetButton("Sprint"));
-        if (anim.GetBool("isRunning") && !anim.GetBool("isAiming")) {
-            speed = 4f;            
-        }
-        else {
-            speed = 2f;
-        }*/
 
         //Final movement velocity vector
         Vector3 movementVelocity = (horizontalMovement + verticalMovement).normalized * speed;
@@ -73,31 +68,18 @@ public class MovementController : MonoBehaviourPunCallbacks {
 
         //Jumping
         if(Input.GetKeyDown(KeyCode.Space) && isGrounded || Input.GetButtonDown("Jump") && isGrounded){
-
             body.AddForce(jump * jumpForce, ForceMode.Impulse);
             isGrounded = false;
         }
-
-        /* if (Input.GetButtonDown("Fire2") && photonView.IsMine) {
-            anim.SetTrigger("aimSight");
-            lookSensitivity = 1.5f;
-            speed = 1f;
-
-            openCrosshairUI.gameObject.SetActive(false);
-            closedCrosshairUI.gameObject.SetActive(true);
-        }
-        else if (Input.GetButtonUp("Fire2")  && photonView.IsMine) {
-            anim.SetTrigger("dontAimSight");
-            lookSensitivity = 10f;
-            speed = 3f;
-
-            openCrosshairUI.gameObject.SetActive(true);
-            closedCrosshairUI.gameObject.SetActive(false);
-        } */
     }
 
     //Runs per physics interation
     void FixedUpdate() {
+        // Only process movement and rotation for the local player
+        if (!pv.IsMine) {
+            return;
+        }
+
         if (velocity != Vector3.zero) {
             body.MovePosition(body.position + velocity * Time.fixedDeltaTime);
         }
@@ -127,36 +109,4 @@ public class MovementController : MonoBehaviourPunCallbacks {
     void OnCollisionStay(){
         isGrounded = true;
     }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-		if (stream.IsWriting) {
-			Vector3 pos = body.position;
-			Quaternion rot = body.rotation;
-			Vector3 vel = body.velocity;
-			Vector3 rotVel = body.angularVelocity;
-
-			stream.Serialize(ref pos);
-			stream.Serialize(ref rot);
-			//stream.Serialize(ref input);
-			stream.Serialize(ref vel);
-			stream.Serialize(ref rotVel);
-		}
-		else {
-			Vector3 pos = Vector3.zero;
-			Quaternion rot = Quaternion.identity;
-			Vector3 vel = Vector3.zero;
-			Vector3 rotVel = Vector3.zero;
-
-			stream.Serialize(ref pos);
-			stream.Serialize(ref rot);
-			//stream.Serialize(ref input);
-			stream.Serialize(ref vel);
-			stream.Serialize(ref rotVel);
-
-			body.position = pos;
-			body.rotation = rot;
-			body.velocity = vel;
-			body.angularVelocity = rotVel;
-		}
-	}
 }

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using System.IO;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class SpawnManager : MonoBehaviour
 
     private int redNextSpawnIndex = 0;
     private int blueNextSpawnIndex = 0;
+
+    public GameObject playerPrefab;
 
     private void Awake()
     {
@@ -62,6 +66,6 @@ public class SpawnManager : MonoBehaviour
             return;
         }
 
-        GameObject player = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
+        PhotonNetwork.Instantiate(playerPrefab.name, spawnPoint.position, spawnPoint.rotation);
     }
 }

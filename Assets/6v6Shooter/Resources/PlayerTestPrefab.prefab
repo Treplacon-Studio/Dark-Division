@@ -314,7 +314,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2709749105207634007}
   - component: {fileID: 9787761472798616}
-  - component: {fileID: 4566677569446009190}
   - component: {fileID: 5479009701357726701}
   m_Layer: 0
   m_Name: PlayerCamera
@@ -391,14 +390,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &4566677569446009190
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6688493516074794504}
-  m_Enabled: 1
 --- !u!114 &5479009701357726701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -508,7 +499,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &5340971154777007390
@@ -528,6 +519,7 @@ MonoBehaviour:
   isGrounded: 0
   jump: {x: 0, y: 0, z: 0}
   fpsCamera: {fileID: 6688493516074794504}
+  pv: {fileID: 1338536923980279427}
 --- !u!114 &3996045436721072354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,7 +591,7 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
+  observableSearch: 0
   ObservedComponents:
   - {fileID: 8164530736534444060}
   sceneViewId: 0
