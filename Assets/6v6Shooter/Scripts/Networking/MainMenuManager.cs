@@ -61,7 +61,8 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
     public void ConnectToPhotonServer()
     {
-        if (!PhotonNetwork.IsConnected)
+        string playerName = PhotonNetwork.NickName;
+        if (!PhotonNetwork.IsConnected && playerName.Length < 14 && playerName.Length > 3)
         {
             GameManager.instance.OpenLoadingScreen();
             PhotonNetwork.ConnectUsingSettings();
