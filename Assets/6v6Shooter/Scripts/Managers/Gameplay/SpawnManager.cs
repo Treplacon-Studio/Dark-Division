@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using System.IO;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class SpawnManager : MonoBehaviour
 
     private int redNextSpawnIndex = 0;
     private int blueNextSpawnIndex = 0;
+
+    public GameObject playerPrefab;
 
     private void Awake()
     {
@@ -52,7 +56,7 @@ public class SpawnManager : MonoBehaviour
         return spawnPoint;
     }
 
-    public void SpawnPlayer(GameObject playerPrefab, string team)
+    public void SpawnPlayer(string team)
     {
         Transform spawnPoint = GetNextSpawnPoint(team);
 
@@ -62,6 +66,7 @@ public class SpawnManager : MonoBehaviour
             return;
         }
 
-        GameObject player = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
+        GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "PlayerTestPrefab"), spawnPoint.position, spawnPoint.rotation);
+        Debug.Log($"Spawning in {newPlayer}. SPAWNED IN!");
     }
 }

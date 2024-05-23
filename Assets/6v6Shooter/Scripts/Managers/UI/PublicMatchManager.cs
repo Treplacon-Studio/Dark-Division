@@ -6,7 +6,7 @@ using Photon.Realtime;
 
 public class PublicMatchManager : MonoBehaviourPunCallbacks
 {
-    void Awake()
+    void Start()
     {
         GlobalPlayerSpawnerManager.instance.SpawnPlayersInGame();
     }
