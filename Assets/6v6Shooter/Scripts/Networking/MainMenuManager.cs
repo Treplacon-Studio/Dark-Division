@@ -39,8 +39,6 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
     public void SelectLoadout(int loadoutNum)
     {
-        //Eventually call loadoutmanager and pass in this loadoutnum parameter
-
         SetPanelViewability(editLoadoutPanel:true);
     }
 
