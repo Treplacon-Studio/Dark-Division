@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2073363671741764214}
   - component: {fileID: 3090910655425326092}
+  - component: {fileID: 8022988599990116786}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -46,6 +47,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LoadingScreenCanvas: {fileID: 4495080273101416359}
+--- !u!114 &8022988599990116786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3312712809168790984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc047b1436f536a4aa734e6e31ab2492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 6805778759377852609, guid: 626ddc98a1c2ea3458b209041fc77c0f, type: 3}
 --- !u!1001 &8578791816476409794
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -137,6 +151,10 @@ PrefabInstance:
     - target: {fileID: 5290680650146895973, guid: b9b0b152dbea9f945babf164e40a1eec, type: 3}
       propertyPath: m_Name
       value: OverlayDisplayCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5290680650146895973, guid: b9b0b152dbea9f945babf164e40a1eec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
