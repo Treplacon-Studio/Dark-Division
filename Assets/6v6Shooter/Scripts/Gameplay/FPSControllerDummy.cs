@@ -15,6 +15,9 @@ public class FPSControllerDummy : MonoBehaviour
     public float lookSpeed = 2f;
     public float lookXLimit = 45f;
 
+    public GameObject PlayerUICanvas; // Reference to the Player UI canvas
+    public GameObject ScoreboardCanvas; // Reference to the Scoreboard canvas
+
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
 
@@ -27,6 +30,10 @@ public class FPSControllerDummy : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        // Ensure playerUI is active and scoreboard is inactive at the start
+        PlayerUICanvas.SetActive(true);
+        ScoreboardCanvas.SetActive(false);
     }
 
     private void Update()
@@ -62,6 +69,14 @@ public class FPSControllerDummy : MonoBehaviour
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
-        } 
+        }
+
+        // Toggle between canvases when Tab is pressed
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            bool isPlayerUIActive = PlayerUICanvas.activeSelf;
+            PlayerUICanvas.SetActive(!isPlayerUIActive);
+            ScoreboardCanvas.SetActive(isPlayerUIActive);
+        }
     }
 }
