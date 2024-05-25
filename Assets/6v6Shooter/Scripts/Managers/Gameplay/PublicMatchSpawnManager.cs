@@ -4,9 +4,10 @@ using UnityEngine;
 using Photon.Pun;
 using System.IO;
 
-public class SpawnManager : MonoBehaviour
+public class PublicMatchSpawnManager : MonoBehaviour
 {
-    public static SpawnManager instance;
+    public static PublicMatchSpawnManager instance;
+
     public Transform[] redSpawnPoints;
     public Transform[] blueSpawnPoints;
 
@@ -15,19 +16,19 @@ public class SpawnManager : MonoBehaviour
 
     public GameObject playerPrefab;
 
+    public GameObject cameraPrefab;
+
     private void Awake()
     {
         if (instance == null)
-        {
             instance = this;
-        }
     }
 
     public Transform GetNextSpawnPoint(string team)
     {
         Transform spawnPoint;
 
-        if (team == "red")
+        if (team == "Red")
         {
             if (redSpawnPoints.Length == 0)
             {
@@ -37,7 +38,7 @@ public class SpawnManager : MonoBehaviour
             spawnPoint = redSpawnPoints[redNextSpawnIndex];
             redNextSpawnIndex = (redNextSpawnIndex + 1) % redSpawnPoints.Length;
         }
-        else if (team == "blue")
+        else if (team == "Blue")
         {
             if (blueSpawnPoints.Length == 0)
             {
@@ -66,7 +67,18 @@ public class SpawnManager : MonoBehaviour
             return;
         }
 
+        Debug.Log("Creating Player");
         GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "PlayerTestPrefab"), spawnPoint.position, spawnPoint.rotation);
+
+        Transform cameraPosition = newPlayer.transform.Find("CameraPosition");
+
+		PhotonView photonView = newPlayer.GetComponent<PhotonView>();
+		PlayerMotor playerMotor = newPlayer.GetComponent<PlayerMotor>();
+
+		PlayerTracker.instance.pv.RPC("AddPlayer", RpcTarget.All, photonView.ViewID);
         Debug.Log($"Spawning in {newPlayer}. SPAWNED IN!");
+
+        GameObject instantiatedCamera = Instantiate(cameraPrefab, cameraPosition.transform.position, cameraPosition.transform.rotation);
+        instantiatedCamera.transform.SetParent(cameraPosition.transform);
     }
 }

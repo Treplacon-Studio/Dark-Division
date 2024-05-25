@@ -39,13 +39,16 @@ public class GlobalPlayerSpawnerManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void SpawnPlayersInGame()
-    {
-        foreach (Player player in PhotonNetwork.PlayerList)
+    public void SpawnPlayerInGame()
+    {        
+        string team = TeamManager.GetTeam(PhotonNetwork.NickName);
+        PublicMatchSpawnManager.instance.SpawnPlayer(team);
+
+        /* foreach (Player player in PhotonNetwork.PlayerList)
         {
-            Debug.Log($"Spawning in {player}");
-            string team = TeamManager.GetTeam(player).ToString().ToLower();
+            Debug.Log(player);
+            string team = TeamManager.GetTeam(player).ToString();
             SpawnManager.instance.SpawnPlayer(team);
-        }
+        } */
     }
 }

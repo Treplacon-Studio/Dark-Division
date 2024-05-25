@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class MovementController : MonoBehaviourPunCallbacks {
+public class PlayerMotor : MonoBehaviourPunCallbacks {
     
     [SerializeField]
     float speed = 3f;

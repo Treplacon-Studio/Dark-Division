@@ -2,6 +2,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
 using UnityEngine;
+using System.Linq;
 
 public enum Team
 {
@@ -44,6 +45,16 @@ public static class TeamManager
         return null;
     }
 
+    public static string GetTeam(string player)
+    {
+        Player tempPlayer = PhotonNetwork.PlayerList.Where(i => i.NickName == player).FirstOrDefault();
+        Team? team = GetTeam(tempPlayer);
+        if (team.HasValue)
+            return team.Value == Team.Red ? "Red" : "Blue";
+        else
+            return "No Team";
+    }
+
     public static int GetTeamCount(Team team)
     {
         int count = 0;
@@ -54,15 +65,5 @@ public static class TeamManager
                 count++;
         }
         return count;
-    }
-
-
-    public static string GetPlayerTeam(Player player)
-    {
-        Team? team = GetTeam(player);
-        if (team.HasValue)
-            return team.Value == Team.Red ? "Red" : "Blue";
-        else
-            return "No Team";
     }
 }
