@@ -14,8 +14,6 @@ public class PublicMatchSpawnManager : MonoBehaviour
     private int redNextSpawnIndex = 0;
     private int blueNextSpawnIndex = 0;
 
-    public GameObject playerPrefab;
-
     public GameObject cameraPrefab;
 
     private void Awake()
@@ -68,7 +66,7 @@ public class PublicMatchSpawnManager : MonoBehaviour
         }
 
         Debug.Log("Creating Player");
-        GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "PlayerTestPrefab"), spawnPoint.position, spawnPoint.rotation);
+        GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "N_Player"), spawnPoint.position, spawnPoint.rotation);
 
         Transform cameraPosition = newPlayer.transform.Find("CameraPosition");
 
