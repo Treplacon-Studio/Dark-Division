@@ -6,45 +6,47 @@ public class MainMenuCameraController : MonoBehaviour
 {
     public static MainMenuCameraController instance;
 
-    public Transform[] focusPoints;
-    public float transitionSpeed = 2.0f;
-    public float rotationSpeed = 2.0f;
-
-    private Transform targetPoint;
-    private Vector3 originalPosition;
-    private Quaternion originalRotation;
+    [Header("Menu transitions")]
+    [SerializeField] private Transform[] transitionTargets;
+    [SerializeField] private float transitionDuration = 1.0f;
+    [SerializeField] private Camera lobbyCamera;
 
     void Awake()
     {
         if (instance == null) 
             instance = this;
     }
-
-    void Start()
-    {
-        originalPosition = transform.position;
-        originalRotation = transform.rotation;
-    }
-
-    void Update()
-    {
-        if (targetPoint != null)
-        {
-            transform.position = Vector3.Lerp(transform.position, targetPoint.position, Time.deltaTime * transitionSpeed);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetPoint.rotation, Time.deltaTime * rotationSpeed);
-        }
-    }
-
+    
     public void FocusOn(int index)
     {
-        if (index >= 0 && index < focusPoints.Length)
-            targetPoint = focusPoints[index];
+        if (index >= 0 && index < transitionTargets.Length)
+            StartCoroutine(TransitionCoroutine(transitionTargets[index]));
     }
+    
 
-    public void ResetCamera()
+    private IEnumerator TransitionCoroutine(Transform target)
     {
-        targetPoint = null;
-        transform.position = originalPosition;
-        transform.rotation = originalRotation;
+        Vector3 initialPosition = lobbyCamera.transform.position;
+        Quaternion initialRotation = lobbyCamera.transform.rotation;
+
+        Vector3 targetPosition = target.position;
+        Quaternion targetRotation = target.rotation;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < transitionDuration)
+        {
+            float t = elapsedTime / transitionDuration;
+
+            lobbyCamera.transform.position = Vector3.Lerp(initialPosition, targetPosition, t);
+            lobbyCamera.transform.rotation = Quaternion.Lerp(initialRotation, targetRotation, t);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        lobbyCamera.transform.position = targetPosition;
+        lobbyCamera.transform.rotation = targetRotation;
     }
 }
