@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 691283555}
-  m_IndirectSpecularColor: {r: 0.55400103, g: 0.70056987, b: 0.81330895, a: 1}
+  m_IndirectSpecularColor: {r: 1.2570184, g: 1.2337594, b: 1.2209738, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1124,24 +1124,6 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!1 &1918967509 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3312712809168790984, guid: a73ad6c08ea146b479195484ea151cc9, type: 3}
-  m_PrefabInstance: {fileID: 2532378011497925764}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1918967512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1918967509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc047b1436f536a4aa734e6e31ab2492, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 8244409117362271513, guid: cda0836daf1cf1a469ba79820f63de6c, type: 3}
 --- !u!1 &1942720676 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 693661096364317053, guid: 0044755d5701bb744a0ae21bcb7aa52a, type: 3}
@@ -1421,10 +1403,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 793976146}
     - target: {fileID: 1336774705844386412, guid: 1a91412bde6a8e74d9c76c63e69a934e, type: 3}
-      propertyPath: LoadoutPanel
-      value: 
-      objectReference: {fileID: 1671596704}
-    - target: {fileID: 1336774705844386412, guid: 1a91412bde6a8e74d9c76c63e69a934e, type: 3}
       propertyPath: SelectGamePanel
       value: 
       objectReference: {fileID: 1942720676}
@@ -1444,10 +1422,6 @@ PrefabInstance:
       propertyPath: UsernameCreationMenu
       value: 
       objectReference: {fileID: 1780252760}
-    - target: {fileID: 1336774705844386412, guid: 1a91412bde6a8e74d9c76c63e69a934e, type: 3}
-      propertyPath: ConnectionStatusPanel
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6956108761712195031, guid: 1a91412bde6a8e74d9c76c63e69a934e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1610,6 +1584,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2467634570729041962, guid: 0044755d5701bb744a0ae21bcb7aa52a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 232.55762
+      objectReference: {fileID: 0}
+    - target: {fileID: 2467634570729041962, guid: 0044755d5701bb744a0ae21bcb7aa52a, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -17.8
       objectReference: {fileID: 0}
@@ -1640,6 +1618,10 @@ PrefabInstance:
     - target: {fileID: 3742240951406839461, guid: 0044755d5701bb744a0ae21bcb7aa52a, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3758861767624992576, guid: 0044755d5701bb744a0ae21bcb7aa52a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 57.228516
       objectReference: {fileID: 0}
     - target: {fileID: 3989570251698716071, guid: 0044755d5701bb744a0ae21bcb7aa52a, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1677,6 +1659,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 186382310}
+    - target: {fileID: 6277279396888917558, guid: 0044755d5701bb744a0ae21bcb7aa52a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -45.756348
+      objectReference: {fileID: 0}
     - target: {fileID: 6522679240740949064, guid: 0044755d5701bb744a0ae21bcb7aa52a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1846,13 +1832,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8022988599990116786, guid: a73ad6c08ea146b479195484ea151cc9, type: 3}
+      propertyPath: playerPrefab
+      value: 
+      objectReference: {fileID: 8244409117362271513, guid: cda0836daf1cf1a469ba79820f63de6c, type: 3}
+    - target: {fileID: 8022988599990116786, guid: a73ad6c08ea146b479195484ea151cc9, type: 3}
+      propertyPath: playerMenuPrefab
+      value: 
+      objectReference: {fileID: 8244409117362271513, guid: cda0836daf1cf1a469ba79820f63de6c, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3312712809168790984, guid: a73ad6c08ea146b479195484ea151cc9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1918967512}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a73ad6c08ea146b479195484ea151cc9, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

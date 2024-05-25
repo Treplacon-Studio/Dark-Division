@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Pun.UtilityScripts;
 
-public class LobbyManager : MonoBehaviourPunCallbacks
+public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     public static LobbyManager instance;
 
@@ -15,19 +15,25 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject playerListingPrefab;
     [SerializeField] Text gameModeNameText;
     [SerializeField] Text countdownDisplay;
-    [SerializeField] int countdownTime = 10;
+
+    private PhotonView photonView;
+
+    private int currentTime;
 
     void Start() {
         if (instance == null) instance = this;
+        photonView = GetComponent<PhotonView>();
         ConnectToPhotonServer();
     }
 
     private void ClearPlayerListings() {
-        for (int i = teamAPlayersContainer.childCount - 1; i >= 0; i--)  {
+        for (int i = teamAPlayersContainer.childCount - 1; i >= 0; i--)  
+        {
             Destroy(teamAPlayersContainer.GetChild(i).gameObject);
         }
 
-        for (int i = teamBPlayersContainer.childCount - 1; i >= 0; i--)  {
+        for (int i = teamBPlayersContainer.childCount - 1; i >= 0; i--)  
+        {
             Destroy(teamBPlayersContainer.GetChild(i).gameObject);
         }
     }
@@ -54,25 +60,33 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
 
-    public void StartCountdown()
+    [PunRPC]
+    public void StartTimer(int startTime)
     {
+        currentTime = startTime;
         StartCoroutine(CountdownRoutine());
     }
 
     private IEnumerator CountdownRoutine()
     {
-        int currentTime = countdownTime;
         while (currentTime > 0)
         {
-            countdownDisplay.text = $"Time remaining: {currentTime.ToString()}";
+            photonView.RPC("UpdateTimerDisplay", RpcTarget.All, currentTime);
             yield return new WaitForSeconds(1);
             currentTime--;
         }
 
-        countdownDisplay.text = "Time remaining: 0";
-        LoadMap();
+        photonView.RPC("UpdateTimerDisplay", RpcTarget.All, currentTime);
+        photonView.RPC("LoadMap", RpcTarget.All);
     }
 
+    [PunRPC]
+    private void UpdateTimerDisplay(int time)
+    {
+        countdownDisplay.text = $"Time remaining: {time.ToString()}";
+    }
+
+    [PunRPC]
     public void LoadMap()
     {
         Debug.Log("LOADING MAP...");
@@ -138,4 +152,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+            stream.SendNext(currentTime);
+        else
+            currentTime = (int)stream.ReceiveNext();
+    }
 }
