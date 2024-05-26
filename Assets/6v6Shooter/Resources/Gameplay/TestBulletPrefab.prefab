@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6693864403473856751}
   - component: {fileID: 7815333710841396517}
   - component: {fileID: 3770933045422651973}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TestBulletPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.04433921, y: 1.313, z: 4.533}
-  m_LocalScale: {x: -0.018007087, y: 0.085233755, z: 0.016935231}
+  m_LocalScale: {x: -0.012147527, y: 0.004619897, z: 0.113330945}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -105,10 +105,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.62582064
+  m_Height: 1.08
+  m_Direction: 2
+  m_Center: {x: 0.069999956, y: -0.048769534, z: 0.03462818}
 --- !u!54 &7815333710841396517
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -117,9 +117,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6257585977350293602}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.01
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -133,9 +133,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &3770933045422651973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,3 +150,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 150
   lifeTime: 2
+  damage: 10

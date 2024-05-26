@@ -15,6 +15,13 @@ public class PlayerMotor : MonoBehaviourPunCallbacks {
     public bool isGrounded;
     public Vector3 jump;
 
+    //Camera rotation
+    public float camYUpwardRotation;
+    public float camYDownwardRotation;
+
+    public GameObject[] fpsHandsGameObject;
+    public GameObject[] soldierGameObject;
+
     [SerializeField]
     GameObject fpsCamera;
 
@@ -35,6 +42,24 @@ public class PlayerMotor : MonoBehaviourPunCallbacks {
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        if (photonView.IsMine) {
+            foreach (GameObject gameObject in fpsHandsGameObject) {
+                gameObject.SetActive(true);
+            }
+            foreach (GameObject gameObject in soldierGameObject) {
+                gameObject.SetActive(false);
+            }
+        }
+        else {
+
+            foreach (GameObject gameObject in fpsHandsGameObject) {
+                gameObject.SetActive(false);
+            }
+            foreach (GameObject gameObject in soldierGameObject) {
+                gameObject.SetActive(true);
+            }
+        }
     }
 
     void Update() {
@@ -103,10 +128,40 @@ public class PlayerMotor : MonoBehaviourPunCallbacks {
 
         if (fpsCamera != null) {
             currentCamRotation -= cameraUpAndDownRotation;
-            currentCamRotation = Mathf.Clamp(currentCamRotation, -90, 90);
+            currentCamRotation = Mathf.Clamp(currentCamRotation, camYUpwardRotation, camYDownwardRotation);
             fpsCamera.transform.localEulerAngles = new Vector3(currentCamRotation, 0, 0);
         }
     }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+		if (stream.IsWriting) {
+			Vector3 pos = body.position;
+			Quaternion rot = body.rotation;
+			Vector3 vel = body.velocity;
+			Vector3 rotVel = body.angularVelocity;
+
+			stream.Serialize(ref pos);
+			stream.Serialize(ref rot);
+			stream.Serialize(ref vel);
+			stream.Serialize(ref rotVel);
+		}
+		else {
+			Vector3 pos = Vector3.zero;
+			Quaternion rot = Quaternion.identity;
+			Vector3 vel = Vector3.zero;
+			Vector3 rotVel = Vector3.zero;
+
+			stream.Serialize(ref pos);
+			stream.Serialize(ref rot);
+			stream.Serialize(ref vel);
+			stream.Serialize(ref rotVel);
+
+			body.position = pos;
+			body.rotation = rot;
+			body.velocity = vel;
+			body.angularVelocity = rotVel;
+		}
+	}
 
     void Move(Vector3 movementVelocity) {
         velocity = movementVelocity;
