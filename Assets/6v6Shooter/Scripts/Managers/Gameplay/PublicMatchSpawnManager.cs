@@ -68,7 +68,7 @@ public class PublicMatchSpawnManager : MonoBehaviour
         Debug.Log("Creating Player");
         GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "N_Player"), spawnPoint.position, spawnPoint.rotation);
 
-        Transform cameraPosition = newPlayer.transform.Find("CameraPosition");
+        Transform cameraPosition = FindCameraPositionWithinNewPlayer(newPlayer.transform, "CAMERAPOSITION");
 
 		PhotonView photonView = newPlayer.GetComponent<PhotonView>();
 		PlayerMotor playerMotor = newPlayer.GetComponent<PlayerMotor>();
@@ -78,5 +78,19 @@ public class PublicMatchSpawnManager : MonoBehaviour
 
         GameObject instantiatedCamera = Instantiate(cameraPrefab, cameraPosition.transform.position, cameraPosition.transform.rotation);
         instantiatedCamera.transform.SetParent(cameraPosition.transform);
+    }
+
+    Transform FindCameraPositionWithinNewPlayer(Transform parent, string name)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == name)
+                return child;
+
+            Transform result = FindCameraPositionWithinNewPlayer(child, name);
+            if (result != null)
+                return result;
+        }
+        return null;
     }
 }

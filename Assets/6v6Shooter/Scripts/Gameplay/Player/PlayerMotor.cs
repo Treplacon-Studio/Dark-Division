@@ -26,13 +26,15 @@ public class PlayerMotor : MonoBehaviourPunCallbacks {
     public PhotonView pv;
 
     Rigidbody body;
-    //Animator anim;
+    public Animator anim;
 
     void Start() {
         body = GetComponent<Rigidbody>();
         jump = new Vector3(0.0f, 1.5f, 0.0f);
         pv = GetComponent<PhotonView>();
-        //anim = GetComponent<Animator>();
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update() {
@@ -46,6 +48,19 @@ public class PlayerMotor : MonoBehaviourPunCallbacks {
 
         Vector3 horizontalMovement = transform.right * x;
         Vector3 verticalMovement = transform.forward * z;
+
+        //Setting walk animations
+        anim.SetFloat("Horizontal", x);
+		anim.SetFloat("Vertical", z);
+
+        //Sprinting
+        anim.SetBool("isSprinting", Input.GetKey(KeyCode.LeftShift) || Input.GetButton("Sprint"));
+        if (anim.GetBool("isSprinting")/*  && !anim.GetBool("isAiming") */) {
+            speed = 5f;            
+        }
+        else {
+            speed = 3f;
+        }
 
         //Final movement velocity vector
         Vector3 movementVelocity = (horizontalMovement + verticalMovement).normalized * speed;
@@ -88,7 +103,7 @@ public class PlayerMotor : MonoBehaviourPunCallbacks {
 
         if (fpsCamera != null) {
             currentCamRotation -= cameraUpAndDownRotation;
-            currentCamRotation = Mathf.Clamp(currentCamRotation, -85, 85);
+            currentCamRotation = Mathf.Clamp(currentCamRotation, -90, 90);
             fpsCamera.transform.localEulerAngles = new Vector3(currentCamRotation, 0, 0);
         }
     }
