@@ -11,7 +11,6 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
     public Transform[] redSpawnPoints;
     public Transform[] blueSpawnPoints;
 
-    public GameObject playerPrefab;
     public GameObject cameraPrefab;
 
     private List<Transform> occupiedRedSpawnPoints = new List<Transform>();
@@ -102,9 +101,9 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
         }
 
         Debug.Log("Creating Player");
-        GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "PlayerTestPrefab"), spawnPoint.position, spawnPoint.rotation);
+        GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "N_Player"), spawnPoint.position, spawnPoint.rotation);
 
-        Transform cameraPosition = newPlayer.transform.Find("CameraPosition");
+        Transform cameraPosition = FindCameraPositionWithinNewPlayer(newPlayer.transform, "CAMERAPOSITION");
 
         PhotonView playerPhotonView = newPlayer.GetComponent<PhotonView>();
         PlayerMotor playerMotor = newPlayer.GetComponent<PlayerMotor>();
@@ -124,6 +123,20 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
 
         photonView.RPC("MarkSpawnPointOccupied", RpcTarget.AllBuffered, spawnPoint, team);
 
+    }
+
+    Transform FindCameraPositionWithinNewPlayer(Transform parent, string name)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == name)
+                return child;
+
+            Transform result = FindCameraPositionWithinNewPlayer(child, name);
+            if (result != null)
+                return result;
+        }
+        return null;
     }
 
     private IEnumerator FreeSpawnPointAfterDelay(Transform spawnPoint, string team, float delay)

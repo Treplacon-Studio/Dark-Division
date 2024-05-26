@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 691283555}
-  m_IndirectSpecularColor: {r: 1.2570184, g: 1.2337594, b: 1.2209738, a: 1}
+  m_IndirectSpecularColor: {r: 1.2570186, g: 1.2337595, b: 1.220974, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1076,10 +1076,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ea451adf072df4498e100648e7362b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focusPoints:
-  - {fileID: 1822183937}
-  transitionSpeed: 1.2
-  rotationSpeed: 2
+  transitionTargets: []
+  transitionDuration: 1
+  lobbyCamera: {fileID: 0}
 --- !u!114 &1833155129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1828,18 +1827,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 4495080273101416359, guid: a73ad6c08ea146b479195484ea151cc9, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8022988599990116786, guid: a73ad6c08ea146b479195484ea151cc9, type: 3}
-      propertyPath: playerPrefab
-      value: 
-      objectReference: {fileID: 8244409117362271513, guid: cda0836daf1cf1a469ba79820f63de6c, type: 3}
-    - target: {fileID: 8022988599990116786, guid: a73ad6c08ea146b479195484ea151cc9, type: 3}
-      propertyPath: playerMenuPrefab
-      value: 
-      objectReference: {fileID: 8244409117362271513, guid: cda0836daf1cf1a469ba79820f63de6c, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
