@@ -2,15 +2,16 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Skybox
   m_Shader: {fileID: 4800000, guid: 2a61d1fe99ca7e74b986c801b0920c8d, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -56,7 +57,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GalaxyPattern:
-        m_Texture: {fileID: 2800000, guid: 638cc442ec8c58c4fa3027cb13d4c95c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 59cb97507f14c1d468e967d73ca67a9b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GalaxyPlacement:
@@ -91,8 +92,16 @@ Material:
         m_Texture: {fileID: 2800000, guid: 59cb97507f14c1d468e967d73ca67a9b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _StarMap:
+        m_Texture: {fileID: 2800000, guid: 59cb97507f14c1d468e967d73ca67a9b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _StarTexture:
         m_Texture: {fileID: 2800000, guid: 93557f6a2b0824644b6ddaa6442e6c8e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample2:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample3:
@@ -107,8 +116,22 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - LightIntensity1: 1
+    - _AlphaCutoff: 0.5
     - _AltocumulusMultiplier: 2
     - _AltocumulusScale: 1
     - _BorderEffect: 0
@@ -132,6 +155,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DetailScale: 2.3
     - _DstBlend: 0
+    - _EnvironmentReflections: 1
     - _GalaxyMultiplier: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -142,7 +166,7 @@ Material:
     - _Metallic: 0
     - _MinCloudCover: 0
     - _Mode: 0
-    - _MoonFlareFalloff: 25
+    - _MoonFlareFalloff: 26.9
     - _NimbusHeight: 1
     - _NimbusMultiplier: 1
     - _NimbusVariation: 1
@@ -155,14 +179,17 @@ Material:
     - _PatchworkHeight: 0.64
     - _PatchworkPower: 1
     - _PatchworkVariation: 0.13
-    - _Power: 0.5
+    - _Power: 0.638
+    - _QueueControl: -1
+    - _QueueOffset: 0
     - _RainbowIntensity: 0
     - _RainbowSize: 16.8
     - _RainbowWidth: 24.3
+    - _ReceiveShadows: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _SunFlareFalloff: 25
+    - _SunFlareFalloff: 90.9
     - _SunSize: 1
     - _TextureAmount: 1
     - _UVSec: 0
@@ -178,21 +205,21 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 0.4113119, g: 0.745283, b: 0.4412026, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GalaxyColor1: {r: 0, g: 0.5019608, b: 1, a: 1}
-    - _GalaxyColor2: {r: 0.11764706, g: 0.45490196, b: 0.078431375, a: 1}
-    - _GalaxyColor3: {r: 0.16470589, g: 0.078431375, b: 0.45490196, a: 1}
-    - _HorizonColor: {r: 0.4524226, g: 0.6942585, b: 0.8169812, a: 1}
+    - _GalaxyColor1: {r: 1, g: 0, b: 0.6574917, a: 1}
+    - _GalaxyColor2: {r: 0.4681289, g: 0.4470588, b: 1, a: 1}
+    - _GalaxyColor3: {r: 0, g: 0.84153175, b: 1, a: 1}
+    - _HorizonColor: {r: 0, g: 0.55606395, b: 0.90574485, a: 1}
     - _LightColor: {r: 0.35569295, g: 0.45956883, b: 0.4802988, a: 1}
     - _LightColor1: {r: 0.35427704, g: 0.5403362, b: 0.4741432, a: 1}
-    - _LightColumnColor: {r: 0, g: 0, b: 0, a: 1}
+    - _LightColumnColor: {r: 0, g: 0, b: 0, a: 0}
     - _MoonColor: {r: 0.11000357, g: 0.2264151, b: 0.22527522, a: 0}
     - _MoonDirection: {r: -0.640357, g: -0.766766, b: -0.04486454, a: 0}
-    - _MoonFlareColor: {r: 0, g: 0, b: 0, a: 0}
-    - _StarColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MoonFlareColor: {r: 0.023529412, g: 0.08627451, b: 0.14901961, a: 1}
+    - _StarColor: {r: 0, g: 0, b: 0, a: 0}
     - _StormDirection: {r: 0, g: 0, b: 0, a: 0}
-    - _SunColor: {r: 1.49772, g: 1.278159, b: 1.0037078, a: 0}
+    - _SunColor: {r: 10, g: 10, b: 10, a: 0}
     - _SunColor1: {r: 10.43295, g: 10.43295, b: 10.43295, a: 0}
     - _SunDirection: {r: -0.05530402, g: -0.97433305, b: -0.21821257, a: 0}
-    - _SunFlareColor: {r: 1.29772, g: 1.1074783, b: 0.8696763, a: 0}
-    - _ZenithColor: {r: 0.253649, g: 0.561008, b: 0.7169812, a: 0}
+    - _SunFlareColor: {r: 0.68235296, g: 0.6791825, b: 0.5176471, a: 0}
+    - _ZenithColor: {r: 0, g: 0.18535246, b: 0.35783538, a: 1}
   m_BuildTextureStacks: []

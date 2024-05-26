@@ -14,10 +14,6 @@ Shader "Distant Lands/Cozy/Stylized Surface Shader"
 		_MetallicMultiplier("Metallic Multiplier", Range( 0 , 1)) = 0.5
 		_Metallic("Metallic", 2D) = "white" {}
 		_SnowAttraction("Snow Attraction", Range( 0 , 1)) = 0
-		_SnowTexture("Snow Texture", 2D) = "white" {}
-		_SnowScale1("Snow Scale", Float) = 10
-		_SnowColor1("Snow Color", Color) = (1,1,1,0)
-		_PuddleScale("Puddle Scale", Float) = 0.4
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 		[HideInInspector] __dirty( "", Int ) = 1
 	}
@@ -48,13 +44,13 @@ Shader "Distant Lands/Cozy/Stylized Surface Shader"
 
 		uniform sampler2D _Normal;
 		uniform float4 _Normal_ST;
-		uniform float4 _SnowColor1;
-		uniform sampler2D _SnowTexture;
-		uniform float4 _SnowTexture_ST;
+		uniform float4 CZY_SnowColor;
+		uniform sampler2D CZY_SnowTexture;
+		uniform float4 CZY_SnowTexture_ST;
 		uniform float4 _MainColor;
 		uniform sampler2D _Albedo;
 		uniform float4 _Albedo_ST;
-		uniform float _SnowScale1;
+		uniform float CZY_SnowScale;
 		uniform float _SnowAttraction;
 		uniform float CZY_SnowAmount;
 		uniform float4 _EmissionColor;
@@ -63,7 +59,7 @@ Shader "Distant Lands/Cozy/Stylized Surface Shader"
 		uniform float _MetallicMultiplier;
 		uniform sampler2D _Metallic;
 		uniform float4 _Metallic_ST;
-		uniform float _PuddleScale;
+		uniform float CZY_PuddleScale;
 		uniform float CZY_WetnessAmount;
 		uniform float _SmoothnessMultiplier;
 		uniform sampler2D _Smoothness;
@@ -102,7 +98,7 @@ Shader "Distant Lands/Cozy/Stylized Surface Shader"
 		}
 
 
-		float2 voronoihash5_g6( float2 p )
+		float2 voronoihash5_g8( float2 p )
 		{
 			
 			p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
@@ -110,7 +106,7 @@ Shader "Distant Lands/Cozy/Stylized Surface Shader"
 		}
 
 
-		float voronoi5_g6( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
+		float voronoi5_g8( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
 		{
 			float2 n = floor( v );
 			float2 f = frac( v );
@@ -121,7 +117,7 @@ Shader "Distant Lands/Cozy/Stylized Surface Shader"
 				for ( int i = -1; i <= 1; i++ )
 			 	{
 			 		float2 g = float2( i, j );
-			 		float2 o = voronoihash5_g6( n + g );
+			 		float2 o = voronoihash5_g8( n + g );
 					o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
 					float d = 0.5 * dot( r, r );
 			 		if( d<F1 ) {
@@ -137,7 +133,7 @@ Shader "Distant Lands/Cozy/Stylized Surface Shader"
 		}
 
 
-		float2 voronoihash1_g5( float2 p )
+		float2 voronoihash1_g7( float2 p )
 		{
 			
 			p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
@@ -145,7 +141,7 @@ Shader "Distant Lands/Cozy/Stylized Surface Shader"
 		}
 
 
-		float voronoi1_g5( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
+		float voronoi1_g7( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
 		{
 			float2 n = floor( v );
 			float2 f = frac( v );
@@ -156,7 +152,7 @@ Shader "Distant Lands/Cozy/Stylized Surface Shader"
 				for ( int i = -1; i <= 1; i++ )
 			 	{
 			 		float2 g = float2( i, j );
-			 		float2 o = voronoihash1_g5( n + g );
+			 		float2 o = voronoihash1_g7( n + g );
 					o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
 					float d = 0.5 * dot( r, r );
 			 		if( d<F1 ) {
@@ -172,7 +168,7 @@ Shader "Distant Lands/Cozy/Stylized Surface Shader"
 		}
 
 
-		float2 voronoihash8_g5( float2 p )
+		float2 voronoihash8_g7( float2 p )
 		{
 			
 			p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
@@ -180,7 +176,7 @@ Shader "Distant Lands/Cozy/Stylized Surface Shader"
 		}
 
 
-		float voronoi8_g5( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
+		float voronoi8_g7( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
 		{
 			float2 n = floor( v );
 			float2 f = frac( v );
@@ -191,7 +187,7 @@ Shader "Distant Lands/Cozy/Stylized Surface Shader"
 				for ( int i = -1; i <= 1; i++ )
 			 	{
 			 		float2 g = float2( i, j );
-			 		float2 o = voronoihash8_g5( n + g );
+			 		float2 o = voronoihash8_g7( n + g );
 					o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
 					float d = 0.5 * dot( r, r );
 			 		if( d<F1 ) {
@@ -212,22 +208,22 @@ Shader "Distant Lands/Cozy/Stylized Surface Shader"
 			float2 uv_Normal = i.uv_texcoord * _Normal_ST.xy + _Normal_ST.zw;
 			float4 Normal16 = tex2D( _Normal, uv_Normal );
 			o.Normal = Normal16.rgb;
-			float2 uv_SnowTexture = i.uv_texcoord * _SnowTexture_ST.xy + _SnowTexture_ST.zw;
+			float2 uvCZY_SnowTexture = i.uv_texcoord * CZY_SnowTexture_ST.xy + CZY_SnowTexture_ST.zw;
 			float2 uv_Albedo = i.uv_texcoord * _Albedo_ST.xy + _Albedo_ST.zw;
 			float3 ase_worldNormal = WorldNormalVector( i, float3( 0, 0, 1 ) );
 			float3 ase_worldPos = i.worldPos;
-			float2 appendResult3_g6 = (float2(ase_worldPos.x , ase_worldPos.z));
-			float temp_output_6_0_g6 = ( 1.0 / _SnowScale1 );
-			float simplePerlin2D7_g6 = snoise( appendResult3_g6*temp_output_6_0_g6 );
-			simplePerlin2D7_g6 = simplePerlin2D7_g6*0.5 + 0.5;
-			float time5_g6 = 0.0;
-			float2 voronoiSmoothId0 = 0;
-			float2 coords5_g6 = appendResult3_g6 * ( temp_output_6_0_g6 / 0.1 );
-			float2 id5_g6 = 0;
-			float2 uv5_g6 = 0;
-			float voroi5_g6 = voronoi5_g6( coords5_g6, time5_g6, id5_g6, uv5_g6, 0, voronoiSmoothId0 );
-			float4 lerpResult19_g6 = lerp( ( _SnowColor1 * tex2D( _SnowTexture, uv_SnowTexture ) ) , ( _MainColor * tex2D( _Albedo, uv_Albedo ) ) , ( ( pow( ( pow( ase_worldNormal.y , 7.0 ) * ( simplePerlin2D7_g6 * ( 1.0 - voroi5_g6 ) ) ) , 0.5 ) * _SnowAttraction ) > ( 1.0 - CZY_SnowAmount ) ? 0.0 : 1.0 ));
-			float4 Albedo11 = lerpResult19_g6;
+			float2 appendResult3_g8 = (float2(ase_worldPos.x , ase_worldPos.z));
+			float temp_output_6_0_g8 = ( 1.0 / CZY_SnowScale );
+			float simplePerlin2D7_g8 = snoise( appendResult3_g8*temp_output_6_0_g8 );
+			simplePerlin2D7_g8 = simplePerlin2D7_g8*0.5 + 0.5;
+			float time5_g8 = 0.0;
+			float2 voronoiSmoothId5_g8 = 0;
+			float2 coords5_g8 = appendResult3_g8 * ( temp_output_6_0_g8 / 0.1 );
+			float2 id5_g8 = 0;
+			float2 uv5_g8 = 0;
+			float voroi5_g8 = voronoi5_g8( coords5_g8, time5_g8, id5_g8, uv5_g8, 0, voronoiSmoothId5_g8 );
+			float4 lerpResult19_g8 = lerp( ( CZY_SnowColor * tex2D( CZY_SnowTexture, uvCZY_SnowTexture ) ) , ( _MainColor * tex2D( _Albedo, uv_Albedo ) ) , ( ( pow( ( pow( ase_worldNormal.y , 7.0 ) * ( simplePerlin2D7_g8 * ( 1.0 - voroi5_g8 ) ) ) , 0.5 ) * _SnowAttraction ) > ( 1.0 - CZY_SnowAmount ) ? 0.0 : 1.0 ));
+			float4 Albedo11 = lerpResult19_g8;
 			o.Albedo = Albedo11.rgb;
 			float2 uv_Emission = i.uv_texcoord * _Emission_ST.xy + _Emission_ST.zw;
 			float4 Emission12 = ( _EmissionColor * tex2D( _Emission, uv_Emission ) );
@@ -235,20 +231,22 @@ Shader "Distant Lands/Cozy/Stylized Surface Shader"
 			float2 uv_Metallic = i.uv_texcoord * _Metallic_ST.xy + _Metallic_ST.zw;
 			float4 Metallic24 = ( _MetallicMultiplier * tex2D( _Metallic, uv_Metallic ) );
 			o.Metallic = Metallic24.r;
-			float temp_output_5_0_g5 = ( 1.0 / _PuddleScale );
-			float time1_g5 = 0.0;
-			float2 appendResult3_g5 = (float2(ase_worldPos.x , ase_worldPos.z));
-			float2 coords1_g5 = appendResult3_g5 * temp_output_5_0_g5;
-			float2 id1_g5 = 0;
-			float2 uv1_g5 = 0;
-			float voroi1_g5 = voronoi1_g5( coords1_g5, time1_g5, id1_g5, uv1_g5, 0, voronoiSmoothId0 );
-			float time8_g5 = 2.16;
-			float2 coords8_g5 = i.uv_texcoord * ( temp_output_5_0_g5 * 3.0 );
-			float2 id8_g5 = 0;
-			float2 uv8_g5 = 0;
-			float voroi8_g5 = voronoi8_g5( coords8_g5, time8_g5, id8_g5, uv8_g5, 0, voronoiSmoothId0 );
+			float temp_output_5_0_g7 = ( 1.0 / CZY_PuddleScale );
+			float time1_g7 = 0.0;
+			float2 voronoiSmoothId1_g7 = 0;
+			float2 appendResult3_g7 = (float2(ase_worldPos.x , ase_worldPos.z));
+			float2 coords1_g7 = appendResult3_g7 * temp_output_5_0_g7;
+			float2 id1_g7 = 0;
+			float2 uv1_g7 = 0;
+			float voroi1_g7 = voronoi1_g7( coords1_g7, time1_g7, id1_g7, uv1_g7, 0, voronoiSmoothId1_g7 );
+			float time8_g7 = 2.16;
+			float2 voronoiSmoothId8_g7 = 0;
+			float2 coords8_g7 = i.uv_texcoord * ( temp_output_5_0_g7 * 3.0 );
+			float2 id8_g7 = 0;
+			float2 uv8_g7 = 0;
+			float voroi8_g7 = voronoi8_g7( coords8_g7, time8_g7, id8_g7, uv8_g7, 0, voronoiSmoothId8_g7 );
 			float2 uv_Smoothness = i.uv_texcoord * _Smoothness_ST.xy + _Smoothness_ST.zw;
-			float Smoothness18 = ( ( ase_worldNormal.y * 2.0 * ( (1.0 + (voroi1_g5 - 0.0) * (0.0 - 1.0) / (0.4 - 0.0)) + (0.1 + (voroi8_g5 - 0.0) * (-0.3 - 0.1) / (0.21 - 0.0)) ) * (0.3 + (CZY_WetnessAmount - 0.0) * (1.0 - 0.3) / (1.0 - 0.0)) ) > ( 1.0 - ( CZY_WetnessAmount * ( _SmoothnessMultiplier * tex2D( _Smoothness, uv_Smoothness ) ).r ) ) ? 1.0 : 0.0 );
+			float Smoothness18 = ( ( ase_worldNormal.y * 2.0 * ( (1.0 + (voroi1_g7 - 0.0) * (0.0 - 1.0) / (0.4 - 0.0)) + (0.1 + (voroi8_g7 - 0.0) * (-0.3 - 0.1) / (0.21 - 0.0)) ) * (0.3 + (CZY_WetnessAmount - 0.0) * (1.0 - 0.3) / (1.0 - 0.0)) ) > ( 1.0 - ( CZY_WetnessAmount * ( _SmoothnessMultiplier * tex2D( _Smoothness, uv_Smoothness ) ).r ) ) ? 1.0 : 0.0 );
 			o.Smoothness = Smoothness18;
 			o.Alpha = 1;
 		}
@@ -340,8 +338,8 @@ Shader "Distant Lands/Cozy/Stylized Surface Shader"
 	CustomEditor "ASEMaterialInspector"
 }
 /*ASEBEGIN
-Version=18912
-12.57143;1085.143;2181;601;1879.166;144.0604;1.145933;True;False
+Version=18935
+0;1080;2194.286;607.5715;1886.778;147.8256;1.145933;True;False
 Node;AmplifyShaderEditor.RangedFloatNode;8;-637.8049,160.3095;Inherit;False;Property;_SmoothnessMultiplier;Smoothness Multiplier;5;0;Create;True;0;0;0;False;0;False;0.5;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode;10;-646.4531,246.6634;Inherit;True;Property;_Smoothness;Smoothness;6;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ColorNode;1;-855.0397,-381.2339;Inherit;False;Property;_MainColor;Main Color;0;0;Create;True;0;0;0;False;0;False;1,1,1,1;0.4528301,0.4528301,0.4528301,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -355,9 +353,9 @@ Node;AmplifyShaderEditor.RangedFloatNode;26;-534.1329,-350.3902;Inherit;False;Pr
 Node;AmplifyShaderEditor.RangedFloatNode;23;-612.506,509.9265;Inherit;False;Property;_MetallicMultiplier;Metallic Multiplier;7;0;Create;True;0;0;0;False;0;False;0.5;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;21;-273.1542,549.2806;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SamplerNode;4;-1301.179,275.0044;Inherit;True;Property;_Normal;Normal;4;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.FunctionNode;25;-213.0329,-297.0902;Inherit;False;Stylized Snow Blend;10;;6;359b695eb7172584f9df5a0d55bd52e9;0;2;34;FLOAT;0;False;22;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;25;-213.0329,-297.0902;Inherit;False;Stylized Snow Blend;10;;8;359b695eb7172584f9df5a0d55bd52e9;0;2;34;FLOAT;0;False;22;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;6;-1059.858,609.4232;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;28;-118.007,198.6135;Inherit;False;StylizedRainPuddles;14;;5;ff913d501aadc8b4cb4ec6889f2354ca;0;1;14;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;28;-118.007,198.6135;Inherit;False;StylizedRainPuddles;-1;;7;ff913d501aadc8b4cb4ec6889f2354ca;0;1;14;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;24;-123.2132,546.119;Inherit;False;Metallic;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;18;156.9312,191.7943;Inherit;False;Smoothness;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;12;-841.4502,607.2155;Inherit;False;Emission;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
@@ -368,7 +366,7 @@ Node;AmplifyShaderEditor.GetLocalVarNode;20;745.3401,141.9149;Inherit;False;24;M
 Node;AmplifyShaderEditor.GetLocalVarNode;17;745.8171,4.007901;Inherit;False;16;Normal;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;14;749.6097,75.85573;Inherit;False;12;Emission;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;13;742.1096,-63.04429;Inherit;False;11;Albedo;1;0;OBJECT;;False;1;COLOR;0
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;1154.142,94.61378;Float;False;True;-1;2;ASEMaterialInspector;0;0;Standard;Distant Lands/Cozy/Stylized Surface Shader;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;False;-1;0;False;-1;False;0;False;-1;0;False;-1;False;0;Opaque;0.5;True;True;0;False;Opaque;;Geometry;All;18;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;0;False;-1;0;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;False;0;0;False;-1;-1;0;False;-1;0;0;0;False;0.1;False;-1;0;False;-1;False;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;1154.142,94.61378;Float;False;True;-1;2;ASEMaterialInspector;0;0;Standard;Distant Lands/Cozy/Stylized Surface Shader;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;False;-1;0;False;-1;False;0;False;-1;0;False;-1;False;0;Opaque;0.5;True;True;0;False;Opaque;;Geometry;All;18;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;0;False;-1;0;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;True;Relative;0;;-1;-1;-1;-1;0;False;0;0;False;-1;-1;0;False;-1;0;0;0;False;0.1;False;-1;0;False;-1;False;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
 WireConnection;3;0;1;0
 WireConnection;3;1;2;0
 WireConnection;9;0;8;0
@@ -391,4 +389,4 @@ WireConnection;0;2;14;0
 WireConnection;0;3;20;0
 WireConnection;0;4;19;0
 ASEEND*/
-//CHKSM=8DE138C1E19E119C1B0F6BFEE09FE5C55760A94F
+//CHKSM=089DB8462D1C12559906D5BE3E4A285E4C36EB7F

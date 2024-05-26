@@ -162,12 +162,12 @@ Shader "Transparency Example"
 	
 }
 /*ASEBEGIN
-Version=18912
-0;1080;2194;606;1625.857;171.6544;1;True;False
+Version=18935
+0;1080;2194.286;607.5715;1626;172.4401;1;True;False
 Node;AmplifyShaderEditor.ColorNode;1;-886,49;Inherit;False;Property;_MainColor;Main Color;0;0;Create;True;0;0;0;False;0;False;1,1,1,1;1,0.01960784,0,0.6588235;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.FunctionNode;11;-509.8571,38.3456;Inherit;False;Stylized Fog Override ASE Function;-1;;1;2c381d05c4c43f644b2063318989ca9e;0;1;57;COLOR;0,0,0,0;False;2;COLOR;63;FLOAT;56
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;10;0,0;Float;False;True;-1;2;ASEMaterialInspector;100;1;Transparency Example;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;False;True;0;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;True;0;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;RenderType=Opaque=RenderType;True;2;False;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;1;True;False;;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;10;0,0;Float;False;True;-1;2;ASEMaterialInspector;100;1;Transparency Example;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;False;True;0;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;True;0;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;RenderType=Opaque=RenderType;True;2;False;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;0;1;True;False;;False;0
 WireConnection;11;57;1;0
 WireConnection;10;0;11;63
 ASEEND*/
-//CHKSM=1C9ED9775AABF5FB67590275B0EA2792B46ADE3D
+//CHKSM=2C6C5A6247A089E039B11DD98908652C56B1204D

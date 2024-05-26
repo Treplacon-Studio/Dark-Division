@@ -13,7 +13,8 @@ public class E_AddCozyDefines : Editor
     /// </summary>
     public static readonly string[] Symbols = new string[] {
         "DISTANT_LANDS",
-        "COZY_WEATHER"
+        "COZY_WEATHER",
+        "COZY_URP"
     };
 
     /// <summary>

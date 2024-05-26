@@ -42,18 +42,18 @@ Shader "Distant Lands/Cozy/Stylized Terrain Add Pass"
 			float2 uv_texcoord;
 		};
 
-		uniform float4 _MaskMapRemapScale2;
-		uniform float4 _MaskMapRemapOffset1;
-		uniform float4 _MaskMapRemapOffset2;
+		uniform sampler2D _Mask2;
+		uniform sampler2D _Mask0;
+		uniform sampler2D _Mask1;
+		uniform sampler2D _Mask3;
 		uniform float4 _MaskMapRemapScale0;
+		uniform float4 _MaskMapRemapOffset2;
+		uniform float4 _MaskMapRemapScale2;
 		uniform float4 _MaskMapRemapScale1;
-		uniform float4 _MaskMapRemapOffset0;
+		uniform float4 _MaskMapRemapOffset1;
 		uniform float4 _MaskMapRemapScale3;
 		uniform float4 _MaskMapRemapOffset3;
-		uniform sampler2D _Mask0;
-		uniform sampler2D _Mask2;
-		uniform sampler2D _Mask3;
-		uniform sampler2D _Mask1;
+		uniform float4 _MaskMapRemapOffset0;
 		uniform sampler2D _Control;
 		uniform float4 _Control_ST;
 		uniform sampler2D _Normal0;
@@ -140,11 +140,11 @@ Shader "Distant Lands/Cozy/Stylized Terrain Add Pass"
 	Fallback "Diffuse"
 }
 /*ASEBEGIN
-Version=18912
-0;1080;2194;606;1195.504;69.24002;1;True;False
-Node;AmplifyShaderEditor.FunctionNode;21;-607.0939,91.94017;Inherit;False;Four Splats First Pass Terrain;0;;69;37452fdfb732e1443b7e39720d05b708;2,85,0,102,1;7;59;FLOAT4;0,0,0,0;False;60;FLOAT4;0,0,0,0;False;61;FLOAT3;0,0,0;False;57;FLOAT;0;False;58;FLOAT;0;False;201;FLOAT;0;False;62;FLOAT;0;False;7;FLOAT4;0;FLOAT3;14;FLOAT;56;FLOAT;45;FLOAT;200;FLOAT;19;FLOAT3;17
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;-70.20002,49.4;Float;False;True;-1;2;;0;0;Standard;Distant Lands/Cozy/Stylized Terrain Add Pass;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;False;-1;0;False;-1;False;0;False;-1;0;False;-1;False;0;Masked;0.5;True;False;-99;False;TransparentCutout;;AlphaTest;All;18;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;0;False;-1;0;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;0;;24;-1;-1;-1;1;IgnoreProjector=True;False;0;0;False;-1;-1;0;False;-1;2;Define;TERRAIN_SPLAT_ADDPASS;False;;Custom;Define;TERRAIN_STANDARD_SHADER;False;;Custom;1;decal:add;0;False;0.1;False;-1;0;False;-1;False;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
+Version=18935
+0;1080;2194.286;607.5715;1279.649;208.2789;1;True;False
+Node;AmplifyShaderEditor.FunctionNode;21;-607.0939,91.94017;Inherit;False;Four Splats First Pass Terrain;0;;69;37452fdfb732e1443b7e39720d05b708;2,102,1,85,0;7;59;FLOAT4;0,0,0,0;False;60;FLOAT4;0,0,0,0;False;61;FLOAT3;0,0,0;False;57;FLOAT;0;False;58;FLOAT;0;False;201;FLOAT;0;False;62;FLOAT;0;False;7;FLOAT4;0;FLOAT3;14;FLOAT;56;FLOAT;45;FLOAT;200;FLOAT;19;FLOAT3;17
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;-70.20002,49.4;Float;False;True;-1;2;;0;0;Standard;Distant Lands/Cozy/Stylized Terrain Add Pass;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;False;-1;0;False;-1;False;0;False;-1;0;False;-1;False;0;Masked;0.5;True;False;-99;False;TransparentCutout;;AlphaTest;All;18;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;0;False;-1;0;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;True;Relative;0;;24;-1;-1;-1;1;IgnoreProjector=True;False;0;0;False;-1;-1;0;False;-1;2;Define;TERRAIN_SPLAT_ADDPASS;False;;Custom;Define;TERRAIN_STANDARD_SHADER;False;;Custom;1;decal:add;0;False;0.1;False;-1;0;False;-1;False;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
 WireConnection;0;0;21;0
 WireConnection;0;1;21;14
 ASEEND*/
-//CHKSM=15035B7F6140B57B7D8F27A4B20B3914986CBBFB
+//CHKSM=412B43BF7959EBA8E3492175A6C74C24C34D8D14
