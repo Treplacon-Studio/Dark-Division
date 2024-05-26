@@ -20,9 +20,9 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 20
   m_LinearFogEnd: 200
-  m_AmbientSkyColor: {r: 0.63919544, g: 0.9581202, b: 1.018868, a: 1.5}
-  m_AmbientEquatorColor: {r: 0.63198096, g: 0.82505363, b: 0.91142833, a: 1.341825}
-  m_AmbientGroundColor: {r: 0.31599048, g: 0.41252682, b: 0.45571417, a: 1.341825}
+  m_AmbientSkyColor: {r: 0.58734745, g: 0.76714766, b: 0.8350722, a: 1.5}
+  m_AmbientEquatorColor: {r: 0.29367372, g: 0.38357383, b: 0.4175361, a: 0.75}
+  m_AmbientGroundColor: {r: 0.14683686, g: 0.19178692, b: 0.20876805, a: 0.75}
   m_AmbientIntensity: 0.574
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 1}
@@ -3546,7 +3546,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 970539340}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.10914659, y: 0.888956, z: 0.28222167, w: -0.3437954}
+  m_LocalRotation: {x: 0.04231238, y: -0.1793345, z: 0.0077204956, w: 0.9828475}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9360,13 +9360,13 @@ MonoBehaviour:
   currentTemperature: 67.131035
   currentTemperatureCelsius: 19.517242
   currentPrecipitation: 75.2787
-  currentWeather: {fileID: 11400000, guid: ae94c1a397a01e442a11e8b23ebb1cef, type: 2}
+  currentWeather: {fileID: 11400000, guid: 56652bb77d1606b4396767fbb07e50ab, type: 2}
   weatherChangeCheck: {fileID: 0}
   weightedWeatherProfiles:
   - weight: 1
-    profile: {fileID: 11400000, guid: ae94c1a397a01e442a11e8b23ebb1cef, type: 2}
+    profile: {fileID: 11400000, guid: 56652bb77d1606b4396767fbb07e50ab, type: 2}
     transitioning: 1
-  fogDensity: 1.03
+  fogDensity: 1
   usePhysicalSunHeight: 0
   sunDirection: 53
   sunPitch: 14.9
@@ -9436,11 +9436,11 @@ MonoBehaviour:
   rainbowIntensity: 0
   useRainbow: 1
   separateSunLightAndTransform: 0
-  filterSaturation: 0
+  filterSaturation: -0.582
   filterValue: 0
-  filterColor: {r: 1, g: 1, b: 1, a: 0}
-  sunFilter: {r: 1, g: 1, b: 1, a: 0}
-  cloudFilter: {r: 1, g: 1, b: 1, a: 0}
+  filterColor: {r: 0.5764706, g: 0.7529412, b: 0.81960785, a: 0}
+  sunFilter: {r: 0.34117648, g: 0.34117648, b: 0.34117648, a: 0}
+  cloudFilter: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 0}
   dayPercentage: 0.33055556
   yearPercentage: 0.29855326
   lockToCamera: 0
@@ -9456,13 +9456,13 @@ MonoBehaviour:
   cozyCamera: {fileID: 1833155126}
   cozyMaterials: {fileID: 769983521}
   VFX: {fileID: 769983520}
-  window: 0
+  window: 2
   icon1: {fileID: 2800000, guid: 75645812b98cbf94b9dd8d2f9401cf16, type: 3}
   icon2: {fileID: 2800000, guid: c669197bbed6f144b9740e40895f04e0, type: 3}
   icon3: {fileID: 2800000, guid: e51b7563b2e461141a757c1b77ca0217, type: 3}
   icon4: {fileID: 2800000, guid: db319a0b03d0cda4eb6b0b013758f7ce, type: 3}
   atmosWindow: 0
-  atmosSettingsWindow: 0
+  atmosSettingsWindow: 1
   timeCurrentWindow: 1
   tickMovementWindow: 0
   timeBlocksWindow: 0
@@ -9493,7 +9493,7 @@ MonoBehaviour:
   - {fileID: 1371144053}
   currentWeatherProfiles:
   - weight: 1
-    profile: {fileID: 11400000, guid: ae94c1a397a01e442a11e8b23ebb1cef, type: 2}
+    profile: {fileID: 11400000, guid: 56652bb77d1606b4396767fbb07e50ab, type: 2}
     transitioning: 1
   setupProfiles: []
   queuedWeather: []
@@ -9529,7 +9529,7 @@ Transform:
   m_GameObject: {fileID: 1371144052}
   serializedVersion: 2
   m_LocalRotation: {x: 0.0000000037252899, y: -0, z: -0.0000000074505797, w: 1}
-  m_LocalPosition: {x: -3.485457, y: 12.13228, z: -11.334475}
+  m_LocalPosition: {x: 1.4026124, y: 1.9495313, z: 9.1661415}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -20471,7 +20471,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1.375392, g: 1.3476623, b: 1.1535546, a: 0}
+  m_Color: {r: 0.4692514, g: 0.45979068, b: 0.39356568, a: 0}
   m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
