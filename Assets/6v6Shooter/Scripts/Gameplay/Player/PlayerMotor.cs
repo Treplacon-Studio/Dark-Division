@@ -8,7 +8,7 @@ public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable {
     [SerializeField]
     float speed = 3f;
 
-    public float lookSensitivity = 10f;
+    public float lookSensitivity = 8f;
 
     //Jumping variables
     float jumpForce = 2.0f;
@@ -110,6 +110,18 @@ public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable {
         if(Input.GetKeyDown(KeyCode.Space) && isGrounded || Input.GetButtonDown("Jump") && isGrounded){
             body.AddForce(jump * jumpForce, ForceMode.Impulse);
             isGrounded = false;
+        }
+
+        //Aiming
+        if (Input.GetButtonDown("Fire2") && photonView.IsMine) {
+            anim.SetTrigger("aimSight");
+            lookSensitivity = 2f;
+            speed = 1f;
+        }
+        else if (Input.GetButtonUp("Fire2")  && photonView.IsMine) {
+            anim.SetTrigger("unaimSight");
+            lookSensitivity = 10f;
+            speed = 3f;
         }
     }
 
