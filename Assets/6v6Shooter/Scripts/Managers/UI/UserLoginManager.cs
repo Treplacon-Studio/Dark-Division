@@ -12,8 +12,6 @@ namespace UserLogName
             {
                 PhotonNetwork.NickName = playerName;
             }
-            
-
         }
 
         private bool ValidateName(string playerName)

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class BulletPoolingManager : MonoBehaviour
 {
@@ -47,6 +48,10 @@ public class BulletPoolingManager : MonoBehaviour
         objectToSpawn.SetActive(true);
         objectToSpawn.transform.position = position;
         objectToSpawn.transform.rotation = rotation;
+
+        PhotonView pv = objectToSpawn.GetComponent<PhotonView>();
+        if (pv != null)
+            pv.RequestOwnership(); //Transfer owner to whoever created the bullet
 
         poolDictionary[bulletType].Enqueue(objectToSpawn);
 

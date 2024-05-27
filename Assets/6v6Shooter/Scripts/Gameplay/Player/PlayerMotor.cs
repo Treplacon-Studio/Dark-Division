@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class PlayerMotor : MonoBehaviourPunCallbacks {
+public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable {
     
     [SerializeField]
     float speed = 3f;
@@ -134,34 +134,38 @@ public class PlayerMotor : MonoBehaviourPunCallbacks {
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-		if (stream.IsWriting) {
-			Vector3 pos = body.position;
-			Quaternion rot = body.rotation;
-			Vector3 vel = body.velocity;
-			Vector3 rotVel = body.angularVelocity;
+        if (body == null) {
+            Debug.LogError("Rigidbody component is not assigned.");
+            return;
+        }
 
-			stream.Serialize(ref pos);
-			stream.Serialize(ref rot);
-			stream.Serialize(ref vel);
-			stream.Serialize(ref rotVel);
-		}
-		else {
-			Vector3 pos = Vector3.zero;
-			Quaternion rot = Quaternion.identity;
-			Vector3 vel = Vector3.zero;
-			Vector3 rotVel = Vector3.zero;
+        if (stream.IsWriting) {
+            Vector3 pos = body.position;
+            Quaternion rot = body.rotation;
+            Vector3 vel = body.velocity;
+            Vector3 rotVel = body.angularVelocity;
 
-			stream.Serialize(ref pos);
-			stream.Serialize(ref rot);
-			stream.Serialize(ref vel);
-			stream.Serialize(ref rotVel);
+            stream.Serialize(ref pos);
+            stream.Serialize(ref rot);
+            stream.Serialize(ref vel);
+            stream.Serialize(ref rotVel);
+        } else {
+            Vector3 pos = Vector3.zero;
+            Quaternion rot = Quaternion.identity;
+            Vector3 vel = Vector3.zero;
+            Vector3 rotVel = Vector3.zero;
 
-			body.position = pos;
-			body.rotation = rot;
-			body.velocity = vel;
-			body.angularVelocity = rotVel;
-		}
-	}
+            stream.Serialize(ref pos);
+            stream.Serialize(ref rot);
+            stream.Serialize(ref vel);
+            stream.Serialize(ref rotVel);
+
+            body.position = pos;
+            body.rotation = rot;
+            body.velocity = vel;
+            body.angularVelocity = rotVel;
+        }
+    }
 
     void Move(Vector3 movementVelocity) {
         velocity = movementVelocity;
