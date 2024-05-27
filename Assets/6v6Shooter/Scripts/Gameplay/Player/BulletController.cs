@@ -6,15 +6,16 @@ using Photon.Pun;
 [RequireComponent(typeof(PhotonView))]
 public class BulletController : MonoBehaviour
 {
-    public float speed = 20f;
+    public float speed;
     public float damage;
     public float rayLengthFactor = 1f; // Factor to multiply with bullet speed to determine ray length
     public LayerMask hitLayers;
     public float fadeDuration = 2f; // Fade duration in seconds
 
     private LineRenderer lineRenderer;
-    private Coroutine raycastCoroutine;
     private PhotonView pv;
+    private Camera playerCamera;
+    public GameObject ownedByPlayer;
 
     private void Awake()
     {
@@ -27,7 +28,30 @@ public class BulletController : MonoBehaviour
     {
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.SetPosition(0, transform.position);
-        StartCoroutine(DestroyAfterDelay(3f));
+
+        if (pv is not null)
+        {
+            if (ownedByPlayer is null)
+                Debug.Log("player object is null");
+            playerCamera = ownedByPlayer.GetComponentInChildren<Camera>(true);
+        }
+        else 
+            Debug.Log("PhotonView is null");
+    }
+
+    private void OnEnable()
+    {
+        Invoke("Deactivate", fadeDuration);
+    }
+
+    private void OnDisable()
+    {
+        CancelInvoke();
+    }
+
+    private void Deactivate()
+    {
+        gameObject.SetActive(false);
     }
 
     void Update()
@@ -41,15 +65,21 @@ public class BulletController : MonoBehaviour
 
     void ShootRay()
     {
+        if (playerCamera == null)
+        {
+            Debug.LogWarning("Player camera not found!");
+            return;
+        }
+
         RaycastHit hit;
 
         // Calculate direction towards the center of the screen
         Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
-        Ray ray = Camera.main.ScreenPointToRay(screenCenter);
+        Ray ray = playerCamera.ScreenPointToRay(screenCenter);
         Vector3 shootDirection = ray.direction.normalized;
 
         float currentRayLength = speed * rayLengthFactor;
-        //Debug.DrawRay(transform.position, shootDirection * currentRayLength, Color.red);
+        Debug.DrawRay(transform.position, shootDirection * currentRayLength, Color.red);
 
         if (Physics.Raycast(transform.position, shootDirection, out hit, currentRayLength, hitLayers))
         {
@@ -74,7 +104,7 @@ public class BulletController : MonoBehaviour
                 }
             }
 
-            StartCoroutine(DestroyAfterDelay(0.01f));
+            Invoke(nameof(Deactivate), fadeDuration);
         }
         else
         {
@@ -109,11 +139,5 @@ public class BulletController : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-    }
-
-    IEnumerator DestroyAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        Destroy(gameObject);
     }
 }

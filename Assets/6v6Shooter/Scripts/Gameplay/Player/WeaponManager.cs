@@ -43,6 +43,8 @@ public class WeaponManager : MonoBehaviour
 	public float fireRate = 15f;
 	float nextTimeToFire = 0f;
 
+    public float bulletSpeed = 150f;
+
     private BulletPoolingManager bulletPool;
 
     public PhotonView pv;
@@ -71,11 +73,7 @@ public class WeaponManager : MonoBehaviour
     void Shoot()
     {
         GameObject bullet = bulletPool.SpawnFromPool(bulletType, firePoint.position, firePoint.rotation);
-        if (bullet != null)
-        {
-            BulletController bulletController = bullet.GetComponent<BulletController>();
-            if (bulletController != null)
-                bulletController.damage = damage;
-        }
+        Vector3 shootDirection = firePoint.forward;
+        bullet.GetComponent<BulletController>().SetDirection(shootDirection, bulletSpeed);
     }
 }

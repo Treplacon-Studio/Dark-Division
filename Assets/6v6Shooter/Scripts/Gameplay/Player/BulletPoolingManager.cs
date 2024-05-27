@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.IO;
 
 public class BulletPoolingManager : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class BulletPoolingManager : MonoBehaviour
     public List<Pool> pools;
     public Dictionary<string, Queue<GameObject>> poolDictionary;
 
+    public GameObject player;
+    
     private void Start()
     {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
@@ -26,7 +29,21 @@ public class BulletPoolingManager : MonoBehaviour
 
             for (int i = 0; i < pool.size; i++)
             {
-                GameObject obj = Instantiate(pool.prefab);
+                Transform ammoHolder = player.transform.Find("AmmoHolder");
+                if (ammoHolder == null)
+                {
+                    Debug.LogError("AmmoHolder not found on player!");
+                    continue;
+                }
+
+                GameObject obj = PhotonNetwork.Instantiate(Path.Combine("Gameplay", pool.prefab.name), ammoHolder.position, ammoHolder.rotation);
+                obj.transform.SetParent(ammoHolder, false);
+
+                BulletController bulletController = obj.GetComponent<BulletController>();
+                if (bulletController is not null)
+                    bulletController.ownedByPlayer = player; 
+                else Debug.Log("Bullet Controller - cannot find!");
+
                 obj.SetActive(false);
                 objectPool.Enqueue(obj);
             }
