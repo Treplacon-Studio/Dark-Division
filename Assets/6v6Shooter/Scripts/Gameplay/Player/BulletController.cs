@@ -7,50 +7,57 @@ using Photon.Pun;
 public class BulletController : MonoBehaviour
 {
     public float speed = 20f;
-    public float lifeTime = 4f;
     public float damage;
-    public float raycastInterval = 0.1f; // Interval for the repeating raycast
-    public float raycastLength = 1f; // Length of the raycast
+    public float rayLengthFactor = 1f; // Factor to multiply with bullet speed to determine ray length
+    public LayerMask hitLayers;
+    public float fadeDuration = 2f; // Fade duration in seconds
 
+    private LineRenderer lineRenderer;
     private Coroutine raycastCoroutine;
     private PhotonView pv;
 
-    private void Awake() {
+    private void Awake()
+    {
+        lineRenderer = GetComponentInChildren<LineRenderer>();
+        lineRenderer.positionCount = 2;
         pv = GetComponent<PhotonView>();
     }
 
-    private void OnEnable() {
-        raycastCoroutine = StartCoroutine(SpawnRaycast());
-        Invoke("Deactivate", lifeTime);
+    void Start()
+    {
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.SetPosition(0, transform.position);
+        StartCoroutine(DestroyAfterDelay(3f));
     }
 
-    private void Update()
+    void Update()
     {
+        // Move the bullet forward
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
+
+        // Shoot ray towards the center of the screen
+        ShootRay();
     }
 
-    private void Deactivate()
+    void ShootRay()
     {
-        gameObject.SetActive(false);
-    }
+        RaycastHit hit;
 
-    private void OnDisable()
-    {
-        if (raycastCoroutine != null)
+        // Calculate direction towards the center of the screen
+        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenter);
+        Vector3 shootDirection = ray.direction.normalized;
+
+        float currentRayLength = speed * rayLengthFactor;
+        //Debug.DrawRay(transform.position, shootDirection * currentRayLength, Color.red);
+
+        if (Physics.Raycast(transform.position, shootDirection, out hit, currentRayLength, hitLayers))
         {
-            StopCoroutine(raycastCoroutine);
-        }
-        CancelInvoke();
-    }
+            DrawPath(hit.point);
+            Debug.Log("Hit an object: " + hit.collider.gameObject.name);
 
-    private IEnumerator SpawnRaycast()
-    {
-        while (true)
-        {
-            RaycastHit hit;
-            Vector3 forward = transform.TransformDirection(Vector3.forward) * raycastLength;
-            Debug.DrawRay(transform.position, forward, Color.red, raycastInterval);
-            if (Physics.Raycast(transform.position, transform.forward, out hit, raycastLength))
+            HealthController objectsHealth = hit.collider.GetComponent<HealthController>();
+            if (objectsHealth != null)
             {
                 if (hit.collider.CompareTag("Player") && !hit.collider.GetComponent<PhotonView>().IsMine)
                 {
@@ -66,7 +73,47 @@ public class BulletController : MonoBehaviour
                     this.gameObject.SetActive(false);
                 }
             }
-            yield return new WaitForSeconds(raycastInterval);
+
+            StartCoroutine(DestroyAfterDelay(0.01f));
         }
+        else
+        {
+            DrawPath(transform.position + shootDirection * currentRayLength);
+            StartCoroutine(FadeOut());
+        }
+    }
+
+    void DrawPath(Vector3 endPosition)
+    {
+        Vector3 currentPosition = transform.position;
+        Vector3 nextPosition = Vector3.MoveTowards(currentPosition, endPosition, speed * Time.deltaTime);
+        lineRenderer.SetPosition(1, nextPosition);
+    }
+
+    public void SetDirection(Vector3 direction, float bulletSpeed)
+    {
+        speed = bulletSpeed;
+    }
+
+    IEnumerator FadeOut()
+    {
+        float elapsedTime = 0f;
+        Color startColor = lineRenderer.startColor;
+        Color endColor = lineRenderer.endColor;
+        while (elapsedTime < fadeDuration)
+        {
+            float t = elapsedTime / fadeDuration;
+            endColor.a = Mathf.Lerp(1f, 0f, t);
+            lineRenderer.endColor = Color.white;
+            lineRenderer.startColor = endColor;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    IEnumerator DestroyAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(gameObject);
     }
 }
