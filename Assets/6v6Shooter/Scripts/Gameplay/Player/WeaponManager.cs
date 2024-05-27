@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public enum WeaponType {
     Primary,
@@ -44,6 +45,8 @@ public class WeaponManager : MonoBehaviour
 
     private BulletPoolingManager bulletPool;
 
+    public PhotonView pv;
+
     void Awake()
     {
         currentWeaponType = WeaponType.Primary;
@@ -54,20 +57,25 @@ public class WeaponManager : MonoBehaviour
             Debug.Log("Cannot find the BulletPoolingManager script!");
     }
 
-    void Update()
-    {
-        if (currentWeapon == Weapon.SCAREnforcer557 && Time.time >= nextTimeToFire)
-        {
-            if (Input.GetButton("Fire1"))
-            {
-                nextTimeToFire = Time.time + 3.2f/fireRate;
-                Shoot();
+    void Update() {
+        if (pv.IsMine) {
+            if (currentWeapon == Weapon.SCAREnforcer557 && Time.time >= nextTimeToFire) {
+                if (Input.GetButton("Fire1")) {
+                    nextTimeToFire = Time.time + 1f / fireRate;
+                    Shoot();
+                }
             }
-        }        
+        }
     }
 
     void Shoot()
     {
-        bulletPool.SpawnFromPool(bulletType, firePoint.position, firePoint.rotation);
+        GameObject bullet = bulletPool.SpawnFromPool(bulletType, firePoint.position, firePoint.rotation);
+        if (bullet != null)
+        {
+            BulletController bulletController = bullet.GetComponent<BulletController>();
+            if (bulletController != null)
+                bulletController.damage = damage;
+        }
     }
 }
