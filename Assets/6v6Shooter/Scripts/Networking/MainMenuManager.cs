@@ -94,7 +94,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        GlobalPlayerSpawnerManager.instance.SpawnPlayersInMainMenu();
+        MainMenuSpawnManager.instance.SpawnPlayersInMainMenu();
         GameManager.instance.CloseLoadingScreen();
     }
 
