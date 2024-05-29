@@ -6,9 +6,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Pun.UtilityScripts;
 
-public class GlobalPlayerSpawnerManager : MonoBehaviourPunCallbacks
+public class MainMenuSpawnManager : MonoBehaviourPunCallbacks
 {
-    public static GlobalPlayerSpawnerManager instance;
+    public static MainMenuSpawnManager instance;
 
     public GameObject playerMenuPrefab;
 
@@ -37,11 +37,5 @@ public class GlobalPlayerSpawnerManager : MonoBehaviourPunCallbacks
                 Debug.Log(PhotonNetwork.NickName + " spawned in!");
             }
         }
-    }
-
-    public void SpawnPlayerInGame()
-    {        
-        string team = TeamManager.GetTeam(PhotonNetwork.NickName);
-        PublicMatchSpawnManager.instance.SpawnPlayer(team);
     }
 }
