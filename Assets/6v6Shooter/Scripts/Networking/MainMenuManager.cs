@@ -64,14 +64,13 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         {
             GameManager.instance.OpenLoadingScreen();
             PhotonNetwork.ConnectUsingSettings();
-            SetPanelViewability(buttonPanel:true);
+            SetPanelViewability();
         }
     }
 
     public override void OnConnectedToMaster()
     {
         Debug.Log(PhotonNetwork.NickName + " connected to Photon Server");
-        SetPanelViewability(selectGamePanel:true, buttonPanel:true);
         CreateRoom();
     }
 
@@ -94,7 +93,8 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        MainMenuSpawnManager.instance.SpawnPlayersInMainMenu();
+        //MainMenuSpawnManager.instance.SpawnPlayersInMainMenu();
+        SetPanelViewability(buttonPanel:true);
         GameManager.instance.CloseLoadingScreen();
     }
 

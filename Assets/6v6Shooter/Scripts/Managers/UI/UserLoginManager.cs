@@ -17,7 +17,7 @@ namespace UserLogName
             if (ValidateName(playerName))
             {
                 PhotonNetwork.NickName = playerName;
-                mainMenuManager.SetPanelViewability(buttonPanel:true);
+                mainMenuManager.ConnectToPhotonServer();
             }
         }
 

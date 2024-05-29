@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2548314983538776999}
   - component: {fileID: 6113919238159495891}
   - component: {fileID: 74642111253390029}
+  - component: {fileID: 7357157846608204230}
   m_Layer: 0
   m_Name: LobbyManager
   m_TagString: Untagged
@@ -47,10 +48,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamAPlayersContainer: {fileID: 0}
   teamBPlayersContainer: {fileID: 0}
-  playerListingPrefab: {fileID: 5905916927307403122, guid: 1cb3131f9f6a7bd4ba1e9ea37e9bf4f5, type: 3}
+  teamAPlayerListingPrefab: {fileID: 5093365577068297288, guid: e938fc9eddbbd994bb9c90f7c6bcf996, type: 3}
+  teamBPlayerListingPrefab: {fileID: 8811151953473066079, guid: 1d59348310b245642b501e41266c54d1, type: 3}
   gameModeNameText: {fileID: 0}
   countdownDisplay: {fileID: 0}
-  countdownTime: 4
 --- !u!114 &74642111253390029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,3 +70,26 @@ MonoBehaviour:
     Code: 1
   - Name: Red
     Code: 2
+--- !u!114 &7357157846608204230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8687073160013442816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 6113919238159495891}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
