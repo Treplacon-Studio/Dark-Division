@@ -5,11 +5,14 @@ using Photon.Realtime;
 public class MainMenuManager : MonoBehaviourPunCallbacks
 {
     public GameObject UsernameCreationMenu;
-    public GameObject SelectGamePanel;
     public GameObject ButtonPanel;
     public GameObject SelectLoadoutPanel;
     public GameObject EditLoadoutPanel;
-    public GameObject GameSelectionPanel;
+
+    [Header("GAME MODE")]
+    public GameObject SelectGamePanel;
+    public GameObject SelectGameModeContainer;
+    public GameObject SelectGameTypeContainer;
 
     #region Unity Methods
 
@@ -23,29 +26,26 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
                                     bool buttonPanel = false, 
                                     bool selectLoadoutPanel = false,
                                     bool editLoadoutPanel = false,
-                                    bool gameSelectionPanel = false)
+                                    bool gameTypeContainer = false,
+                                    bool gameModeContainer = false)
     {
         UsernameCreationMenu.SetActive(usernameCreationMenu);
         SelectGamePanel.SetActive(selectGamePanel);
         ButtonPanel.SetActive(buttonPanel);
         SelectLoadoutPanel.SetActive(selectLoadoutPanel);
         EditLoadoutPanel.SetActive(editLoadoutPanel);
-        GameSelectionPanel.SetActive(gameSelectionPanel);
+        SelectGameTypeContainer.SetActive(gameTypeContainer);
+        SelectGameModeContainer.SetActive(gameModeContainer);
     }
 
+    public void OnPlayGameSelected() => SetPanelViewability(selectGamePanel:true, gameTypeContainer:true);
+    public void OnQuickplaySelected() => SetPanelViewability(selectGamePanel:true, gameModeContainer:true);
+    public void OnRankedPlaySelected() {}
+    public void OnPracticeRangeSelected() {}
     public void OnCreateClassSelected() => SetPanelViewability(selectLoadoutPanel:true);
     public void OnBackToMainMenuButtonClicked() => SetPanelViewability(buttonPanel:true);
     public void OnBackToSelectLoadoutButtonClicked() => SetPanelViewability(selectLoadoutPanel:true);
-
-    public void SelectLoadout(int loadoutNum)
-    {
-        SetPanelViewability(editLoadoutPanel:true);
-    }
-
-    public void OnPlayGameSelected()
-    {
-        SetPanelViewability(gameSelectionPanel:true);
-    }
+    public void SelectLoadout(int loadoutNum) => SetPanelViewability(editLoadoutPanel:true);
 
     public void FindAnOpenMatch()
     {

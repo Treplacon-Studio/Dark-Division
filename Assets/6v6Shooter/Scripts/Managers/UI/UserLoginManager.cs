@@ -1,16 +1,23 @@
 using Photon.Pun;
 using UnityEngine;
+using TMPro;
 
 namespace UserLogName
 {
     public class UserLoginManager : MonoBehaviour
     {
-        public void SetPlayerName(string playerName)
-        {
 
+        public TextMeshProUGUI playerNameText;
+
+        public MainMenuManager mainMenuManager;
+
+        public void SetPlayerName()
+        {
+            string playerName = playerNameText.text;
             if (ValidateName(playerName))
             {
                 PhotonNetwork.NickName = playerName;
+                mainMenuManager.SetPanelViewability(buttonPanel:true);
             }
         }
 
