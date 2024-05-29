@@ -20,7 +20,8 @@ public class PlayerTracker : MonoBehaviour, IPunObservable {
 	private void Start() {
         // We spawn the player from here because the PlayerTracker absolutely needs to exist
         // on the client before the player is spawned so that they can be added to the tracker.
-        PubMatchSpawnManager.instance.SpawnPlayerInGame();
+		string team = TeamManager.GetTeam(PhotonNetwork.NickName);
+        PublicMatchSpawnManager.instance.SpawnPlayer(team);
 	}
 
 	[PunRPC]

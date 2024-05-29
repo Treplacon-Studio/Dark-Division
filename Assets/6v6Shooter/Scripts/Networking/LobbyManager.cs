@@ -4,7 +4,7 @@ using Photon.Realtime;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using Photon.Pun.UtilityScripts;
+using TMPro;
 
 public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -12,9 +12,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
 
     [SerializeField] Transform teamAPlayersContainer;
     [SerializeField] Transform teamBPlayersContainer;
-    [SerializeField] GameObject playerListingPrefab;
-    [SerializeField] Text gameModeNameText;
-    [SerializeField] Text countdownDisplay;
+    [SerializeField] GameObject teamAPlayerListingPrefab;
+    [SerializeField] GameObject teamBPlayerListingPrefab;
+    [SerializeField] TMP_Text gameModeNameText;
+    [SerializeField] TMP_Text countdownDisplay;
 
     private PhotonView photonView;
 
@@ -48,13 +49,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
             GameObject tempListing;
 
             if (team == Team.Blue)
-                tempListing = Instantiate(playerListingPrefab, teamAPlayersContainer);
+                tempListing = Instantiate(teamAPlayerListingPrefab, teamAPlayersContainer);
             else if (team == Team.Red)
-                tempListing = Instantiate(playerListingPrefab, teamBPlayersContainer);
+                tempListing = Instantiate(teamBPlayerListingPrefab, teamBPlayersContainer);
             else
                 continue;
 
-            Text tempText = tempListing.transform.GetChild(0).GetComponent<Text>();
+            TMP_Text tempText = tempListing.GetComponentInChildren<TMP_Text>();
             tempText.text = player.NickName;
         }
     }
