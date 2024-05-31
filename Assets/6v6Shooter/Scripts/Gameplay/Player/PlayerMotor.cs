@@ -29,7 +29,7 @@ public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable
     private Rigidbody body;
     public Animator anim;
 
-    // ref to the spine bone for following 'LookAt'
+    // ref to the spine bone for following 'lookt'
     public Transform spineBone;
 
     private PlayerCameraController cameraController;
@@ -66,10 +66,10 @@ public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
 
-        if (anim != null)
-        {
-            anim.enabled = false;
-        }
+        //if (anim != null)
+        //{
+        //    anim.enabled = false;
+        //}
 
         cameraController = GetComponent<PlayerCameraController>();
     }
@@ -89,6 +89,8 @@ public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable
 
         anim.SetFloat("Horizontal", x);
         anim.SetFloat("Vertical", z);
+
+        anim.SetBool("isWalking", Input.GetKey(KeyCode.W));
 
         anim.SetBool("isSprinting", Input.GetKey(KeyCode.LeftShift) || Input.GetButton("Sprint"));
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetButton("Sprint"))
