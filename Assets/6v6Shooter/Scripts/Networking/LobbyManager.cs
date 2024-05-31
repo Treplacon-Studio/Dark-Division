@@ -90,8 +90,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void LoadMap()
     {
-        Debug.Log("LOADING MAP...");
-        PhotonNetwork.LoadLevel("S03_PublicMatch");
+        GameManager.instance.StartLoadingBar("S03_PublicMatch", true);
     }
 
     public void ConnectToPhotonServer()
@@ -111,16 +110,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
         Debug.Log($"{PhotonNetwork.NickName} joined to {PhotonNetwork.CurrentRoom.Name}");
         TeamManager.AssignTeam(PhotonNetwork.LocalPlayer);
         ListPlayers();
-        GameManager.instance.CloseLoadingScreen();
     }
 
     public override void OnLeftRoom() 
     {
-        SceneManager.LoadScene("S00_MainMenu");
+        GameManager.instance.StartLoadingBar("S00_MainMenu", false);
     }
 
     public void LeaveRoom()
     {
+        TeamManager.LeaveTeam(PhotonNetwork.LocalPlayer);
         PhotonNetwork.LeaveRoom();
     }
 

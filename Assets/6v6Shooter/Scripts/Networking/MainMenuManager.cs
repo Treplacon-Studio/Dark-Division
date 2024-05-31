@@ -43,13 +43,14 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public void OnRankedPlaySelected() {}
     public void OnPracticeRangeSelected() {}
     public void OnCreateClassSelected() => SetPanelViewability(selectLoadoutPanel:true);
+    public void SelectLoadout(int loadoutNum) => SetPanelViewability(editLoadoutPanel:true);
+
+    //Back buttons
     public void OnBackToMainMenuButtonClicked() => SetPanelViewability(buttonPanel:true);
     public void OnBackToSelectLoadoutButtonClicked() => SetPanelViewability(selectLoadoutPanel:true);
-    public void SelectLoadout(int loadoutNum) => SetPanelViewability(editLoadoutPanel:true);
 
     public void FindAnOpenMatch()
     {
-        GameManager.instance.OpenLoadingScreen();
         PhotonNetwork.LeaveRoom();
     }
 
@@ -62,7 +63,6 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         string playerName = PhotonNetwork.NickName;
         if (!PhotonNetwork.IsConnected && playerName.Length < 14 && playerName.Length > 3)
         {
-            GameManager.instance.OpenLoadingScreen();
             PhotonNetwork.ConnectUsingSettings();
             SetPanelViewability();
         }
@@ -95,12 +95,11 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     {
         //MainMenuSpawnManager.instance.SpawnPlayersInMainMenu();
         SetPanelViewability(buttonPanel:true);
-        GameManager.instance.CloseLoadingScreen();
     }
 
     public override void OnLeftRoom()
     {
-        PhotonNetwork.LoadLevel("S01_Lobby");
+        GameManager.instance.StartLoadingBar("S01_Lobby", false);
     }
 
     #endregion
