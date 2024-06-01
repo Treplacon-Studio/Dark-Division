@@ -66,10 +66,10 @@ public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
 
-        //if (anim != null)
-        //{
-        //    anim.enabled = false;
-        //}
+        if (anim != null)
+        {
+            anim.enabled = false;
+        }
 
         cameraController = GetComponent<PlayerCameraController>();
     }
