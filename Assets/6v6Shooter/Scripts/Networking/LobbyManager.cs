@@ -16,6 +16,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] GameObject teamBPlayerListingPrefab;
     [SerializeField] TMP_Text gameModeNameText;
     [SerializeField] TMP_Text countdownDisplay;
+    [SerializeField] TMP_Text playerCountDisplay;
 
     private PhotonView photonView;
 
@@ -84,7 +85,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     private void UpdateTimerDisplay(int time)
     {
-        countdownDisplay.text = $"Time remaining: {time.ToString()}";
+        countdownDisplay.text = $"TIME BEFORE MATCH STARTS: {time.ToString()}";
+    }
+
+    [PunRPC]
+    private void UpdatePlayerCount()
+    {
+        playerCountDisplay.text = $"{PhotonNetwork.CurrentRoom.PlayerCount}/12 PLAYERS";
     }
 
     [PunRPC]
@@ -124,11 +131,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer) {
-        Debug.Log($"{newPlayer.NickName} joined to {PhotonNetwork.CurrentRoom.Name} {PhotonNetwork.CurrentRoom.PlayerCount}");
+        photonView.RPC("UpdatePlayerCount", RpcTarget.All);
         ListPlayers();
     }
     
     public override void OnPlayerLeftRoom(Player otherPlayer) {
+        photonView.RPC("UpdatePlayerCount", RpcTarget.All);
         ListPlayers();
     }
 

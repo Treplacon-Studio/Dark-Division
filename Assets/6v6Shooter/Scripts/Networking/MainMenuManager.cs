@@ -8,6 +8,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public GameObject ButtonPanel;
     public GameObject SelectLoadoutPanel;
     public GameObject EditLoadoutPanel;
+    public GameObject ShopPanel;
 
     [Header("GAME MODE")]
     public GameObject SelectGamePanel;
@@ -27,7 +28,8 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
                                     bool selectLoadoutPanel = false,
                                     bool editLoadoutPanel = false,
                                     bool gameTypeContainer = false,
-                                    bool gameModeContainer = false)
+                                    bool gameModeContainer = false,
+                                    bool shopPanel = false)
     {
         UsernameCreationMenu.SetActive(usernameCreationMenu);
         SelectGamePanel.SetActive(selectGamePanel);
@@ -36,6 +38,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         EditLoadoutPanel.SetActive(editLoadoutPanel);
         SelectGameTypeContainer.SetActive(gameTypeContainer);
         SelectGameModeContainer.SetActive(gameModeContainer);
+        ShopPanel.SetActive(shopPanel);
     }
 
     public void OnPlayGameSelected() => SetPanelViewability(selectGamePanel:true, gameTypeContainer:true);
@@ -44,6 +47,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public void OnPracticeRangeSelected() {}
     public void OnCreateClassSelected() => SetPanelViewability(selectLoadoutPanel:true);
     public void SelectLoadout(int loadoutNum) => SetPanelViewability(editLoadoutPanel:true);
+    public void OnStoreSelected() => SetPanelViewability(shopPanel:true);
 
     //Back buttons
     public void OnBackToMainMenuButtonClicked() => SetPanelViewability(buttonPanel:true);
