@@ -144,7 +144,7 @@ public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable
         RotateCamera(camUpAndDownRotation);
 
         // Rotate the head bone based on mouse x input
-        RotateHeadBone(yRot);
+        RotateSpineBone(yRot);
 
         // Jumping
         if (jumpAction.triggered && isGrounded)
@@ -174,7 +174,7 @@ public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     // Method to rotate the head bone
-    void RotateHeadBone(float yRot)
+    void RotateSpineBone(float yRot)
     {
         if (spineBone != null)
         {
