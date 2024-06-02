@@ -1,21 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Photon.Pun;
 
-public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable {
-    
+public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable
+{
     [SerializeField]
     float speed = 3f;
 
-    public float lookSensitivity = 8f;
+    // Create input actions for basic movements
+    [SerializeField] private InputAction forward;
+    [SerializeField] private InputAction backward;
+    [SerializeField] private InputAction left;
+    [SerializeField] private InputAction right;
+    [SerializeField] private InputAction jumpAction;
+    [SerializeField] private InputAction sprintAction;
+    [SerializeField] private InputAction aimAction;
+    [SerializeField] private InputAction lookAction;
+    [SerializeField] private InputAction shootAction;
 
-    //Jumping variables
+    [SerializeField]
+    private Transform spineBone;
+    private float currentSpineRotationX = 23f;
+
+    public float lookSensitivity = Gamepad.current != null ? 10f : 100f;
+    [SerializeField]
+
+    // Jumping variables
     float jumpForce = 2.0f;
     public bool isGrounded;
     public Vector3 jump;
 
-    //Camera rotation
+    // Camera rotation
     public float camYUpwardRotation;
     public float camYDownwardRotation;
 
@@ -35,7 +52,8 @@ public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable {
     Rigidbody body;
     public Animator anim;
 
-    void Start() {
+    void Start()
+    {
         body = GetComponent<Rigidbody>();
         jump = new Vector3(0.0f, 1.5f, 0.0f);
         pv = GetComponent<PhotonView>();
@@ -43,115 +61,161 @@ public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        if (photonView.IsMine) {
-            foreach (GameObject gameObject in fpsHandsGameObject) {
+        if (photonView.IsMine)
+        {
+            foreach (GameObject gameObject in fpsHandsGameObject)
+            {
                 gameObject.SetActive(true);
             }
-            foreach (GameObject gameObject in soldierGameObject) {
+            foreach (GameObject gameObject in soldierGameObject)
+            {
                 gameObject.SetActive(false);
             }
-        }
-        else {
 
-            foreach (GameObject gameObject in fpsHandsGameObject) {
+            // Enable input actions
+            forward.Enable();
+            backward.Enable();
+            left.Enable();
+            right.Enable();
+            jumpAction.Enable();
+            sprintAction.Enable();
+            aimAction.Enable();
+            lookAction.Enable();
+            shootAction.Enable();
+
+            // Register callbacks for aim action
+            aimAction.performed += ctx => OnAim();
+            aimAction.canceled += ctx => OnStopAim();
+            shootAction.performed += ctx => OnShoot();
+            //shootAction.canceled += ctx => OnShoot();
+        }
+        else
+        {
+            foreach (GameObject gameObject in fpsHandsGameObject)
+            {
                 gameObject.SetActive(false);
             }
-            foreach (GameObject gameObject in soldierGameObject) {
+            foreach (GameObject gameObject in soldierGameObject)
+            {
                 gameObject.SetActive(true);
             }
         }
     }
 
-    void Update() {
+    void Update()
+    {
         // Only process input for the local player
-        if (!pv.IsMine) {
+        if (!pv.IsMine)
+        {
             return;
         }
 
-        float x = Input.GetAxisRaw("Horizontal");
-        float z = Input.GetAxisRaw("Vertical");
+        Vector2 movementInput = new Vector2(right.ReadValue<float>() - left.ReadValue<float>(), forward.ReadValue<float>() - backward.ReadValue<float>());
+        Vector3 horizontalMovement = transform.right * movementInput.x;
+        Vector3 verticalMovement = transform.forward * movementInput.y;
 
-        Vector3 horizontalMovement = transform.right * x;
-        Vector3 verticalMovement = transform.forward * z;
+        // Setting walk animations
+        anim.SetFloat("Horizontal", movementInput.x);
+        anim.SetFloat("Vertical", movementInput.y);
 
-        //Setting walk animations
-        anim.SetFloat("Horizontal", x);
-		anim.SetFloat("Vertical", z);
+        // Sprinting
+        bool isSprinting = sprintAction.IsPressed();
+        anim.SetBool("isSprinting", isSprinting);
+        speed = isSprinting ? 5f : 3f;
 
-        //Sprinting
-        anim.SetBool("isSprinting", Input.GetKey(KeyCode.LeftShift) || Input.GetButton("Sprint"));
-        if (anim.GetBool("isSprinting")/*  && !anim.GetBool("isAiming") */) {
-            speed = 5f;            
-        }
-        else {
-            speed = 3f;
-        }
-
-        //Final movement velocity vector
+        // Final movement velocity vector
         Vector3 movementVelocity = (horizontalMovement + verticalMovement).normalized * speed;
 
-        //Apply movement
+        // Apply movement
         Move(movementVelocity);
 
-        //Calculate rotation as a 3D Vector for turning around
-        float yRot = Input.GetAxis("Mouse X");
-        Vector3 rotVector = new Vector3(0, yRot, 0) * lookSensitivity;
+        // Calculate rotation as a 3D Vector for turning around
+        Vector2 lookInput = lookAction.ReadValue<Vector2>();
+        float yRot = lookInput.x * lookSensitivity * Time.deltaTime;
+        Vector3 rotVector = new Vector3(0, yRot, 0);
 
-        //Apply rotation
+        // Apply rotation
         Rotate(rotVector);
 
-        //Calculate look up and down camera rotation
-        float _camUpDownRotation = Input.GetAxis("Mouse Y") * lookSensitivity;
+        // Calculate look up and down camera rotation
+        float camUpAndDownRotation = lookInput.y * lookSensitivity * Time.deltaTime;
 
-        //Apply rotation
-        RotateCamera(_camUpDownRotation);
+        // Apply rotation
+        RotateCamera(camUpAndDownRotation);
 
-        //Jumping
-        if(Input.GetKeyDown(KeyCode.Space) && isGrounded || Input.GetButtonDown("Jump") && isGrounded){
+        // Rotate the head bone based on mouse x input
+        RotateHeadBone(yRot);
+
+        // Jumping
+        if (jumpAction.triggered && isGrounded)
+        {
             body.AddForce(jump * jumpForce, ForceMode.Impulse);
             isGrounded = false;
         }
+    }
 
-        //Aiming
-        if (Input.GetButtonDown("Fire2") && photonView.IsMine) {
-            anim.SetTrigger("aimSight");
-            lookSensitivity = 2f;
-            speed = 1f;
-        }
-        else if (Input.GetButtonUp("Fire2")  && photonView.IsMine) {
-            anim.SetTrigger("unaimSight");
-            lookSensitivity = 10f;
-            speed = 3f;
+    void OnAim()
+    {
+        anim.SetTrigger("aimSight");
+        lookSensitivity = 2f;
+        speed = 1f;
+    }
+
+    void OnStopAim()
+    {
+        anim.SetTrigger("unaimSight");
+        lookSensitivity = Gamepad.current != null ? 10f : 100f;
+        speed = 3f;
+    }
+
+    void OnShoot()
+    {
+        Debug.Log("PEW PEW");
+    }
+
+    // Method to rotate the head bone
+    void RotateHeadBone(float yRot)
+    {
+        if (spineBone != null)
+        {
+            spineBone.Rotate(Vector3.right * yRot * lookSensitivity);
         }
     }
 
-    //Runs per physics interation
-    void FixedUpdate() {
+    // Runs per physics interaction
+    void FixedUpdate()
+    {
         // Only process movement and rotation for the local player
-        if (!pv.IsMine) {
+        if (!pv.IsMine)
+        {
             return;
         }
 
-        if (velocity != Vector3.zero) {
+        if (velocity != Vector3.zero)
+        {
             body.MovePosition(body.position + velocity * Time.fixedDeltaTime);
         }
 
         body.MoveRotation(body.rotation * Quaternion.Euler(rotation));
 
-        if (fpsCamera != null) {
+        if (fpsCamera != null)
+        {
             currentCamRotation -= cameraUpAndDownRotation;
             currentCamRotation = Mathf.Clamp(currentCamRotation, camYUpwardRotation, camYDownwardRotation);
             fpsCamera.transform.localEulerAngles = new Vector3(currentCamRotation, 0, 0);
         }
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-        if (body == null) {
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (body == null)
+        {
             Debug.LogError("Rigidbody component is not assigned.");
             return;
         }
 
-        if (stream.IsWriting) {
+        if (stream.IsWriting)
+        {
             Vector3 pos = body.position;
             Quaternion rot = body.rotation;
             Vector3 vel = body.velocity;
@@ -161,7 +225,9 @@ public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable {
             stream.Serialize(ref rot);
             stream.Serialize(ref vel);
             stream.Serialize(ref rotVel);
-        } else {
+        }
+        else
+        {
             Vector3 pos = Vector3.zero;
             Quaternion rot = Quaternion.identity;
             Vector3 vel = Vector3.zero;
@@ -179,20 +245,24 @@ public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable {
         }
     }
 
-    void Move(Vector3 movementVelocity) {
+    void Move(Vector3 movementVelocity)
+    {
         velocity = movementVelocity;
     }
 
-    void Rotate(Vector3 rotationVector) {
+    void Rotate(Vector3 rotationVector)
+    {
         rotation = rotationVector;
     }
 
-    void RotateCamera(float camUpAndDownRotation) {
+    void RotateCamera(float camUpAndDownRotation)
+    {
         cameraUpAndDownRotation = camUpAndDownRotation;
     }
 
-    //Checking if were on the ground
-    void OnCollisionStay(){
+    // Checking if we're on the ground
+    void OnCollisionStay()
+    {
         isGrounded = true;
     }
 }
