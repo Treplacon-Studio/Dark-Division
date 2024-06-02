@@ -66,4 +66,22 @@ public static class TeamManager
         }
         return count;
     }
+
+    public static void LeaveTeam(Player player)
+    {
+        if (GetTeam(player).HasValue)
+        {
+            Hashtable playerProps = new Hashtable
+            {
+                { "team", null }
+            };
+            player.SetCustomProperties(playerProps);
+
+            Debug.Log($"{player.NickName} has left their team.");
+        }
+        else
+        {
+            Debug.Log($"{player.NickName} is not assigned to any team.");
+        }
+    }
 }
