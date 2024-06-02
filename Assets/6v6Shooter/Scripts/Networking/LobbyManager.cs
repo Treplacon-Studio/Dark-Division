@@ -2,7 +2,6 @@ using Photon.Pun;
 using UnityEngine;
 using Photon.Realtime;
 using System.Collections;
-using UnityEngine.UI;
 using TMPro;
 
 public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
@@ -63,6 +62,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
                 tempListing = Instantiate(teamBPlayerListingPrefab, teamBPlayersContainer);
             else
                 continue;
+
             TMP_Text tempText = tempListing.GetComponentInChildren<TMP_Text>();
             tempText.text = player.NickName;
         }
@@ -72,15 +72,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
         switch (mapNum) {
             case 1:
                 votesForMapOne++;
+                photonView.RPC("UpdateMapVotes", RpcTarget.AllBuffered);
                 break;
             case 2:
                 votesForMapTwo++;
+                photonView.RPC("UpdateMapVotes", RpcTarget.AllBuffered);
                 break;
             case 3:
                 votesForRandomMap++;
+                photonView.RPC("UpdateMapVotes", RpcTarget.AllBuffered);
                 break;
         }
-        photonView.RPC("UpdateMapVotes", RpcTarget.AllBuffered);
     }
 
     [PunRPC]
@@ -198,12 +200,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
             votesForMapOne = (int)stream.ReceiveNext();
             votesForMapTwo = (int)stream.ReceiveNext();
             votesForRandomMap = (int)stream.ReceiveNext();
-        }
-    }
-
-    public void OnDestroy() {
-        if (photonView != null) {
-            PhotonNetwork.RemoveRPCs(photonView);
         }
     }
 }
