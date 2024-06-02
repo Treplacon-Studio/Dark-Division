@@ -8,6 +8,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public GameObject ButtonPanel;
     public GameObject SelectLoadoutPanel;
     public GameObject EditLoadoutPanel;
+    public GameObject ShopPanel;
 
     [Header("GAME MODE")]
     public GameObject SelectGamePanel;
@@ -27,7 +28,8 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
                                     bool selectLoadoutPanel = false,
                                     bool editLoadoutPanel = false,
                                     bool gameTypeContainer = false,
-                                    bool gameModeContainer = false)
+                                    bool gameModeContainer = false,
+                                    bool shopPanel = false)
     {
         UsernameCreationMenu.SetActive(usernameCreationMenu);
         SelectGamePanel.SetActive(selectGamePanel);
@@ -36,6 +38,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         EditLoadoutPanel.SetActive(editLoadoutPanel);
         SelectGameTypeContainer.SetActive(gameTypeContainer);
         SelectGameModeContainer.SetActive(gameModeContainer);
+        ShopPanel.SetActive(shopPanel);
     }
 
     public void OnPlayGameSelected() => SetPanelViewability(selectGamePanel:true, gameTypeContainer:true);
@@ -43,13 +46,15 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public void OnRankedPlaySelected() {}
     public void OnPracticeRangeSelected() {}
     public void OnCreateClassSelected() => SetPanelViewability(selectLoadoutPanel:true);
+    public void SelectLoadout(int loadoutNum) => SetPanelViewability(editLoadoutPanel:true);
+    public void OnStoreSelected() => SetPanelViewability(shopPanel:true);
+
+    //Back buttons
     public void OnBackToMainMenuButtonClicked() => SetPanelViewability(buttonPanel:true);
     public void OnBackToSelectLoadoutButtonClicked() => SetPanelViewability(selectLoadoutPanel:true);
-    public void SelectLoadout(int loadoutNum) => SetPanelViewability(editLoadoutPanel:true);
 
     public void FindAnOpenMatch()
     {
-        GameManager.instance.OpenLoadingScreen();
         PhotonNetwork.LeaveRoom();
     }
 
@@ -62,7 +67,6 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         string playerName = PhotonNetwork.NickName;
         if (!PhotonNetwork.IsConnected && playerName.Length < 14 && playerName.Length > 3)
         {
-            GameManager.instance.OpenLoadingScreen();
             PhotonNetwork.ConnectUsingSettings();
             SetPanelViewability();
         }
@@ -95,12 +99,11 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     {
         //MainMenuSpawnManager.instance.SpawnPlayersInMainMenu();
         SetPanelViewability(buttonPanel:true);
-        GameManager.instance.CloseLoadingScreen();
     }
 
     public override void OnLeftRoom()
     {
-        PhotonNetwork.LoadLevel("S01_Lobby");
+        GameManager.instance.StartLoadingBar("S01_Lobby", false);
     }
 
     #endregion
