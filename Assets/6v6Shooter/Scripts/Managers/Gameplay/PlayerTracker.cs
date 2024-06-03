@@ -9,7 +9,6 @@ public class PlayerTracker : MonoBehaviour, IPunObservable {
 
 	public PhotonView pv { get; set; }
 
-
 	private void OnEnable() {
 		if (instance == null) {
 			instance = this;
