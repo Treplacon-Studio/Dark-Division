@@ -28,7 +28,6 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        Debug.Log("START WAS CALLED");
         SetPanelViewability();
         ConnectToPhotonServer();
     }
@@ -104,7 +103,6 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public void CreateRoom()
     {
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 1});
-        SetPanelViewability(buttonPanel:true);
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -129,7 +127,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         PhotonNetwork.Disconnect();
         
         if (currentState == MenuNavigationState.PublicMatch)
-            GameManager.instance.StartLoadingBar("S01_Lobby", false);
+            GameManager.instance.StartLoadingBar("S02_Lobby", false);
         else if (currentState == MenuNavigationState.ChangeGamertag)
             GameManager.instance.StartLoadingBar("S00_UserLogin", false);
         else

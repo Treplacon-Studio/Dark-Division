@@ -129,7 +129,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
 
     [PunRPC]
     public void LoadMap() {
-        GameManager.instance.StartLoadingBar("S03_PublicMatch", true);
+        GameManager.instance.StartLoadingBar("S04_PublicMatch", true);
     }
 
     public void ConnectToPhotonServer() {
