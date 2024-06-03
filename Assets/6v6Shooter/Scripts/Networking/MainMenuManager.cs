@@ -4,7 +4,16 @@ using Photon.Realtime;
 
 public class MainMenuManager : MonoBehaviourPunCallbacks
 {
-    public GameObject UsernameCreationMenu;
+
+    public enum MenuNavigationState
+    {
+        PublicMatch,
+        ChangeGamertag,
+        None
+    }
+
+    public MenuNavigationState currentState = MenuNavigationState.None;
+
     public GameObject ButtonPanel;
     public GameObject SelectLoadoutPanel;
     public GameObject EditLoadoutPanel;
@@ -19,11 +28,11 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        SetPanelViewability(usernameCreationMenu:true);
+        SetPanelViewability();
+        ConnectToPhotonServer();
     }
 
-    public void SetPanelViewability(bool usernameCreationMenu = false, 
-                                    bool selectGamePanel = false, 
+    public void SetPanelViewability(bool selectGamePanel = false, 
                                     bool buttonPanel = false, 
                                     bool selectLoadoutPanel = false,
                                     bool editLoadoutPanel = false,
@@ -31,7 +40,6 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
                                     bool gameModeContainer = false,
                                     bool shopPanel = false)
     {
-        UsernameCreationMenu.SetActive(usernameCreationMenu);
         SelectGamePanel.SetActive(selectGamePanel);
         ButtonPanel.SetActive(buttonPanel);
         SelectLoadoutPanel.SetActive(selectLoadoutPanel);
@@ -55,6 +63,14 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
     public void FindAnOpenMatch()
     {
+        currentState = MenuNavigationState.PublicMatch;
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public void OnChangeGamertagSelected()
+    {
+        currentState = MenuNavigationState.ChangeGamertag;
+        PlayerPrefsManager.ClearKey("PlayerNickname");
         PhotonNetwork.LeaveRoom();
     }
 
@@ -68,7 +84,6 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsConnected && playerName.Length < 14 && playerName.Length > 3)
         {
             PhotonNetwork.ConnectUsingSettings();
-            SetPanelViewability();
         }
     }
 
@@ -95,15 +110,28 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 4});
     }
 
+    public override void OnCreatedRoom()
+    {
+        Debug.Log($"{PhotonNetwork.NickName} created a room!");
+        SetPanelViewability(buttonPanel:true);
+    }
+
     public override void OnJoinedRoom()
     {
-        //MainMenuSpawnManager.instance.SpawnPlayersInMainMenu();
-        SetPanelViewability(buttonPanel:true);
+        Debug.Log($"{PhotonNetwork.NickName} joined the room!");
     }
 
     public override void OnLeftRoom()
     {
-        GameManager.instance.StartLoadingBar("S01_Lobby", false);
+        Debug.Log($"{PhotonNetwork.NickName} left the room!");
+        PhotonNetwork.Disconnect();
+        
+        if (currentState == MenuNavigationState.PublicMatch)
+            GameManager.instance.StartLoadingBar("S02_Lobby", false);
+        else if (currentState == MenuNavigationState.ChangeGamertag)
+            GameManager.instance.StartLoadingBar("S00_UserLogin", false);
+        else
+            Debug.Log("Menu navigation state was not specified!");
     }
 
     #endregion

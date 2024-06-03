@@ -2,48 +2,62 @@ using Photon.Pun;
 using UnityEngine;
 using TMPro;
 
-namespace UserLogName
+public class UserLoginManager : MonoBehaviour
 {
-    public class UserLoginManager : MonoBehaviour
+    public TextMeshProUGUI playerNameText;
+    public GameObject UserLoginPanel;
+
+    private void Start()
     {
+        UserLoginPanel.SetActive(false);
+        LoadNickname();
+    }
 
-        public TextMeshProUGUI playerNameText;
-
-        public MainMenuManager mainMenuManager;
-
-        public void SetPlayerName()
+    private void LoadNickname()
+    {
+        string playerName = PlayerPrefsManager.LoadString("PlayerNickname");        
+        if (!string.IsNullOrEmpty(playerName))
         {
-            string playerName = playerNameText.text;
-            if (ValidateName(playerName))
-            {
-                PhotonNetwork.NickName = playerName;
-                mainMenuManager.ConnectToPhotonServer();
-            }
+            PhotonNetwork.NickName = playerName;
+            GameManager.instance.StartLoadingBar("S01_MainMenu", false);
+        }
+        else
+            UserLoginPanel.SetActive(true);
+    }
+
+    public void SetPlayerName()
+    {
+        string playerName = playerNameText.text;
+        if (ValidateName(playerName))
+        {
+            PhotonNetwork.NickName = playerName;
+            PlayerPrefsManager.SaveString("PlayerNickname", playerName);
+            GameManager.instance.StartLoadingBar("S01_MainMenu", false);
+        }
+    }
+
+    private bool ValidateName(string playerName)
+    {
+        if (string.IsNullOrEmpty(playerName))
+        {
+            Debug.Log("Player name is invalid!");
+            return false;
         }
 
-        private bool ValidateName(string playerName)
+        else if (playerName.Length > 14)
         {
-            if (string.IsNullOrEmpty(playerName))
-            {
-                Debug.Log("Player name is invalid!");
-                return false;
-            }
-
-            else if (playerName.Length > 14)
-            {
-                Debug.Log("Player name cannot exceed 14 characters");
-                return false;
-            }
-            else if (playerName.Length < 3)
-            {
-                Debug.Log("Player name must be at least 3 characters");
-                return false;
-            }
-            // add validation for bad words
-            else
-            {
-                return true;
-            }
+            Debug.Log("Player name cannot exceed 14 characters");
+            return false;
+        }
+        else if (playerName.Length < 3)
+        {
+            Debug.Log("Player name must be at least 3 characters");
+            return false;
+        }
+        // add validation for bad words
+        else
+        {
+            return true;
         }
     }
 }
