@@ -153,7 +153,7 @@ Transform:
   m_GameObject: {fileID: 316654425412115658}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.181778e-13, y: -0.0000041909534, z: -0.00000004135036}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_Follow: {fileID: 7951042762456242788}
   m_Lens:
     FieldOfView: 50
     OrthographicSize: 5
@@ -1675,10 +1675,10 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3440938795290288796}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: 199709b55405cc8438a61b7d5a930d49, type: 3}
   m_Controller: {fileID: 9100000, guid: e6df6a41862483840a8fe5ef0bdb05a5, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -3801,6 +3801,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8592695156926683293}
+  - component: {fileID: 3238694038865917985}
   m_Layer: 0
   m_Name: DEF-spine.003
   m_TagString: Untagged
@@ -3829,6 +3830,44 @@ Transform:
   - {fileID: 72605277851415029}
   m_Father: {fileID: 2538918683759600160}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3238694038865917985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8975952580411168159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beec2eaf0fac5ff459a3380ee10867e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 40
+  lookAction:
+    m_Name: Look
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 6096dfe1-af86-49ef-a358-d8cefdb578cd
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 10354199-7703-4bc3-9be1-240fd591ecf0
+      m_Path: <Mouse>/delta
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Look
+      m_Flags: 0
+    - m_Name: 
+      m_Id: e874449d-06b7-4437-b20f-4e29263a2dd0
+      m_Path: <Gamepad>/rightStick
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Look
+      m_Flags: 0
+    m_Flags: 0
 --- !u!1 &8978823927850013906
 GameObject:
   m_ObjectHideFlags: 0
@@ -4232,7 +4271,6 @@ MonoBehaviour:
       m_Action: Shoot
       m_Flags: 0
     m_Flags: 0
-  spineBone: {fileID: 8592695156926683293}
   lookSensitivity: 10
   jumpForce: 2
   isGrounded: 0
@@ -4243,7 +4281,7 @@ MonoBehaviour:
   - {fileID: 1713224729105723214}
   soldierGameObject:
   - {fileID: 2098306905774928494}
-  fpsCamera: {fileID: 3067223599347021306}
+  fpsCamera: {fileID: 0}
   pv: {fileID: 5305742557745505986}
   anim: {fileID: 8087967901962090923}
 --- !u!114 &9027985944886149475

@@ -21,8 +21,6 @@ public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private InputAction shootAction;
 
     [SerializeField]
-    private Transform spineBone;
-    private float currentSpineRotationX = 23f;
 
     public float lookSensitivity = Gamepad.current != null ? 10f : 100f;
     [SerializeField]
@@ -143,9 +141,6 @@ public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable
         // Apply rotation
         RotateCamera(camUpAndDownRotation);
 
-        // Rotate the head bone based on mouse x input
-        RotateSpineBone(yRot);
-
         // Jumping
         if (jumpAction.triggered && isGrounded)
         {
@@ -171,15 +166,6 @@ public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable
     void OnShoot()
     {
         Debug.Log("PEW PEW");
-    }
-
-    // Method to rotate the head bone
-    void RotateSpineBone(float yRot)
-    {
-        if (spineBone != null)
-        {
-            spineBone.Rotate(Vector3.right * yRot * lookSensitivity);
-        }
     }
 
     // Runs per physics interaction
