@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         
+        CloseLoadingScreen();
+        
         while (PhotonNetwork.LevelLoadingProgress < 1f)
         {
             if (PhotonNetwork.LevelLoadingProgress == 1f)
@@ -58,7 +60,6 @@ public class GameManager : MonoBehaviour
             loadingBar.fillAmount = PhotonNetwork.LevelLoadingProgress;
             yield return null;
         }
-        CloseLoadingScreen();
     }
 
     IEnumerator LoadAsynchronously(string sceneName)
