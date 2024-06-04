@@ -11,8 +11,6 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
     public Transform[] redSpawnPoints;
     public Transform[] blueSpawnPoints;
 
-    public GameObject cameraPrefab;
-
     private List<Transform> occupiedRedSpawnPoints = new List<Transform>();
     private List<Transform> occupiedBlueSpawnPoints = new List<Transform>();
 
@@ -118,9 +116,10 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
             Debug.LogError("PlayerTracker instance or PhotonView not initialized.");
         }
 
-        GameObject instantiatedCamera = Instantiate(cameraPrefab, cameraPosition.transform.position, cameraPosition.transform.rotation);
+        GameObject instantiatedCamera = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "FirstPersonCamera"), cameraPosition.transform.position, cameraPosition.transform.rotation);
         instantiatedCamera.transform.SetParent(cameraPosition.transform);
-        playerMotor.fpsCamera = instantiatedCamera;
+        if (photonView.IsMine)
+            playerMotor.fpsCamera = instantiatedCamera;
 
         photonView.RPC("MarkSpawnPointOccupied", RpcTarget.AllBuffered, spawnPoint, team);
 
