@@ -90,39 +90,40 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SpawnPlayer(string team)
     {
-        Transform spawnPoint = GetRandomSpawnPoint(team);
-
-        if (spawnPoint == null)
-        {
-            Debug.LogError("No spawn point found for team: " + team);
-            return;
-        }
-
-        Debug.Log("Creating Player");
-        GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "N_Player"), spawnPoint.position, spawnPoint.rotation);
-
-        Transform cameraPosition = FindCameraPositionWithinNewPlayer(newPlayer.transform, "CAMERAPOSITION");
-
-        PhotonView playerPhotonView = newPlayer.GetComponent<PhotonView>();
-        PlayerMotor playerMotor = newPlayer.GetComponent<PlayerMotor>();
-
-        if (PlayerTracker.instance != null && PlayerTracker.instance.pv != null)
-        {
-            PlayerTracker.instance.pv.RPC("AddPlayer", RpcTarget.All, playerPhotonView.ViewID);
-            Debug.Log($"Spawning in {newPlayer}. SPAWNED IN!");
-        }
-        else
-        {
-            Debug.LogError("PlayerTracker instance or PhotonView not initialized.");
-        }
-
-        GameObject instantiatedCamera = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "FirstPersonCamera"), cameraPosition.transform.position, cameraPosition.transform.rotation);
-        instantiatedCamera.transform.SetParent(cameraPosition.transform);
         if (photonView.IsMine)
+        {
+            Transform spawnPoint = GetRandomSpawnPoint(team);
+
+            if (spawnPoint == null)
+            {
+                Debug.LogError("No spawn point found for team: " + team);
+                return;
+            }
+
+            Debug.Log("Creating Player");
+            GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "N_Player"), spawnPoint.position, spawnPoint.rotation);
+
+            Transform cameraPosition = FindCameraPositionWithinNewPlayer(newPlayer.transform, "CAMERAPOSITION");
+
+            PhotonView playerPhotonView = newPlayer.GetComponent<PhotonView>();
+            PlayerMotor playerMotor = newPlayer.GetComponent<PlayerMotor>();
+
+            if (PlayerTracker.instance != null && PlayerTracker.instance.pv != null)
+            {
+                PlayerTracker.instance.pv.RPC("AddPlayer", RpcTarget.All, playerPhotonView.ViewID);
+                Debug.Log($"Spawning in {newPlayer}. SPAWNED IN!");
+            }
+            else
+            {
+                Debug.LogError("PlayerTracker instance or PhotonView not initialized.");
+            }
+
+            GameObject instantiatedCamera = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "FirstPersonCamera"), cameraPosition.transform.position, cameraPosition.transform.rotation);
+            instantiatedCamera.transform.SetParent(cameraPosition.transform);        
             playerMotor.fpsCamera = instantiatedCamera;
 
-        photonView.RPC("MarkSpawnPointOccupied", RpcTarget.AllBuffered, spawnPoint, team);
-
+            photonView.RPC("MarkSpawnPointOccupied", RpcTarget.AllBuffered, spawnPoint, team);
+        }
     }
 
     Transform FindCameraPositionWithinNewPlayer(Transform parent, string name)
