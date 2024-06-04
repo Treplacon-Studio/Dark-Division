@@ -24,6 +24,12 @@ public class GameManager : MonoBehaviour
         }
 
         CloseLoadingScreen();
+
+        string currentScene = SceneHandler.Instance.GetCurrentSceneName();
+        Debug.Log("Current Scene: " + currentScene);
+        
+        // change game state
+        SceneHandler.Instance.ChangeGameState(SceneHandler.GameState.Playing);
     }
 
     private void OpenLoadingScreen() => LoadingScreenCanvas.gameObject.SetActive(true);
