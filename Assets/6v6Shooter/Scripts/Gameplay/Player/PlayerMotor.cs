@@ -37,8 +37,7 @@ public class PlayerMotor : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject[] fpsHandsGameObject;
     public GameObject[] soldierGameObject;
 
-    [SerializeField]
-    GameObject fpsCamera;
+    public GameObject fpsCamera;
 
     Vector3 velocity = Vector3.zero;
     Vector3 rotation = Vector3.zero;

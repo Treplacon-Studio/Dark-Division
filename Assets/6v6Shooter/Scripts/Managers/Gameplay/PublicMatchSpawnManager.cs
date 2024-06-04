@@ -120,6 +120,7 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
 
         GameObject instantiatedCamera = Instantiate(cameraPrefab, cameraPosition.transform.position, cameraPosition.transform.rotation);
         instantiatedCamera.transform.SetParent(cameraPosition.transform);
+        playerMotor.fpsCamera = instantiatedCamera;
 
         photonView.RPC("MarkSpawnPointOccupied", RpcTarget.AllBuffered, spawnPoint, team);
 
