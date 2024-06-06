@@ -4,8 +4,7 @@ using TMPro;
 
 public class PlayerIdentifier : MonoBehaviourPunCallbacks
 {
-    [SerializeField]
-    TextMeshProUGUI playerNameText;
+    [SerializeField] private TextMeshProUGUI playerNameText;
 
     void Start()
     {
@@ -13,8 +12,7 @@ public class PlayerIdentifier : MonoBehaviourPunCallbacks
     }
 
     public void SetPlayerUI() {
-        if (playerNameText != null) {
-            playerNameText.text = photonView.Owner.NickName;
-        }
+        if (!string.IsNullOrWhiteSpace(photonView.Owner.NickName) && playerNameText != null)
+            playerNameText.text = photonView.Owner.NickName ?? "No name";
     }
 }

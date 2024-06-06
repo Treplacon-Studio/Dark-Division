@@ -120,7 +120,7 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
 
             GameObject instantiatedCamera = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "FirstPersonCamera"), cameraPosition.transform.position, cameraPosition.transform.rotation);
             instantiatedCamera.transform.SetParent(cameraPosition.transform);        
-            playerMotor.fpsCamera = instantiatedCamera;
+            //playerMotor.fpsCamera = instantiatedCamera;
 
             photonView.RPC("MarkSpawnPointOccupied", RpcTarget.AllBuffered, spawnPoint, team);
         }
