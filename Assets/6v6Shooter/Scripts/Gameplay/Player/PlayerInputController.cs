@@ -15,6 +15,8 @@ public class PlayerInputController : MonoBehaviour
     public InputAction aimAction;
     public InputAction lookAction;
     public InputAction shootAction;
+    public InputAction inspectAction;
+    public InputAction reloadAction;
 
     public Gamepad Gamepad;
 
@@ -37,6 +39,8 @@ public class PlayerInputController : MonoBehaviour
         aimAction.Enable();
         lookAction.Enable();
         shootAction.Enable();
+        inspectAction.Enable();
+        reloadAction.Enable();
     }
 
     private void RegisterInputActionCallbacks()
@@ -44,6 +48,9 @@ public class PlayerInputController : MonoBehaviour
         aimAction.performed += ctx => OnAim();
         aimAction.canceled += ctx => OnStopAim();
         shootAction.performed += ctx => OnShoot();
+        jumpAction.performed += ctx => OnJump();
+        inspectAction.performed += ctx => OnInspect();
+        reloadAction.performed += ctx => OnReload();
     }
 
     private void OnAim()
@@ -63,5 +70,20 @@ public class PlayerInputController : MonoBehaviour
     private void OnShoot()
     {
         playerMotor.animationController.PlayShootAnimation();
+    }
+
+    private void OnJump()
+    {
+        playerMotor.animationController.PlayJumpAnimation();
+    }
+
+    private void OnInspect()
+    {
+        playerMotor.animationController.PlayInspectAnimation();
+    }
+
+    private void OnReload()
+    {
+        playerMotor.animationController.PlayReloadAnimation();
     }
 }

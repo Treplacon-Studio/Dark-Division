@@ -8,6 +8,9 @@ public class PlayerAnimationController : MonoBehaviour
     public void PlayStopAimDownSightAnimation() => anim.SetTrigger("unaimSight");
     public void PlayShootAnimation() => Debug.Log("Shooting.."); //Replace with shooting animation
     public void PlaySprintAnimation(bool isSprinting) => anim.SetBool("isSprinting", isSprinting);
+    public void PlayJumpAnimation() => anim.SetTrigger("jump");
+    public void PlayInspectAnimation() => anim.SetTrigger("inspectWeapon");
+    public void PlayReloadAnimation() => anim.SetTrigger("reloadWeapon");
 
     public void PlayWalkingAnimation(Vector2 movementInput)
     {

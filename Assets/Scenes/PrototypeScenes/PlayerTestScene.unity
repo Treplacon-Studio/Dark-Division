@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -524,6 +524,46 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4071159532681234406, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
+      propertyPath: reloadAction.m_Name
+      value: Reload
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071159532681234406, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
+      propertyPath: inspectAction.m_Name
+      value: Inspect
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071159532681234406, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
+      propertyPath: reloadAction.m_SingletonActionBindings.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071159532681234406, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
+      propertyPath: inspectAction.m_SingletonActionBindings.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071159532681234406, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
+      propertyPath: reloadAction.m_SingletonActionBindings.Array.data[0].m_Id
+      value: f844fb5c-e314-454a-8647-810d8a4f0cbf
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071159532681234406, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
+      propertyPath: inspectAction.m_SingletonActionBindings.Array.data[0].m_Id
+      value: 1e66ecfc-06b0-4a4f-9824-0e38e60404bb
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071159532681234406, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
+      propertyPath: reloadAction.m_SingletonActionBindings.Array.data[0].m_Path
+      value: <Keyboard>/r
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071159532681234406, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
+      propertyPath: inspectAction.m_SingletonActionBindings.Array.data[0].m_Path
+      value: <Keyboard>/y
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071159532681234406, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
+      propertyPath: reloadAction.m_SingletonActionBindings.Array.data[0].m_Action
+      value: Reload
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071159532681234406, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
+      propertyPath: inspectAction.m_SingletonActionBindings.Array.data[0].m_Action
+      value: Inspect
+      objectReference: {fileID: 0}
     - target: {fileID: 5290896979578950106, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -571,7 +611,7 @@ PrefabInstance:
     - target: {fileID: 7681336248658662818, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
       propertyPath: m_Avatar
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 9000000, guid: 199709b55405cc8438a61b7d5a930d49, type: 3}
     - target: {fileID: 7681336248658662818, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
