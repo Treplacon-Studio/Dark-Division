@@ -509,8 +509,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731668819}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09622726, y: -0.6601003, z: 0.08583923, w: 0.7400268}
-  m_LocalPosition: {x: 12.942341, y: 4.6617146, z: 0.40258515}
+  m_LocalRotation: {x: -0.11479522, y: 0.013495565, z: -0.0015486098, w: -0.9932963}
+  m_LocalPosition: {x: 0.10534938, y: 3.3058167, z: -5.0087624}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -524,6 +524,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4071159532681234406, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
+      propertyPath: lookAction.m_SingletonActionBindings.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071159532681234406, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
+      propertyPath: lookAction.m_SingletonActionBindings.Array.data[0].m_Id
+      value: dcfa0694-1b63-4f04-a9bf-1a4ca2bbf3ab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071159532681234406, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
+      propertyPath: lookAction.m_SingletonActionBindings.Array.data[0].m_Path
+      value: <Mouse>/delta
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071159532681234406, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
+      propertyPath: lookAction.m_SingletonActionBindings.Array.data[0].m_Action
+      value: Look
+      objectReference: {fileID: 0}
     - target: {fileID: 5290896979578950106, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

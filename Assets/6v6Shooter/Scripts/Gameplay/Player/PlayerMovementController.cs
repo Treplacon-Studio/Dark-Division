@@ -6,8 +6,10 @@ public class PlayerMovementController : MonoBehaviour
     private PlayerMotor playerMotor;
 
     public float currentSpeed;
-    public Vector3 jumpForce;
+    public float jumpForce;
     public float lookSensitivity;
+    public bool isGrounded;
+    public Vector3 jump;
 
     private Rigidbody playerBody;
     private Vector3 velocity;
@@ -24,7 +26,8 @@ public class PlayerMovementController : MonoBehaviour
     {
         velocity = Vector3.zero;
         rotation = Vector3.zero;
-        //lookSensitivity = playerMotor.inputController.Gamepad.current != null ? 10f : 100f;
+        currentSpeed = 3f;
+        lookSensitivity = playerMotor.inputController.Gamepad != null ? 10f : 100f;
     }
 
     private void Update()
@@ -35,10 +38,19 @@ public class PlayerMovementController : MonoBehaviour
         ControllerMovement();
     }
 
+    void FixedUpdate()
+    {
+        if (!playerMotor.photonView.IsMine)
+            return;
+
+        if (velocity != Vector3.zero)
+            playerBody.MovePosition(playerBody.position + velocity * Time.fixedDeltaTime);
+
+        playerBody.MoveRotation(playerBody.rotation * Quaternion.Euler(rotation));
+    }
+
     private void ControllerMovement()
     {
-        SprintMovmement();
-
         Vector2 movementInput = new Vector2(playerMotor.inputController.right.ReadValue<float>() 
                                             - playerMotor.inputController.left.ReadValue<float>()
                                             , playerMotor.inputController.forward.ReadValue<float>() 
@@ -52,6 +64,8 @@ public class PlayerMovementController : MonoBehaviour
         Vector3 movementVelocity = (horizontalMovement + verticalMovement).normalized * currentSpeed;
 
         SetVelocity(movementVelocity);
+        SprintMovmement();
+        JumpMovement();
     }
 
     private void SprintMovmement()
@@ -63,11 +77,33 @@ public class PlayerMovementController : MonoBehaviour
 
     private void SetJumpForce()
     {
-        jumpForce = new Vector3(0.0f, 1.5f, 0.0f);
+        jumpForce = 2f;
+        jump = new Vector3(0.0f, 1.5f, 0.0f);
+    }
+
+    private void JumpMovement()
+    {
+        if (playerMotor.inputController.jumpAction.triggered && isGrounded)
+        {
+            playerBody.AddForce(jump * jumpForce, ForceMode.Impulse);
+            isGrounded = false;
+        }
     }
 
     private void SetVelocity(Vector3 movementVelocity)
     {
         velocity = movementVelocity;
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+            isGrounded = true;
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+            isGrounded = false;
     }
 }

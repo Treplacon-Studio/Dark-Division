@@ -49,15 +49,15 @@ public class PlayerInputController : MonoBehaviour
     private void OnAim()
     {
         playerMotor.animationController.PlayAimDownSightAnimation();
-        //lookSensitivity = 2f;
-        //speed = 1f;
+        playerMotor.movementController.lookSensitivity = 2f;
+        playerMotor.movementController.currentSpeed = 1f;
     }
 
     private void OnStopAim()
     {
         playerMotor.animationController.PlayStopAimDownSightAnimation();
-        //lookSensitivity = Gamepad.current != null ? 10f : 100f;
-        //speed = 3f;
+        playerMotor.movementController.lookSensitivity = Gamepad.current != null ? 10f : 100f;
+        playerMotor.movementController.currentSpeed = 3f;
     }
 
     private void OnShoot()
