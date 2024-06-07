@@ -781,7 +781,15 @@ MonoBehaviour:
     m_Id: 3706df4d-1d67-4082-a638-974ed9df5dae
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings: []
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: dcfa0694-1b63-4f04-a9bf-1a4ca2bbf3ab
+      m_Path: <Mouse>/delta
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Look
+      m_Flags: 0
     m_Flags: 0
   shootAction:
     m_Name: Shoot
@@ -812,7 +820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c117f618b26e7d4ebd3a539b544ff47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 8606946365308302694}
+  anim: {fileID: 7681336248658662818}
 --- !u!114 &5480198112687090549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -826,7 +834,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentSpeed: 0
-  jumpForce: {x: 0, y: 0, z: 0}
+  jumpForce: 0
+  lookSensitivity: 0
+  isGrounded: 0
+  jump: {x: 0, y: 0, z: 0}
 --- !u!114 &2903386433528117143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1083,13 +1094,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 199709b55405cc8438a61b7d5a930d49, type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'DEF-spine'\n\tTransform 'DEF-upper_arm.L'\n\tTransform
-        'DEF-upper_arm.R'\n\tTransform 'DEF-spine.002'\n\tTransform 'DEF-spine.003'\n\tTransform
-        'DEF-upper_arm.L'\n\tTransform 'DEF-thigh.L'\n\tTransform 'DEF-spine.004'\n\tTransform
-        'DEF-hand.L'\n\tTransform 'DEF-forearm.R'\n\tand more ...\n\tFrom animation
-        clip 'AN_FPS_Scar_ToAds'\n\tFrom animation clip 'AN_FPS_Scar_Inspect'"
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 199709b55405cc8438a61b7d5a930d49, type: 3}
       propertyPath: m_ApplyRootMotion
@@ -1098,15 +1103,39 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 199709b55405cc8438a61b7d5a930d49, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7681336248658662818}
   m_SourcePrefab: {fileID: 100100000, guid: 199709b55405cc8438a61b7d5a930d49, type: 3}
 --- !u!4 &2419040800659189532 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 199709b55405cc8438a61b7d5a930d49, type: 3}
   m_PrefabInstance: {fileID: 2745104191718082807}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &8606946365308302694 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 199709b55405cc8438a61b7d5a930d49, type: 3}
+--- !u!1 &3087772137562830246 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 199709b55405cc8438a61b7d5a930d49, type: 3}
   m_PrefabInstance: {fileID: 2745104191718082807}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &7681336248658662818
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3087772137562830246}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 199709b55405cc8438a61b7d5a930d49, type: 3}
+  m_Controller: {fileID: 9100000, guid: e6df6a41862483840a8fe5ef0bdb05a5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

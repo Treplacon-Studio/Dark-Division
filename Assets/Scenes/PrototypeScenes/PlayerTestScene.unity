@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 445923628}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -152,7 +152,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 10, y: 1, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 660829020}
@@ -509,13 +509,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731668819}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.11479522, y: 0.013495565, z: -0.0015486098, w: -0.9932963}
-  m_LocalPosition: {x: 0.10534938, y: 3.3058167, z: -5.0087624}
+  m_LocalRotation: {x: -0.16669913, y: 0.013558176, z: -0.0008391378, w: -0.98591423}
+  m_LocalPosition: {x: 0.10534938, y: 2.01, z: -1.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 19.191, y: -1.605, z: -0.174}
 --- !u!1001 &6553371357367157163
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -524,22 +524,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4071159532681234406, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
-      propertyPath: lookAction.m_SingletonActionBindings.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4071159532681234406, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
-      propertyPath: lookAction.m_SingletonActionBindings.Array.data[0].m_Id
-      value: dcfa0694-1b63-4f04-a9bf-1a4ca2bbf3ab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4071159532681234406, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
-      propertyPath: lookAction.m_SingletonActionBindings.Array.data[0].m_Path
-      value: <Mouse>/delta
-      objectReference: {fileID: 0}
-    - target: {fileID: 4071159532681234406, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
-      propertyPath: lookAction.m_SingletonActionBindings.Array.data[0].m_Action
-      value: Look
-      objectReference: {fileID: 0}
     - target: {fileID: 5290896979578950106, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -584,17 +568,17 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8137380798645109776, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
-      propertyPath: m_Name
-      value: Player_M01
-      objectReference: {fileID: 0}
-    - target: {fileID: 8606946365308302694, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
+    - target: {fileID: 7681336248658662818, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
       propertyPath: m_Avatar
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 8606946365308302694, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
-      propertyPath: m_WarningMessage
-      value: 
+    - target: {fileID: 7681336248658662818, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8137380798645109776, guid: 9f8bd785c5d62d848a2be06fbaffabb6, type: 3}
+      propertyPath: m_Name
+      value: Player_M01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
