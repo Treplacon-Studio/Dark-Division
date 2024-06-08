@@ -1,121 +1,66 @@
 using UnityEngine;
-
+using static SharedPlayerSettings;
 
 public class PlayerMovementController : MonoBehaviour
 {
     private PlayerMotor playerMotor;
+    private PlayerControls playerControls;
+    private CharacterController characterController;
 
-    public float currentSpeed;
-    public float jumpForce;
-    public float lookSensitivity;
-    public bool isGrounded;
-    public Vector3 jump;
+    public Vector2 inputMovement;
+    public Vector2 inputView;
 
-    private Rigidbody playerBody;
-    private Vector3 velocity;
-    private Vector3 rotation;
+    private Vector2 newCameraRotation;
+    private Vector3 newCharacterRotation;
+
+    [Header("References")]
+    public Transform cameraHolder;
+
+    [Header("Settings")]
+    public PlayerSettingsModel playerSettings;
+    public float viewClampYMin = -70;
+    public float viewClampYMax = 80;
 
     private void Awake()
     {
         playerMotor = GetComponent<PlayerMotor>();
-        playerBody = GetComponent<Rigidbody>();
-        SetJumpForce();
-    }
+        characterController = GetComponent<CharacterController>();
+        
+        playerControls = new PlayerControls();
+        playerControls.PlayerBase.Movement.performed += e => inputMovement = e.ReadValue<Vector2>();
+        playerControls.PlayerBase.Look.performed += e => inputView = e.ReadValue<Vector2>();
 
-    void Start()
-    {
-        velocity = Vector3.zero;
-        rotation = Vector3.zero;
-        currentSpeed = 3f;
-        lookSensitivity = playerMotor.inputController.Gamepad != null ? 10f : 100f;
+        playerControls.Enable();
+
+        newCameraRotation = cameraHolder.localRotation.eulerAngles;
+        newCharacterRotation = transform.localRotation.eulerAngles;
     }
 
     private void Update()
     {
-        if (!playerMotor.photonView.IsMine)
-            return;
-
-        ControllerMovement();
+        CalculateView();
+        CalculateMovement();
     }
 
-    void FixedUpdate()
+    private void CalculateView()
     {
-        if (!playerMotor.photonView.IsMine)
-            return;
+        newCharacterRotation.y += playerSettings.ViewXSensitivity * (playerSettings.ViewXInverted ? -inputView.x : inputView.x)* Time.deltaTime;
+        transform.rotation = Quaternion.Euler(newCameraRotation);
 
-        if (velocity != Vector3.zero)
-            playerBody.MovePosition(playerBody.position + velocity * Time.fixedDeltaTime);
+        newCameraRotation.x += playerSettings.ViewYSensitivity * (playerSettings.ViewYInverted ? inputView.y : -inputView.y) * Time.deltaTime;
+        newCameraRotation.x = Mathf.Clamp(newCameraRotation.x, viewClampYMin, viewClampYMax);
 
-        playerBody.MoveRotation(playerBody.rotation * Quaternion.Euler(rotation));
+        cameraHolder.localRotation = Quaternion.Euler(newCameraRotation);
     }
 
-    private void ControllerMovement()
+    private void CalculateMovement()
     {
-        Vector2 movementInput = playerMotor.inputController.GetPlayerMovement();
-                                            
-        Vector3 horizontalMovement = transform.right * movementInput.x;
-        Vector3 verticalMovement = transform.forward * movementInput.y;
+        var verticalSpeed = playerSettings.WalkingForwardSpeed * inputMovement.y * Time.deltaTime;
+        var horizontalSpeed = playerSettings.WalkingStrafeSpeed * inputMovement.x * Time.deltaTime;
 
-        playerMotor.animationController.PlayWalkingAnimation(movementInput);
+        var newMovementSpeed = new Vector3(horizontalSpeed, 0, verticalSpeed);
+        newMovementSpeed = transform.TransformDirection(newMovementSpeed);
 
-        Vector3 movementVelocity = (horizontalMovement + verticalMovement).normalized * currentSpeed;
-
-        SetVelocity(movementVelocity);
-        SprintMovmement(verticalMovement);
-        JumpMovement();
-    }
-
-    private void SprintMovmement(Vector3 verticalMovement)
-    {
-        bool sprintButtonPressed = playerMotor.inputController.OnSprint();
-        bool isSprinting = verticalMovement.z > 0;
-        bool canSprint = sprintButtonPressed && isSprinting;
-        playerMotor.animationController.PlaySprintAnimation(canSprint);
-        currentSpeed = canSprint ? 5f : 3f;
-
-        Debug.Log(sprintButtonPressed);
-        Debug.Log(isSprinting);
-        Debug.Log(canSprint);
-        Debug.Log(verticalMovement.z);
-    }
-
-    private void SetJumpForce()
-    {
-        jumpForce = 2f;
-        jump = new Vector3(0.0f, 1.5f, 0.0f);
-    }
-
-    private void JumpMovement()
-    {
-        if (playerMotor.inputController.OnJump() && isGrounded)
-        {
-            playerMotor.animationController.PlayJumpAnimation();
-            playerMotor.animationController.SetIsGroundedAnim(isGrounded);
-            playerBody.AddForce(jump * jumpForce, ForceMode.Impulse);
-            isGrounded = false;
-        }
-    }
-
-    private void SetVelocity(Vector3 movementVelocity)
-    {
-        velocity = movementVelocity;
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-            isGrounded = true;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-            playerMotor.animationController.SetIsGroundedAnim(isGrounded);
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-            isGrounded = false;
+        characterController.Move(newMovementSpeed);
     }
 }
