@@ -6,84 +6,57 @@ public class PlayerInputController : MonoBehaviour
 {
     private PlayerMotor playerMotor;
 
-    public InputAction forward;
-    public InputAction backward;
-    public InputAction left;
-    public InputAction right;
-    public InputAction jumpAction;
-    public InputAction sprintAction;
-    public InputAction aimAction;
-    public InputAction lookAction;
-    public InputAction shootAction;
-    public InputAction inspectAction;
-    public InputAction reloadAction;
-
     public Gamepad Gamepad;
+
+    private PlayerControls playerControls;
 
     private void Awake()
     {
         playerMotor = GetComponent<PlayerMotor>();
-        
-        EnableInputActions();
-        RegisterInputActionCallbacks();
+        playerControls = new PlayerControls();
     }
 
-    private void EnableInputActions()
+    private void OnEnable()
     {
-        forward.Enable();
-        backward.Enable();
-        left.Enable();
-        right.Enable();
-        jumpAction.Enable();
-        sprintAction.Enable();
-        aimAction.Enable();
-        lookAction.Enable();
-        shootAction.Enable();
-        inspectAction.Enable();
-        reloadAction.Enable();
+        playerControls.Enable();
     }
 
-    private void RegisterInputActionCallbacks()
+    private void OnDisable()
     {
-        aimAction.performed += ctx => OnAim();
-        aimAction.canceled += ctx => OnStopAim();
-        shootAction.performed += ctx => OnShoot();
-        jumpAction.performed += ctx => OnJump();
-        inspectAction.performed += ctx => OnInspect();
-        reloadAction.performed += ctx => OnReload();
+        playerControls.Disable();
     }
 
-    private void OnAim()
+    public Vector2 GetPlayerMovement()
+    {
+        return playerControls.PlayerBase.Movement.ReadValue<Vector2>();
+    }
+
+    public Vector2 GetMouseDelta()
+    {
+        return playerControls.PlayerBase.Look.ReadValue<Vector2>();
+    }
+
+    /* public void OnAim()
     {
         playerMotor.animationController.PlayAimDownSightAnimation();
         playerMotor.movementController.lookSensitivity = 2f;
         playerMotor.movementController.currentSpeed = 1f;
     }
 
-    private void OnStopAim()
+    public void OnStopAim()
     {
         playerMotor.animationController.PlayStopAimDownSightAnimation();
         playerMotor.movementController.lookSensitivity = Gamepad.current != null ? 10f : 100f;
         playerMotor.movementController.currentSpeed = 3f;
+    } */
+
+    public bool OnSprint()
+    {
+        return playerControls.PlayerBase.Sprint.IsPressed();
     }
 
-    private void OnShoot()
+    public bool OnJump()
     {
-        playerMotor.animationController.PlayShootAnimation();
-    }
-
-    private void OnJump()
-    {
-        playerMotor.animationController.PlayJumpAnimation();
-    }
-
-    private void OnInspect()
-    {
-        playerMotor.animationController.PlayInspectAnimation();
-    }
-
-    private void OnReload()
-    {
-        playerMotor.animationController.PlayReloadAnimation();
+        return playerControls.PlayerBase.Jump.triggered;
     }
 }

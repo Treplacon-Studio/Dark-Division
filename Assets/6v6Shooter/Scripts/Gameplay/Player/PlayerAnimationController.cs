@@ -11,6 +11,7 @@ public class PlayerAnimationController : MonoBehaviour
     public void PlayJumpAnimation() => anim.SetTrigger("jump");
     public void PlayInspectAnimation() => anim.SetTrigger("inspectWeapon");
     public void PlayReloadAnimation() => anim.SetTrigger("reloadWeapon");
+    public void SetIsGroundedAnim(bool isGrounded) => anim.SetBool("isGrounded", isGrounded);
 
     public void PlayWalkingAnimation(Vector2 movementInput)
     {

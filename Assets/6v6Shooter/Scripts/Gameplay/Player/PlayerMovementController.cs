@@ -51,10 +51,7 @@ public class PlayerMovementController : MonoBehaviour
 
     private void ControllerMovement()
     {
-        Vector2 movementInput = new Vector2(playerMotor.inputController.right.ReadValue<float>() 
-                                            - playerMotor.inputController.left.ReadValue<float>()
-                                            , playerMotor.inputController.forward.ReadValue<float>() 
-                                            - playerMotor.inputController.backward.ReadValue<float>());
+        Vector2 movementInput = playerMotor.inputController.GetPlayerMovement();
                                             
         Vector3 horizontalMovement = transform.right * movementInput.x;
         Vector3 verticalMovement = transform.forward * movementInput.y;
@@ -64,15 +61,22 @@ public class PlayerMovementController : MonoBehaviour
         Vector3 movementVelocity = (horizontalMovement + verticalMovement).normalized * currentSpeed;
 
         SetVelocity(movementVelocity);
-        SprintMovmement();
+        SprintMovmement(verticalMovement);
         JumpMovement();
     }
 
-    private void SprintMovmement()
+    private void SprintMovmement(Vector3 verticalMovement)
     {
-        bool isSprinting = playerMotor.inputController.sprintAction.IsPressed();
-        playerMotor.animationController.PlaySprintAnimation(isSprinting);
-        currentSpeed = isSprinting ? 5f : 3f;
+        bool sprintButtonPressed = playerMotor.inputController.OnSprint();
+        bool isSprinting = verticalMovement.z > 0;
+        bool canSprint = sprintButtonPressed && isSprinting;
+        playerMotor.animationController.PlaySprintAnimation(canSprint);
+        currentSpeed = canSprint ? 5f : 3f;
+
+        Debug.Log(sprintButtonPressed);
+        Debug.Log(isSprinting);
+        Debug.Log(canSprint);
+        Debug.Log(verticalMovement.z);
     }
 
     private void SetJumpForce()
@@ -83,8 +87,10 @@ public class PlayerMovementController : MonoBehaviour
 
     private void JumpMovement()
     {
-        if (playerMotor.inputController.jumpAction.triggered && isGrounded)
+        if (playerMotor.inputController.OnJump() && isGrounded)
         {
+            playerMotor.animationController.PlayJumpAnimation();
+            playerMotor.animationController.SetIsGroundedAnim(isGrounded);
             playerBody.AddForce(jump * jumpForce, ForceMode.Impulse);
             isGrounded = false;
         }
@@ -99,6 +105,12 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
             isGrounded = true;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+            playerMotor.animationController.SetIsGroundedAnim(isGrounded);
     }
 
     private void OnCollisionExit(Collision collision)
