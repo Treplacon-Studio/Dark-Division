@@ -28,6 +28,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public GameObject renameInputField;
     private int hoveredLoadoutIndex = -1;
     private bool isRenaming = false;
+    private GameObject selectedLoadoutButton;
 
     #region Unity Methods
 
@@ -183,9 +184,14 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         inputFieldComponent.Select();
     }
 
+    public void OnLoadoutSelected(GameObject loadoutButton)
+    {
+        selectedLoadoutButton = loadoutButton;
+    }
+
     public void RenameSelectedLoadout()
     {
-        if (hoveredLoadoutIndex < 0)
+        if (selectedLoadoutButton == null)
         {
             Debug.LogWarning("No loadout selected to rename.");
             return;
@@ -200,9 +206,8 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        // Find the loadout button that needs renaming
-        Transform loadoutButton = loadoutList.transform.GetChild(hoveredLoadoutIndex);
-        Text loadoutButtonText = loadoutButton.GetComponentInChildren<Text>();
+        // Find the text component of the loadout button
+        Text loadoutButtonText = selectedLoadoutButton.GetComponentInChildren<Text>();
 
         if (loadoutButtonText != null)
         {
@@ -216,9 +221,10 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
         // Clear the input field after renaming
         inputFieldComponent.text = "";
-        renameInputField.SetActive(false);
-        isRenaming = false;
+        renameInputField.SetActive(false); // Hide the rename input field
+        selectedLoadoutButton = null; // Reset selected loadout button
     }
+
 
     #endregion
 }
