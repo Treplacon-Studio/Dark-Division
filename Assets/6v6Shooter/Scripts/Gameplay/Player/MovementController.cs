@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace _6v6Shooter.Scripts.Gameplay.Player
 {
@@ -39,7 +41,18 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
         private CollisionFlags _collisionFlags;
         private RaycastHit _slopeHit;
     
-    
+        
+        //Animations
+        [SerializeField] [Tooltip("Controller for animations.")] 
+        private PlayerAnimationController pac;
+        
+        [SerializeField] [Tooltip("Central spine bone.")] 
+        private Transform centralSpineBone;
+
+        [SerializeField]  [Tooltip("Input action for looking around with mouse.")] 
+        private InputAction lookAround;
+        
+        
         //Walking
         [Header("Walking properties")]
     
@@ -86,17 +99,17 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
         private enum CrouchState { Down, Up, Jump };
     
         private float _originalCameraLocalHeight;
-        private float _originalCharacterControllerHeight;
-        private float _originalCharacterControllerCenterY;
 
     
         //Camera
+        [FormerlySerializedAs("mouseLook")]
         [Header("Camera")]
     
         [SerializeField] [Tooltip("Component that let character to freely look around.")] 
-        private MouseLook mouseLook;
+        private MouseLookAround mouseLookAround;
     
-        [SerializeField] private Camera _fpsCamera;
+        [SerializeField] [Tooltip("Camera for first person view.")]
+        private Camera _fpsCamera;
     
     
         //Physics
@@ -112,21 +125,19 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
 
         private void Start ()
         {
-            mouseLook.Init(transform, _fpsCamera.transform);
+            mouseLookAround.Init(transform);
         
             _speed = walkingSpeed;
             _frameDelayCounter = frameDelayBetweenJumps;
         
             //Some starting values for crouching revert
-            _originalCameraLocalHeight = _fpsCamera.transform.localPosition.y;
-            _originalCharacterControllerHeight = _characterController.height;
-            _originalCharacterControllerCenterY = _characterController.center.y;
+            _originalCameraLocalHeight = centralSpineBone.transform.localPosition.y;
         }
 	
         private void Update ()
         {
             //Handle freely look around
-            mouseLook.LookRotation();
+            mouseLookAround.LookRotation();
             
             //Handle some movement actions
             HandleActions();
@@ -139,6 +150,9 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
         
             //Updates character movement state
             UpdateMoveState();
+            
+            //Handles animations
+            HandleAnimations();
         }
     
         private void HandleActions()
@@ -273,6 +287,27 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
             else if (_speed == walkingSpeed)
                 movementState = MovementState.Walking;
         }
+
+        private void HandleAnimations()
+        {
+            pac.PlaySprintAnimation(Input.GetKey(KeyCode.LeftShift));
+            
+            if(Input.GetButton("Jump"))
+                pac.PlayJumpAnimation();
+            
+            if(Input.GetKeyDown(KeyCode.R))
+                pac.PlayReloadAnimation();
+            
+            if(Input.GetKeyDown(KeyCode.I))
+                pac.PlayInspectAnimation();
+            
+            if(Input.GetMouseButtonDown(0))
+                pac.PlayShootAnimation();
+            
+            pac.PlayAimDownSightAnimation();
+            pac.PlayWalkingAnimation(_input);
+            pac.SetIsGroundedAnim(_isGrounded);
+        }
     
     
         // ---------- UTILS ----------
@@ -306,61 +341,66 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
     
         private void CrouchUp()
         {
-            if (_characterController.height != _originalCharacterControllerHeight)
-                _characterController.height = Mathf.MoveTowards(_characterController.height, _originalCharacterControllerHeight, Time.deltaTime * crouchSpeed);
-        
-            if (_characterController.center.y != _originalCharacterControllerCenterY)
-                _characterController.center = new Vector3(_characterController.center.x,
-                    _originalCharacterControllerCenterY - (_originalCharacterControllerHeight - _characterController.height) * .5f,
-                    _characterController.center.z);
-        
-            if (_fpsCamera.transform.localPosition.y != _originalCameraLocalHeight)
-                _fpsCamera.transform.localPosition = new Vector3(_fpsCamera.transform.localPosition.x,
-                    Mathf.MoveTowards(_fpsCamera.transform.localPosition.y, _originalCameraLocalHeight, Time.deltaTime * crouchSpeed),
-                    _fpsCamera.transform.localPosition.z);
+            if (centralSpineBone.transform.localPosition.y != _originalCameraLocalHeight)
+            {
+                centralSpineBone.transform.localPosition = new Vector3(
+                    centralSpineBone.transform.localPosition.x,
+                    Mathf.MoveTowards(centralSpineBone.transform.localPosition.y, _originalCameraLocalHeight,
+                        Time.deltaTime * crouchSpeed),
+                    centralSpineBone.transform.localPosition.z);
+            }
+            else
+            {
+                var pos = centralSpineBone.transform.localPosition;
+                pos.y = _originalCameraLocalHeight;
+                centralSpineBone.transform.localPosition = pos;
+            }
         }
 
         private void CrouchDown()
         {
-            if (_characterController.height != crouchHeight)
-                _characterController.height = Mathf.MoveTowards(_characterController.height, crouchHeight, Time.deltaTime * crouchSpeed);
-        
-            if (_characterController.center.y != _originalCharacterControllerCenterY - crouchHeight * 0.5f)
-                _characterController.center = new Vector3(_characterController.center.x,
-                    _originalCharacterControllerCenterY - (_originalCharacterControllerHeight - _characterController.height) * .5f,
-                    _characterController.center.z);
-        
-            if (_fpsCamera.transform.localPosition.y != crouchHeight)
-                _fpsCamera.transform.localPosition = new Vector3(_fpsCamera.transform.localPosition.x,
-                    Mathf.MoveTowards(_fpsCamera.transform.localPosition.y, crouchHeight, Time.deltaTime * crouchSpeed),
-                    _fpsCamera.transform.localPosition.z);
+            if (centralSpineBone.transform.localPosition.y != crouchHeight)
+            {
+                centralSpineBone.transform.localPosition = new Vector3(
+                    centralSpineBone.transform.localPosition.x,
+                    Mathf.MoveTowards(centralSpineBone.transform.localPosition.y, crouchHeight,
+                        Time.deltaTime * crouchSpeed),
+                    centralSpineBone.transform.localPosition.z);
+            }
+            else
+            {
+                var pos = centralSpineBone.transform.localPosition;
+                pos.y = crouchHeight;
+                centralSpineBone.transform.localPosition = pos;
+            }
         }
 
         private void CrouchJump()
         {
-            if (_characterController.height != crouchHeight)
-            {
-                var newHeight = Mathf.MoveTowards(_characterController.height, crouchHeight, Time.deltaTime * crouchSpeed);
-                var heightDelta = newHeight - _characterController.height;
-                _characterController.height = newHeight;
-            
-                _characterController.transform.position = new Vector3(_characterController.transform.position.x,
-                    _characterController.transform.position.y - heightDelta,
-                    _characterController.transform.position.z);
-            }
-        
-            var characterControllerHeightDelta = _originalCharacterControllerHeight - _characterController.height;
-            if (_characterController.center.y != _originalCharacterControllerCenterY - crouchHeight * .5f)
-            {
-                _characterController.center = new Vector3(_characterController.center.x,
-                    _originalCharacterControllerCenterY - characterControllerHeightDelta * .5f,
-                    _characterController.center.z);
-            }
-        
-            if (_fpsCamera.transform.localPosition.y != crouchHeight)
-                _fpsCamera.transform.localPosition = new Vector3(_fpsCamera.transform.localPosition.x,
-                    Mathf.MoveTowards(_fpsCamera.transform.localPosition.y, crouchHeight, Time.deltaTime * crouchSpeed),
-                    _fpsCamera.transform.localPosition.z);
+            //return;
+            // if (_characterController.height != crouchHeight)
+            // {
+            //     var newHeight = Mathf.MoveTowards(_characterController.height, crouchHeight, Time.deltaTime * crouchSpeed);
+            //     var heightDelta = newHeight - _characterController.height;
+            //     _characterController.height = newHeight;
+            //
+            //     _characterController.transform.position = new Vector3(_characterController.transform.position.x,
+            //         _characterController.transform.position.y - heightDelta,
+            //         _characterController.transform.position.z);
+            // }
+            //
+            // var characterControllerHeightDelta = _originalCharacterControllerHeight - _characterController.height;
+            // if (_characterController.center.y != _originalCharacterControllerCenterY - crouchHeight * .5f)
+            // {
+            //     _characterController.center = new Vector3(_characterController.center.x,
+            //         _originalCharacterControllerCenterY - characterControllerHeightDelta * .5f,
+            //         _characterController.center.z);
+            // }
+            //
+            // if (_fpsCamera.transform.localPosition.y != crouchHeight)
+            //     _fpsCamera.transform.localPosition = new Vector3(_fpsCamera.transform.localPosition.x,
+            //         Mathf.MoveTowards(_fpsCamera.transform.localPosition.y, crouchHeight, Time.deltaTime * crouchSpeed),
+            //         _fpsCamera.transform.localPosition.z);
         }
     }
 }
