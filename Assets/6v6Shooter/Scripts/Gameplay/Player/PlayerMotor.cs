@@ -1,3 +1,4 @@
+using _6v6Shooter.Scripts.Gameplay.Player;
 using Photon.Pun;
 using UnityEngine;
 

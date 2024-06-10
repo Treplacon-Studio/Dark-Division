@@ -43,12 +43,18 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
     
         
         //Animations
+        [Header("Animations")]
+        
         [SerializeField] [Tooltip("Controller for animations.")] 
         private PlayerAnimationController pac;
         
         [SerializeField] [Tooltip("Central spine bone.")] 
         private Transform centralSpineBone;
 
+        
+        //Controls
+        [Header("Controls")] [Space(10)]
+        
         [SerializeField]  [Tooltip("Input action for looking around with mouse.")] 
         private InputAction lookAround;
         
@@ -99,8 +105,18 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
         private enum CrouchState { Down, Up, Jump };
     
         private float _originalCameraLocalHeight;
+        
+        
+        //Aiming
+        [Header("Aiming")]
+        
+        [SerializeField] [Tooltip("Aim mode.")] 
+        private AimMode aimMode;
 
-    
+        private enum AimMode {Hold, Toggle};
+        private bool _isAiming;
+        
+        
         //Camera
         [FormerlySerializedAs("mouseLook")]
         [Header("Camera")]
@@ -295,18 +311,47 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
             if(Input.GetButton("Jump"))
                 pac.PlayJumpAnimation();
             
+            if(Input.GetMouseButtonDown(0))
+                pac.PlayShootAnimation();
+
+
+            if (aimMode == AimMode.Hold)
+            {
+                if (Input.GetMouseButtonDown(1))
+                {
+                    pac.PlayAimDownSightAnimation();
+                }
+
+                if (Input.GetMouseButtonUp(1))
+                {
+                    pac.PlayStopAimDownSightAnimation();
+                }
+            }
+            else if (aimMode == AimMode.Toggle)
+            {
+                var locked = false;
+                if (Input.GetMouseButtonDown(1) && !_isAiming)
+                {
+                    _isAiming = true;
+                    locked = true;
+                    pac.PlayAimDownSightAnimation();
+                }
+
+                if (Input.GetMouseButtonDown(1) && _isAiming && !locked)
+                {
+                    _isAiming = false;
+                    pac.PlayStopAimDownSightAnimation();
+                }
+            }
+
+            pac.PlayWalkingAnimation(_input);
+            pac.SetIsGroundedAnim(_isGrounded);
+            
             if(Input.GetKeyDown(KeyCode.R))
                 pac.PlayReloadAnimation();
             
             if(Input.GetKeyDown(KeyCode.I))
                 pac.PlayInspectAnimation();
-            
-            if(Input.GetMouseButtonDown(0))
-                pac.PlayShootAnimation();
-            
-            pac.PlayAimDownSightAnimation();
-            pac.PlayWalkingAnimation(_input);
-            pac.SetIsGroundedAnim(_isGrounded);
         }
     
     
