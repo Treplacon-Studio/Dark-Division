@@ -1,10 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro; 
 
 public class MainMenuManager : MonoBehaviourPunCallbacks
 {
+
     public enum MenuNavigationState
     {
         PublicMatch,
@@ -23,12 +24,15 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public GameObject SelectGamePanel;
     public GameObject SelectGameModeContainer;
     public GameObject SelectGameTypeContainer;
-
-    public GameObject loadoutList;
-    public GameObject renameInputField;
+    public GameObject loadoutList; 
     private int hoveredLoadoutIndex = -1;
-    private bool isRenaming = false;
-    private GameObject selectedLoadoutButton;
+
+    [Header("Loadout UI")]
+    public GameObject[] loadoutButtons;
+    public GameObject renameScreen; 
+
+    public GameObject inputFieldGameObject;
+    private TMP_InputField inputField;
 
     #region Unity Methods
 
@@ -36,28 +40,20 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     {
         SetPanelViewability();
         ConnectToPhotonServer();
+        inputField = inputFieldGameObject.GetComponent<TMP_InputField>();
     }
 
-    private void Update()
+     private void Update()
     {
-        if (isRenaming && Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.R) && hoveredLoadoutIndex >= 0 && hoveredLoadoutIndex < loadoutButtons.Length)
         {
-            RenameSelectedLoadout();
-        }
-        else if (!isRenaming && hoveredLoadoutIndex >= 0 && Input.GetKeyDown(KeyCode.R))
-        {
-            ShowRenameInputField();
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Debug.Log("R key pressed!");
+            renameScreen.SetActive(!renameScreen.activeSelf);
         }
     }
 
-    public void SetPanelViewability(bool selectGamePanel = false,
-                                    bool buttonPanel = false,
-                                    bool selectLoadoutPanel = false,
+    public void SetPanelViewability(bool selectGamePanel = false, 
+                                    bool buttonPanel = false, 
+                                    bool selectLoadoutPanel = true,
                                     bool editLoadoutPanel = false,
                                     bool gameTypeContainer = false,
                                     bool gameModeContainer = false,
@@ -72,19 +68,17 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         ShopPanel.SetActive(shopPanel);
     }
 
-    public void OnPlayGameSelected() => SetPanelViewability(selectGamePanel: true, gameTypeContainer: true);
-    public void OnQuickplaySelected() => SetPanelViewability(selectGamePanel: true, gameModeContainer: true);
-    public void OnRankedPlaySelected() { }
-    public void OnPracticeRangeSelected() => GameManager.instance.StartLoadingBar("S05_PraticeRange", true);
-    public void OnCreateClassSelected() => SetPanelViewability(selectLoadoutPanel: true);
-    public void SelectLoadout(int loadoutNum) => SetPanelViewability(editLoadoutPanel: true);
-    public void OnStoreSelected() => SetPanelViewability(shopPanel: true);
-    public void OnQuitSelected() => Application.Quit();
-    // UnityEditor.EditorApplication.isPlaying = false; use this code if testing in editor
+    public void OnPlayGameSelected() => SetPanelViewability(selectGamePanel:true, gameTypeContainer:true);
+    public void OnQuickplaySelected() => SetPanelViewability(selectGamePanel:true, gameModeContainer:true);
+    public void OnRankedPlaySelected() {}
+    public void OnPracticeRangeSelected() {}
+    public void OnCreateClassSelected() => SetPanelViewability(selectLoadoutPanel:true);
+    public void SelectLoadout(int loadoutNum) => SetPanelViewability(editLoadoutPanel:true);
+    public void OnStoreSelected() => SetPanelViewability(shopPanel:true);
 
-    // Back buttons
-    public void OnBackToMainMenuButtonClicked() => SetPanelViewability(buttonPanel: true);
-    public void OnBackToSelectLoadoutButtonClicked() => SetPanelViewability(selectLoadoutPanel: true);
+    //Back buttons
+    public void OnBackToMainMenuButtonClicked() => SetPanelViewability(buttonPanel:true);
+    public void OnBackToSelectLoadoutButtonClicked() => SetPanelViewability(selectLoadoutPanel:true);
 
     public void FindAnOpenMatch()
     {
@@ -127,18 +121,18 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 1 });
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 1});
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 4 });
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 4});
     }
 
     public override void OnCreatedRoom()
     {
         Debug.Log($"{PhotonNetwork.NickName} created a room!");
-        SetPanelViewability(buttonPanel: true);
+        SetPanelViewability(buttonPanel:true);
     }
 
     public override void OnJoinedRoom()
@@ -150,7 +144,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     {
         Debug.Log($"{PhotonNetwork.NickName} left the room!");
         PhotonNetwork.Disconnect();
-
+        
         if (currentState == MenuNavigationState.PublicMatch)
             GameManager.instance.StartLoadingBar("S02_Lobby", false);
         else if (currentState == MenuNavigationState.ChangeGamertag)
@@ -161,7 +155,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
     #endregion
 
-    #region Loadout Renaming Methods
+    #region Loadout Rename
 
     public void OnLoadoutHoverEnter(int loadoutIndex)
     {
@@ -169,61 +163,42 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         Debug.Log("Hovered over loadout index: " + loadoutIndex);
     }
 
-    public void OnLoadoutHoverExit()
+     public void OnLoadoutHoverExit()
     {
-        hoveredLoadoutIndex = -1;
         Debug.Log("Exited loadout hover");
     }
 
-    private void ShowRenameInputField()
+    public void RenameSubmit()
+{
+    if (hoveredLoadoutIndex >= 0 && hoveredLoadoutIndex < loadoutButtons.Length)
     {
-        Debug.Log("ShowRenameInputField called");
-        isRenaming = true;
-        renameInputField.SetActive(true);
-        InputField inputFieldComponent = renameInputField.GetComponent<InputField>();
-        inputFieldComponent.Select();
-    }
-
-    public void OnLoadoutSelected(GameObject loadoutButton)
-    {
-        selectedLoadoutButton = loadoutButton;
-    }
-
-    public void RenameSelectedLoadout()
-    {
-        if (selectedLoadoutButton == null)
+        
+        Transform loadoutNameTransform = loadoutButtons[hoveredLoadoutIndex].transform.Find("LoadOutName");
+        Debug.Log("Loadout Name Transform: " + loadoutNameTransform);
+        if (loadoutNameTransform != null)
         {
-            Debug.LogWarning("No loadout selected to rename.");
-            return;
-        }
-
-        InputField inputFieldComponent = renameInputField.GetComponent<InputField>();
-        string newName = inputFieldComponent.text;
-
-        if (string.IsNullOrEmpty(newName))
-        {
-            Debug.LogWarning("New name cannot be empty.");
-            return;
-        }
-
-        // Find the text component of the loadout button
-        Text loadoutButtonText = selectedLoadoutButton.GetComponentInChildren<Text>();
-
-        if (loadoutButtonText != null)
-        {
-            loadoutButtonText.text = newName;
-            Debug.Log("Loadout renamed to: " + newName);
+            TextMeshProUGUI loadoutNameText = loadoutNameTransform.GetComponent<TextMeshProUGUI>();
+            Debug.Log("Loadout Name Text: " + loadoutNameText);
+            if (loadoutNameText != null)
+            {
+                loadoutNameText.text = inputField.text;
+            }
+            else
+            {
+                Debug.LogError("TextMeshProUGUI component not found on loadout name object.");
+            }
         }
         else
         {
-            Debug.LogWarning("Loadout button text component not found.");
+            Debug.LogError("Loadout name GameObject not found as a child of loadout button.");
         }
-
-        // Clear the input field after renaming
-        inputFieldComponent.text = "";
-        renameInputField.SetActive(false); // Hide the rename input field
-        selectedLoadoutButton = null; // Reset selected loadout button
     }
+    renameScreen.SetActive(false);
+    hoveredLoadoutIndex = -1;
+}
+
+
+
 
 
     #endregion
