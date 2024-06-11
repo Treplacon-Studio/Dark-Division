@@ -16,6 +16,8 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
     public MenuNavigationState currentState = MenuNavigationState.None;
 
+    public MM_CinemaCC cameraManage;
+
     public GameObject ButtonPanel;
     public GameObject SelectLoadoutPanel;
     public GameObject EditLoadoutPanel;
@@ -26,6 +28,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public GameObject SelectGamePanel;
     public GameObject SelectGameModeContainer;
     public GameObject SelectGameTypeContainer;
+    public GameObject SelectNavRow;
     public GameObject loadoutList; 
     private int hoveredLoadoutIndex = -1;
 
@@ -44,6 +47,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         SetPanelViewability();
         ConnectToPhotonServer();
         inputField = inputFieldGameObject.GetComponent<TMP_InputField>();
+        cameraManage.SetCameraPriority("main");
     }
 
      private void Update()
@@ -67,6 +71,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
                                     bool selectLoadoutPanel = false,
                                     bool editLoadoutPanel = false,
                                     bool gameTypeContainer = false,
+                                    bool navRow = false,
                                     bool gameModeContainer = false,
                                     bool shopPanel = false,
                                     bool settingsPanel = false)
@@ -76,27 +81,49 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         SelectLoadoutPanel.SetActive(selectLoadoutPanel);
         EditLoadoutPanel.SetActive(editLoadoutPanel);
         SelectGameTypeContainer.SetActive(gameTypeContainer);
+        SelectNavRow.SetActive(navRow);
         SelectGameModeContainer.SetActive(gameModeContainer);
         ShopPanel.SetActive(shopPanel);
         SettingsPanel.SetActive(settingsPanel);
     }
 
-    public void OnPlayGameSelected() => SetPanelViewability(selectGamePanel:true, gameTypeContainer:true);
-    public void OnQuickplaySelected() => SetPanelViewability(selectGamePanel:true, gameModeContainer:true);
+    public void OnPlayGameSelected()
+    { 
+        SetPanelViewability(selectGamePanel:true, gameTypeContainer:true, navRow:true);
+        cameraManage.SetCameraPriority("mode");
+    }
+    public void OnQuickplaySelected() => SetPanelViewability(selectGamePanel:true, gameModeContainer:true, navRow:true);
     public void OnRankedPlaySelected() {}
     public void OnPracticeRangeSelected() => GameManager.instance.StartLoadingBar("S05_PraticeRange", true);
-    public void OnCreateClassSelected() => SetPanelViewability(selectLoadoutPanel:true);
+    public void OnCreateClassSelected() 
+    {
+        SetPanelViewability(selectLoadoutPanel:true);
+        cameraManage.SetCameraPriority("workbench");
+    }
     public void SelectLoadout(int loadoutNum) => SetPanelViewability(editLoadoutPanel:true);
-    public void OnStoreSelected() => SetPanelViewability(shopPanel:true);
-    public void OnSettingsSelected() => SetPanelViewability(settingsPanel:true);
+    public void OnStoreSelected() 
+    {
+        SetPanelViewability(shopPanel:true);
+        cameraManage.SetCameraPriority("shop");
+    }
+    public void OnSettingsSelected() 
+    {
+        SetPanelViewability(settingsPanel:true);
+        cameraManage.SetCameraPriority("settings");
+    }
     public void OnQuitSelected() {
         // Application.Quit(); used for actual build
         UnityEditor.EditorApplication.isPlaying = false;
+        cameraManage.SetCameraPriority("exit");
         // turn off unity editor
     }
 
     //Back buttons
-    public void OnBackToMainMenuButtonClicked() => SetPanelViewability(buttonPanel:true);
+    public void OnBackToMainMenuButtonClicked() 
+    {
+        SetPanelViewability(buttonPanel:true);
+        cameraManage.SetCameraPriority("main");
+    }
     public void OnBackToSelectLoadoutButtonClicked() => SetPanelViewability(selectLoadoutPanel:true);
     public void OnCancelRename() => renameScreen.SetActive(false);
 
