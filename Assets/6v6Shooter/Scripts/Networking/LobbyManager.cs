@@ -210,7 +210,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public override void OnLeftRoom()
     {
-        GameManager.instance.StartLoadingBar("S00_MainMenu", false);
+        GameManager.instance.StartLoadingBar("S01_MainMenu", false);
     }
 
     public void LeaveRoom()
