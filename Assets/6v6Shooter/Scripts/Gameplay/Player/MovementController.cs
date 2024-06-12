@@ -1,21 +1,15 @@
+using _6v6Shooter.Scripts.Gameplay.Player.Actions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 namespace _6v6Shooter.Scripts.Gameplay.Player
 {
-    public enum MovementState { Idle, Walking, Running, Jumping, Falling, Crouching};
 
     [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(AudioSource))]
     public class MovementController : MonoBehaviour {
-   
-        //General
-        [Header("General properties")]
-    
-        [SerializeField] [Tooltip("Player movement state on start.")] 
-        private MovementState movementState = MovementState.Idle;
-    
+        
         [Header("Movement properties")]
         [SerializeField] [Range(0f, 1f)] [Tooltip("Slows moving back speed as a fracture of normal speed.")] 
         private float moveBackwardFactor = 0.8f;
@@ -84,6 +78,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
         private float frameDelayBetweenJumps = 1f;
     
         private float _frameDelayCounter;
+        private bool _isLanding;
     
     
         //Falling
@@ -101,20 +96,14 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
     
         [SerializeField] [Tooltip("If player if crouching.")] 
         private bool isCrouching;
-    
-        private enum CrouchState { Down, Up, Jump };
-    
-        private float _originalCameraLocalHeight;
+        
         
         
         //Aiming
         [Header("Aiming")]
         
         [SerializeField] [Tooltip("Aim mode.")] 
-        private AimMode aimMode;
-
-        private enum AimMode {Hold, Toggle};
-        private bool _isAiming;
+        private Aiming.AimMode aimMode;
         
         
         //Camera
@@ -130,8 +119,15 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
     
         //Physics
         [Header("Physics")]
+        
         [SerializeField] [Tooltip("Gravity that is applied on character.")] 
         private float gravity = 20f;
+        
+        
+        //Actions
+        [Header("Actions")] 
+        [SerializeField] [Tooltip("Actions manager component.")]
+        private ActionsManager actionsManager;
 
     
         private void Awake()
@@ -145,9 +141,6 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
         
             _speed = walkingSpeed;
             _frameDelayCounter = frameDelayBetweenJumps;
-        
-            //Some starting values for crouching revert
-            _originalCameraLocalHeight = centralSpineBone.transform.localPosition.y;
         }
 	
         private void Update ()
@@ -161,16 +154,27 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
             //Handle player movement
             MovePosition();
         
-            //Indicates crouch
-            UpdateCrouch();
-        
-            //Updates character movement state
-            UpdateMoveState();
+            //Check landing
+            CheckLanding();
             
             //Handles animations
             HandleAnimations();
         }
-    
+
+        private void CheckLanding()
+        {
+            if (_isGrounded)
+                return;
+            
+            if (Physics.Raycast(transform.position, Vector3.down, out var hit))
+            {
+                if (hit.distance <= 0.4)
+                    _isLanding = true;
+            }
+            else 
+                _isLanding = false;
+        }
+        
         private void HandleActions()
         {
             if (_isGrounded)
@@ -259,103 +263,17 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
             _collisionFlags = _characterController.Move(_moveVelocity * Time.deltaTime);
             _isGrounded = (_collisionFlags & CollisionFlags.Below) != 0;
         }
-     
-        private void UpdateCrouch()
-        {
-            switch(isCrouching ? !_isGrounded ? CrouchState.Jump : CrouchState.Down : CrouchState.Up)
-            {
-                case (CrouchState.Down):
-                    CrouchDown();
-                    break;
-                case (CrouchState.Up):
-                    CrouchUp();
-                    break;
-                case (CrouchState.Jump):
-                    CrouchJump();
-                    break;
-            }
-        }
-    
-        private void UpdateMoveState()
-        {
-            if (!_isGrounded)
-            {
-                movementState = _characterController.velocity.y < 0 ? MovementState.Falling : MovementState.Jumping;
-                return;
-            }
-
-            if (isCrouching)
-            {
-                movementState = MovementState.Crouching;
-                return;
-            }
-
-            var moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-
-            if (moveInput.sqrMagnitude == 0)
-            {
-                movementState = MovementState.Idle;
-                return;
-            }
-
-            if (_speed == runningSpeed)
-                movementState = MovementState.Running;
-            else if (_speed == walkingSpeed)
-                movementState = MovementState.Walking;
-        }
 
         private void HandleAnimations()
         {
-            pac.PlaySprintAnimation(Input.GetKey(KeyCode.LeftShift));
-            
-            if(Input.GetButton("Jump"))
-                pac.PlayJumpAnimation();
-            
-            if(Input.GetMouseButtonDown(0))
-                pac.PlayShootAnimation();
-
-
-            if (aimMode == AimMode.Hold)
-            {
-                if (Input.GetMouseButtonDown(1))
-                {
-                    pac.PlayAimDownSightAnimation();
-                }
-
-                if (Input.GetMouseButtonUp(1))
-                {
-                    pac.PlayStopAimDownSightAnimation();
-                }
-            }
-            else if (aimMode == AimMode.Toggle)
-            {
-                var locked = false;
-                if (Input.GetMouseButtonDown(1) && !_isAiming)
-                {
-                    _isAiming = true;
-                    locked = true;
-                    pac.PlayAimDownSightAnimation();
-                }
-
-                if (Input.GetMouseButtonDown(1) && _isAiming && !locked)
-                {
-                    _isAiming = false;
-                    pac.PlayStopAimDownSightAnimation();
-                }
-            }
-
-            pac.PlayWalkingAnimation(_input);
-            pac.SetIsGroundedAnim(_isGrounded);
-            
-            if(Input.GetKeyDown(KeyCode.R))
-                pac.PlayReloadAnimation();
-            
-            if(Input.GetKeyDown(KeyCode.I))
-                pac.PlayInspectAnimation();
+            actionsManager.sprinting.Run();
+            actionsManager.jumping.Run(_isLanding);
+            actionsManager.shooting.Run();
+            actionsManager.aiming.Run(aimMode);
+            actionsManager.walking.Run(_input, _isGrounded);
+            actionsManager.reloading.Run();
+            actionsManager.inspecting.Run();
         }
-    
-    
-        // ---------- UTILS ----------
 
         private bool OnSteepSlope()
         {
@@ -382,70 +300,6 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
 
             _moveDirection = slopeDirection * slideSpeed;
             _moveDirection.y = -antiBumpFactor;
-        }
-    
-        private void CrouchUp()
-        {
-            if (centralSpineBone.transform.localPosition.y != _originalCameraLocalHeight)
-            {
-                centralSpineBone.transform.localPosition = new Vector3(
-                    centralSpineBone.transform.localPosition.x,
-                    Mathf.MoveTowards(centralSpineBone.transform.localPosition.y, _originalCameraLocalHeight,
-                        Time.deltaTime * crouchSpeed),
-                    centralSpineBone.transform.localPosition.z);
-            }
-            else
-            {
-                var pos = centralSpineBone.transform.localPosition;
-                pos.y = _originalCameraLocalHeight;
-                centralSpineBone.transform.localPosition = pos;
-            }
-        }
-
-        private void CrouchDown()
-        {
-            if (centralSpineBone.transform.localPosition.y != crouchHeight)
-            {
-                centralSpineBone.transform.localPosition = new Vector3(
-                    centralSpineBone.transform.localPosition.x,
-                    Mathf.MoveTowards(centralSpineBone.transform.localPosition.y, crouchHeight,
-                        Time.deltaTime * crouchSpeed),
-                    centralSpineBone.transform.localPosition.z);
-            }
-            else
-            {
-                var pos = centralSpineBone.transform.localPosition;
-                pos.y = crouchHeight;
-                centralSpineBone.transform.localPosition = pos;
-            }
-        }
-
-        private void CrouchJump()
-        {
-            //return;
-            // if (_characterController.height != crouchHeight)
-            // {
-            //     var newHeight = Mathf.MoveTowards(_characterController.height, crouchHeight, Time.deltaTime * crouchSpeed);
-            //     var heightDelta = newHeight - _characterController.height;
-            //     _characterController.height = newHeight;
-            //
-            //     _characterController.transform.position = new Vector3(_characterController.transform.position.x,
-            //         _characterController.transform.position.y - heightDelta,
-            //         _characterController.transform.position.z);
-            // }
-            //
-            // var characterControllerHeightDelta = _originalCharacterControllerHeight - _characterController.height;
-            // if (_characterController.center.y != _originalCharacterControllerCenterY - crouchHeight * .5f)
-            // {
-            //     _characterController.center = new Vector3(_characterController.center.x,
-            //         _originalCharacterControllerCenterY - characterControllerHeightDelta * .5f,
-            //         _characterController.center.z);
-            // }
-            //
-            // if (_fpsCamera.transform.localPosition.y != crouchHeight)
-            //     _fpsCamera.transform.localPosition = new Vector3(_fpsCamera.transform.localPosition.x,
-            //         Mathf.MoveTowards(_fpsCamera.transform.localPosition.y, crouchHeight, Time.deltaTime * crouchSpeed),
-            //         _fpsCamera.transform.localPosition.z);
         }
     }
 }
