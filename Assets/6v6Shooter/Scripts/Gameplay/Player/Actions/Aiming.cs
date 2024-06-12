@@ -9,15 +9,29 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
         [SerializeField] [Tooltip("Player animation controller.")]
         private PlayerAnimationController pac;
         
-        public enum AimMode {Hold, Toggle}
+        [SerializeField] [Tooltip("Camera for first person view.")]
+        private Camera fpsCamera;
+
+        [SerializeField] [Tooltip("Default FOV of the camera.")]
+        private int defaultFOV;
         
+        [SerializeField] [Tooltip("Scope multiplier, says how many times zoom the camera.")]
+        private float scopeMultiplier;
+        
+        [SerializeField] [Tooltip("Time to zoom and un-zoom.")]
+        private float aimTime;
+        
+        public enum AimMode {Hold, Toggle}
         private bool _isAiming;
+        private Coroutine _zoomCoroutine;
+        
+        private void Awake()
+        {
+            ActionsManager.Instance.Aiming = this;
+        }
         
         public void Run(AimMode aimMode)
         {
-            StartCoroutine(LockTemporarily());
-            if (pac.IsLocked()) return;
-            
             var canAim = true;
             foreach (var s in pac.weaponActionsStates)
             {
@@ -31,12 +45,14 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
             {
                 if (Input.GetMouseButtonDown(1) && canAim)
                 {
-                    pac.PlayAimDownSightAnimation();
+                    StartCoroutine(LockTemporarily());
+                    if (pac.IsLocked()) return;
+                    EnableScope();
                 }
 
                 if (Input.GetMouseButtonUp(1))
                 {
-                    pac.PlayStopAimDownSightAnimation();
+                    DisableScope();
                 }
             }
             else if (aimMode == AimMode.Toggle)
@@ -44,15 +60,17 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
                 var locked = false;
                 if (Input.GetMouseButtonDown(1) && !_isAiming && canAim)
                 {
+                    StartCoroutine(LockTemporarily());
+                    if (pac.IsLocked()) return;
                     _isAiming = true;
                     locked = true;
-                    pac.PlayAimDownSightAnimation();
+                    EnableScope();
                 }
 
                 if (Input.GetMouseButtonDown(1) && _isAiming && !locked)
                 {
                     _isAiming = false;
-                    pac.PlayStopAimDownSightAnimation();
+                    DisableScope();
                 }
             }
         }
@@ -62,6 +80,43 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
             pac.aimingLock = true;
             yield return new WaitForSeconds(1f);
             pac.aimingLock = false;
+        }
+
+        private void ScopeZoom(bool zoomed)
+        {
+            if (_zoomCoroutine != null)
+            {
+                StopCoroutine(_zoomCoroutine);
+            }
+            _zoomCoroutine = StartCoroutine(AnimateZoom(zoomed));
+        }
+        
+        private IEnumerator AnimateZoom(bool zoomed)
+        {
+            var startFOV = fpsCamera.fieldOfView;
+            var endFOV = zoomed ? Mathf.Clamp(defaultFOV / scopeMultiplier, 0, defaultFOV) : defaultFOV;
+            var elapsedTime = 0f;
+
+            while (elapsedTime < aimTime)
+            {
+                fpsCamera.fieldOfView = Mathf.Lerp(startFOV, endFOV, elapsedTime / aimTime);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            fpsCamera.fieldOfView = endFOV;
+        }
+
+        public void EnableScope()
+        {
+            pac.PlayAimDownSightAnimation();
+            ScopeZoom(true);
+        }
+
+        public void DisableScope()
+        {
+            pac.PlayStopAimDownSightAnimation();
+            ScopeZoom(false);
         }
     }
 }

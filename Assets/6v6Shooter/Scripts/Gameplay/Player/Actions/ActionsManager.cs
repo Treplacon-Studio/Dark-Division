@@ -2,30 +2,30 @@ using UnityEngine;
 
 namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
 {
-    public class ActionsManager : MonoBehaviour
+    public class ActionsManager
     {
-        [HideInInspector] public Reloading reloading;
-        [HideInInspector] public Inspecting inspecting;
-        [HideInInspector] public Aiming aiming;
-        [HideInInspector] public Shooting shooting;
+        private static ActionsManager _instance;
         
-        [HideInInspector] public Walking walking;
-        [HideInInspector] public Sprinting sprinting;
-        [HideInInspector] public Jumping jumping;
-        [HideInInspector] public Crouching crouching;
-        
-
-        private void Start()
+        public static ActionsManager Instance
         {
-            reloading = GetComponent<Reloading>();
-            inspecting = GetComponent<Inspecting>();
-            aiming = GetComponent<Aiming>();
-            shooting = GetComponent<Shooting>();
-            
-            walking = GetComponent<Walking>();
-            sprinting = GetComponent<Sprinting>();
-            jumping = GetComponent<Jumping>();
-            crouching = GetComponent<Crouching>();
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new ActionsManager();
+                }
+                return _instance;
+            }
         }
+
+        public Reloading Reloading;
+        public Inspecting Inspecting;
+        public Aiming Aiming;
+        public Shooting Shooting;
+
+        public Walking Walking;
+        public Sprinting Sprinting;
+        public Jumping Jumping;
+        public Crouching Crouching;
     }
 }

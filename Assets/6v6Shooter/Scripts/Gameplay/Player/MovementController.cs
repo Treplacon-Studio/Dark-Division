@@ -124,15 +124,12 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
         private float gravity = 20f;
         
         
-        //Actions
-        [Header("Actions")] 
-        [SerializeField] [Tooltip("Actions manager component.")]
-        private ActionsManager actionsManager;
-
-    
         private void Awake()
         {
             _characterController = GetComponent<CharacterController>();
+            
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         private void Start ()
@@ -266,13 +263,13 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
 
         private void HandleAnimations()
         {
-            actionsManager.sprinting.Run();
-            actionsManager.jumping.Run(_isLanding);
-            actionsManager.shooting.Run();
-            actionsManager.aiming.Run(aimMode);
-            actionsManager.walking.Run(_input, _isGrounded);
-            actionsManager.reloading.Run();
-            actionsManager.inspecting.Run();
+            ActionsManager.Instance.Sprinting.Run();
+            ActionsManager.Instance.Jumping.Run(_isLanding);
+            ActionsManager.Instance.Shooting.Run();
+            ActionsManager.Instance.Aiming.Run(aimMode);
+            ActionsManager.Instance.Walking.Run(_input, _isGrounded);
+            ActionsManager.Instance.Reloading.Run();
+            ActionsManager.Instance.Inspecting.Run();
         }
 
         private bool OnSteepSlope()

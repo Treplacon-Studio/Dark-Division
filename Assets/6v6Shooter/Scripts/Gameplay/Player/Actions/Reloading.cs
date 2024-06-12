@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
@@ -40,6 +41,11 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
             }
         }
         
+        private void Awake()
+        {
+            ActionsManager.Instance.Reloading = this;
+        }
+        
         public void Run()
         {
             if (Input.GetKeyDown(KeyCode.R) && !pac.IsLocked())
@@ -49,9 +55,9 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
                 var canReload = true;
                 foreach (var s in pac.weaponActionsStates)
                 {
-                    if (s == pac.weaponActionsStates[2])
+                    if (s == pac.weaponActionsStates[2] && pac.aimingLock)
                     {
-                        pac.PlayStopAimDownSightAnimation();
+                        ActionsManager.Instance.Aiming.DisableScope();
                         break;
                     }
 
