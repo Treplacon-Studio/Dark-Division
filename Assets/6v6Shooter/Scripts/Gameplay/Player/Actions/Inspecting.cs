@@ -5,24 +5,24 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
 {
     public class Inspecting : MonoBehaviour
     {
-        [SerializeField] [Tooltip("Player animation controller.")]
-        private PlayerAnimationController pac;
+        private PlayerAnimationController _pac;
         
         private void Awake()
         {
+            _pac = GetComponent<PlayerAnimationController>();
             ActionsManager.Instance.Inspecting = this;
         }
         
         public void Run()
         {
-            if (Input.GetKeyDown(KeyCode.I) && !pac.IsLocked())
+            if (Input.GetKeyDown(KeyCode.I) && !_pac.IsLocked())
             {
                 StartCoroutine(LockTemporarily());
                 
                 var canInspect = true;
-                foreach (var s in pac.weaponActionsStates)
+                foreach (var s in _pac.weaponActionsStates)
                 {
-                    if (pac.InProgress(s, 1))
+                    if (_pac.InProgress(s, 1))
                     {
                         canInspect = false;
                         break;
@@ -30,16 +30,16 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
                 }
 
                 if (canInspect)
-                    pac.PlayInspectAnimation();
+                    _pac.PlayInspectAnimation();
             }
         }
         
 
         private IEnumerator LockTemporarily()
         {
-            pac.inspectingLock = true;
+            _pac.inspectingLock = true;
             yield return new WaitForSeconds(1f);
-            pac.inspectingLock = false;
+            _pac.inspectingLock = false;
         }
     }
 }

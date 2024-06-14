@@ -6,8 +6,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
 {
     public class Reloading : MonoBehaviour
     {
-        [SerializeField] [Tooltip("Player animation controller.")]
-        private PlayerAnimationController pac;
+        private PlayerAnimationController _pac;
         
         [SerializeField] [Tooltip("Weapon mag.")]
         private GameObject weaponMag;
@@ -43,25 +42,26 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
         
         private void Awake()
         {
+            _pac = GetComponent<PlayerAnimationController>();
             ActionsManager.Instance.Reloading = this;
         }
         
         public void Run()
         {
-            if (Input.GetKeyDown(KeyCode.R) && !pac.IsLocked())
+            if (Input.GetKeyDown(KeyCode.R) && !_pac.IsLocked())
             {
                 StartCoroutine(LockTemporarily());
 
                 var canReload = true;
-                foreach (var s in pac.weaponActionsStates)
+                foreach (var s in _pac.weaponActionsStates)
                 {
-                    if (s == pac.weaponActionsStates[2] && pac.aimingLock)
+                    if (s == _pac.weaponActionsStates[2] && _pac.aimingLock)
                     {
                         ActionsManager.Instance.Aiming.DisableScope();
                         break;
                     }
 
-                    if (pac.InProgress(s, 1))
+                    if (_pac.InProgress(s, 1))
                     {
                         canReload = false;
                         break;
@@ -69,15 +69,15 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
                 }
 
                 if (canReload)
-                    pac.PlayReloadAnimation();
+                    _pac.PlayReloadAnimation();
             }
         }
 
         private IEnumerator LockTemporarily()
         {
-            pac.reloadingLock = true;
+            _pac.reloadingLock = true;
             yield return new WaitForSeconds(1f);
-            pac.reloadingLock = false;
+            _pac.reloadingLock = false;
         }
         
         public void HandleReloadEvent(string eventName)

@@ -4,11 +4,11 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
 {
     public class Crouching : MonoBehaviour
     {
-        [SerializeField] [Tooltip("Player animation controller.")]
-        private PlayerAnimationController pac;
+        private PlayerAnimationController _pac;
         
         private void Awake()
         {
+            _pac = GetComponent<PlayerAnimationController>();
             ActionsManager.Instance.Crouching = this;
         }
         

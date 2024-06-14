@@ -6,8 +6,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
 {
     public class Aiming : MonoBehaviour
     {
-        [SerializeField] [Tooltip("Player animation controller.")]
-        private PlayerAnimationController pac;
+        private PlayerAnimationController _pac;
         
         [SerializeField] [Tooltip("Camera for first person view.")]
         private Camera fpsCamera;
@@ -27,15 +26,16 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
         
         private void Awake()
         {
+            _pac = GetComponent<PlayerAnimationController>();
             ActionsManager.Instance.Aiming = this;
         }
         
         public void Run(AimMode aimMode)
         {
             var canAim = true;
-            foreach (var s in pac.weaponActionsStates)
+            foreach (var s in _pac.weaponActionsStates)
             {
-                if (pac.InProgress(s, 1))
+                if (_pac.InProgress(s, 1))
                 {
                     canAim = false;
                     break;
@@ -46,7 +46,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
                 if (Input.GetMouseButtonDown(1) && canAim)
                 {
                     StartCoroutine(LockTemporarily());
-                    if (pac.IsLocked()) return;
+                    if (_pac.IsLocked()) return;
                     EnableScope();
                 }
 
@@ -61,7 +61,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
                 if (Input.GetMouseButtonDown(1) && !_isAiming && canAim)
                 {
                     StartCoroutine(LockTemporarily());
-                    if (pac.IsLocked()) return;
+                    if (_pac.IsLocked()) return;
                     _isAiming = true;
                     locked = true;
                     EnableScope();
@@ -77,9 +77,9 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
         
         private IEnumerator LockTemporarily()
         {
-            pac.aimingLock = true;
+            _pac.aimingLock = true;
             yield return new WaitForSeconds(1f);
-            pac.aimingLock = false;
+            _pac.aimingLock = false;
         }
 
         private void ScopeZoom(bool zoomed)
@@ -109,13 +109,13 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
 
         public void EnableScope()
         {
-            pac.PlayAimDownSightAnimation();
+            _pac.PlayAimDownSightAnimation();
             ScopeZoom(true);
         }
 
         public void DisableScope()
         {
-            pac.PlayStopAimDownSightAnimation();
+            _pac.PlayStopAimDownSightAnimation();
             ScopeZoom(false);
         }
     }

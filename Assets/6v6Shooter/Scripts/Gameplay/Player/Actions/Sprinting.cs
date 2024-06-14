@@ -4,17 +4,17 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
 {
     public class Sprinting : MonoBehaviour
     {
-        [SerializeField] [Tooltip("Player animation controller.")]
-        private PlayerAnimationController pac;
+        private PlayerAnimationController _pac;
         
         private void Awake()
         {
+            _pac = GetComponent<PlayerAnimationController>();
             ActionsManager.Instance.Sprinting = this;
         }
         
         public void Run()
         {
-            pac.PlaySprintAnimation(Input.GetKey(KeyCode.LeftShift));
+            _pac.PlaySprintAnimation(Input.GetKey(KeyCode.LeftShift));
         }
     }
 }

@@ -1,22 +1,66 @@
+using _6v6Shooter.Scripts.Gameplay.Player.Actions;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.Serialization;
 
 namespace _6v6Shooter.Scripts.Gameplay.Player
 {
+    [RequireComponent(typeof(Jumping))]
+    [RequireComponent(typeof(Walking))]
+    [RequireComponent(typeof(Sprinting))]
+    [RequireComponent(typeof(Aiming))]
+    [RequireComponent(typeof(Reloading))]
+    [RequireComponent(typeof(Inspecting))]
+    [RequireComponent(typeof(Crouching))]
+    [RequireComponent(typeof(Shooting))]
     public class PlayerAnimationController : MonoBehaviour
     {
-        //*----------------[IK (soon unused)]------------------
-        [SerializeField] [Tooltip("Left hand inverse kinematic constraint.")]
-        private TwoBoneIKConstraint leftHandIK;
+        // //*----------------[IK (soon unused)]------------------
+        // [SerializeField] [Tooltip("Left hand inverse kinematic constraint.")]
+        // private TwoBoneIKConstraint leftHandIK;
+        //
+        // [SerializeField] [Tooltip("List of animations that needs left hand IK to be disabled.")]
+        // private string[] animationsWithoutLeftHandIK =
+        // {
+        //     "AN_FPS_Scar_Reload",
+        //     "AN_FPS_Scar_Inspect",
+        // };
+        //
+        // [SerializeField] [Tooltip("List of all weapon animation states names that cannot .")]
+        // public string[] weaponActionsStates =
+        // {
+        //     "AN_FPS_Scar_Reload", //Reloading
+        //     "AN_FPS_Scar_Inspect", //Inspecting
+        //     "AN_FPS_Scar_ToAds" //Aiming
+        // };
+        //
+        // private bool _leftHandIKActive;
+        //
+        // private void HandleIK()
+        // {
+        //     var currentState = anim.GetCurrentAnimatorStateInfo(0);
+        //     if (!_leftHandIKActive)
+        //     {
+        //         foreach (var a in animationsWithoutLeftHandIK)
+        //         {
+        //             if (!currentState.IsName(a)) 
+        //                 continue;
+        //             
+        //             //Enable again just before animation end
+        //             //1.0 not always triggers because of float precision
+        //             if (currentState.normalizedTime >= 0.99f)
+        //                 SwitchLeftHandIK(false);
+        //         }
+        //     }
+        // }
+        //
+        // private void SwitchLeftHandIK(bool state)
+        // {
+        //     _leftHandIKActive = state;
+        //     leftHandIK.weight = state ? 1f : 0f;
+        // }
+        // //-----------------[IK (soon unused)]-----------------*
         
-        [SerializeField] [Tooltip("List of animations that needs left hand IK to be disabled.")]
-        private string[] animationsWithoutLeftHandIK =
-        {
-            "AN_FPS_Scar_Reload",
-            "AN_FPS_Scar_Inspect",
-        };
-
         [SerializeField] [Tooltip("List of all weapon animation states names that cannot .")]
         public string[] weaponActionsStates =
         {
@@ -24,35 +68,6 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
             "AN_FPS_Scar_Inspect", //Inspecting
             "AN_FPS_Scar_ToAds" //Aiming
         };
-        
-        private bool _leftHandIKActive;
-
-        private void HandleIK()
-        {
-            var currentState = anim.GetCurrentAnimatorStateInfo(0);
-            if (!_leftHandIKActive)
-            {
-                foreach (var a in animationsWithoutLeftHandIK)
-                {
-                    if (!currentState.IsName(a)) 
-                        continue;
-                    
-                    //Enable again just before animation end
-                    //1.0 not always triggers because of float precision
-                    if (currentState.normalizedTime >= 0.99f)
-                        SwitchLeftHandIK(false);
-                }
-            }
-        }
-        
-        private void SwitchLeftHandIK(bool state)
-        {
-            _leftHandIKActive = state;
-            leftHandIK.weight = state ? 1f : 0f;
-        }
-        //-----------------[IK (soon unused)]-----------------*
-        
-        
         
         [SerializeField] [Tooltip("Character animator.")]
         private Animator anim;
@@ -64,7 +79,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
         void Update()
         { 
             //*----------------[IK (soon unused)]------------------
-            HandleIK();
+            //HandleIK();
             //-----------------[IK (soon unused)]-----------------*
         }
 
@@ -126,14 +141,14 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
         //Inspecting
         public void PlayInspectAnimation()
         {
-            SwitchLeftHandIK(false);
+            //SwitchLeftHandIK(false);
             anim.SetTrigger("pInspectingWeapon");
         }
         
         //Reloading
         public void PlayReloadAnimation()
         {
-            SwitchLeftHandIK(false);
+            //SwitchLeftHandIK(false);
             anim.SetTrigger("pReloadingWeapon");
         }
         
