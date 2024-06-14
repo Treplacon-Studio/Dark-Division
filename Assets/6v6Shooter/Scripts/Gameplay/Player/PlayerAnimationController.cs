@@ -108,10 +108,9 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
         }
         
         //Shooting
-        public void PlayShootAnimation()
+        public void PlayShootAnimation(bool isAiming)
         {
-            Debug.Log("Shooting..");
-            //Replace with shooting animation
+            anim.SetTrigger(isAiming ? "pShootingADS" : "pShooting");
         }
 
         //Crouching

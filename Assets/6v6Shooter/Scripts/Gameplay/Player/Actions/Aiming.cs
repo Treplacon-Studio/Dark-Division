@@ -74,6 +74,11 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
                 }
             }
         }
+
+        public bool IsAiming()
+        {
+            return _isAiming;
+        }
         
         private IEnumerator LockTemporarily()
         {
