@@ -5,18 +5,27 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
     public class Jumping : MonoBehaviour
     {
         private PlayerAnimationController _pac;
-        
+        private bool _canJump = true;
+        private bool _lock;
         private void Awake()
         {
             _pac = GetComponent<PlayerAnimationController>();
             ActionsManager.Instance.Jumping = this;
         }
         
-        public void Run(bool isLanding)
+        public void Run(bool isLanding, bool isGrounded)
         {
-            if(Input.GetButton("Jump"))
-                _pac.PlayJumpAnimation();
-            _pac.PlayLandFromAir(isLanding);
+            _pac.PlayJumpAnimation(isLanding, isGrounded);
+        }
+
+        public bool CanJump()
+        {
+            return _canJump;
+        }
+
+        public bool JumpTriggered()
+        {
+            return Input.GetButton("Jump");
         }
     }
 }

@@ -127,15 +127,25 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
         }
 
         //Jumping
-        public void PlayJumpAnimation()
+        public bool PlayJumpAnimation(bool landing, bool grounded)
         {
-            anim.SetTrigger("pJumping");
-        }
-
-        //Landing
-        public void PlayLandFromAir(bool isLanding)
-        {
-            anim.SetBool("pLanding", isLanding);
+            if (grounded && !landing)
+            {
+                anim.SetBool("pJumping", false);
+                anim.SetBool("pLanding", false);
+            }
+            else if (!grounded && !landing)
+            {
+                anim.SetBool("pJumping", true);
+                anim.SetBool("pLanding", false);
+            }
+            else if (!grounded)
+            {
+                anim.SetBool("pJumping", false);
+                anim.SetBool("pLanding", true);
+            }
+            
+            return !(anim.GetBool("pJumping") || anim.GetBool("pLanding"));
         }
         
         //Inspecting

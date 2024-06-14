@@ -114,7 +114,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
         private MouseLookAround mouseLookAround;
     
         [SerializeField] [Tooltip("Camera for first person view.")]
-        private Camera _fpsCamera;
+        private Camera fpsCamera;
     
     
         //Physics
@@ -162,14 +162,26 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
         {
             if (_isGrounded)
                 return;
-            
-            if (Physics.Raycast(transform.position, Vector3.down, out var hit))
+
+            // Array of directions to cast rays (down, slightly angled)
+            Vector3[] directions =
             {
-                if (hit.distance <= 0.4)
-                    _isLanding = true;
+                Vector3.down
+            };
+
+            _isLanding = false;
+
+            foreach (var direction in directions)
+            {
+                if (Physics.Raycast(transform.position, direction, out var hit))
+                {
+                    if (hit.distance <= 1.0f)
+                    {
+                        _isLanding = true;
+                        break;
+                    }
+                }
             }
-            else 
-                _isLanding = false;
         }
         
         private void HandleActions()
@@ -218,10 +230,8 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
                     SteepSlopeMovement();
             
                 _moveVelocity = _moveDirection * _speed;
-            
-                if (!Input.GetButton("Jump"))
-                    _frameDelayCounter++;
-                else if (_frameDelayCounter >= frameDelayBetweenJumps)
+
+                if (ActionsManager.Instance.Jumping.JumpTriggered() && ActionsManager.Instance.Jumping.CanJump())
                 {
                     _moveVelocity.y = yJumpingSpeed;
                     _moveVelocity += _moveDirection * xJumpingSpeed;
@@ -264,7 +274,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
         private void HandleAnimations()
         {
             ActionsManager.Instance.Sprinting.Run();
-            ActionsManager.Instance.Jumping.Run(_isLanding);
+            ActionsManager.Instance.Jumping.Run(_isLanding, _isGrounded);
             ActionsManager.Instance.Shooting.Run();
             ActionsManager.Instance.Aiming.Run(aimMode);
             ActionsManager.Instance.Walking.Run(_input, _isGrounded);
