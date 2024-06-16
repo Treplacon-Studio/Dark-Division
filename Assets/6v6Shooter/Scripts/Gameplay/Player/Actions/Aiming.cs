@@ -47,11 +47,13 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
                 {
                     StartCoroutine(LockTemporarily());
                     if (_pac.IsLocked()) return;
+                    _isAiming = true;
                     EnableScope();
                 }
 
                 if (Input.GetMouseButtonUp(1))
                 {
+                    _isAiming = false;
                     DisableScope();
                 }
             }
