@@ -1,4 +1,5 @@
 using _6v6Shooter.Scripts.Gameplay.Player.Actions;
+using _6v6Shooter.Scripts.Gameplay.Player.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -280,6 +281,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
             ActionsManager.Instance.Walking.Run(_input, _isGrounded);
             ActionsManager.Instance.Reloading.Run();
             ActionsManager.Instance.Inspecting.Run();
+            ActionsManager.Instance.Switching.Run();
         }
 
         private bool OnSteepSlope()
