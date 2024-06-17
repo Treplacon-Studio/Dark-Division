@@ -1,20 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class KillBox : MonoBehaviour
 {
-    // Damage value set to be greater than the player's max health to ensure it kills
-    public float lethalDamage = 1000f;
-
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the object entering the trigger has a HealthController component
         HealthController healthController = other.GetComponent<HealthController>();
+
         if (healthController != null)
         {
-            // Call TakeDamage with lethal damage
-            healthController.TakeDamage(lethalDamage);
+            Rigidbody rb = other.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                // Stop all movement
+                rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                // Optionally apply a minimal force to avoid unrealistic behavior
+                rb.AddForce(Vector3.down * 10f, ForceMode.Impulse);
+            }
+            
+            // Apply damage to the player
+            healthController.TakeDamage(healthController.startHealth);
         }
     }
 }
