@@ -1,5 +1,6 @@
 using _6v6Shooter.Scripts.Gameplay.Player.Animations;
 using _6v6Shooter.Scripts.Gameplay.Player.Weapons;
+using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
 
 namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
@@ -20,17 +21,24 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
         private PlayerAnimationController _pac;
         private float _nextFireTime;
         private int _gunInHandsIndex;
+        private bool _weaponInitialized;
         
         private void Awake()
         {
             _pac = GetComponent<PlayerAnimationController>();
             ActionsManager.Instance.Switching = this;
             _gunInHandsIndex = 0;
+            
             foreach (var gun in equippedGuns)
-                gun.SetActive(false);
-            wpa.ChangeAnimations(equippedGuns[_gunInHandsIndex].GetComponent<Weapon>().Info().Name());
-            _weapon = equippedGuns[_gunInHandsIndex];
-            _weapon.SetActive(true);
+            {
+                if (gun != null)
+                    gun.SetActive(false);
+                else
+                    Debug.LogError("Equipped gun is null!");
+            }
+            
+            SwitchWeapon(_gunInHandsIndex);
+            _weaponInitialized = true;
         }
 
         private void SwitchWeapon(int wn)
@@ -57,12 +65,17 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
             {
                 SwitchWeapon((_gunInHandsIndex+1) % equippedGuns.Length);
             }
-           
         }
 
         public Weapon WeaponComponent()
         {
-            return _weapon.GetComponent<Weapon>();
+            if (!_weaponInitialized)
+                return equippedGuns[_gunInHandsIndex].GetComponent<Weapon>();
+            if (_weapon != null)
+                return _weapon.GetComponent<Weapon>();
+            
+            Debug.LogError("Internal weapon error.");
+            return null;
         }
     }
 }

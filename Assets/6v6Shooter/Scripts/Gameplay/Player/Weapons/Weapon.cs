@@ -41,14 +41,14 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Weapons
         
         public void Awake()
         {
-            _weaponInfo = new WeaponInfo(weaponName);
+            _weaponInfo ??= new WeaponInfo(weaponName);
             ResetAttachments();
             ApplyAttachmentsAssaultRifle(0, -1, -1, -1, -1);
         }
 
         public WeaponInfo Info()
         {
-            return _weaponInfo;
+            return _weaponInfo ??= new WeaponInfo(weaponName);
         }
         
         public GameObject GetMag()
