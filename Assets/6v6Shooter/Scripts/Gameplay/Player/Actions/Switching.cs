@@ -69,13 +69,9 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
 
         public Weapon WeaponComponent()
         {
-            if (!_weaponInitialized)
-                return equippedGuns[_gunInHandsIndex].GetComponent<Weapon>();
-            if (_weapon != null)
-                return _weapon.GetComponent<Weapon>();
-            
-            Debug.LogError("Internal weapon error.");
-            return null;
+            if(_weapon == null) 
+                _weapon = equippedGuns[_gunInHandsIndex];
+            return _weapon.GetComponent<Weapon>();
         }
     }
 }

@@ -26,7 +26,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
         {
             if (!Input.GetMouseButton(0) || !(Time.time >= _nextFireTime))
                 return;
-
+            
             var wi = ActionsManager.Instance.Switching.WeaponComponent().Info().Stats();
             _nextFireTime = Time.time + wi.FireRate;
             bpm.SpawnFromPool(wi.BType, 

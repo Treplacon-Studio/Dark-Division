@@ -1,4 +1,5 @@
 using _6v6Shooter.Scripts.Gameplay.Player.Weapons;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace _6v6Shooter.Scripts.Gameplay.Player.Animations
@@ -8,9 +9,9 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Animations
         [SerializeField] [Tooltip("Reloading animation.")]
         private Animator anim;
 
-        [SerializeField] private AnimationClip[] scarClips = new AnimationClip[6];
-        [SerializeField] private AnimationClip[] m4Clips = new AnimationClip[6];
-        [SerializeField] private AnimationClip[] dsrClips = new AnimationClip[6];
+        [SerializeField] private AnimationClip[] scarClips = new AnimationClip[7];
+        [SerializeField] private AnimationClip[] m4Clips = new AnimationClip[7];
+        [SerializeField] private AnimationClip[] dsrClips = new AnimationClip[7];
 
         public void ChangeAnimations(WeaponInfo.WeaponName n)
         {
@@ -23,38 +24,57 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Animations
                     ChangeWeaponSpecificAnimations(m4Clips);
                     break;
                 case WeaponInfo.WeaponName.Dsr50: 
-                    ChangeWeaponSpecificAnimations(scarClips);
+                    ChangeWeaponSpecificAnimations(dsrClips);
                     break;
             }
         }
         
         private void ChangeWeaponSpecificAnimations(AnimationClip[] clips)
         {
-            var ac = anim.runtimeAnimatorController;
-            for (var i = 0; i < ac.animationClips.Length; i++)
+            var ac = anim.runtimeAnimatorController as AnimatorController;
+            if (ac != null)
             {
-                switch (ac.animationClips[i].name)
+                var stateMachine = ac.layers[1].stateMachine;
+                ChangeClipsInStateMachine(stateMachine, clips);
+            }
+
+            anim.runtimeAnimatorController = ac;
+        }
+
+        private void ChangeClipsInStateMachine(AnimatorStateMachine stateMachine, AnimationClip[] clips)
+        {
+            foreach (var state in stateMachine.states)
+            {
+                switch (state.state.name)
                 {
                     case "AN_FPS_Inspect":
-                        ac.animationClips[i] = clips[0];
+                        state.state.motion = clips[0];
                         break;
                     case "AN_FPS_Reload":
-                        ac.animationClips[i] = clips[1];
+                        state.state.motion = clips[1];
                         break;
-                    case "AN_FPS_ToADS":
-                        ac.animationClips[i] = clips[2];
+                    case "AN_FPS_ToAds":
+                        state.state.motion = clips[2];
                         break;
                     case "AN_FPS_ShootHFR":
-                        ac.animationClips[i] = clips[3];
+                        state.state.motion = clips[3];
                         break;
                     case "AN_FPS_ShootADS":
-                        ac.animationClips[i] = clips[4];
+                        state.state.motion = clips[4];
                         break;
                     case "AN_FPS_TransitionADS":
-                        ac.animationClips[i] = clips[5];
+                        state.state.motion = clips[5];
+                        break;
+                    case "AN_FPS_Default":
+                        state.state.motion = clips[6];
                         break;
                 }
             }
+            
+            foreach (var subStateMachine in stateMachine.stateMachines)
+                ChangeClipsInStateMachine(subStateMachine.stateMachine, clips);
         }
+        
+    
     }
 }
