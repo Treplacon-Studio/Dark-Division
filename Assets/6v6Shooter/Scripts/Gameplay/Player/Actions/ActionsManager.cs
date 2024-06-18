@@ -22,6 +22,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
         public Inspecting Inspecting;
         public Aiming Aiming;
         public Shooting Shooting;
+        public Switching Switching;
 
         public Walking Walking;
         public Sprinting Sprinting;

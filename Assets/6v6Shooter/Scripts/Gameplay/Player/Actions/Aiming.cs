@@ -1,4 +1,5 @@
 using System.Collections;
+using _6v6Shooter.Scripts.Gameplay.Player.Animations;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -35,7 +36,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
             var canAim = true;
             foreach (var s in _pac.weaponActionsStates)
             {
-                if (_pac.InProgress(s, 1))
+                if (_pac.InProgress(s, 0))
                 {
                     canAim = false;
                     break;

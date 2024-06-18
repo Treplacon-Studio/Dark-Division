@@ -1,4 +1,5 @@
 using System.Collections;
+using _6v6Shooter.Scripts.Gameplay.Player.Animations;
 using UnityEngine;
 
 namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
@@ -22,7 +23,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
                 var canInspect = true;
                 foreach (var s in _pac.weaponActionsStates)
                 {
-                    if (_pac.InProgress(s, 1))
+                    if (_pac.InProgress(s, 0))
                     {
                         canInspect = false;
                         break;

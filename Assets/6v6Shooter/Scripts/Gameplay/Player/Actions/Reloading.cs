@@ -1,4 +1,5 @@
 using System.Collections;
+using _6v6Shooter.Scripts.Gameplay.Player.Animations;
 using UnityEditor.PackageManager;
 using UnityEngine;
 
@@ -7,12 +8,6 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
     public class Reloading : MonoBehaviour
     {
         private PlayerAnimationController _pac;
-        
-        [SerializeField] [Tooltip("Weapon mag.")]
-        private GameObject weaponMag;
-
-        [SerializeField] [Tooltip("Weapon mag socket.")]
-        private GameObject weaponMagSocket;
         
         [SerializeField] [Tooltip("Left hand.")]
         private GameObject leftHand;
@@ -61,7 +56,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
                         break;
                     }
 
-                    if (_pac.InProgress(s, 1))
+                    if (_pac.InProgress(s, 0))
                     {
                         canReload = false;
                         break;
@@ -90,14 +85,16 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
         
         private void OnReloadMagTakeEvent()
         {
-            _tWeaponMagSocket = new LocalTransformStructure(weaponMag.transform);
-            weaponMag.transform.parent = leftHand.transform;
+            var t = ActionsManager.Instance.Switching.WeaponComponent().GetMag().transform;
+            _tWeaponMagSocket = new LocalTransformStructure(t);
+            t.transform.parent = leftHand.transform;
         }
 
         private void OnReloadMagReturnEvent()
         {
-            weaponMag.transform.parent = weaponMagSocket.transform;
-            _tWeaponMagSocket.ApplyToTransform(weaponMag.transform);
+            var t = ActionsManager.Instance.Switching.WeaponComponent().GetMag().transform;
+            t.transform.parent = ActionsManager.Instance.Switching.WeaponComponent().GetMagSocket().transform;
+            _tWeaponMagSocket.ApplyToTransform(t.transform);
         }
     }
 }
