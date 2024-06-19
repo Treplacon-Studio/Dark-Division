@@ -1,6 +1,7 @@
 using System.Collections;
 using _6v6Shooter.Scripts.Gameplay.Player.Animations;
 using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
@@ -84,9 +85,27 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
         }
         
         private IEnumerator LockTemporarily()
-        {
+        { 
             _pac.aimingLock = true;
-            yield return new WaitForSeconds(1f);
+            
+            var ac = _pac.anim.runtimeAnimatorController as AnimatorController;
+            var animTime = 0f;
+            if (ac != null)
+            {
+                var stateMachine = ac.layers[1].stateMachine;
+                foreach (var state in stateMachine.states)
+                {
+                    if (state.state.name == "AN_FPS_ToAds")
+                    {
+                        var clip = state.state.motion as AnimationClip;
+                        if (clip == null) continue;
+                        animTime = clip.length + 0.05f;
+                        break;
+                    }
+                }
+            }
+                
+            yield return new WaitForSeconds(animTime);
             _pac.aimingLock = false;
         }
 

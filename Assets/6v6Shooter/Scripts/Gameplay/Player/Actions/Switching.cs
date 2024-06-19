@@ -54,6 +54,10 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
         public void Run()
         {
             var scroll = Input.GetAxis("Mouse ScrollWheel");
+            
+            if (_pac.reloadingLock)
+                return;
+            
             if (scroll > 0f) //Scrolled up
             {
                 if(_gunInHandsIndex == 0)

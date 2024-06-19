@@ -1,3 +1,4 @@
+using System.Collections;
 using _6v6Shooter.Scripts.Gameplay.Player.Actions;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Animations
         };
         
         [SerializeField] [Tooltip("Character animator.")]
-        private Animator anim;
+        public Animator anim;
 
         public bool reloadingLock;
         public bool inspectingLock;
