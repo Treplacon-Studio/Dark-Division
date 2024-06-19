@@ -101,7 +101,7 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
             }
 
             Debug.Log("Creating Player");
-            GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "N_Player"), spawnPoint.position, spawnPoint.rotation);
+            GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "Player_Character"), spawnPoint.position, spawnPoint.rotation);
 
             Transform cameraPosition = FindCameraPositionWithinNewPlayer(newPlayer.transform, "CAMERAPOSITION");
 
