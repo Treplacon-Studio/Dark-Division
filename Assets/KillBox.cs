@@ -14,12 +14,11 @@ public class KillBox : MonoBehaviour
                 // Stop all movement
                 rb.velocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
-                // Optionally apply a minimal force to avoid unrealistic behavior
-                rb.AddForce(Vector3.down * 10f, ForceMode.Impulse);
+                rb.isKinematic = true;
             }
-            
+
             // Apply damage to the player
-            healthController.TakeDamage(healthController.startHealth);
+            healthController.TakeDamage(100f);
         }
     }
 }
