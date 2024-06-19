@@ -27,7 +27,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Weapons
         private float trailVisibilityTime = 0.005f;
         
         [SerializeField] [Tooltip("Trail width on start and on end of trail.")]
-        private Vector2 trailWidth = new Vector2(0.003f, 0.002f);
+        private Vector2 trailWidth = new(0.003f, 0.002f);
         
         [SerializeField] [Tooltip("Camera of the player")]
         private Camera playerCamera;
@@ -77,35 +77,36 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Weapons
             gameObject.SetActive(false);
         }
 
-        // void Update()
-        // {
-        //     //ShootRay();
-        // }
-        //
-        // void ShootRay()
-        // {
-        //     if (playerCamera == null)
-        //     {
-        //         Debug.LogError("Camera not found.");
-        //         return;
-        //     }
-        //
-        //     RaycastHit hit;
-        //     
-        //     var screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
-        //     var ray = playerCamera.ScreenPointToRay(screenCenter);
-        //     var shootDirection = ray.direction.normalized;
-        //
-        //     var currentRayLength = initialSpeed * rayLengthFactor;
-        //
-        //     if (Physics.Raycast(transform.position, shootDirection, out hit, currentRayLength, hitLayers))
-        //     {
-        //         Debug.Log("Object was hit by bullet: " + hit.collider.gameObject.name);
-        //
-        //       
-        //         
-        //         Invoke(nameof(Deactivate), fadeDuration);
-        //     }
-        // }
+        void Update()
+        {
+            ShootRay();
+        }
+        
+        void ShootRay()
+        {
+            if (playerCamera == null)
+            {
+                Debug.LogError("Camera not found.");
+                return;
+            }
+            
+            var screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
+            var ray = playerCamera.ScreenPointToRay(screenCenter);
+            var shootDirection =  Physics.Raycast(ray, out var hit) ? 
+                (hit.point - transform.position).normalized : ray.direction.normalized;
+        
+            var currentRayLength = initialSpeed * rayLengthFactor;
+            if (Physics.Raycast(transform.position, shootDirection, out hit, currentRayLength, hitLayers))
+            {
+              
+                if (hit.collider.gameObject.CompareTag("Player"))
+                {
+                    Debug.Log("Player hit: " + hit.collider.gameObject.name);
+                    hit.collider.gameObject.GetComponent<HealthController>().TakeDamage(30f);
+                }
+
+                Invoke(nameof(Deactivate), fadeDuration);
+            }
+        }
     }
 }
