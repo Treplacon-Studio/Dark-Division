@@ -103,10 +103,8 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
             Debug.Log("Creating Player");
             GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "Player_M01"), spawnPoint.position, spawnPoint.rotation);
 
-            Transform cameraPosition = FindCameraPositionWithinNewPlayer(newPlayer.transform, "CAMERAPOSITION");
-
             PhotonView playerPhotonView = newPlayer.GetComponent<PhotonView>();
-            PlayerMotor playerMotor = newPlayer.GetComponent<PlayerMotor>();
+            //PlayerMotor playerMotor = newPlayer.GetComponent<PlayerMotor>();
 
             if (PlayerTracker.instance != null && PlayerTracker.instance.pv != null)
             {
@@ -118,26 +116,12 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
                 Debug.LogError("PlayerTracker instance or PhotonView not initialized.");
             }
 
-            GameObject instantiatedCamera = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "FirstPersonCamera"), cameraPosition.transform.position, cameraPosition.transform.rotation);
-            instantiatedCamera.transform.SetParent(cameraPosition.transform);        
+           // GameObject instantiatedCamera = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "FirstPersonCamera"), cameraPosition.transform.position, cameraPosition.transform.rotation);
+           // instantiatedCamera.transform.SetParent(cameraPosition.transform);        
             //playerMotor.fpsCamera = instantiatedCamera;
 
             photonView.RPC("MarkSpawnPointOccupied", RpcTarget.AllBuffered, spawnPoint, team);
         }
-    }
-
-    Transform FindCameraPositionWithinNewPlayer(Transform parent, string name)
-    {
-        foreach (Transform child in parent)
-        {
-            if (child.name == name)
-                return child;
-
-            Transform result = FindCameraPositionWithinNewPlayer(child, name);
-            if (result != null)
-                return result;
-        }
-        return null;
     }
 
     private IEnumerator FreeSpawnPointAfterDelay(Transform spawnPoint, string team, float delay)
