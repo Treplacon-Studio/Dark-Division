@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject LoadingScreenCanvas;
     public Image loadingBar;
+    public Image BGImage;
 
     void Start()
     {
@@ -35,8 +36,17 @@ public class GameManager : MonoBehaviour
     private void OpenLoadingScreen() => LoadingScreenCanvas.gameObject.SetActive(true);
     private void CloseLoadingScreen() => LoadingScreenCanvas.gameObject.SetActive(false);
 
-    public void StartLoadingBar(string sceneName, bool loadWithPhoton)
+    public void StartLoadingBar(string sceneName, bool loadWithPhoton, Sprite background = null)
     {
+        if (background != null)
+        {   
+            BGImage.sprite = background;
+            BGImage.color = Color.white;
+        }else
+        {
+         BGImage.color = Color.black;   
+        }
+
         OpenLoadingScreen();
         loadingBar.fillAmount = 0f;
         if (loadWithPhoton)
