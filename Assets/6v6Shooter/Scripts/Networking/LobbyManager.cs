@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,6 +27,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     private int mapOneVote;
     private int mapTwoVote;
     private int randomMapVote;
+    private Sprite mapImage;
+
+    public Sprite mapOne;
+    public Sprite mapTwo;
 
     private Dictionary<int, int> playerVotes = new Dictionary<int, int>();
 
@@ -46,6 +51,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     void Start()
     {
         ConnectToPhotonServer();
+        mapImage = null;
     }
 
     private void ClearPlayerListings()
@@ -182,21 +188,27 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
         if (mapOneVote > mapTwoVote && mapOneVote > randomMapVote)
         {
             selectedMap = "S04_Railway"; 
+            mapImage = mapOne;
+
+
         }
         else if (mapTwoVote > mapOneVote && mapTwoVote > randomMapVote)
         {
             selectedMap = "S04_PublicMatch"; 
+            mapImage = mapTwo;
         }
         else if (randomMapVote > mapOneVote && randomMapVote > mapTwoVote)
         {
             selectedMap = GetRandomMap();
+            mapImage = mapTwo;
         }
         else
         {
             selectedMap = "S04_PublicMatch";
+            mapImage = mapTwo;
         }
 
-        GameManager.instance.StartLoadingBar(selectedMap, true);
+        GameManager.instance.StartLoadingBar(selectedMap, true, mapImage);
     }
 
     private string GetRandomMap()
