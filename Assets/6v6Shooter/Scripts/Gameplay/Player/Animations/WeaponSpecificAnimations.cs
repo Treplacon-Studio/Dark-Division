@@ -6,7 +6,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Animations
 {
     public class WeaponSpecificAnimations : MonoBehaviour
     {
-        [SerializeField] [Tooltip("Reloading animation.")]
+        [SerializeField]
         private Animator anim;
 
         [SerializeField] 

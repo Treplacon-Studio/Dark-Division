@@ -101,7 +101,6 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Weapons
               
                 if (hit.collider.gameObject.CompareTag("Player"))
                 {
-                    Debug.Log("Player hit: " + hit.collider.gameObject.name);
                     hit.collider.gameObject.GetComponent<HealthController>().TakeDamage(30f);
                 }
 
