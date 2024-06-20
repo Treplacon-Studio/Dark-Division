@@ -29,8 +29,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Weapons
         [SerializeField] [Tooltip("Trail width on start and on end of trail.")]
         private Vector2 trailWidth = new(0.003f, 0.002f);
         
-        [SerializeField] [Tooltip("Camera of the player")]
-        private Camera playerCamera;
+        private Camera _playerCamera;
         
         [SerializeField] [Tooltip("Start point of the bullet.")]
         private GameObject startPoint;
@@ -39,6 +38,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Weapons
 
         private void Awake()
         {
+            _playerCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
             _rb = GetComponent<Rigidbody>();
         }
 
@@ -60,7 +60,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Weapons
             trailRenderer.enabled = enableDebugTrails;
 
             var screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
-            var ray = playerCamera.ScreenPointToRay(screenCenter);
+            var ray = _playerCamera.ScreenPointToRay(screenCenter);
             var shootDirection = Physics.Raycast(ray, out var hit) ? 
                 (hit.point - transform.position).normalized : ray.direction.normalized;
             _rb.velocity = shootDirection * initialSpeed;
@@ -84,14 +84,14 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Weapons
         
         void ShootRay()
         {
-            if (playerCamera == null)
+            if (_playerCamera == null)
             {
                 Debug.LogError("Camera not found.");
                 return;
             }
             
             var screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
-            var ray = playerCamera.ScreenPointToRay(screenCenter);
+            var ray = _playerCamera.ScreenPointToRay(screenCenter);
             var shootDirection =  Physics.Raycast(ray, out var hit) ? 
                 (hit.point - transform.position).normalized : ray.direction.normalized;
         

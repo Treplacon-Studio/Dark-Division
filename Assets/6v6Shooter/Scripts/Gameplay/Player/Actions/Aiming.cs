@@ -10,8 +10,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
     {
         private PlayerAnimationController _pac;
         
-        [SerializeField] [Tooltip("Camera for first person view.")]
-        private Camera fpsCamera;
+        private Camera _fpsCamera;
 
         [SerializeField] [Tooltip("Default FOV of the camera.")]
         private int defaultFOV;
@@ -29,6 +28,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
         private void Awake()
         {
             _pac = GetComponent<PlayerAnimationController>();
+            _fpsCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
             ActionsManager.Instance.Aiming = this;
         }
         
@@ -120,18 +120,18 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
         
         private IEnumerator AnimateZoom(bool zoomed)
         {
-            var startFOV = fpsCamera.fieldOfView;
+            var startFOV = _fpsCamera.fieldOfView;
             var endFOV = zoomed ? Mathf.Clamp(defaultFOV / scopeMultiplier, 0, defaultFOV) : defaultFOV;
             var elapsedTime = 0f;
 
             while (elapsedTime < aimTime)
             {
-                fpsCamera.fieldOfView = Mathf.Lerp(startFOV, endFOV, elapsedTime / aimTime);
+                _fpsCamera.fieldOfView = Mathf.Lerp(startFOV, endFOV, elapsedTime / aimTime);
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
-            fpsCamera.fieldOfView = endFOV;
+            _fpsCamera.fieldOfView = endFOV;
         }
 
         public void EnableScope()

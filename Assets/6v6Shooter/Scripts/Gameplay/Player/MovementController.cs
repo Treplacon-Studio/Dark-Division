@@ -114,8 +114,8 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
         [SerializeField] [Tooltip("Component that let character to freely look around.")] 
         private MouseLookAround mouseLookAround;
     
-        [SerializeField] [Tooltip("Camera for first person view.")]
-        private Camera fpsCamera;
+       
+        private Camera _fpsCamera;
     
     
         //Physics
@@ -127,8 +127,8 @@ namespace _6v6Shooter.Scripts.Gameplay.Player
         
         private void Awake()
         {
+            _fpsCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
             _characterController = GetComponent<CharacterController>();
-            
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
