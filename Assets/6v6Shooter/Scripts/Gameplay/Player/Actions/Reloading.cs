@@ -1,10 +1,5 @@
-using System;
 using System.Collections;
 using _6v6Shooter.Scripts.Gameplay.Player.Animations;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Animations;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace _6v6Shooter.Scripts.Gameplay.Player.Actions

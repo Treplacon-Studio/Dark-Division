@@ -1,7 +1,5 @@
-using System.Collections;
 using _6v6Shooter.Scripts.Gameplay.Player.Animations;
 using _6v6Shooter.Scripts.Gameplay.Player.Weapons;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
@@ -40,6 +38,7 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
             
             var wi = ActionsManager.Instance.Switching.WeaponComponent().Info().Stats();
             _nextFireTime = Time.time + wi.FireRate;
+            _bulletStartPoint ??= ActionsManager.Instance.Switching.WeaponComponent().GetStartPoint().transform;
             bpm.SpawnFromPool(wi.BType, 
                 _bulletStartPoint.transform.position,
                 _bulletStartPoint.transform.rotation);

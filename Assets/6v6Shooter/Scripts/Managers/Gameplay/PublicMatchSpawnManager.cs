@@ -146,7 +146,7 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
     {
         if (photonView != null)
         {
-            photonView.RPC("SpawnPlayer", RpcTarget.MasterClient, team);
+            photonView.RPC("SpawnPlayer", RpcTarget.All, team);
         }
         else
         {
