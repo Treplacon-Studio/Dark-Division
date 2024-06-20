@@ -29,6 +29,12 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Animations
         public bool reloadingLock;
         public bool inspectingLock;
         public bool aimingLock;
+        public bool shootingLock;
+
+        private void Awake()
+        {
+            ActionsManager.Instance.Pac = this;
+        }
         
         public bool InProgress(string stateName, int layerIndex)
         {

@@ -1,5 +1,7 @@
+using System.Collections;
 using _6v6Shooter.Scripts.Gameplay.Player.Animations;
 using _6v6Shooter.Scripts.Gameplay.Player.Weapons;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
@@ -24,10 +26,16 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
         
         private void AutomaticFire()
         {
-            if (!Input.GetMouseButton(0) || !(Time.time >= _nextFireTime))
-                return;
-
             if (_pac.reloadingLock)
+            {
+                _pac.shootingLock = false;
+                return;
+            }
+
+            var shootKeyClicked = Input.GetMouseButton(0);
+            _pac.shootingLock = shootKeyClicked && Time.time >= _nextFireTime;
+            
+            if (!shootKeyClicked || !(Time.time >= _nextFireTime))
                 return;
             
             var wi = ActionsManager.Instance.Switching.WeaponComponent().Info().Stats();
