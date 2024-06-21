@@ -92,6 +92,8 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
     {
         if (photonView.IsMine)
         {
+            GameObject instantiatedCamera = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "Main Camera"), Vector3.zero, Quaternion.identity);
+            
             Transform spawnPoint = GetRandomSpawnPoint(team);
 
             if (spawnPoint == null)
@@ -116,8 +118,8 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
                 Debug.LogError("PlayerTracker instance or PhotonView not initialized.");
             }
 
-           // GameObject instantiatedCamera = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "FirstPersonCamera"), cameraPosition.transform.position, cameraPosition.transform.rotation);
-           // instantiatedCamera.transform.SetParent(cameraPosition.transform);        
+            //GameObject instantiatedCamera = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "Main Camera"), Vector3.zero, Quaternion.identity);
+            //instantiatedCamera.transform.SetParent(cameraPosition.transform);        
             //playerMotor.fpsCamera = instantiatedCamera;
 
             photonView.RPC("MarkSpawnPointOccupied", RpcTarget.AllBuffered, spawnPoint, team);
