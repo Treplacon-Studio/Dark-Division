@@ -12,6 +12,9 @@ public class BulletPoolingManager : MonoBehaviour
         public int size; //Amount of bullets in chamber
     }
 
+    [SerializeField] [Tooltip("Ammo holder for the bullet.")]
+    private Transform ammoHolder;
+    
     [SerializeField] [Tooltip("Bullet object to instantiate in pool.")]
     private GameObject bulletObject;
 
@@ -34,13 +37,13 @@ public class BulletPoolingManager : MonoBehaviour
 
             for (var i = 0; i < pool.size; i++)
             {
-                var ammoHolder = player.transform.Find("AmmoHolder");
+                
                 if (ammoHolder == null)
                 {
                     Debug.LogError("AmmoHolder not found on player!");
                     continue;
                 }
-
+                
                 var obj = Instantiate(bulletObject, ammoHolder, true);
                 obj.transform.SetParent(ammoHolder, false);
 

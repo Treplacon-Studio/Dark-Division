@@ -100,9 +100,6 @@ public class MovementController : MonoBehaviour
     private MouseLookAround mouseLookAround;
 
 
-    private Camera _fpsCamera;
-
-
     //Physics
     [Header("Physics")] [SerializeField] [Tooltip("Gravity that is applied on character.")]
     private float gravity = 20f;
@@ -110,7 +107,6 @@ public class MovementController : MonoBehaviour
 
     private void Awake()
     {
-        _fpsCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         _characterController = GetComponent<CharacterController>();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -259,14 +255,29 @@ public class MovementController : MonoBehaviour
 
     private void HandleAnimations()
     {
-        ActionsManager.Instance.Sprinting.Run();
-        ActionsManager.Instance.Jumping.Run(_isLanding, _isGrounded);
-        ActionsManager.Instance.Shooting.Run();
-        ActionsManager.Instance.Aiming.Run(aimMode);
-        ActionsManager.Instance.Walking.Run(_input, _isGrounded);
-        ActionsManager.Instance.Reloading.Run();
-        ActionsManager.Instance.Inspecting.Run();
-        ActionsManager.Instance.Switching.Run();
+        if (ActionsManager.Instance?.Sprinting is not null)
+            ActionsManager.Instance.Sprinting.Run();
+        
+        if (ActionsManager.Instance?.Jumping is not null)
+            ActionsManager.Instance.Jumping.Run(_isLanding, _isGrounded);
+        
+        if (ActionsManager.Instance?.Shooting is not null)
+            ActionsManager.Instance.Shooting.Run();
+        
+        if (ActionsManager.Instance?.Aiming is not null)
+            ActionsManager.Instance.Aiming.Run(aimMode);
+        
+        if (ActionsManager.Instance?.Walking is not null)
+            ActionsManager.Instance.Walking.Run(_input, _isGrounded);
+        
+        if (ActionsManager.Instance?.Reloading is not null)
+            ActionsManager.Instance.Reloading.Run();
+        
+        if (ActionsManager.Instance?.Inspecting is not null)
+            ActionsManager.Instance.Inspecting.Run();
+        
+        if (ActionsManager.Instance?.Switching is not null)
+            ActionsManager.Instance.Switching.Run();
     }
 
     private bool OnSteepSlope()

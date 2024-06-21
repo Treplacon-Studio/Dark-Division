@@ -14,9 +14,8 @@ public class Shooting : MonoBehaviour
     {
         _pac = GetComponent<PlayerAnimationController>();
         ActionsManager.Instance.Shooting = this;
-        _bulletStartPoint = ActionsManager.Instance.Switching.WeaponComponent().GetStartPoint().transform;
-        if (_bulletStartPoint == null)
-            Debug.LogError("Bullet start point not found.");
+        if (ActionsManager.Instance?.Switching is not null)
+            _bulletStartPoint = ActionsManager.Instance.Switching.WeaponComponent().GetStartPoint().transform;
     }
 
     private void AutomaticFire()
@@ -44,6 +43,8 @@ public class Shooting : MonoBehaviour
 
     public void Run()
     {
+        if (ActionsManager.Instance?.Switching is not null)
+            _bulletStartPoint ??= ActionsManager.Instance.Switching.WeaponComponent().GetStartPoint().transform;
         AutomaticFire();
     }
 }
