@@ -1,7 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
+using UnityEngine;
 using UnityEngine.UI;
 using _6v6Shooter.Scripts.Gameplay.Player;
 
@@ -10,8 +9,8 @@ public class HealthController : MonoBehaviourPunCallbacks
     [SerializeField]
     Image healthBar;
 
-    public float health;
-    public float startHealth = 100;
+        public float health;
+        public float startHealth = 100;
 
     public bool targetDummy;
 
@@ -111,8 +110,8 @@ void DisableRagdoll() {
 }
 
 
-    IEnumerator Respawn() {
-        GameObject respawnText = GameObject.Find("RespawnText");
+        IEnumerator Respawn() {
+            GameObject respawnText = GameObject.Find("RespawnText");
 
         float respawnTime = 8.0f;
         while (respawnTime > 0.0f) {
@@ -121,19 +120,20 @@ void DisableRagdoll() {
             respawnText.GetComponent<Text>().text = "You are killed. Respawning at: " + respawnTime.ToString(".00");
         }
 
-        respawnText.GetComponent<Text>().text = "";
+            respawnText.GetComponent<Text>().text = "";
 
         int randomPoint = Random.Range(-20, 20);
         transform.position = new Vector3(randomPoint, 0, randomPoint);
         
         DisableRagdoll();
 
-        photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
-    }
+            photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
+        }
 
-    [PunRPC]
-    public void RegainHealth() {
-        health = startHealth;
-        healthBar.fillAmount = health / startHealth;
+        [PunRPC]
+        public void RegainHealth() {
+            health = startHealth;
+            healthBar.fillAmount = health / startHealth;
+        }
     }
 }
