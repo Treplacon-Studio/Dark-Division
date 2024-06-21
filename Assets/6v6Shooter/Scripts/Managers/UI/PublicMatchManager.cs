@@ -2,7 +2,7 @@ using UnityEngine;
 using Photon.Pun;
 using System.IO;
 
-public class PublicMatchManager : MonoBehaviourPunCallbacks
+public class PublicMatchManager : MonoBehaviour
 {
 	public static PublicMatchManager instance;
 

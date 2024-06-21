@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System.IO;
+using ExitGames.Client.Photon.StructWrapping;
 
 public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
 {
@@ -88,10 +89,7 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
     }
 
     public void SpawnPlayer(string team)
-    {
-
-        GameObject instantiatedCamera = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "Main Camera"), Vector3.zero, Quaternion.identity);
-            
+    {            
         Transform spawnPoint = GetRandomSpawnPoint(team);
 
         if (spawnPoint == null)
@@ -102,12 +100,11 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
 
         Debug.Log("Creating Player");
         GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "Player_M01"), spawnPoint.position, spawnPoint.rotation);
-
+        MovementController movementController = newPlayer.GetComponent<MovementController>();
         PhotonView playerPhotonView = newPlayer.GetComponent<PhotonView>();
 
         if (PlayerTracker.instance != null && PlayerTracker.instance.pv != null)
         {
-            PlayerTracker.instance.pv.RPC("AddPlayer", RpcTarget.All, playerPhotonView.ViewID);
             Debug.Log($"Spawning in {newPlayer}. SPAWNED IN!");
         }
         else

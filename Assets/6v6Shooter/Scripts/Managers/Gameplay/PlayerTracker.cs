@@ -21,16 +21,6 @@ public class PlayerTracker : MonoBehaviour, IPunObservable {
         PublicMatchSpawnManager.instance.SpawnPlayer(team);
 	}
 
-	[PunRPC]
-	public void AddPlayer(int id) {
-		PhotonView pv = PhotonView.Find(id);
-	}
-
-	[PunRPC]
-	public void RemovePlayer(int id) {
-		PhotonView pv = PhotonView.Find(id);
-	}
-
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
 
 	}
