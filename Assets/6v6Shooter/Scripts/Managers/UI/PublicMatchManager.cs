@@ -4,9 +4,18 @@ using System.IO;
 
 public class PublicMatchManager : MonoBehaviourPunCallbacks
 {
-    private void Start() {
-		//if (PhotonNetwork.IsMasterClient)
+	public static PublicMatchManager instance;
+
+	void OnEnable() {
+        if(instance == null) {
+            instance = this;
+        }
+    }
+
+    void Start() {
+		if (PhotonNetwork.IsMasterClient) {
 			SpawnPlayerTracker();
+		}
     }
 
     private void SpawnPlayerTracker() {
