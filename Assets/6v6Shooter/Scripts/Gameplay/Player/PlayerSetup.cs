@@ -6,29 +6,43 @@ public class PlayerSetup : MonoBehaviourPun
 {
     private CinemachineVirtualCamera playerCamera;
 
+    public GameObject[] fpsHandsGameObject;
+    public GameObject[] soldierGameObject;
+
     void Start()
     {
         playerCamera = GetComponentInChildren<CinemachineVirtualCamera>(true);
 
         if (photonView.IsMine)
         {
-            // Enable the camera for the local player
             if (playerCamera != null)
-            {
                 playerCamera.enabled = true;
-            }
             else
-            {
                 Debug.LogError("CinemachineVirtualCamera not found in player prefab.");
+
+            //Activate FPS hands, Deactivate Soldier
+            foreach (GameObject gameObject in fpsHandsGameObject) {
+                gameObject.SetActive(true);
             }
+            foreach (GameObject gameObject in soldierGameObject) {
+                gameObject.SetActive(false);
+            }
+
+            transform.GetComponent<MovementController>().enabled = true;
         }
         else
         {
-            // Disable the camera for other players
             if (playerCamera != null)
-            {
                 playerCamera.enabled = false;
+
+            foreach (GameObject gameObject in fpsHandsGameObject) {
+                gameObject.SetActive(false);
             }
+            foreach (GameObject gameObject in soldierGameObject) {
+                gameObject.SetActive(true);
+            }
+
+            transform.GetComponent<MovementController>().enabled = false;
         }
     }
 }

@@ -62,7 +62,7 @@ public class PlayerMovementController : MonoBehaviourPun, IPunObservable
     private void CalculateView()
     {
         newCharacterRotation.y += playerSettings.ViewXSensitivity * (playerSettings.ViewXInverted ? -inputView.x : inputView.x) * Time.deltaTime;
-        transform.localRotation = Quaternion.Euler(newCharacterRotation); // Note: Changed to localRotation
+        transform.localRotation = Quaternion.Euler(newCharacterRotation); // Changed to localRotation
 
         newCameraRotation.x += playerSettings.ViewYSensitivity * (playerSettings.ViewYInverted ? inputView.y : -inputView.y) * Time.deltaTime;
         newCameraRotation.x = Mathf.Clamp(newCameraRotation.x, viewClampYMin, viewClampYMax);
@@ -102,5 +102,6 @@ public class PlayerMovementController : MonoBehaviourPun, IPunObservable
     private void SmoothSyncMovement()
     {
         // Optionally: Add smoothing for remote players' movement and rotation
+        // This can be implemented using Vector3.Lerp or similar methods
     }
 }

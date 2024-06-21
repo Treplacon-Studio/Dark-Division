@@ -1704,9 +1704,10 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
+  observableSearch: 0
   ObservedComponents:
   - {fileID: 4725852122799245703}
+  - {fileID: 2137559092129947998}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1875,6 +1876,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca950eccb2c0c254eafb1d0e293fc566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fpsHandsGameObject:
+  - {fileID: 7109252902622089029}
+  soldierGameObject:
+  - {fileID: 3957475282206852912}
 --- !u!1 &2466607085399441210
 GameObject:
   m_ObjectHideFlags: 0
@@ -8316,6 +8321,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 98adcb067a7a1174daec69cbbe4cd27b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9140231370245497623}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 98adcb067a7a1174daec69cbbe4cd27b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2137559092129947998}
     - targetCorrespondingSourceObject: {fileID: 3191471581941501502, guid: 98adcb067a7a1174daec69cbbe4cd27b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1134250656236168282}
@@ -8328,6 +8336,11 @@ Transform:
 --- !u!1 &3480253682118578387 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -77777678413688990, guid: 98adcb067a7a1174daec69cbbe4cd27b, type: 3}
+  m_PrefabInstance: {fileID: 5667768955278647217}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3957475282206852912 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -555012472628914047, guid: 98adcb067a7a1174daec69cbbe4cd27b, type: 3}
   m_PrefabInstance: {fileID: 5667768955278647217}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &4403699226002190328 stripped
@@ -8517,6 +8530,65 @@ MonoBehaviour:
   scarController: {fileID: 9100000, guid: 79e2f113d0024744cad73e485e0fac2b, type: 2}
   m4a1Controller: {fileID: 9100000, guid: 645c1d159d87ff244be4fe3b815b29f0, type: 2}
   dsr50Controller: {fileID: 9100000, guid: fe5544708cbabfb478ada435b935ee45, type: 2}
+--- !u!114 &2137559092129947998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4784683195462574816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 1
+    SynchronizeType: 2
+    Name: pHorizontal
+  - Type: 1
+    SynchronizeType: 2
+    Name: pVertical
+  - Type: 9
+    SynchronizeType: 2
+    Name: pShooting
+  - Type: 9
+    SynchronizeType: 0
+    Name: pShootingADS
+  - Type: 9
+    SynchronizeType: 0
+    Name: pAimSight
+  - Type: 9
+    SynchronizeType: 0
+    Name: pUnaimSight
+  - Type: 9
+    SynchronizeType: 0
+    Name: pInspectingWeapon
+  - Type: 9
+    SynchronizeType: 0
+    Name: pReloadingWeapon
+  - Type: 4
+    SynchronizeType: 2
+    Name: pSprinting
+  - Type: 4
+    SynchronizeType: 0
+    Name: pGrounded
+  - Type: 4
+    SynchronizeType: 2
+    Name: pJumping
+  - Type: 4
+    SynchronizeType: 2
+    Name: pLanding
+  - Type: 4
+    SynchronizeType: 2
+    Name: pCrouching
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
+  - SynchronizeType: 0
+    LayerIndex: 1
 --- !u!4 &5272955025556224090 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 98adcb067a7a1174daec69cbbe4cd27b, type: 3}
@@ -8525,6 +8597,11 @@ Transform:
 --- !u!4 &6345377820789406854 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1632759751195861815, guid: 98adcb067a7a1174daec69cbbe4cd27b, type: 3}
+  m_PrefabInstance: {fileID: 5667768955278647217}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7109252902622089029 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3174710137716379892, guid: 98adcb067a7a1174daec69cbbe4cd27b, type: 3}
   m_PrefabInstance: {fileID: 5667768955278647217}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &7128520547238826383 stripped

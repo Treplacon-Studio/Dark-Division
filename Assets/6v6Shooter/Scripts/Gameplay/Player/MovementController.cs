@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -5,7 +6,7 @@ using UnityEngine.Serialization;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(AudioSource))]
-public class MovementController : MonoBehaviour
+public class MovementController : MonoBehaviourPunCallbacks
 {
     [Header("Movement properties")]
     [SerializeField]
@@ -114,6 +115,9 @@ public class MovementController : MonoBehaviour
 
     private void Start()
     {
+        if (photonView.IsMine is false)
+            return;
+        
         mouseLookAround.Init(transform);
 
         _speed = walkingSpeed;
@@ -122,6 +126,9 @@ public class MovementController : MonoBehaviour
 
     private void Update()
     {
+        if (photonView.IsMine is false)
+            return;
+
         //Handle freely look around
         mouseLookAround.LookRotation();
 
