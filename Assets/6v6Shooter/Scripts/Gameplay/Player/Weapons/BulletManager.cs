@@ -20,9 +20,6 @@ public class BulletManager : MonoBehaviour
     [SerializeField] [Tooltip("Time after the bullet disappears.")]
     private float fadeDuration = 0.3f;
 
-    [SerializeField] [Tooltip("Renders trail behind the bullet.")]
-    private TrailRenderer trailRenderer;
-
     [SerializeField] [Tooltip("Time of trail visibility.")]
     private float trailVisibilityTime = 0.005f;
 
@@ -38,17 +35,24 @@ public class BulletManager : MonoBehaviour
 
     private void Awake()
     {
-        _playerCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        var cameras = FindObjectsOfType<Camera>();
+        foreach (var cam in cameras)
+        {
+            if (!cam.gameObject.name.Contains("Main Camera")) continue;
+            _playerCamera = cam;
+            break;
+        }
+        //_playerCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         _rb = GetComponent<Rigidbody>();
     }
 
     void Start()
     {
-        trailRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        trailRenderer.time = trailVisibilityTime;
-        trailRenderer.startWidth = trailWidth.x;
-        trailRenderer.endWidth = trailWidth.y;
-        trailRenderer.enabled = enableDebugTrails;
+        // trailRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        // trailRenderer.time = trailVisibilityTime;
+        // trailRenderer.startWidth = trailWidth.x;
+        // trailRenderer.endWidth = trailWidth.y;
+        // trailRenderer.enabled = enableDebugTrails;
 
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("bullet"), LayerMask.NameToLayer("bullet"));
     }
@@ -56,7 +60,7 @@ public class BulletManager : MonoBehaviour
     private void OnEnable()
     {
         Invoke(nameof(Deactivate), fadeDuration);
-        trailRenderer.enabled = enableDebugTrails;
+        // trailRenderer.enabled = enableDebugTrails;
 
         var screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
         var ray = _playerCamera.ScreenPointToRay(screenCenter);
@@ -68,7 +72,7 @@ public class BulletManager : MonoBehaviour
 
     private void OnDisable()
     {
-        trailRenderer.enabled = false;
+        // trailRenderer.enabled = false;
         CancelInvoke();
     }
 

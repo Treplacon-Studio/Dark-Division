@@ -28,8 +28,18 @@ public class Aiming : MonoBehaviour
 
     private void Awake()
     {
+        if (GetComponentInParent<PlayerNetworkController>().PhotonViewIsMine() is false)
+            return;
+            
+        var cameras = FindObjectsOfType<Camera>();
+        foreach (var cam in cameras)
+        {
+            if (!cam.gameObject.name.Contains("Main Camera")) continue;
+            _fpsCamera = cam;
+            break;
+        }
+        //_fpsCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         _pac = GetComponent<PlayerAnimationController>();
-        _fpsCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         ActionsManager.Instance.Aiming = this;
     }
 
