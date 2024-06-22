@@ -108,41 +108,44 @@ public class MovementController : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        _characterController = GetComponent<CharacterController>();
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        if (photonView.IsMine)
+        {
+            _characterController = GetComponent<CharacterController>();
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     private void Start()
     {
-        if (photonView.IsMine is false)
-            return;
-        
-        mouseLookAround.Init(transform);
+        if (photonView.IsMine)
+        {
+            mouseLookAround.Init(transform);
 
-        _speed = walkingSpeed;
-        _frameDelayCounter = frameDelayBetweenJumps;
+            _speed = walkingSpeed;
+            _frameDelayCounter = frameDelayBetweenJumps;
+        }
     }
 
     private void Update()
     {
-        if (photonView.IsMine is false)
-            return;
+        if (photonView.IsMine)
+        {
+            //Handle freely look around
+            mouseLookAround.LookRotation();
 
-        //Handle freely look around
-        mouseLookAround.LookRotation();
+            //Handle some movement actions
+            HandleActions();
 
-        //Handle some movement actions
-        HandleActions();
+            //Handle player movement
+            MovePosition();
 
-        //Handle player movement
-        MovePosition();
+            //Check landing
+            CheckLanding();
 
-        //Check landing
-        CheckLanding();
-
-        //Handles animations
-        HandleAnimations();
+            //Handles animations
+            HandleAnimations();
+        }        
     }
 
     private void CheckLanding()
@@ -262,29 +265,32 @@ public class MovementController : MonoBehaviourPunCallbacks
 
     private void HandleAnimations()
     {
-        if (ActionsManager.Instance?.Sprinting is not null)
-            ActionsManager.Instance.Sprinting.Run();
-        
-        if (ActionsManager.Instance?.Jumping is not null)
-            ActionsManager.Instance.Jumping.Run(_isLanding, _isGrounded);
-        
-        if (ActionsManager.Instance?.Shooting is not null)
-            ActionsManager.Instance.Shooting.Run();
-        
-        if (ActionsManager.Instance?.Aiming is not null)
-            ActionsManager.Instance.Aiming.Run(aimMode);
-        
-        if (ActionsManager.Instance?.Walking is not null)
-            ActionsManager.Instance.Walking.Run(_input, _isGrounded);
-        
-        if (ActionsManager.Instance?.Reloading is not null)
-            ActionsManager.Instance.Reloading.Run();
-        
-        if (ActionsManager.Instance?.Inspecting is not null)
-            ActionsManager.Instance.Inspecting.Run();
-        
-        if (ActionsManager.Instance?.Switching is not null)
-            ActionsManager.Instance.Switching.Run();
+        if (photonView.IsMine)
+        {
+            if (ActionsManager.Instance?.Sprinting is not null)
+                ActionsManager.Instance.Sprinting.Run();
+            
+            if (ActionsManager.Instance?.Jumping is not null)
+                ActionsManager.Instance.Jumping.Run(_isLanding, _isGrounded);
+            
+            if (ActionsManager.Instance?.Shooting is not null)
+                ActionsManager.Instance.Shooting.Run();
+            
+            if (ActionsManager.Instance?.Aiming is not null)
+                ActionsManager.Instance.Aiming.Run(aimMode);
+            
+            if (ActionsManager.Instance?.Walking is not null)
+                ActionsManager.Instance.Walking.Run(_input, _isGrounded);
+            
+            if (ActionsManager.Instance?.Reloading is not null)
+                ActionsManager.Instance.Reloading.Run();
+            
+            if (ActionsManager.Instance?.Inspecting is not null)
+                ActionsManager.Instance.Inspecting.Run();
+            
+            if (ActionsManager.Instance?.Switching is not null)
+                ActionsManager.Instance.Switching.Run();
+        }
     }
 
     private bool OnSteepSlope()

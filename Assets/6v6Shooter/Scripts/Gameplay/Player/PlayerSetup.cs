@@ -29,6 +29,7 @@ public class PlayerSetup : MonoBehaviourPun
             }
 
             transform.GetComponent<MovementController>().enabled = true;
+            transform.GetComponentInChildren<PlayerAnimationController>().enabled = true;
         }
         else
         {
@@ -43,6 +44,7 @@ public class PlayerSetup : MonoBehaviourPun
             }
 
             transform.GetComponent<MovementController>().enabled = false;
+            transform.GetComponentInChildren<PlayerAnimationController>().enabled = false;
         }
     }
 }

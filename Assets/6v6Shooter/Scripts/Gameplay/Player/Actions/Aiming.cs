@@ -28,6 +28,9 @@ public class Aiming : MonoBehaviour
 
     private void Awake()
     {
+        if (GetComponentInParent<PlayerNetworkController>().PhotonViewIsMine() is false)
+            return;
+            
         var cameras = FindObjectsOfType<Camera>();
         foreach (var cam in cameras)
         {
