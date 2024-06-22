@@ -35,7 +35,7 @@ public class Dsr50 : MonoBehaviour
     void SetProperFireRate()
     {
         var animator = ActionsManager.Instance.Pac.anim;
-        var stateName = ActionsManager.Instance.Pac.aimingLock ? "AN_FPS_CoghADS" : "AN_FPS_CoghHFR";
+        var stateName = ActionsManager.Instance.Pac.aimingLock ? "AN_FPS_DSR-50_CoghADS" : "AN_FPS_DSR-50_CoghHFR";
         
         if (animator == null)
         {
@@ -45,7 +45,7 @@ public class Dsr50 : MonoBehaviour
         
         var overrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
         AnimationClip clip = null;
-
+        
         foreach (var binding in overrideController.animationClips)
         {
             if (binding.name == stateName)

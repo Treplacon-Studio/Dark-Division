@@ -38,7 +38,6 @@ public class Aiming : MonoBehaviour
             _fpsCamera = cam;
             break;
         }
-        //_fpsCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         _pac = GetComponent<PlayerAnimationController>();
         ActionsManager.Instance.Aiming = this;
     }
@@ -99,49 +98,17 @@ public class Aiming : MonoBehaviour
     private IEnumerator LockTemporarily()
     {
         _pac.aimingLock = true;
-
         var animator = _pac.anim;
-        var animTime = 0f;
-
-        if (animator != null)
-        {
-            var overrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
-            AnimationClip clip = null;
-            
-            foreach (var binding in overrideController.animationClips)
-            {
-                if (binding.name == "AN_FPS_ToAds")
-                {
-                    clip = binding;
-                    break;
-                }
-            }
-
-            if (clip != null)
-            {
-                animTime = clip.length + 0.05f;
-            }
-            else
-            {
-                Debug.LogError("Animation clip AN_FPS_ToAds not found.");
-            }
-        }
-        else
-        {
-            Debug.LogError("Animator is null.");
-        }
-
-        yield return new WaitForSeconds(animTime);
+        var clip = PlayerUtils.GetClipByStateName(
+            animator,  new AnimatorOverrideController(animator.runtimeAnimatorController), "AN_FPS_ToAds");
+        yield return new WaitForSeconds(clip.length + 0.05f);
         _pac.aimingLock = false;
     }
 
     private void ScopeZoom(bool zoomed)
     {
         if (_zoomCoroutine != null)
-        {
             StopCoroutine(_zoomCoroutine);
-        }
-
         _zoomCoroutine = StartCoroutine(AnimateZoom(zoomed));
     }
 

@@ -32,10 +32,10 @@ public class Shooting : MonoBehaviour
         if (!shootKeyClicked || !(Time.time >= _nextFireTime))
             return;
 
-        var wi = ActionsManager.Instance.Switching.WeaponComponent().Info().Stats();
-        _nextFireTime = Time.time + wi.FireRate;
+        var wc = ActionsManager.Instance.Switching.WeaponComponent();
+        _nextFireTime = Time.time + wc.Info().Stats().FireRate;
         _bulletStartPoint ??= ActionsManager.Instance.Switching.WeaponComponent().GetStartPoint().transform;
-        bpm.SpawnFromPool(wi.BType,
+        bpm.SpawnFromPool(wc.GetMag().GetComponent<Mag>().ammoType,
             _bulletStartPoint.transform.position,
             _bulletStartPoint.transform.rotation);
         _pac.PlayShootAnimation(ActionsManager.Instance.Aiming.IsAiming());

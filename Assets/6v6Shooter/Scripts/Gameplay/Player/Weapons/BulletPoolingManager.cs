@@ -8,8 +8,8 @@ public class BulletPoolingManager : MonoBehaviour
     [Serializable]
     public class Pool
     {
-        public WeaponStats.BulletType bulletType;
-        public int size; //Amount of bullets in chamber
+        public Mag.BulletType bulletType;
+        public int size; //Amount of bullets in mag
     }
 
     [SerializeField] [Tooltip("Ammo holder for the bullet.")]
@@ -20,16 +20,12 @@ public class BulletPoolingManager : MonoBehaviour
 
     [SerializeField] [Tooltip("Pools that will be available in game.")]
     private List<Pool> pools;
-
-    [SerializeField] [Tooltip("Player game object.")]
-    public GameObject player;
-
-    private Dictionary<WeaponStats.BulletType, Queue<GameObject>> _poolDictionary;
-
-
+    
+    private Dictionary<Mag.BulletType, Queue<GameObject>> _poolDictionary;
+    
     private void Start()
     {
-        _poolDictionary = new Dictionary<WeaponStats.BulletType, Queue<GameObject>>();
+        _poolDictionary = new Dictionary<Mag.BulletType, Queue<GameObject>>();
 
         foreach (var pool in pools)
         {
@@ -55,7 +51,7 @@ public class BulletPoolingManager : MonoBehaviour
         }
     }
 
-    public void SpawnFromPool(WeaponStats.BulletType bulletType, Vector3 position, Quaternion rotation)
+    public void SpawnFromPool(Mag.BulletType bulletType, Vector3 position, Quaternion rotation)
     {
         if (!_poolDictionary.ContainsKey(bulletType))
         {

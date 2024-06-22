@@ -184,63 +184,63 @@ public class WeaponInfo
     {
         {
             WeaponName.ScarEnforcer557,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary)
         },
         {
             WeaponName.M4A1Sentinel254,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary)
         },
         {
             WeaponName.VectorGhost500,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary)
         },
         {
             WeaponName.VelIronclad308,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary)
         },
         {
             WeaponName.BalistaVortex,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary)
         },
         {
             WeaponName.Dsr50,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary)
         },
         {
             WeaponName.Gauge320,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Secondary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Secondary)
         },
         {
             WeaponName.Stoeger22,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Secondary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Secondary)
         },
         {
             WeaponName.Tac45,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Secondary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Secondary)
         },
         {
             WeaponName.FnFive8,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Secondary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Secondary)
         },
         {
             WeaponName.DefaultKnife,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee)
         },
         {
             WeaponName.ButterflyKnife,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee)
         },
         {
             WeaponName.BattleAxe,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee)
         },
         {
             WeaponName.Katana,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee)
         },
         {
             WeaponName.PlasmaSword,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee)
         }
     };
 
@@ -286,29 +286,19 @@ public struct WeaponStats
         Secondary,
         Melee
     }
-
-    public enum BulletType
-    {
-        Ammo_9mm,
-        Ammo_7dot62,
-        Ammo_50cal,
-        Shells
-    }
-
+    
     public float Damage;
     public float Range;
     public float FireRate;
     public float BulletSpeed;
-    public BulletType BType;
     public WeaponType WType;
 
-    public WeaponStats(float damage, float range, float fireRate, float bulletSpeed, WeaponType wType, BulletType bType)
+    public WeaponStats(float damage, float range, float fireRate, float bulletSpeed, WeaponType wType)
     {
         Damage = damage;
         Range = range;
         FireRate = fireRate;
         BulletSpeed = bulletSpeed;
         WType = wType;
-        BType = bType;
     }
 }
