@@ -217,6 +217,12 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Weapons
             throw new ArgumentException("Invalid weapon name: ", nameof(weaponName));
         }
         
+        public void UpdateStats(WeaponStats weaponStats)
+        {
+            _weaponMapping[_weaponName] = weaponStats;
+            _weaponStats = GetWeaponStats(_weaponName);
+        }
+        
         public WeaponStats Stats()
         {
             return _weaponStats;

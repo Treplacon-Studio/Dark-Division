@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,16 +17,20 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] TMP_Text gameModeNameText;
     [SerializeField] TMP_Text countdownDisplay;
     [SerializeField] TMP_Text playerCountDisplay;
-    [SerializeField] TMP_Text votesForMapOneDisplay;
-    [SerializeField] TMP_Text votesForMapTwoDisplay;
-    [SerializeField] TMP_Text votesForRandomMapDisplay;
+    [SerializeField] TMP_Text mapOneVoteDisplay;
+    [SerializeField] TMP_Text mapTwoVoteDisplay;
+    [SerializeField] TMP_Text randomMapVoteDisplay;
 
     private PhotonView photonView;
     private int currentTime;
 
-    private int votesForMapOne;
-    private int votesForMapTwo;
-    private int votesForRandomMap;
+    private int mapOneVote;
+    private int mapTwoVote;
+    private int randomMapVote;
+    private Sprite mapImage;
+
+    public Sprite mapOne;
+    public Sprite mapTwo;
 
     private Dictionary<int, int> playerVotes = new Dictionary<int, int>();
 
@@ -46,6 +51,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     void Start()
     {
         ConnectToPhotonServer();
+        mapImage = null;
     }
 
     private void ClearPlayerListings()
@@ -85,39 +91,35 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
 
         if (playerVotes.TryGetValue(playerID, out int previousVote))
         {
-            // Subtract the previous vote
             switch (previousVote)
             {
                 case 1:
-                    votesForMapOne--;
+                    mapOneVote--;
                     break;
                 case 2:
-                    votesForMapTwo--;
+                    mapTwoVote--;
                     break;
                 case 3:
-                    votesForRandomMap--;
+                    randomMapVote--;
                     break;
             }
         }
 
-        // Add the new vote
         switch (mapNum)
         {
             case 1:
-                votesForMapOne++;
+                mapOneVote++;
                 break;
             case 2:
-                votesForMapTwo++;
+                mapTwoVote++;
                 break;
             case 3:
-                votesForRandomMap++;
+                randomMapVote++;
                 break;
         }
 
-        // Update the player's vote
         playerVotes[playerID] = mapNum;
 
-        // Update the votes display
         photonView.RPC("UpdateMapVotes", RpcTarget.AllBuffered);
     }
 
@@ -151,9 +153,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (photonView.ViewID != 0)
         {
-            votesForMapOneDisplay.text = $"VOTES: {votesForMapOne}";
-            votesForMapTwoDisplay.text = $"VOTES: {votesForMapTwo}";
-            votesForRandomMapDisplay.text = $"VOTES: {votesForRandomMap}";
+            mapOneVoteDisplay.text = $"VOTES: {mapOneVote}";
+            mapTwoVoteDisplay.text = $"VOTES: {mapTwoVote}";
+            randomMapVoteDisplay.text = $"VOTES: {randomMapVote}";
         }
         else
         {
@@ -178,7 +180,41 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void LoadMap()
     {
-        GameManager.instance.StartLoadingBar("S04_PublicMatch", true);
+        // TODO
+        // map 1 and 2 are hardcoded which is fine for now, will have to change up when we have multiple maps
+        // im guessing the selceted maps need a func or set list or something to dynamically fill in the values
+        string selectedMap;
+
+        if (mapOneVote > mapTwoVote && mapOneVote > randomMapVote)
+        {
+            selectedMap = "S04_Railway"; 
+            mapImage = mapOne;
+
+
+        }
+        else if (mapTwoVote > mapOneVote && mapTwoVote > randomMapVote)
+        {
+            selectedMap = "S04_PublicMatch"; 
+            mapImage = mapTwo;
+        }
+        else if (randomMapVote > mapOneVote && randomMapVote > mapTwoVote)
+        {
+            selectedMap = GetRandomMap();
+            mapImage = mapTwo;
+        }
+        else
+        {
+            selectedMap = "S04_PublicMatch";
+            mapImage = mapTwo;
+        }
+
+        GameManager.instance.StartLoadingBar(selectedMap, true, mapImage);
+    }
+
+    private string GetRandomMap()
+    {
+        List<string> maps = new List<string> {"S04_PublicMatch", "S04_Railway"};
+        return maps[Random.Range(0, maps.Count)];
     }
 
     public void ConnectToPhotonServer()
@@ -256,16 +292,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(currentTime);
-            stream.SendNext(votesForMapOne);
-            stream.SendNext(votesForMapTwo);
-            stream.SendNext(votesForRandomMap);
+            stream.SendNext(mapOneVote);
+            stream.SendNext(mapTwoVote);
+            stream.SendNext(randomMapVote);
         }
         else
         {
             currentTime = (int)stream.ReceiveNext();
-            votesForMapOne = (int)stream.ReceiveNext();
-            votesForMapTwo = (int)stream.ReceiveNext();
-            votesForRandomMap = (int)stream.ReceiveNext();
+            mapOneVote = (int)stream.ReceiveNext();
+            mapTwoVote = (int)stream.ReceiveNext();
+            randomMapVote = (int)stream.ReceiveNext();
         }
     }
 }

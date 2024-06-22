@@ -1,4 +1,5 @@
 using System;
+using _6v6Shooter.Scripts.Gameplay.Player.Animations;
 using UnityEngine;
 
 namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
@@ -12,6 +13,8 @@ namespace _6v6Shooter.Scripts.Gameplay.Player.Actions
         {
             get { return _instance ??= new ActionsManager(); }
         }
+
+        public PlayerAnimationController Pac;
         
         public Reloading Reloading;
         public Inspecting Inspecting;
