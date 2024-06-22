@@ -46,7 +46,6 @@ namespace _6v6Shooter.Scripts.Gameplay
             while (respawnTime > 0.0f) {
                 yield return new WaitForSeconds(1.0f);
                 respawnTime -= 1.0f;
-                transform.GetComponent<PlayerMotor>().enabled = false;
                 respawnText.GetComponent<Text>().text = "You are killed. Respawning at: " + respawnTime.ToString(".00");
             }
 
@@ -54,7 +53,6 @@ namespace _6v6Shooter.Scripts.Gameplay
 
             int randomPoint = Random.Range(-20, 20);
             transform.position = new Vector3(randomPoint, 0, randomPoint);
-            transform.GetComponent<PlayerMotor>().enabled = true;
 
             photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
         }
