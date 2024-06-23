@@ -11,7 +11,9 @@ public class PlayerIdentifier : MonoBehaviourPunCallbacks
         SetPlayerUI();
     }
 
-    public void SetPlayerUI() {
+    public void SetPlayerUI()
+    {
+        return;
         if (!string.IsNullOrWhiteSpace(photonView.Owner.NickName) && playerNameText != null)
             playerNameText.text = photonView.Owner.NickName ?? "No name";
     }

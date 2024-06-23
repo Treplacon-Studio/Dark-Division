@@ -6,12 +6,13 @@ public class Switching : MonoBehaviour
     [SerializeField] [Tooltip("Specific weapon animations.")]
     private WeaponSpecificAnimations wpa;
 
-    [SerializeField] [Tooltip("Guns that player has.")]
-    private GameObject[] equippedGuns;
-
     [SerializeField] [Tooltip("Socket where the gun is kept.")]
     private GameObject gunSocket;
-
+    
+    [SerializeField] [Tooltip("Buller pooling manager.")]
+    private BulletPoolingManager bulletPoolingManager;
+    
+    private GameObject[] equippedGuns;
     private GameObject _weapon;
     private Transform _bulletStartPoint;
     private PlayerAnimationController _pac;
@@ -23,16 +24,43 @@ public class Switching : MonoBehaviour
     {
         _pac = GetComponent<PlayerAnimationController>();
         ActionsManager.Instance.Switching = this;
-        _gunInHandsIndex = 0;
+    }
 
-        foreach (var gun in equippedGuns)
+    public void SetNewEquipment(GameObject[] weapons, int[,] attachments)
+    {
+        _gunInHandsIndex = 0;
+        
+        // if(equippedGuns is not null)
+        // { 
+        //     foreach (var gun in equippedGuns)
+        //     {
+        //         //gun.SetActive(false);
+        //         //gun.transform.SetParent(null);
+        //         //DestroyImmediate(gun, true);
+        //     }
+        // }
+        
+        equippedGuns = new GameObject[weapons.Length];
+        bulletPoolingManager.ClearPools();
+        
+        for (var index = 0; index < equippedGuns.Length; index++)
         {
-            if (gun != null)
-                gun.SetActive(false);
+            equippedGuns[index] = Instantiate(weapons[index], gunSocket.transform);
+            equippedGuns[index].GetComponent<Weapon>().ApplyAttachmentsAssaultRifle(attachments, index);
+            if (equippedGuns[index] != null)
+                equippedGuns[index].SetActive(false);
             else
                 Debug.LogError("Equipped gun is null!");
+            equippedGuns[index].transform.SetParent(gunSocket.transform);
+            equippedGuns[index].transform.localPosition = Vector3.zero;
+            equippedGuns[index].transform.localScale = Vector3.one * 0.01f;
+            Debug.Log(equippedGuns[index].GetComponent<Weapon>());
+            Debug.Log(equippedGuns[index].GetComponent<Weapon>().GetMag());
+            var mg = equippedGuns[index].GetComponent<Weapon>().GetMag().GetComponent<Mag>();
+            bulletPoolingManager.AddPool(new BulletPoolingManager.Pool(index, mg.ammoType, mg.size));
         }
 
+        bulletPoolingManager.ApplyPools();
         SwitchWeapon(_gunInHandsIndex);
         _weaponInitialized = true;
     }
@@ -69,8 +97,20 @@ public class Switching : MonoBehaviour
 
     public Weapon WeaponComponent()
     {
+        if (equippedGuns == null)
+            return null;
+        
         if (_weapon == null)
             _weapon = equippedGuns[_gunInHandsIndex];
+
+        if (_weapon == null)
+            return null;
+
         return _weapon.GetComponent<Weapon>();
+    }
+
+    public int GetCurrentWeaponID()
+    {
+        return _gunInHandsIndex;
     }
 }

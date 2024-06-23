@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -70,37 +71,9 @@ public class Reloading : MonoBehaviour
         _pac.reloadingLock = true;
 
         var animator = _pac.anim;
-        var animTime = 0f;
-
-        if (animator != null)
-        {
-            var overrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
-            AnimationClip clip = null;
-            
-            foreach (var binding in overrideController.animationClips)
-            {
-                if (binding.name == "AN_FPS_Reload")
-                {
-                    clip = binding;
-                    break;
-                }
-            }
-
-            if (clip != null)
-            {
-                animTime = clip.length + 0.05f;
-            }
-            else
-            {
-                Debug.LogError("Animation clip AN_FPS_Reload not found.");
-            }
-        }
-        else
-        {
-            Debug.LogError("Animator is null.");
-        }
-
-        yield return new WaitForSeconds(animTime);
+        var clip = PlayerUtils.GetClipByStateName(
+                animator,  new AnimatorOverrideController(animator.runtimeAnimatorController), "AN_FPS_Reload");
+        yield return new WaitForSeconds( clip.length + 0.05f);
         _pac.reloadingLock = false;
     }
 
@@ -114,6 +87,8 @@ public class Reloading : MonoBehaviour
 
     private void OnReloadMagTakeEvent()
     {
+        if (ActionsManager.Instance.Switching.WeaponComponent() is null)
+            return;
         var t = ActionsManager.Instance.Switching.WeaponComponent().GetMag().transform;
         _tWeaponMagSocket = new LocalTransformStructure(t);
         t.transform.parent = leftHand.transform;
@@ -121,6 +96,8 @@ public class Reloading : MonoBehaviour
 
     private void OnReloadMagReturnEvent()
     {
+        if (ActionsManager.Instance.Switching.WeaponComponent() is null)
+            return;
         var t = ActionsManager.Instance.Switching.WeaponComponent().GetMag().transform;
         t.transform.parent = ActionsManager.Instance.Switching.WeaponComponent().GetMagSocket().transform;
         _tWeaponMagSocket.ApplyToTransform(t.transform);

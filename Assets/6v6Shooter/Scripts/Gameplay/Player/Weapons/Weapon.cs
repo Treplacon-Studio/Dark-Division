@@ -40,7 +40,7 @@ public class Weapon : MonoBehaviour
     {
         _weaponInfo ??= new WeaponInfo(weaponName);
         ResetAttachments();
-        ApplyAttachmentsAssaultRifle(0, -1, -1, -1, -1);
+        ApplyAttachmentsAssaultRifle(null, 0);
     }
 
     public WeaponInfo Info()
@@ -58,13 +58,23 @@ public class Weapon : MonoBehaviour
         return magSocket;
     }
 
-    public void ApplyAttachmentsAssaultRifle(int aMag = -1, int aBarrel = -1, int aUnderBarrel = -1, int aSight = -1,
-        int aStock = -1)
+    public void ApplyAttachmentsAssaultRifle(int[,] attachments, int index)
     {
-        HandleMagChange(aMag);
-        HandleBarrelChange(aBarrel);
-        HandleSightChange(aSight);
-        HandleStockChange(aStock);
+        if (attachments is null)
+        {
+            HandleMagChange(0);
+            HandleBarrelChange(-1);
+            HandleSightChange(-1);
+            HandleStockChange(-1);
+        }
+        else
+        {
+            HandleMagChange(attachments[index, 0]);
+            HandleBarrelChange(attachments[index, 1]);
+            HandleSightChange(attachments[index, 2]);
+            HandleStockChange(attachments[index, 3]);
+        }
+     
     }
 
     public GameObject GetStartPoint()

@@ -8,8 +8,16 @@ public class BulletPoolingManager : MonoBehaviour
     [Serializable]
     public class Pool
     {
+        public int id;
         public Mag.BulletType bulletType;
         public int size; //Amount of bullets in mag
+
+        public Pool(int idx, Mag.BulletType bt, int s)
+        {
+            bulletType = bt;
+            size = s;
+            id = idx;
+        }
     }
 
     [SerializeField] [Tooltip("Ammo holder for the bullet.")]
@@ -21,11 +29,43 @@ public class BulletPoolingManager : MonoBehaviour
     [SerializeField] [Tooltip("Pools that will be available in game.")]
     private List<Pool> pools;
     
-    private Dictionary<Mag.BulletType, Queue<GameObject>> _poolDictionary;
+    private Dictionary<int, Queue<GameObject>> _poolDictionary;
     
     private void Start()
     {
-        _poolDictionary = new Dictionary<Mag.BulletType, Queue<GameObject>>();
+       ApplyPools();
+    }
+
+    public void SpawnFromPool(int id, Vector3 position, Quaternion rotation)
+    {
+        if (!_poolDictionary.ContainsKey(id))
+        {
+            Debug.LogWarning("Pool with id: " + id + " doesn't exist.");
+            return;
+        }
+
+        var objectToSpawn = _poolDictionary[id].Dequeue();
+
+        objectToSpawn.transform.position = position;
+        objectToSpawn.transform.rotation = rotation;
+        objectToSpawn.SetActive(true);
+
+        _poolDictionary[id].Enqueue(objectToSpawn);
+    }
+
+    public void ClearPools()
+    {
+        pools = new List<Pool>();
+    }
+
+    public void AddPool(Pool pool)
+    {
+        pools.Add(pool);
+    }
+
+    public void ApplyPools()
+    {
+        _poolDictionary = new Dictionary<int, Queue<GameObject>>();
 
         foreach (var pool in pools)
         {
@@ -33,38 +73,19 @@ public class BulletPoolingManager : MonoBehaviour
 
             for (var i = 0; i < pool.size; i++)
             {
-                
                 if (ammoHolder == null)
                 {
                     Debug.LogError("AmmoHolder not found on player!");
                     continue;
                 }
-                
+
                 var obj = Instantiate(bulletObject, ammoHolder, true);
                 obj.transform.SetParent(ammoHolder, false);
-
                 obj.SetActive(false);
                 objectPool.Enqueue(obj);
             }
 
-            _poolDictionary.Add(pool.bulletType, objectPool);
+            _poolDictionary.Add(pool.id, objectPool);
         }
-    }
-
-    public void SpawnFromPool(Mag.BulletType bulletType, Vector3 position, Quaternion rotation)
-    {
-        if (!_poolDictionary.ContainsKey(bulletType))
-        {
-            Debug.LogWarning("Pool with bulletType " + bulletType + " doesn't exist.");
-            return;
-        }
-
-        var objectToSpawn = _poolDictionary[bulletType].Dequeue();
-
-        objectToSpawn.transform.position = position;
-        objectToSpawn.transform.rotation = rotation;
-        objectToSpawn.SetActive(true);
-
-        _poolDictionary[bulletType].Enqueue(objectToSpawn);
     }
 }
