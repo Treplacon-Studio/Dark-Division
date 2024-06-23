@@ -14,12 +14,15 @@ public class Shooting : MonoBehaviour
     {
         _pac = GetComponent<PlayerAnimationController>();
         ActionsManager.Instance.Shooting = this;
-        if (ActionsManager.Instance?.Switching is not null)
+        if (ActionsManager.Instance?.Switching is not null && ActionsManager.Instance.Switching.WeaponComponent() is not null)
             _bulletStartPoint = ActionsManager.Instance.Switching.WeaponComponent().GetStartPoint().transform;
     }
 
     private void AutomaticFire()
     {
+        if (ActionsManager.Instance.Switching.WeaponComponent() is null)
+            return;
+        
         if (_pac.reloadingLock)
         {
             _pac.shootingLock = false;
@@ -33,17 +36,16 @@ public class Shooting : MonoBehaviour
             return;
 
         var wc = ActionsManager.Instance.Switching.WeaponComponent();
+        var currentWeaponID = ActionsManager.Instance.Switching.GetCurrentWeaponID();
         _nextFireTime = Time.time + wc.Info().Stats().FireRate;
         _bulletStartPoint ??= ActionsManager.Instance.Switching.WeaponComponent().GetStartPoint().transform;
-        bpm.SpawnFromPool(wc.GetMag().GetComponent<Mag>().ammoType,
-            _bulletStartPoint.transform.position,
-            _bulletStartPoint.transform.rotation);
+        bpm.SpawnFromPool(currentWeaponID, _bulletStartPoint.transform.position, _bulletStartPoint.transform.rotation);
         _pac.PlayShootAnimation(ActionsManager.Instance.Aiming.IsAiming());
     }
 
     public void Run()
     {
-        if (ActionsManager.Instance?.Switching is not null)
+        if (ActionsManager.Instance?.Switching is not null && ActionsManager.Instance.Switching.WeaponComponent() is not null)
             _bulletStartPoint ??= ActionsManager.Instance.Switching.WeaponComponent().GetStartPoint().transform;
         AutomaticFire();
     }

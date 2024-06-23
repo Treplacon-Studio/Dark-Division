@@ -37,39 +37,12 @@ public class Inspecting : MonoBehaviour
     private IEnumerator LockTemporarily()
     {
         _pac.inspectingLock = true;
-
+        
         var animator = _pac.anim;
-        var animTime = 0f;
+        var clip = PlayerUtils.GetClipByStateName(
+            animator,  new AnimatorOverrideController(animator.runtimeAnimatorController), "AN_FPS_Inspect");
 
-        if (animator != null)
-        {
-            var overrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
-            AnimationClip clip = null;
-            
-            foreach (var binding in overrideController.animationClips)
-            {
-                if (binding.name == "AN_FPS_Inspect")
-                {
-                    clip = binding;
-                    break;
-                }
-            }
-
-            if (clip != null)
-            {
-                animTime = clip.length + 0.05f;
-            }
-            else
-            {
-                Debug.LogError("Animation clip AN_FPS_Inspect not found.");
-            }
-        }
-        else
-        {
-            Debug.LogError("Animator is null.");
-        }
-
-        yield return new WaitForSeconds(animTime);
+        yield return new WaitForSeconds(clip.length + 0.05f);
         _pac.inspectingLock = false;
     }
 }
