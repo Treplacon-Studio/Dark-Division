@@ -179,12 +179,13 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         Debug.Log($"{PhotonNetwork.NickName} created a room!");
-        SetPanelViewability(buttonPanel:true);
+        SetPanelViewability(buttonPanel:true); 
     }
 
     public override void OnJoinedRoom()
     {
         Debug.Log($"{PhotonNetwork.NickName} joined the room!");
+        GameManager.instance.CloseLoadingScreen();
     }
 
     public override void OnLeftRoom()
