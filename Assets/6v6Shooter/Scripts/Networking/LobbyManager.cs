@@ -186,8 +186,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             selectedMap = "S04_Railway"; 
             mapImage = mapOne;
-
-
         }
         else if (mapTwoVote > mapOneVote && mapTwoVote > randomMapVote)
         {
@@ -232,6 +230,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
         Debug.Log($"OnJoinedRoom called, PhotonView ID: {photonView.ViewID}");
         StartCoroutine(UpdatePlayerCountAfterDelay());
         ListPlayers();
+        GameManager.instance.CloseLoadingScreen();
     }
 
     private IEnumerator UpdatePlayerCountAfterDelay()

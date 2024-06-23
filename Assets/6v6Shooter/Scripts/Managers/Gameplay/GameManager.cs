@@ -33,8 +33,8 @@ public class GameManager : MonoBehaviour
         SceneHandler.Instance.ChangeGameState(SceneHandler.GameState.Playing);
     }
 
-    private void OpenLoadingScreen() => LoadingScreenCanvas.gameObject.SetActive(true);
-    private void CloseLoadingScreen() => LoadingScreenCanvas.gameObject.SetActive(false);
+    public void OpenLoadingScreen() => LoadingScreenCanvas.gameObject.SetActive(true);
+    public void CloseLoadingScreen() => LoadingScreenCanvas.gameObject.SetActive(false);
 
     public void StartLoadingBar(string sceneName, bool loadWithPhoton, Sprite background = null)
     {
@@ -42,9 +42,10 @@ public class GameManager : MonoBehaviour
         {   
             BGImage.sprite = background;
             BGImage.color = Color.white;
-        }else
+        }
+        else
         {
-         BGImage.color = Color.black;   
+            BGImage.color = Color.black;   
         }
 
         OpenLoadingScreen();
@@ -87,6 +88,6 @@ public class GameManager : MonoBehaviour
             loadingBar.fillAmount = progress;
             yield return null;
         }
-        CloseLoadingScreen();
+        //CloseLoadingScreen();
     }
 }
