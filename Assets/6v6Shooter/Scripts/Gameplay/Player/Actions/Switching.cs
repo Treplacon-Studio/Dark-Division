@@ -54,8 +54,6 @@ public class Switching : MonoBehaviour
             equippedGuns[index].transform.SetParent(gunSocket.transform);
             equippedGuns[index].transform.localPosition = Vector3.zero;
             equippedGuns[index].transform.localScale = Vector3.one * 0.01f;
-            Debug.Log(equippedGuns[index].GetComponent<Weapon>());
-            Debug.Log(equippedGuns[index].GetComponent<Weapon>().GetMag());
             var mg = equippedGuns[index].GetComponent<Weapon>().GetMag().GetComponent<Mag>();
             bulletPoolingManager.AddPool(new BulletPoolingManager.Pool(index, mg.ammoType, mg.size));
         }
