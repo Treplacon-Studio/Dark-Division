@@ -73,16 +73,20 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void MarkSpawnPointOccupied(Transform spawnPoint, string team)
+    public void MarkSpawnPointOccupied(Vector3 position, Quaternion rotation, string team)
     {
+        Transform spawnPoint = FindSpawnPointByPositionAndRotation(position, rotation);
+
+        if (spawnPoint == null)
+        {
+            Debug.LogError("No spawn point found for position and rotation");
+            return;
+        }
+
         if (team == "Red")
-        {
             occupiedRedSpawnPoints.Add(spawnPoint);
-        }
         else if (team == "Blue")
-        {
             occupiedBlueSpawnPoints.Add(spawnPoint);
-        }
     }
 
     public void SpawnPlayer(string team)
@@ -101,7 +105,7 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
         PhotonView playerPhotonView = newPlayer.GetComponent<PhotonView>();
         Debug.Log($"{newPlayer} INSTANTIATED INTO THE SCENE"); 
 
-        photonView.RPC("MarkSpawnPointOccupied", RpcTarget.AllBuffered, spawnPoint, team);
+        photonView.RPC("MarkSpawnPointOccupied", RpcTarget.AllBuffered, spawnPoint.position, spawnPoint.rotation, team);
     }
 
     private IEnumerator FreeSpawnPointAfterDelay(Transform spawnPoint, string team, float delay)
@@ -113,24 +117,33 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
     public void FreeSpawnPoint(Transform spawnPoint, string team)
     {
         if (team == "Red")
-        {
             occupiedRedSpawnPoints.Remove(spawnPoint);
-        }
         else if (team == "Blue")
-        {
             occupiedBlueSpawnPoints.Remove(spawnPoint);
-        }
     }
 
     public void RequestSpawnPlayer(string team)
     {
         if (photonView != null)
-        {
             photonView.RPC("SpawnPlayer", RpcTarget.All, team);
-        }
         else
-        {
             Debug.LogError("PhotonView not initialized.");
+    }
+
+    private Transform FindSpawnPointByPositionAndRotation(Vector3 position, Quaternion rotation)
+    {
+        foreach (Transform spawnPoint in redSpawnPoints)
+        {
+            if (spawnPoint.position == position && spawnPoint.rotation == rotation)
+                return spawnPoint;
         }
+
+        foreach (Transform spawnPoint in blueSpawnPoints)
+        {
+            if (spawnPoint.position == position && spawnPoint.rotation == rotation)
+                return spawnPoint;
+        }
+
+        return null;
     }
 }

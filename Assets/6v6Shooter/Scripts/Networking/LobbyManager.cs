@@ -120,7 +120,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
 
         playerVotes[playerID] = mapNum;
 
-        photonView.RPC("UpdateMapVotes", RpcTarget.AllBuffered);
+        photonView.RPC("UpdateMapVotes", RpcTarget.AllBuffered, mapOneVote, mapTwoVote, randomMapVote);
     }
 
     [PunRPC]
@@ -149,18 +149,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    private void UpdateMapVotes()
+    private void UpdateMapVotes(int mapOneVotes, int mapTwoVotes, int randomMapVotes)
     {
-        if (photonView.ViewID != 0)
-        {
-            mapOneVoteDisplay.text = $"VOTES: {mapOneVote}";
-            mapTwoVoteDisplay.text = $"VOTES: {mapTwoVote}";
-            randomMapVoteDisplay.text = $"VOTES: {randomMapVote}";
-        }
-        else
-        {
-            Debug.LogError("PhotonView ID is 0, cannot update map votes.");
-        }
+        mapOneVote = mapOneVotes;
+        mapTwoVote = mapTwoVotes;
+        randomMapVote = randomMapVotes;
+
+        mapOneVoteDisplay.text = $"VOTES: {mapOneVote}";
+        mapTwoVoteDisplay.text = $"VOTES: {mapTwoVote}";
+        randomMapVoteDisplay.text = $"VOTES: {randomMapVote}";
     }
 
     [PunRPC]
@@ -189,8 +186,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             selectedMap = "S04_Railway"; 
             mapImage = mapOne;
-
-
         }
         else if (mapTwoVote > mapOneVote && mapTwoVote > randomMapVote)
         {
@@ -235,6 +230,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
         Debug.Log($"OnJoinedRoom called, PhotonView ID: {photonView.ViewID}");
         StartCoroutine(UpdatePlayerCountAfterDelay());
         ListPlayers();
+        GameManager.instance.CloseLoadingScreen();
     }
 
     private IEnumerator UpdatePlayerCountAfterDelay()
@@ -258,14 +254,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log($"OnPlayerEnteredRoom called for {newPlayer.NickName}, PlayerCount: {PhotonNetwork.CurrentRoom.PlayerCount}");
-        photonView.RPC("UpdatePlayerCount", RpcTarget.AllBuffered);
+        photonView.RPC("UpdatePlayerCount", RpcTarget.All);
         ListPlayers();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log($"OnPlayerLeftRoom called for {otherPlayer.NickName}, PlayerCount: {PhotonNetwork.CurrentRoom.PlayerCount}");
-        photonView.RPC("UpdatePlayerCount", RpcTarget.AllBuffered);
+        photonView.RPC("UpdatePlayerCount", RpcTarget.All);
         ListPlayers();
     }
 
