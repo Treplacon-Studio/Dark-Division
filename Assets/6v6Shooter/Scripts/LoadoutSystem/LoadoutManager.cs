@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class LoadoutManager : MonoBehaviour
 {
-    public List<GameObject> primaryWeapons;
+    public List<WeaponCategory> PrimaryWeaponCategories;
+}
+
+[System.Serializable]
+public class WeaponCategory
+{
+    public string categoryName;
+    public List<GameObject> weapons;
 }
 
 [System.Serializable]
