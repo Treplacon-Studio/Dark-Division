@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class LoadoutGunMovement : MonoBehaviour
 {
-     public float tiltSpeed = 100.0f;
-    public float maxTiltAngleX = 45.0f;
-    public float maxTiltAngleY = 45.0f;
+    public float tiltSpeed = 100.0f;
+    public float maxTiltAngleX = 25.0f;
+    public float maxTiltAngleY = 25.0f;
     public float resetSpeed = 5.0f;
+    public float maxUpDownAngle = 25.0f;
 
     private Quaternion initialRotation;
     private bool isTilting = false;
@@ -44,6 +45,11 @@ public class LoadoutGunMovement : MonoBehaviour
         currentRotation.z = ClampAngle(currentRotation.z, initialRotation.eulerAngles.z - maxTiltAngleY, initialRotation.eulerAngles.z + maxTiltAngleY);
 
         transform.localEulerAngles = new Vector3(currentRotation.x, transform.localEulerAngles.y, currentRotation.z);
+
+        currentRotation = transform.localEulerAngles;
+        currentRotation.y = ClampAngle(currentRotation.y, initialRotation.eulerAngles.y - maxUpDownAngle, initialRotation.eulerAngles.y + maxUpDownAngle);
+
+        transform.localEulerAngles = new Vector3(currentRotation.x, currentRotation.y, currentRotation.z);
     }
 
     void ResetGun()
