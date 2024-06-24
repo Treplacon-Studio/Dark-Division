@@ -112,10 +112,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         cameraManage.SetCameraPriority("settings");
     }
     public void OnQuitSelected() {
-        // Application.Quit(); used for actual build
-        //UnityEditor.EditorApplication.isPlaying = false;
         cameraManage.SetCameraPriority("exit");
-        // turn off unity editor
     }
 
     //Back buttons
@@ -205,7 +202,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
     #region Loadout Rename
 
-    private IEnumerator DeactivateAfterTime(GameObject obj, float delay)
+    /* private IEnumerator DeactivateAfterTime(GameObject obj, float delay)
     {
         yield return new WaitForSeconds(delay);
         obj.SetActive(false);
@@ -256,7 +253,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         renameScreen.SetActive(false);
         hoveredLoadoutIndex = -1;
         errMsg.SetActive(false);
-    }
+    } */
 
 
 
