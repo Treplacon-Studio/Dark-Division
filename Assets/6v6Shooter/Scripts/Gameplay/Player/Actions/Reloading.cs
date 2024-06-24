@@ -68,12 +68,15 @@ public class Reloading : MonoBehaviour
 
     private IEnumerator LockTemporarily()
     {
+        var currentWeaponID = ActionsManager.Instance.Switching.GetCurrentWeaponID();
+        
         componentHolder.playerAnimationController.reloadingLock = true;
-
         var animator = componentHolder.playerAnimationController.anim;
         var clip = PlayerUtils.GetClipByStateName(
                 animator,  new AnimatorOverrideController(animator.runtimeAnimatorController), "AN_FPS_Reload");
         yield return new WaitForSeconds( clip.length + 0.05f);
+        
+        componentHolder.bulletPoolingManager.ResetAmmo(currentWeaponID);
         componentHolder.playerAnimationController.reloadingLock = false;
     }
 

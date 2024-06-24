@@ -32,12 +32,18 @@ public class Shooting : MonoBehaviour
 
         if (!shootKeyClicked || !(Time.time >= _nextFireTime))
             return;
+        
+        var currentWeaponID = ActionsManager.Instance.Switching.GetCurrentWeaponID();
+        
+        //No ammo
+        if (componentHolder.bulletPoolingManager.GetAmmo() <= 0)
+            return;
 
         var wc = ActionsManager.Instance.Switching.WeaponComponent();
-        var currentWeaponID = ActionsManager.Instance.Switching.GetCurrentWeaponID();
         _nextFireTime = Time.time + wc.Info().Stats().FireRate;
         _bulletStartPoint ??= ActionsManager.Instance.Switching.WeaponComponent().GetStartPoint().transform;
         componentHolder.bulletPoolingManager.SpawnFromPool(currentWeaponID, _bulletStartPoint.transform.position, _bulletStartPoint.transform.rotation);
+        
         componentHolder.playerAnimationController.PlayShootAnimation(ActionsManager.Instance.Aiming.IsAiming());
     }
 

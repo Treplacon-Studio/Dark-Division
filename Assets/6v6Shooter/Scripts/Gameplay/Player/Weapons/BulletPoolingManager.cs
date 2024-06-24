@@ -11,12 +11,14 @@ public class BulletPoolingManager : MonoBehaviour
         public int id;
         public Mag.BulletType bulletType;
         public int size; //Amount of bullets in mag
+        public int currentAmmo;
 
         public Pool(int idx, Mag.BulletType bt, int s)
         {
             bulletType = bt;
             size = s;
             id = idx;
+            currentAmmo = s;
         }
     }
 
@@ -36,6 +38,21 @@ public class BulletPoolingManager : MonoBehaviour
        ApplyPools();
     }
 
+    public int GetAmmo()
+    {
+        return pools[ActionsManager.Instance.Switching.GetCurrentWeaponID()].currentAmmo;
+    }
+
+    public int GetMaxAmmo()
+    {
+        return pools[ActionsManager.Instance.Switching.GetCurrentWeaponID()].size;
+    }
+
+    public int ResetAmmo(int id)
+    {
+        return pools[id].currentAmmo = pools[id].size;
+    }
+
     public void SpawnFromPool(int id, Vector3 position, Quaternion rotation)
     {
         if (!_poolDictionary.ContainsKey(id))
@@ -51,6 +68,8 @@ public class BulletPoolingManager : MonoBehaviour
         objectToSpawn.SetActive(true);
 
         _poolDictionary[id].Enqueue(objectToSpawn);
+
+        pools[id].currentAmmo--;
     }
 
     public void ClearPools()
