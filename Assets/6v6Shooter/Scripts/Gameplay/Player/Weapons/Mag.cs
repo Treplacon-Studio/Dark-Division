@@ -4,10 +4,11 @@ public class Mag : MonoBehaviour
 {
     public enum BulletType
     {
-        Ammo_9mm,
-        Ammo_7dot62,
-        Ammo_50cal,
-        Shells
+        AssaultRifle,
+        Pistol,
+        Shotgun,
+        SubmachineGun,
+        SniperRifle
     }
     
     public int size;

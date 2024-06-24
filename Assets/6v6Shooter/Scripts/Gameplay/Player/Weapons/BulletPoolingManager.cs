@@ -22,11 +22,15 @@ public class BulletPoolingManager : MonoBehaviour
         }
     }
 
+    [Header("Bullets")]
+    [SerializeField] private GameObject assaultRifleBullet;
+    [SerializeField] private GameObject pistolBullet;
+    [SerializeField] private GameObject shotgunBullet;
+    [SerializeField] private GameObject sniperRifleBullet;
+    [SerializeField] private GameObject submachineGunBullet;
+    
     [SerializeField] [Tooltip("Ammo holder for the bullet.")]
     private Transform ammoHolder;
-    
-    [SerializeField] [Tooltip("Bullet object to instantiate in pool.")]
-    private GameObject bulletObject;
 
     [SerializeField] [Tooltip("Pools that will be available in game.")]
     private List<Pool> pools;
@@ -63,8 +67,9 @@ public class BulletPoolingManager : MonoBehaviour
 
         var objectToSpawn = _poolDictionary[id].Dequeue();
 
-        objectToSpawn.transform.position = position;
-        objectToSpawn.transform.rotation = rotation;
+        objectToSpawn.GetComponentInChildren<BulletPilot>().gameObject.transform.position = position;
+        objectToSpawn.GetComponentInChildren<BulletPilot>().gameObject.transform.rotation = rotation;
+        objectToSpawn.GetComponentInChildren<BulletPilot>().gameObject.transform.Rotate(90, 0, 0, Space.Self);
         objectToSpawn.SetActive(true);
 
         _poolDictionary[id].Enqueue(objectToSpawn);
@@ -98,7 +103,7 @@ public class BulletPoolingManager : MonoBehaviour
                     continue;
                 }
 
-                var obj = Instantiate(bulletObject, ammoHolder, true);
+                var obj = Instantiate(GetProperBullet(), ammoHolder, true);
                 obj.transform.SetParent(ammoHolder, false);
                 obj.SetActive(false);
                 objectPool.Enqueue(obj);
@@ -106,5 +111,24 @@ public class BulletPoolingManager : MonoBehaviour
 
             _poolDictionary.Add(pool.id, objectPool);
         }
+    }
+
+    private GameObject GetProperBullet()
+    {
+        switch (pools[ActionsManager.Instance.Switching.GetCurrentWeaponID()].bulletType)
+        {
+            case Mag.BulletType.AssaultRifle:
+                return assaultRifleBullet;
+            case Mag.BulletType.Pistol:
+                return pistolBullet;
+            case Mag.BulletType.Shotgun:
+                return shotgunBullet;
+            case Mag.BulletType.SubmachineGun:
+                return submachineGunBullet;
+            case Mag.BulletType.SniperRifle:
+                return sniperRifleBullet;
+        }
+
+        return null;
     }
 }

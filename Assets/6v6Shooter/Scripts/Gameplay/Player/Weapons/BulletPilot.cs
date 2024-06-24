@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class BulletPilot : MonoBehaviour
 {
-    [SerializeField] [Tooltip("Enables bullet trails (debug only).")]
-    private bool enableDebugTrails;
-
     [SerializeField] [Tooltip("Initial speed of the bullet.")]
     private float initialSpeed = 100f;
 
@@ -49,7 +46,7 @@ public class BulletPilot : MonoBehaviour
 
     private void Deactivate()
     {
-        gameObject.SetActive(false);
+        gameObject.transform.parent.gameObject.SetActive(false);
     }
 
     void Update()
