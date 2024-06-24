@@ -29,6 +29,7 @@ public class Shooting : MonoBehaviour
 
         var shootKeyClicked = Input.GetMouseButton(0);
         componentHolder.playerAnimationController.shootingLock = shootKeyClicked && Time.time >= _nextFireTime;
+        componentHolder.playerAnimationController.StopShooting(!shootKeyClicked && Time.time >= _nextFireTime);
 
         if (!shootKeyClicked || !(Time.time >= _nextFireTime))
             return;

@@ -58,6 +58,11 @@ public class PlayerAnimationController : MonoBehaviour
         anim.SetTrigger(isAiming ? "pShootingADS" : "pShooting");
     }
 
+    public void StopShooting(bool stop)
+    {
+        anim.SetBool("pStopShooting", stop);
+    }
+
     //Crouching
     public void PlayCrouchAnimation(bool isCrouching)
     {
