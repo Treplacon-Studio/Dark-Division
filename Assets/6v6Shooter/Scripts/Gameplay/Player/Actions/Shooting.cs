@@ -36,7 +36,7 @@ public class Shooting : MonoBehaviour
         var currentWeaponID = ActionsManager.Instance.Switching.GetCurrentWeaponID();
         
         //No ammo
-        if (componentHolder.bulletPoolingManager.GetAmmo() <= 0)
+        if (componentHolder.bulletPoolingManager.GetAmmoPrimary() <= 0)
             return;
 
         var wc = ActionsManager.Instance.Switching.WeaponComponent();

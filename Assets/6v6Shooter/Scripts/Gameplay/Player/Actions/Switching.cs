@@ -1,3 +1,4 @@
+using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
 
 
@@ -105,5 +106,22 @@ public class Switching : MonoBehaviour
     public int GetCurrentWeaponID()
     {
         return _gunInHandsIndex;
+    }
+
+    public string[] GetWeaponsNames()
+    {
+        if (WeaponComponent() is null)
+            return new[] { "", "" };
+
+        var names = new string[2];
+        names[0] = WeaponComponent().Info().Name().ToString();
+
+        var firstWp = equippedGuns[0].GetComponent<Weapon>().Info().Name().ToString();
+        var secondWp = equippedGuns[1].GetComponent<Weapon>().Info().Name().ToString();
+        if (firstWp == names[0])
+            names[1] = secondWp;
+        else
+            names[1] = firstWp;
+        return names;
     }
 }

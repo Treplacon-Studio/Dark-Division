@@ -72,7 +72,7 @@ public class BulletPilot : MonoBehaviour
             var hitObject = hit.collider.gameObject;
             if (!_alreadyHitObjects.Contains(hitObject))
             {
-                hitObject.GetComponent<HealthController>().TakeDamage(30f);
+                hitObject.GetComponent<HealthController>().TakeDamage(10f);
                 Debug.Log($"{bulletOwner.name} hits {hitObject.name}!");
                 _alreadyHitObjects.Add(hitObject);
                 Invoke(nameof(Deactivate), fadeDuration);
