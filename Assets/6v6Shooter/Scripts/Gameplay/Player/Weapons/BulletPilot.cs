@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using _6v6Shooter.Scripts.Gameplay;
 using UnityEngine;
 
@@ -17,9 +18,12 @@ public class BulletPilot : MonoBehaviour
     [SerializeField] [Tooltip("Time after the bullet disappears.")]
     private float fadeDuration = 0.3f;
 
-    private Camera _playerCamera;
+    [SerializeField] [Tooltip("Player that owns the bullet.")]
+    private GameObject bulletOwner;
 
+    private Camera _playerCamera;
     private Rigidbody _rb;
+    private HashSet<GameObject> _alreadyHitObjects = new();
 
     private void Awake()
     {
@@ -65,10 +69,14 @@ public class BulletPilot : MonoBehaviour
         var currentRayLength = initialSpeed * rayLengthFactor;
         if (Physics.Raycast(transform.position, GetShootDirection(), out var hit, currentRayLength, hitLayers))
         {
-            if (hit.collider.gameObject.CompareTag("Player"))
-                hit.collider.gameObject.GetComponent<HealthController>().TakeDamage(30f);
-
-            Invoke(nameof(Deactivate), fadeDuration);
+            var hitObject = hit.collider.gameObject;
+            if (!_alreadyHitObjects.Contains(hitObject))
+            {
+                hitObject.GetComponent<HealthController>().TakeDamage(30f);
+                Debug.Log($"{bulletOwner.name} hits {hitObject.name}!");
+                _alreadyHitObjects.Add(hitObject);
+                Invoke(nameof(Deactivate), fadeDuration);
+            }
         }
     }
 
@@ -79,5 +87,15 @@ public class BulletPilot : MonoBehaviour
         return Physics.Raycast(ray, out var hit)
             ? (hit.point - transform.position).normalized
             : ray.direction.normalized;
+    }
+
+    public void ResetHits()
+    {
+        _alreadyHitObjects = new HashSet<GameObject>();
+    }
+
+    public void SetOwner(GameObject owner)
+    {
+        bulletOwner = owner;
     }
 }

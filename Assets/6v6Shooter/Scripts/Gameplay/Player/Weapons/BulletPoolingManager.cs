@@ -34,6 +34,9 @@ public class BulletPoolingManager : MonoBehaviour
 
     [SerializeField] [Tooltip("Pools that will be available in game.")]
     private List<Pool> pools;
+
+    [SerializeField] [Tooltip("Player game object.")]
+    private GameObject player;
     
     private Dictionary<int, Queue<GameObject>> _poolDictionary;
     
@@ -67,9 +70,12 @@ public class BulletPoolingManager : MonoBehaviour
 
         var objectToSpawn = _poolDictionary[id].Dequeue();
 
-        objectToSpawn.GetComponentInChildren<BulletPilot>().gameObject.transform.position = position;
-        objectToSpawn.GetComponentInChildren<BulletPilot>().gameObject.transform.rotation = rotation;
-        objectToSpawn.GetComponentInChildren<BulletPilot>().gameObject.transform.Rotate(90, 0, 0, Space.Self);
+        var bp = objectToSpawn.GetComponentInChildren<BulletPilot>();
+        bp.gameObject.transform.position = position;
+        bp.gameObject.transform.rotation = rotation;
+        bp.gameObject.transform.Rotate(90, 0, 0, Space.Self);
+        bp.ResetHits();
+        bp.SetOwner(player);
         objectToSpawn.SetActive(true);
 
         _poolDictionary[id].Enqueue(objectToSpawn);
