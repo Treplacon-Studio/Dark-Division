@@ -8791,6 +8791,9 @@ PrefabInstance:
       addedObject: {fileID: 9140231370245497623}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 98adcb067a7a1174daec69cbbe4cd27b, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 8333264084533417066}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 98adcb067a7a1174daec69cbbe4cd27b, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 2137559092129947998}
     - targetCorrespondingSourceObject: {fileID: 3191471581941501502, guid: 98adcb067a7a1174daec69cbbe4cd27b, type: 3}
       insertIndex: -1
@@ -8875,6 +8878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f8206872c2af5341bca11a13379f35e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  componentHolder: {fileID: 8333264084533417066}
 --- !u!114 &383438872405684960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8887,6 +8891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb72513da620e94f8a898994356f26e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  componentHolder: {fileID: 8333264084533417066}
 --- !u!114 &9033759100248619317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8899,6 +8904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0ea15bbfdce3e048969677248db2b7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  componentHolder: {fileID: 8333264084533417066}
 --- !u!114 &8682673952642197032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8911,6 +8917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bff61314267ad0d4fa22cb558d6a3a48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  componentHolder: {fileID: 8333264084533417066}
   defaultFOV: 60
   scopeMultiplier: 1.5
   aimTime: 0.3
@@ -8926,6 +8933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f497fc73d2dc37a49a20261e275d478b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  componentHolder: {fileID: 8333264084533417066}
   leftHand: {fileID: 4403699226002190328}
 --- !u!114 &5741170887150761083
 MonoBehaviour:
@@ -8939,6 +8947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc32a45a977ac84f915d14bd5699e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  componentHolder: {fileID: 8333264084533417066}
 --- !u!114 &5604974374963299017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8951,6 +8960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fe6f8c6f823ace42a4002a13dbdf541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  componentHolder: {fileID: 8333264084533417066}
 --- !u!114 &5203973889640907646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8963,7 +8973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5be2f99a36532874ca7076344463e42c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bpm: {fileID: 6442591284501692457}
+  componentHolder: {fileID: 8333264084533417066}
 --- !u!114 &4847094936710682882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8976,9 +8986,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 814d66a564efa584bbb828ceeff96399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wpa: {fileID: 9140231370245497623}
+  componentHolder: {fileID: 8333264084533417066}
   gunSocket: {fileID: 3480253682118578387}
-  bulletPoolingManager: {fileID: 6442591284501692457}
 --- !u!114 &9140231370245497623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8995,6 +9004,21 @@ MonoBehaviour:
   scarController: {fileID: 9100000, guid: 79e2f113d0024744cad73e485e0fac2b, type: 2}
   m4a1Controller: {fileID: 9100000, guid: 645c1d159d87ff244be4fe3b815b29f0, type: 2}
   dsr50Controller: {fileID: 9100000, guid: fe5544708cbabfb478ada435b935ee45, type: 2}
+--- !u!114 &8333264084533417066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4784683195462574816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e6aaea0fb433ff49bc81a5034d47201, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAnimationController: {fileID: 4372608133279624632}
+  bulletPoolingManager: {fileID: 6442591284501692457}
+  weaponSpecificAnimations: {fileID: 9140231370245497623}
 --- !u!114 &2137559092129947998
 MonoBehaviour:
   m_ObjectHideFlags: 0

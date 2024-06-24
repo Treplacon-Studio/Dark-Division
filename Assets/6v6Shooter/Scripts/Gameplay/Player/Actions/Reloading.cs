@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Reloading : MonoBehaviour
 {
-    private PlayerAnimationController _pac;
+    [SerializeField] [Tooltip("Component holder to access components.")]
+    private ComponentHolder componentHolder;
 
     [SerializeField] [Tooltip("Left hand.")]
     private GameObject leftHand;
@@ -35,26 +36,25 @@ public class Reloading : MonoBehaviour
 
     private void Awake()
     {
-        _pac = GetComponent<PlayerAnimationController>();
         ActionsManager.Instance.Reloading = this;
     }
 
     public void Run()
     {
-        if (Input.GetKeyDown(KeyCode.R) && !_pac.IsLocked())
+        if (Input.GetKeyDown(KeyCode.R) && !componentHolder.playerAnimationController.IsLocked())
         {
             StartCoroutine(LockTemporarily());
 
             var canReload = true;
-            foreach (var s in _pac.weaponActionsStates)
+            foreach (var s in componentHolder.playerAnimationController.weaponActionsStates)
             {
-                if (s == _pac.weaponActionsStates[2] && _pac.aimingLock)
+                if (s == componentHolder.playerAnimationController.weaponActionsStates[2] && componentHolder.playerAnimationController.aimingLock)
                 {
                     ActionsManager.Instance.Aiming.DisableScope();
                     break;
                 }
 
-                if (_pac.InProgress(s, 0))
+                if (componentHolder.playerAnimationController.InProgress(s, 0))
                 {
                     canReload = false;
                     break;
@@ -62,19 +62,19 @@ public class Reloading : MonoBehaviour
             }
 
             if (canReload)
-                _pac.PlayReloadAnimation();
+                componentHolder.playerAnimationController.PlayReloadAnimation();
         }
     }
 
     private IEnumerator LockTemporarily()
     {
-        _pac.reloadingLock = true;
+        componentHolder.playerAnimationController.reloadingLock = true;
 
-        var animator = _pac.anim;
+        var animator = componentHolder.playerAnimationController.anim;
         var clip = PlayerUtils.GetClipByStateName(
                 animator,  new AnimatorOverrideController(animator.runtimeAnimatorController), "AN_FPS_Reload");
         yield return new WaitForSeconds( clip.length + 0.05f);
-        _pac.reloadingLock = false;
+        componentHolder.playerAnimationController.reloadingLock = false;
     }
 
     public void HandleReloadEvent(string eventName)

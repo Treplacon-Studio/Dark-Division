@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class Inspecting : MonoBehaviour
 {
-    private PlayerAnimationController _pac;
+    [SerializeField] [Tooltip("Component holder to access components.")]
+    private ComponentHolder componentHolder;
 
     private void Awake()
     {
-        _pac = GetComponent<PlayerAnimationController>();
         ActionsManager.Instance.Inspecting = this;
     }
 
     public void Run()
     {
-        if (Input.GetKeyDown(KeyCode.I) && !_pac.IsLocked())
+        if (Input.GetKeyDown(KeyCode.I) && !componentHolder.playerAnimationController.IsLocked())
         {
             StartCoroutine(LockTemporarily());
 
             var canInspect = true;
-            foreach (var s in _pac.weaponActionsStates)
+            foreach (var s in componentHolder.playerAnimationController.weaponActionsStates)
             {
-                if (_pac.InProgress(s, 0))
+                if (componentHolder.playerAnimationController.InProgress(s, 0))
                 {
                     canInspect = false;
                     break;
@@ -29,20 +29,20 @@ public class Inspecting : MonoBehaviour
             }
 
             if (canInspect)
-                _pac.PlayInspectAnimation();
+                componentHolder.playerAnimationController.PlayInspectAnimation();
         }
     }
 
 
     private IEnumerator LockTemporarily()
     {
-        _pac.inspectingLock = true;
+        componentHolder.playerAnimationController.inspectingLock = true;
         
-        var animator = _pac.anim;
+        var animator = componentHolder.playerAnimationController.anim;
         var clip = PlayerUtils.GetClipByStateName(
             animator,  new AnimatorOverrideController(animator.runtimeAnimatorController), "AN_FPS_Inspect");
 
         yield return new WaitForSeconds(clip.length + 0.05f);
-        _pac.inspectingLock = false;
+        componentHolder.playerAnimationController.inspectingLock = false;
     }
 }

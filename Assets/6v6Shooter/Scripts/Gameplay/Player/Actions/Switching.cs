@@ -3,26 +3,21 @@ using UnityEngine;
 
 public class Switching : MonoBehaviour
 {
-    [SerializeField] [Tooltip("Specific weapon animations.")]
-    private WeaponSpecificAnimations wpa;
-
+    [SerializeField] [Tooltip("Component holder to access components.")]
+    private ComponentHolder componentHolder;
+    
     [SerializeField] [Tooltip("Socket where the gun is kept.")]
     private GameObject gunSocket;
-    
-    [SerializeField] [Tooltip("Buller pooling manager.")]
-    private BulletPoolingManager bulletPoolingManager;
     
     private GameObject[] equippedGuns;
     private GameObject _weapon;
     private Transform _bulletStartPoint;
-    private PlayerAnimationController _pac;
     private float _nextFireTime;
     private int _gunInHandsIndex;
     private bool _weaponInitialized;
 
     private void Awake()
     {
-        _pac = GetComponent<PlayerAnimationController>();
         ActionsManager.Instance.Switching = this;
     }
 
@@ -30,18 +25,18 @@ public class Switching : MonoBehaviour
     {
         _gunInHandsIndex = 0;
         
-        // if(equippedGuns is not null)
-        // { 
-        //     foreach (var gun in equippedGuns)
-        //     {
-        //         //gun.SetActive(false);
-        //         //gun.transform.SetParent(null);
-        //         //DestroyImmediate(gun, true);
-        //     }
-        // }
+        if(equippedGuns is not null)
+        { 
+            foreach (var gun in equippedGuns)
+            {
+                gun.SetActive(false);
+                gun.transform.SetParent(null);
+                DestroyImmediate(gun, true);
+            }
+        }
         
         equippedGuns = new GameObject[weapons.Length];
-        bulletPoolingManager.ClearPools();
+        componentHolder.bulletPoolingManager.ClearPools();
         
         for (var index = 0; index < equippedGuns.Length; index++)
         {
@@ -55,10 +50,10 @@ public class Switching : MonoBehaviour
             equippedGuns[index].transform.localPosition = Vector3.zero;
             equippedGuns[index].transform.localScale = Vector3.one * 0.01f;
             var mg = equippedGuns[index].GetComponent<Weapon>().GetMag().GetComponent<Mag>();
-            bulletPoolingManager.AddPool(new BulletPoolingManager.Pool(index, mg.ammoType, mg.size));
+            componentHolder.bulletPoolingManager.AddPool(new BulletPoolingManager.Pool(index, mg.ammoType, mg.size));
         }
 
-        bulletPoolingManager.ApplyPools();
+        componentHolder.bulletPoolingManager.ApplyPools();
         SwitchWeapon(_gunInHandsIndex);
         _weaponInitialized = true;
     }
@@ -68,7 +63,7 @@ public class Switching : MonoBehaviour
         _gunInHandsIndex = wn;
         foreach (var w in equippedGuns)
             w.SetActive(false);
-        wpa.ChangeAnimations(equippedGuns[wn].GetComponent<Weapon>().Info().Name());
+        componentHolder.weaponSpecificAnimations.ChangeAnimations(equippedGuns[wn].GetComponent<Weapon>().Info().Name());
         _weapon = equippedGuns[wn];
         _weapon.SetActive(true);
     }
@@ -77,7 +72,7 @@ public class Switching : MonoBehaviour
     {
         var scroll = Input.GetAxis("Mouse ScrollWheel");
 
-        if (_pac.reloadingLock)
+        if (componentHolder.playerAnimationController.reloadingLock)
             return;
 
         if (scroll > 0f) //Scrolled up

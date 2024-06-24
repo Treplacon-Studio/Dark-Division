@@ -1,11 +1,13 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class Aiming : MonoBehaviour
 {
-    private PlayerAnimationController _pac;
-
+    [SerializeField] [Tooltip("Component holder to access components.")]
+    private ComponentHolder componentHolder;
+    
     private Camera _fpsCamera;
 
     [SerializeField] [Tooltip("Default FOV of the camera.")]
@@ -38,16 +40,15 @@ public class Aiming : MonoBehaviour
             _fpsCamera = cam;
             break;
         }
-        _pac = GetComponent<PlayerAnimationController>();
         ActionsManager.Instance.Aiming = this;
     }
 
     public void Run(AimMode aimMode)
     {
         var canAim = true;
-        foreach (var s in _pac.weaponActionsStates)
+        foreach (var s in componentHolder.playerAnimationController.weaponActionsStates)
         {
-            if (_pac.InProgress(s, 0))
+            if (componentHolder.playerAnimationController.InProgress(s, 0))
             {
                 canAim = false;
                 break;
@@ -59,7 +60,7 @@ public class Aiming : MonoBehaviour
             if (Input.GetMouseButtonDown(1) && canAim)
             {
                 StartCoroutine(LockTemporarily());
-                if (_pac.IsLocked()) return;
+                if (componentHolder.playerAnimationController.IsLocked()) return;
                 _isAiming = true;
                 EnableScope();
             }
@@ -76,7 +77,7 @@ public class Aiming : MonoBehaviour
             if (Input.GetMouseButtonDown(1) && !_isAiming && canAim)
             {
                 StartCoroutine(LockTemporarily());
-                if (_pac.IsLocked()) return;
+                if (componentHolder.playerAnimationController.IsLocked()) return;
                 _isAiming = true;
                 locked = true;
                 EnableScope();
@@ -97,12 +98,12 @@ public class Aiming : MonoBehaviour
 
     private IEnumerator LockTemporarily()
     {
-        _pac.aimingLock = true;
-        var animator = _pac.anim;
+        componentHolder.playerAnimationController.aimingLock = true;
+        var animator = componentHolder.playerAnimationController.anim;
         var clip = PlayerUtils.GetClipByStateName(
             animator,  new AnimatorOverrideController(animator.runtimeAnimatorController), "AN_FPS_ToAds");
         yield return new WaitForSeconds(clip.length + 0.05f);
-        _pac.aimingLock = false;
+        componentHolder.playerAnimationController.aimingLock = false;
     }
 
     private void ScopeZoom(bool zoomed)
@@ -130,13 +131,13 @@ public class Aiming : MonoBehaviour
 
     public void EnableScope()
     {
-        _pac.PlayAimDownSightAnimation();
+        componentHolder.playerAnimationController.PlayAimDownSightAnimation();
         ScopeZoom(true);
     }
 
     public void DisableScope()
     {
-        _pac.PlayStopAimDownSightAnimation();
+        componentHolder.playerAnimationController.PlayStopAimDownSightAnimation();
         ScopeZoom(false);
     }
 }
