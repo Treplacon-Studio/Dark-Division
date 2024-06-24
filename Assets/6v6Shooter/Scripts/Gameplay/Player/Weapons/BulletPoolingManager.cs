@@ -45,9 +45,14 @@ public class BulletPoolingManager : MonoBehaviour
        ApplyPools();
     }
 
-    public int GetAmmo()
+    public int GetAmmoPrimary()
     {
         return pools[ActionsManager.Instance.Switching.GetCurrentWeaponID()].currentAmmo;
+    }
+
+    public int GetAmmoSecondary()
+    {
+        return pools[(ActionsManager.Instance.Switching.GetCurrentWeaponID()+1)%2].currentAmmo;
     }
 
     public int GetMaxAmmo()
