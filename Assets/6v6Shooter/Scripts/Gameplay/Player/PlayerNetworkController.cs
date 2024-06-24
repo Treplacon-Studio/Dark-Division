@@ -5,5 +5,8 @@ using Photon.Pun;
 
 public class PlayerNetworkController : MonoBehaviourPunCallbacks
 {
-    
+    public bool PhotonViewIsMine()
+    {
+        return photonView.IsMine;
+    }
 }

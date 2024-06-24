@@ -113,7 +113,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     }
     public void OnQuitSelected() {
         // Application.Quit(); used for actual build
-        UnityEditor.EditorApplication.isPlaying = false;
+        //UnityEditor.EditorApplication.isPlaying = false;
         cameraManage.SetCameraPriority("exit");
         // turn off unity editor
     }
@@ -179,12 +179,13 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         Debug.Log($"{PhotonNetwork.NickName} created a room!");
-        SetPanelViewability(buttonPanel:true);
+        SetPanelViewability(buttonPanel:true); 
     }
 
     public override void OnJoinedRoom()
     {
         Debug.Log($"{PhotonNetwork.NickName} joined the room!");
+        GameManager.instance.CloseLoadingScreen();
     }
 
     public override void OnLeftRoom()
