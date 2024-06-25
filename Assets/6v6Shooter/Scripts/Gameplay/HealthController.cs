@@ -26,6 +26,9 @@ namespace _6v6Shooter.Scripts.Gameplay
         public CinemachineVirtualCamera mainCamera;
         public CinemachineVirtualCamera ragdollCamera;
 
+        public GameObject fpsHandsGameObject;
+        public GameObject soldierGameObject;
+
         void Start()
         {
             health = startHealth;
@@ -82,6 +85,11 @@ namespace _6v6Shooter.Scripts.Gameplay
 
         void EnableRagdoll()
         {
+            fpsHandsGameObject.SetActive(false);
+
+            soldierGameObject.SetActive(true);
+
+
             Debug.Log("Ragdoll Enabled");
             if (animator != null) animator.enabled = false;
             if (movementController != null) movementController.enabled = false;
@@ -115,6 +123,10 @@ namespace _6v6Shooter.Scripts.Gameplay
 
         void DisableRagdoll()
         {
+            fpsHandsGameObject.SetActive(true);
+
+            soldierGameObject.SetActive(false);
+
             if (animator != null) animator.enabled = true;
             if (movementController != null) movementController.enabled = true;
             if (boneRotator != null) boneRotator.enabled = true;
