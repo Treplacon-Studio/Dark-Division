@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
+using Cinemachine;
 
 namespace _6v6Shooter.Scripts.Gameplay
 {
@@ -21,6 +22,10 @@ namespace _6v6Shooter.Scripts.Gameplay
         private BoneRotator boneRotator;
         private List<Rigidbody> ragdollBodies = new List<Rigidbody>();
 
+        // Add references to the Cinemachine cameras
+        public CinemachineVirtualCamera mainCamera;
+        public CinemachineVirtualCamera ragdollCamera;
+
         void Start()
         {
             health = startHealth;
@@ -38,6 +43,9 @@ namespace _6v6Shooter.Scripts.Gameplay
                     rb.isKinematic = true;
                 }
             }
+
+            // Ensure the ragdoll camera is disabled initially
+            if (ragdollCamera != null) ragdollCamera.enabled = false;
         }
 
         [PunRPC]
@@ -66,6 +74,7 @@ namespace _6v6Shooter.Scripts.Gameplay
                 {
                     Debug.Log("Enabling Ragdoll");
                     EnableRagdoll();
+                    SwitchToRagdollCamera();
                     StartCoroutine(Respawn());
                 }
             }
@@ -134,6 +143,24 @@ namespace _6v6Shooter.Scripts.Gameplay
             }
         }
 
+        void SwitchToRagdollCamera()
+        {
+            if (ragdollCamera != null && mainCamera != null)
+            {
+                ragdollCamera.enabled = true;
+                mainCamera.enabled = false;
+            }
+        }
+
+        void SwitchToMainCamera()
+        {
+            if (ragdollCamera != null && mainCamera != null)
+            {
+                ragdollCamera.enabled = false;
+                mainCamera.enabled = true;
+            }
+        }
+
         IEnumerator Respawn()
         {
             GameObject respawnText = GameObject.Find("RespawnText");
@@ -154,6 +181,9 @@ namespace _6v6Shooter.Scripts.Gameplay
             transform.GetComponent<PlayerMotor>().enabled = true;
 
             photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
+
+            // Switch back to the main camera after respawn
+            SwitchToMainCamera();
         }
 
         [PunRPC]
