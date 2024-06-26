@@ -19,4 +19,22 @@ public static class PlayerUtils
         }
         return false;
     }
+    
+    public static T FindComponentInDescendants<T>(this GameObject parentObject) where T : Component
+    {
+        if (parentObject == null)
+            return null;
+        
+        var component = parentObject.GetComponent<T>();
+        if (component != null)
+            return component;
+        
+        foreach (Transform child in parentObject.transform)
+        {
+            component = FindComponentInDescendants<T>(child.gameObject);
+            if (component != null)
+                return component;
+        }
+        return null;
+    }
 }

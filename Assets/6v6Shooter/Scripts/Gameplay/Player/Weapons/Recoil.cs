@@ -1,24 +1,45 @@
+using System;
+using Cinemachine;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class Recoil : MonoBehaviour
 {
+    //original recoil variables
     public float recoil;
-    public float maxRecoilX = -30f;
-    public float maxRecoilY = 3f;
-    public float recoilSpeed = 50f;
+    public float maxRecoilX = -2.5f;
+    public float defaultMaxY = 10f;
+    public float maxRecoilY;
+    public float recoilSpeed = 40f;
+    public Quaternion originalRotation;
+   
+    //camera shaking variables
+    public float cameraShakeIntensity = 5f;
+    public float cameraShakeDuration = 0.1f;
+    private float _shakeTimer;
+    private Vector3 _cameraOriginalPosition;
+    
+    private CinemachineVirtualCamera _playerVirtualCamera;
+    
 
-    public Quaternion _originalRotation;
-
+    void Awake()
+    {
+        _playerVirtualCamera = ActionsManager.Instance.ComponentHolder.bulletPoolingManager
+            .player.FindComponentInDescendants<CinemachineVirtualCamera>();
+        cameraShakeIntensity *= 0.00001f;
+    }
+    
     void Start() {
-        _originalRotation = Quaternion.Euler(90, 0, 0);
+        originalRotation = Quaternion.Euler(90, 0, 0);
+        _cameraOriginalPosition = _playerVirtualCamera.transform.localPosition;
     }
 
-    public void StartRecoil (float recoilParam, float maxX, float maxY, float recoilSpeedParam)
+    public void StartRecoil (float recoilParam)
     {
         recoil = recoilParam;
-        maxRecoilX = maxX;
-        recoilSpeed = recoilSpeedParam;
-        maxRecoilY = Random.Range(-maxY, maxY);
+        maxRecoilY = Random.Range(-defaultMaxY, defaultMaxY);
+        _shakeTimer = cameraShakeDuration;
     }
 
     void Recoiling ()
@@ -29,13 +50,25 @@ public class Recoil : MonoBehaviour
             recoil -= Time.deltaTime * recoilSpeed;
         } else {
             recoil = 0f;
-            transform.localRotation = Quaternion.Slerp (transform.localRotation, _originalRotation, Time.deltaTime * recoilSpeed);
+            transform.localRotation = Quaternion.Slerp (transform.localRotation, originalRotation, Time.deltaTime * recoilSpeed);
+        }
+        
+        if (_playerVirtualCamera != null && _shakeTimer > 0f)
+        {
+            var shakeX = Random.Range(-cameraShakeIntensity, cameraShakeIntensity);
+            var shakeY = Random.Range(-cameraShakeIntensity, cameraShakeIntensity);
+            _playerVirtualCamera.transform.localPosition = _cameraOriginalPosition + new Vector3(shakeX, shakeY, 0f);
+            _shakeTimer -= Time.deltaTime;
+        }
+        else
+        {
+            _playerVirtualCamera.transform.localPosition = _cameraOriginalPosition;
         }
     }
     
     public Vector3 GetRecoilOffset()
     {
-        var offsetRot = transform.localRotation * Quaternion.Inverse(_originalRotation);
+        var offsetRot = transform.localRotation * Quaternion.Inverse(originalRotation);
         var offset = offsetRot.eulerAngles;
         offset.x = Mathf.DeltaAngle(0, offset.x);
         offset.y = Mathf.DeltaAngle(0, offset.y);
