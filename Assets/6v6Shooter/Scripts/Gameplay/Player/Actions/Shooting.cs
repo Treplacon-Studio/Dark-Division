@@ -41,10 +41,11 @@ public class Shooting : MonoBehaviour
             return;
 
         var wc = ActionsManager.Instance.Switching.WeaponComponent();
+        wc.gameObject.GetComponent<Recoil>().StartRecoil(0.2f, -2.5f, 10f, 40f);
         _nextFireTime = Time.time + wc.Info().Stats().FireRate;
         _bulletStartPoint ??= ActionsManager.Instance.Switching.WeaponComponent().GetStartPoint().transform;
-        componentHolder.bulletPoolingManager.SpawnFromPool(currentWeaponID, _bulletStartPoint.transform.position, _bulletStartPoint.transform.rotation);
-        
+       
+        componentHolder.bulletPoolingManager.SpawnFromPool(currentWeaponID, _bulletStartPoint.transform);
         componentHolder.playerAnimationController.PlayShootAnimation(ActionsManager.Instance.Aiming.IsAiming());
     }
 
