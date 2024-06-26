@@ -70,6 +70,11 @@ public class BulletPilot : MonoBehaviour
         if (Physics.Raycast(transform.position, GetShootDirection(), out var hit, currentRayLength, hitLayers))
         {
             var hitObject = hit.collider.gameObject;
+            
+            //Player cannot hit himself
+            if (hit.collider.gameObject == bulletOwner)
+                return;
+            
             if (!_alreadyHitObjects.Contains(hitObject))
             {
                 hitObject.GetComponent<HealthController>().TakeDamage(10f);
