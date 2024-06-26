@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using _6v6Shooter.Scripts.Gameplay;
@@ -17,16 +18,17 @@ public class BulletPilot : MonoBehaviour
 
     [SerializeField] [Tooltip("Time after the bullet disappears.")]
     private float fadeDuration = 0.3f;
-
-    [SerializeField] [Tooltip("Player that owns the bullet.")]
-    private GameObject bulletOwner;
-
+    
+    private GameObject _bulletOwner;
     private Camera _playerCamera;
     private Rigidbody _rb;
     private HashSet<GameObject> _alreadyHitObjects = new();
+    private Recoil _recoil;
+    private Vector3 _currentDirection;
 
     private void Awake()
     {
+        _bulletOwner = ActionsManager.Instance.ComponentHolder.bulletPoolingManager.player;
         var cameras = FindObjectsOfType<Camera>();
         foreach (var cam in cameras)
         {
@@ -37,10 +39,16 @@ public class BulletPilot : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
+    public void SetRecoil(Recoil recoil)
+    {
+        _recoil = recoil;
+    }
+    
     private void OnEnable()
     {
         Invoke(nameof(Deactivate), fadeDuration);
-        _rb.velocity = GetShootDirection() * initialSpeed;
+        _currentDirection = GetShootDirection();
+        _rb.velocity = _currentDirection * initialSpeed;
     }
 
     private void OnDisable()
@@ -67,31 +75,37 @@ public class BulletPilot : MonoBehaviour
         }
         
         var currentRayLength = initialSpeed * rayLengthFactor;
-        if (Physics.Raycast(transform.position, GetShootDirection(), out var hit, currentRayLength, hitLayers))
+        if (Physics.Raycast(transform.position, _currentDirection, out var hit, currentRayLength, hitLayers))
         {
             var hitObject = hit.collider.gameObject;
             
             //Player cannot hit himself
-            if (hit.collider.gameObject == bulletOwner)
+            if (hit.collider.gameObject == _bulletOwner)
                 return;
             
             if (!_alreadyHitObjects.Contains(hitObject))
             {
                 hitObject.GetComponent<HealthController>().TakeDamage(10f);
-                Debug.Log($"{bulletOwner.name} hits {hitObject.name}!");
+                Debug.Log($"{_bulletOwner.name} hits {hitObject.name}!");
                 _alreadyHitObjects.Add(hitObject);
                 Invoke(nameof(Deactivate), fadeDuration);
             }
         }
     }
-
+    
     private Vector3 GetShootDirection()
     {
-        var screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
-        var ray = _playerCamera.ScreenPointToRay(screenCenter);
-        return Physics.Raycast(ray, out var hit)
-            ? (hit.point - transform.position).normalized
-            : ray.direction.normalized;
+        var screenCenterPoint = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
+        var ray = _playerCamera.ScreenPointToRay(screenCenterPoint);
+        var baseDir = ray.direction;
+        
+        if (_recoil == null)
+            return baseDir;
+        
+        //Direction changes when recoiling.
+        var finalDir = baseDir + _playerCamera.transform.rotation *  _recoil.GetRecoilOffset();
+        finalDir.Normalize();
+        return finalDir;
     }
 
     public void ResetHits()
@@ -101,6 +115,6 @@ public class BulletPilot : MonoBehaviour
 
     public void SetOwner(GameObject owner)
     {
-        bulletOwner = owner;
+        _bulletOwner = owner;
     }
 }

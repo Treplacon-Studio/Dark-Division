@@ -36,7 +36,7 @@ public class BulletPoolingManager : MonoBehaviour
     private List<Pool> pools;
 
     [SerializeField] [Tooltip("Player game object.")]
-    private GameObject player;
+    public GameObject player;
     
     private Dictionary<int, Queue<GameObject>> _poolDictionary;
     
@@ -65,7 +65,7 @@ public class BulletPoolingManager : MonoBehaviour
         return pools[id].currentAmmo = pools[id].size;
     }
 
-    public void SpawnFromPool(int id, Vector3 position, Quaternion rotation)
+    public void SpawnFromPool(int id, Transform startPointTransform)
     {
         if (!_poolDictionary.ContainsKey(id))
         {
@@ -74,13 +74,14 @@ public class BulletPoolingManager : MonoBehaviour
         }
 
         var objectToSpawn = _poolDictionary[id].Dequeue();
-
+        
         var bp = objectToSpawn.GetComponentInChildren<BulletPilot>();
-        bp.gameObject.transform.position = position;
-        bp.gameObject.transform.rotation = rotation;
+        bp.gameObject.transform.position = startPointTransform.position;
+        bp.gameObject.transform.rotation = startPointTransform.rotation;
         bp.gameObject.transform.Rotate(90, 0, 0, Space.Self);
         bp.ResetHits();
         bp.SetOwner(player);
+        bp.SetRecoil(ActionsManager.Instance.Switching.WeaponComponent().gameObject.GetComponent<Recoil>());
         objectToSpawn.SetActive(true);
 
         _poolDictionary[id].Enqueue(objectToSpawn);
