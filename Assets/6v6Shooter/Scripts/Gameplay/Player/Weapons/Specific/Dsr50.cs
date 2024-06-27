@@ -17,25 +17,23 @@ public class Dsr50 : MonoBehaviour
 
     private bool _lockReload;
     private bool _previousShootingLock;
-    private PlayerAnimationController _pac;
     private Animator _anim;
 
     private void Start()
     {
-        _pac = ActionsManager.Instance.Pac;
         _anim = GetComponent<Animator>();
-        _previousShootingLock = _pac.shootingLock;
+        _previousShootingLock = ActionsManager.Instance.ComponentHolder.playerAnimationController.shootingLock;
         if (_anim == null)
             Debug.LogError("Weapon animator not found.");
-        if (_pac == null)
+        if (ActionsManager.Instance.ComponentHolder.playerAnimationController == null)
             Debug.LogError("Player animation controller not set in action manager.");
         SetProperFireRate();
     }
 
     void SetProperFireRate()
     {
-        var animator = ActionsManager.Instance.Pac.anim;
-        var stateName = ActionsManager.Instance.Pac.aimingLock ? "AN_FPS_CoghADS" : "AN_FPS_CoghHFR";
+        var animator = ActionsManager.Instance.ComponentHolder.playerAnimationController.anim;
+        var stateName = ActionsManager.Instance.ComponentHolder.playerAnimationController.aimingLock ? "AN_FPS_DSR-50_CoghADS" : "AN_FPS_DSR-50_CoghHFR";
         
         if (animator == null)
         {
@@ -45,7 +43,7 @@ public class Dsr50 : MonoBehaviour
         
         var overrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
         AnimationClip clip = null;
-
+        
         foreach (var binding in overrideController.animationClips)
         {
             if (binding.name == stateName)
@@ -75,7 +73,7 @@ public class Dsr50 : MonoBehaviour
             _anim.SetBool("pCogh", false);
 
         //Reloading cogh
-        if (_pac.reloadingLock)
+        if (ActionsManager.Instance.ComponentHolder.playerAnimationController.reloadingLock)
         {
             if (!_lockReload)
             {
@@ -84,16 +82,16 @@ public class Dsr50 : MonoBehaviour
             }
         }
 
-        if (_lockReload && (!_pac.reloadingLock))
+        if (_lockReload && (!ActionsManager.Instance.ComponentHolder.playerAnimationController.reloadingLock))
             _lockReload = false;
 
         //Shooting cogh
-        if (_previousShootingLock && !_pac.shootingLock)
+        if (_previousShootingLock && !ActionsManager.Instance.ComponentHolder.playerAnimationController.shootingLock)
             _anim.SetBool("pCogh", true);
         else
             _anim.SetBool("pCogh", false);
 
-        _previousShootingLock = _pac.shootingLock;
+        _previousShootingLock = ActionsManager.Instance.ComponentHolder.playerAnimationController.shootingLock;
     }
 
     //Cogh animations starts with delay, stops when hand not holding cogh and resume when hold again

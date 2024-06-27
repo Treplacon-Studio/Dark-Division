@@ -168,7 +168,7 @@ Transform:
   m_GameObject: {fileID: 6257585977350293602}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.04433921, y: 1.313, z: 4.533}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: -0.012147527, y: 0.004619897, z: 0.113330945}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -273,7 +273,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!114 &3770933045422651973
 MonoBehaviour:
@@ -287,14 +287,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd10cb224e8fb84c8193a0683da7121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 150
-  damage: 10
+  enableDebugTrails: 0
+  initialSpeed: 100
   rayLengthFactor: 1
   hitLayers:
     serializedVersion: 2
-    m_Bits: 439
+    m_Bits: 256
   fadeDuration: 2
-  ownedByPlayer: {fileID: 0}
+  trailVisibilityTime: 0.005
+  trailWidth: {x: 0.003, y: 0.002}
+  startPoint: {fileID: 0}
 --- !u!114 &5846094753028213282
 MonoBehaviour:
   m_ObjectHideFlags: 0
