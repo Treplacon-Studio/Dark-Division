@@ -136,7 +136,7 @@ PrefabInstance:
       addedObject: {fileID: 3145571441926299852}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5ec271b929e791d48909874ee67193d1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7492223072643061819}
+      addedObject: {fileID: 8964126337929134916}
   m_SourcePrefab: {fileID: 100100000, guid: 5ec271b929e791d48909874ee67193d1, type: 3}
 --- !u!1 &309313797930776680 stripped
 GameObject:
@@ -190,7 +190,7 @@ MonoBehaviour:
   sights: []
   stocks:
   - {fileID: 8760884664100794307}
---- !u!114 &7492223072643061819
+--- !u!114 &8964126337929134916
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -203,10 +203,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recoil: 0
-  maxRecoilX: -30
-  maxRecoilY: 3
+  verticalRecoilLimit: -2
+  horizontalRecoilLimit: 4
+  randomHorizontalRecoil: 0
   recoilSpeed: 50
-  _originalRotation: {x: 0, y: 0, z: 0, w: 0}
+  cameraRecoilPower: 0.06
+  cameraShakeIntensity: 1.5
+  cameraShakeDuration: 0.1
+  verticalRecoilLimitAds: -1
+  horizontalRecoilLimitAds: 2
+  randomHorizontalRecoilAds: 0
+  recoilSpeedAds: 30
+  cameraRecoilPowerAds: 0.04
+  cameraShakeIntensityAds: 1.5
+  cameraShakeDurationAds: 0.1
 --- !u!4 &1081206881751016146 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5ec271b929e791d48909874ee67193d1, type: 3}
