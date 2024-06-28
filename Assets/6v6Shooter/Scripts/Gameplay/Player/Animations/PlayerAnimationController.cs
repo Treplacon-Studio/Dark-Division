@@ -1,6 +1,6 @@
 using UnityEngine;
 
-
+[RequireComponent(typeof(ComponentHolder))]
 [RequireComponent(typeof(Jumping))]
 [RequireComponent(typeof(Walking))]
 [RequireComponent(typeof(Sprinting))]
@@ -27,11 +27,6 @@ public class PlayerAnimationController : MonoBehaviour
     public bool inspectingLock;
     public bool aimingLock;
     public bool shootingLock;
-
-    private void Awake()
-    {
-        ActionsManager.Instance.Pac = this;
-    }
 
     public bool InProgress(string stateName, int layerIndex)
     {
@@ -61,6 +56,11 @@ public class PlayerAnimationController : MonoBehaviour
     public void PlayShootAnimation(bool isAiming)
     {
         anim.SetTrigger(isAiming ? "pShootingADS" : "pShooting");
+    }
+
+    public void StopShooting(bool stop)
+    {
+        anim.SetBool("pStopShooting", stop);
     }
 
     //Crouching

@@ -11,7 +11,7 @@ public class ActionsManager
         get { return _instance ??= new ActionsManager(); }
     }
 
-    public PlayerAnimationController Pac;
+    public ComponentHolder ComponentHolder;
 
     public Reloading Reloading;
     public Inspecting Inspecting;

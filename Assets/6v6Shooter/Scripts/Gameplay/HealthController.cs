@@ -9,12 +9,9 @@ namespace _6v6Shooter.Scripts.Gameplay
 {
     public class HealthController : MonoBehaviourPunCallbacks
     {
-        [SerializeField]
-        Image healthBar;
-
+        [SerializeField] private Image healthBar;
         public float health;
         public float startHealth = 100;
-
         public bool targetDummy;
 
         private Animator animator;
@@ -34,13 +31,13 @@ namespace _6v6Shooter.Scripts.Gameplay
 
         void Start()
         {
-
             spawnManager = FindObjectOfType<PublicMatchSpawnManager>();
             if (spawnManager == null)
             {
                 Debug.LogError("PublicMatchSpawnManager not found in the scene.");
                 return;
             }
+
             health = startHealth;
             healthBar.fillAmount = health / startHealth;
 
@@ -77,26 +74,23 @@ namespace _6v6Shooter.Scripts.Gameplay
         {
             Debug.Log("Die function triggered");
 
-            if (photonView.IsMine)
+            if (photonView.IsMine && targetDummy)
             {
-                if (targetDummy)
-                {
-                    photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
-                }
-                else
-                {
-                    Debug.Log("Enabling Ragdoll");
-                    EnableRagdoll();
-                    SwitchToRagdollCamera();
-                    StartCoroutine(Respawn());
-                }
+                TeamDeathmatchManager.instance.AddPointForTeam();
+                photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
+            }
+            else
+            {
+                Debug.Log("Enabling Ragdoll");
+                EnableRagdoll();
+                SwitchToRagdollCamera();
+                StartCoroutine(Respawn());
             }
         }
 
         void EnableRagdoll()
         {
             fpsHandsGameObject.SetActive(false);
-
             soldierGameObject.SetActive(true);
 
             Debug.Log("Ragdoll Enabled");
@@ -107,10 +101,7 @@ namespace _6v6Shooter.Scripts.Gameplay
             MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
             foreach (var script in scripts)
             {
-                if (script != this
-                && script != photonView
-                && script != movementController
-                && script != boneRotator)
+                if (script != this && script != photonView && script != movementController && script != boneRotator)
                 {
                     script.enabled = false;
                 }
@@ -133,7 +124,6 @@ namespace _6v6Shooter.Scripts.Gameplay
         void DisableRagdoll()
         {
             fpsHandsGameObject.SetActive(true);
-
             soldierGameObject.SetActive(false);
 
             if (animator != null) animator.enabled = true;
@@ -143,10 +133,7 @@ namespace _6v6Shooter.Scripts.Gameplay
             MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
             foreach (var script in scripts)
             {
-                if (script != this
-                && script != photonView
-                && script != movementController
-                && script != boneRotator)
+                if (script != this && script != photonView && script != movementController && script != boneRotator)
                 {
                     script.enabled = true;
                 }
@@ -186,9 +173,7 @@ namespace _6v6Shooter.Scripts.Gameplay
         {
             yield return new WaitForSeconds(5f); // Add a respawn delay if needed
 
-
             spawnManager.RequestSpawnPlayer("Blue");
-
             photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
 
             DisableRagdoll();

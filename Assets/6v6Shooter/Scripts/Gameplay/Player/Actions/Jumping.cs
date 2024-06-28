@@ -2,19 +2,20 @@ using UnityEngine;
 
 public class Jumping : MonoBehaviour
 {
-    private PlayerAnimationController _pac;
+    [SerializeField] [Tooltip("Component holder to access components.")]
+    private ComponentHolder componentHolder;
+    
     private bool _canJump = true;
     private bool _lock;
 
     private void Awake()
     {
-        _pac = GetComponent<PlayerAnimationController>();
         ActionsManager.Instance.Jumping = this;
     }
 
     public void Run(bool isLanding, bool isGrounded)
     {
-        _pac.PlayJumpAnimation(isLanding, isGrounded);
+        componentHolder.playerAnimationController.PlayJumpAnimation(isLanding, isGrounded);
     }
 
     public bool CanJump()

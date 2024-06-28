@@ -13,7 +13,7 @@ public class BoneRotator : MonoBehaviour
 
     void Start()
     {
-        bone = this.transform;
+        bone = transform;
         currentEulerAngles = bone.localEulerAngles;
     }
 
@@ -38,5 +38,11 @@ public class BoneRotator : MonoBehaviour
         currentEulerAngles.x = Mathf.Clamp(currentEulerAngles.x, -90f, 90f);
 
         bone.localEulerAngles = currentEulerAngles;
+    }
+
+    public void AddRotation(float rotation)
+    {
+        currentEulerAngles.x -= rotation;
+        currentEulerAngles.x = Mathf.Clamp(currentEulerAngles.x, -90f, 90f);
     }
 }
