@@ -11,12 +11,23 @@ public static class PlayerUtils
 
     private static bool IsClipUsedInState(Animator animator, AnimationClip clip, string stateName)
     {
-        var animatorController = animator.runtimeAnimatorController as UnityEditor.Animations.AnimatorController;
-        if (animatorController != null)
+        if (animator == null || clip == null || string.IsNullOrEmpty(stateName))
+            return false;
+
+        var animatorController = animator.runtimeAnimatorController;
+        if (animatorController is AnimatorOverrideController overrideController)
         {
-            return animatorController.layers.SelectMany(layer => layer.stateMachine.states)
-                .Any(state => state.state.name == stateName && state.state.motion == clip);
+            animatorController = overrideController.runtimeAnimatorController;
         }
+
+        foreach (var layer in animatorController.animationClips)
+        {
+            if (layer.name == stateName && layer == clip)
+            {
+                return true;
+            }
+        }
+
         return false;
     }
     

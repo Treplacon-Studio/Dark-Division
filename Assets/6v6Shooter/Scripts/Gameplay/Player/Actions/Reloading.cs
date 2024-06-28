@@ -11,6 +11,9 @@ public class Reloading : MonoBehaviour
     [SerializeField] [Tooltip("Left hand.")]
     private GameObject leftHand;
 
+    [SerializeField] [Tooltip("Clips for specific weapon animations.")]
+    private WeaponAnimation[] clips;
+
     private LocalTransformStructure _tWeaponMagSocket;
 
     private readonly struct LocalTransformStructure
@@ -72,10 +75,13 @@ public class Reloading : MonoBehaviour
         
         componentHolder.playerAnimationController.reloadingLock = true;
         var animator = componentHolder.playerAnimationController.anim;
-        var clip = PlayerUtils.GetClipByStateName(
-                animator,  new AnimatorOverrideController(animator.runtimeAnimatorController), "AN_FPS_Reload");
-        yield return new WaitForSeconds( clip.length + 0.05f);
-        
+        AnimationClip clip = null;
+        var currentWeapon = ActionsManager.Instance.Switching.WeaponComponent();
+        foreach(var elem in clips)
+            if (currentWeapon != null && elem.name == currentWeapon.Info().Name())
+                clip = elem.clip;
+        if (clip is not null) yield return new WaitForSeconds(clip.length + 0.05f);
+
         componentHolder.bulletPoolingManager.ResetAmmo(currentWeaponID);
         componentHolder.playerAnimationController.reloadingLock = false;
     }

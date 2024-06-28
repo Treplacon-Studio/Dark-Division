@@ -6,6 +6,9 @@ public class Inspecting : MonoBehaviour
 {
     [SerializeField] [Tooltip("Component holder to access components.")]
     private ComponentHolder componentHolder;
+    
+    [SerializeField] [Tooltip("Clips for specific weapon animations.")]
+    private WeaponAnimation[] clips;
 
     private void Awake()
     {
@@ -38,9 +41,11 @@ public class Inspecting : MonoBehaviour
     {
         componentHolder.playerAnimationController.inspectingLock = true;
         
-        var animator = componentHolder.playerAnimationController.anim;
-        var clip = PlayerUtils.GetClipByStateName(
-            animator,  new AnimatorOverrideController(animator.runtimeAnimatorController), "AN_FPS_Inspect");
+        AnimationClip clip = null;
+        var currentWeapon = ActionsManager.Instance.Switching.WeaponComponent();
+        foreach(var elem in clips)
+            if (currentWeapon != null && elem.name == currentWeapon.Info().Name())
+                clip = elem.clip;
 
         yield return new WaitForSeconds(clip.length + 0.05f);
         componentHolder.playerAnimationController.inspectingLock = false;

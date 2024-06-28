@@ -18,6 +18,9 @@ public class Aiming : MonoBehaviour
 
     [SerializeField] [Tooltip("Time to zoom and un-zoom.")]
     private float aimTime;
+    
+    [SerializeField] [Tooltip("Clips for specific weapon animations.")]
+    private WeaponAnimation[] clips;
 
     public enum AimMode
     {
@@ -99,9 +102,11 @@ public class Aiming : MonoBehaviour
     private IEnumerator LockTemporarily()
     {
         componentHolder.playerAnimationController.aimingLock = true;
-        var animator = componentHolder.playerAnimationController.anim;
-        var clip = PlayerUtils.GetClipByStateName(
-            animator,  new AnimatorOverrideController(animator.runtimeAnimatorController), "AN_FPS_ToAds");
+        AnimationClip clip = null;
+        var currentWeapon = ActionsManager.Instance.Switching.WeaponComponent();
+        foreach(var elem in clips)
+            if (currentWeapon != null && elem.name == currentWeapon.Info().Name())
+                clip = elem.clip;
         yield return new WaitForSeconds(clip.length + 0.05f);
         componentHolder.playerAnimationController.aimingLock = false;
     }
