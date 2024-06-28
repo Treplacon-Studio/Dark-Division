@@ -29,8 +29,18 @@ namespace _6v6Shooter.Scripts.Gameplay
         public GameObject fpsHandsGameObject;
         public GameObject soldierGameObject;
 
+        // Reference to the PublicMatchSpawnManager
+        public PublicMatchSpawnManager spawnManager;
+
         void Start()
         {
+
+            spawnManager = FindObjectOfType<PublicMatchSpawnManager>();
+            if (spawnManager == null)
+            {
+                Debug.LogError("PublicMatchSpawnManager not found in the scene.");
+                return;
+            }
             health = startHealth;
             healthBar.fillAmount = health / startHealth;
 
@@ -88,7 +98,6 @@ namespace _6v6Shooter.Scripts.Gameplay
             fpsHandsGameObject.SetActive(false);
 
             soldierGameObject.SetActive(true);
-
 
             Debug.Log("Ragdoll Enabled");
             if (animator != null) animator.enabled = false;
@@ -175,26 +184,14 @@ namespace _6v6Shooter.Scripts.Gameplay
 
         IEnumerator Respawn()
         {
-            GameObject respawnText = GameObject.Find("RespawnText");
+            yield return new WaitForSeconds(5f); // Add a respawn delay if needed
 
-            float respawnTime = 8.0f;
-            while (respawnTime > 0.0f)
-            {
-                yield return new WaitForSeconds(1.0f);
-                respawnTime -= 1.0f;
-                transform.GetComponent<PlayerMotor>().enabled = false;
-                respawnText.GetComponent<Text>().text = "You are killed. Respawning at: " + respawnTime.ToString("0.00");
-            }
 
-            respawnText.GetComponent<Text>().text = "";
-
-            int randomPoint = Random.Range(-20, 20);
-            transform.position = new Vector3(randomPoint, 0, randomPoint);
-            transform.GetComponent<PlayerMotor>().enabled = true;
+            spawnManager.RequestSpawnPlayer("Blue");
 
             photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
 
-            // Switch back to the main camera after respawn
+            DisableRagdoll();
             SwitchToMainCamera();
         }
 
@@ -203,6 +200,12 @@ namespace _6v6Shooter.Scripts.Gameplay
         {
             health = startHealth;
             healthBar.fillAmount = health / startHealth;
+        }
+
+        // Placeholder method to get the team, replace with your actual implementation
+        private string GetTeam()
+        {
+            return "Red"; // or "Blue"
         }
     }
 }

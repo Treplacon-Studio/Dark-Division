@@ -89,6 +89,7 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
             occupiedBlueSpawnPoints.Add(spawnPoint);
     }
 
+    [PunRPC]
     public void SpawnPlayer(string team)
     {     
         Debug.Log($"WE ARE SPAWNING PLAYER TO TEAM {team}"); 
