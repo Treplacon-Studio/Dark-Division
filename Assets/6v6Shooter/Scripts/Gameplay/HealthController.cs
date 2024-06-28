@@ -7,7 +7,6 @@ namespace _6v6Shooter.Scripts.Gameplay
 {
     public class HealthController : MonoBehaviourPunCallbacks
     {
-
         [SerializeField]
         Image healthBar;
 
@@ -32,6 +31,7 @@ namespace _6v6Shooter.Scripts.Gameplay
 
         void Die() {
             if (photonView.IsMine && targetDummy is true) {
+                TeamDeathmatchManager.instance.AddPointForTeam();
                 if (targetDummy is true)
                     photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
                 else

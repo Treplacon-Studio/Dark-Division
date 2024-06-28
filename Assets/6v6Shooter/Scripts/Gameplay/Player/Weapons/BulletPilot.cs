@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using _6v6Shooter.Scripts.Gameplay;
+using Photon.Pun;
 using UnityEngine;
 
 
@@ -21,6 +22,7 @@ public class BulletPilot : MonoBehaviour
     
     private GameObject _bulletOwner;
     private Camera _playerCamera;
+    private PhotonView _photonView;
     private Rigidbody _rb;
     private HashSet<GameObject> _alreadyHitObjects = new();
     private Recoil _recoil;
@@ -37,6 +39,7 @@ public class BulletPilot : MonoBehaviour
             break;
         }
         _rb = GetComponent<Rigidbody>();
+        _photonView = GetComponent<PhotonView>();
     }
 
     public void SetRecoil(Recoil recoil)
@@ -78,7 +81,7 @@ public class BulletPilot : MonoBehaviour
         if (Physics.Raycast(transform.position, _currentDirection, out var hit, currentRayLength, hitLayers))
         {
             var hitObject = hit.collider.gameObject;
-            
+
             //Player cannot hit himself
             if (hit.collider.gameObject == _bulletOwner)
                 return;
