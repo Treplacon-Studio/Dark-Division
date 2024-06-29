@@ -41,11 +41,11 @@ public class BulletPoolingManager : MonoBehaviour
     
     private Dictionary<int, Queue<GameObject>> _poolDictionary;
 
-    private int _ownerPhotonViewActorNumber;
+    private PhotonView _photonView;
 
     void Awake()
     {
-        _ownerPhotonViewActorNumber = player.GetComponent<PhotonView>().OwnerActorNr;
+        _photonView = player.GetComponent<PhotonView>();
     }
     
     private void Start()
@@ -109,6 +109,9 @@ public class BulletPoolingManager : MonoBehaviour
 
     public void ApplyPools()
     {
+        if (_photonView.IsMine is false)
+            return;
+
         _poolDictionary = new Dictionary<int, Queue<GameObject>>();
 
         foreach (var pool in pools)
@@ -122,11 +125,18 @@ public class BulletPoolingManager : MonoBehaviour
                     Debug.LogError("AmmoHolder not found on player!");
                     continue;
                 }
-
+                Debug.Log($"Instantiating bullet #{i}");
                 GameObject bulletTypeToSpawn = GetProperBullet();
                 string bulletPrefabName = GetProperBulletPrefabName(bulletTypeToSpawn);
                 GameObject newbulletObj = PhotonNetwork.Instantiate(Path.Combine("Weapons", "Bullets", $"{bulletPrefabName}"), Vector3.zero, Quaternion.identity);
-                newbulletObj.transform.SetParent(ammoHolder, false);                
+                newbulletObj.transform.SetParent(ammoHolder, false);
+
+                //Set the bullets owner photon view to this players photon view
+                BulletPilot objectsPilot = newbulletObj.GetComponent<BulletPilot>();
+                if (objectsPilot != null)
+                    objectsPilot.SetOwnerPhotonView(_photonView);
+
+
                 newbulletObj.SetActive(false);
                 objectPool.Enqueue(newbulletObj);
             }

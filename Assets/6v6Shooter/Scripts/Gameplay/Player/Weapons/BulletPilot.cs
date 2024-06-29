@@ -30,7 +30,6 @@ public class BulletPilot : MonoBehaviour
     private void Awake()
     {
         _bulletOwner = ActionsManager.Instance.ComponentHolder.bulletPoolingManager.player;
-        _bulletOwnerPhotonView = ActionsManager.Instance.ComponentHolder.PlayerPhotonView;
         _photonView = GetComponent<PhotonView>();
         var cameras = FindObjectsOfType<Camera>();
         foreach (var cam in cameras)
@@ -82,10 +81,10 @@ public class BulletPilot : MonoBehaviour
         {
             var hitObject = hit.collider.gameObject;
 
-            // Get the PhotonView of the hit object
+            //Get the PhotonView of the hit object
             PhotonView hitPhotonView = hitObject.GetComponent<PhotonView>();
 
-            // Player cannot hit himself
+            //Player cannot hit himself
             if (hitPhotonView != null && hitPhotonView.Owner == _bulletOwnerPhotonView.Owner)
                 return;
 
@@ -128,5 +127,10 @@ public class BulletPilot : MonoBehaviour
     public void SetOwner(GameObject owner)
     {
         _bulletOwner = owner;
+    }
+
+    public void SetOwnerPhotonView(PhotonView pv)
+    {
+        _bulletOwnerPhotonView = pv;
     }
 }
