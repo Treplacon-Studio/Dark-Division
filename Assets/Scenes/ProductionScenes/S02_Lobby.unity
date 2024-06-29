@@ -468,6 +468,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1188265603 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5519789852322244979, guid: 2a4fa4597bcc6fb48a88653100e03107, type: 3}
+  m_PrefabInstance: {fileID: 5215124502006531112}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2224131427466034177
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -517,13 +522,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6113919238159495891, guid: edff0c671e04e8e4c8c5fb256670e803, type: 3}
-      propertyPath: mapOne
+      propertyPath: startButton
       value: 
-      objectReference: {fileID: 21300000, guid: bf002a63f6e15b64bb872a3cfef5aca7, type: 3}
-    - target: {fileID: 6113919238159495891, guid: edff0c671e04e8e4c8c5fb256670e803, type: 3}
-      propertyPath: mapTwo
-      value: 
-      objectReference: {fileID: 21300000, guid: f123c8720c1196f4e9ceb6c2ef408ea3, type: 3}
+      objectReference: {fileID: 1188265603}
     - target: {fileID: 6113919238159495891, guid: edff0c671e04e8e4c8c5fb256670e803, type: 3}
       propertyPath: countdownDisplay
       value: 
@@ -552,22 +553,6 @@ PrefabInstance:
       propertyPath: teamBPlayersContainer
       value: 
       objectReference: {fileID: 5215124502006531114}
-    - target: {fileID: 6113919238159495891, guid: edff0c671e04e8e4c8c5fb256670e803, type: 3}
-      propertyPath: votesForMapOneDisplay
-      value: 
-      objectReference: {fileID: 5215124502006531118}
-    - target: {fileID: 6113919238159495891, guid: edff0c671e04e8e4c8c5fb256670e803, type: 3}
-      propertyPath: votesForMapTwoDisplay
-      value: 
-      objectReference: {fileID: 5215124502006531117}
-    - target: {fileID: 6113919238159495891, guid: edff0c671e04e8e4c8c5fb256670e803, type: 3}
-      propertyPath: votesForRandomMapDisplay
-      value: 
-      objectReference: {fileID: 5215124502006531116}
-    - target: {fileID: 7357157846608204230, guid: edff0c671e04e8e4c8c5fb256670e803, type: 3}
-      propertyPath: sceneViewId
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8687073160013442816, guid: edff0c671e04e8e4c8c5fb256670e803, type: 3}
       propertyPath: m_Name
       value: LobbyManager

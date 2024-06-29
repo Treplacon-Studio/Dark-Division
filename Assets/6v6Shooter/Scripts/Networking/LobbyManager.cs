@@ -20,6 +20,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] TMP_Text mapOneVoteDisplay;
     [SerializeField] TMP_Text mapTwoVoteDisplay;
     [SerializeField] TMP_Text randomMapVoteDisplay;
+    [SerializeField] GameObject startButton;
 
     private PhotonView photonView;
     private int currentTime;
@@ -44,6 +45,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
             Debug.LogError("PhotonView component missing. Adding PhotonView component.");
             photonView = gameObject.AddComponent<PhotonView>();
         }
+
+        if (PhotonNetwork.IsMasterClient)
+            startButton.SetActive(true);
+        else
+            startButton.SetActive(false);
 
         Debug.Log($"PhotonView ID in Awake: {photonView.ViewID}");
     }
