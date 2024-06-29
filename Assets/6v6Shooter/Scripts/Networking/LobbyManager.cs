@@ -24,6 +24,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
 
     private PhotonView photonView;
     private int currentTime;
+    private bool _isStartButtonShown = false;
 
     private int mapOneVote;
     private int mapTwoVote;
@@ -45,13 +46,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
             Debug.LogError("PhotonView component missing. Adding PhotonView component.");
             photonView = gameObject.AddComponent<PhotonView>();
         }
-
-        if (PhotonNetwork.IsMasterClient)
-            startButton.SetActive(true);
-        else
-            startButton.SetActive(false);
-
-        Debug.Log($"PhotonView ID in Awake: {photonView.ViewID}");
     }
 
     void Start()
@@ -232,8 +226,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public override void OnJoinedRoom()
     {
+        //Check if the client is the first one in the room and the button is not already shown
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 1 && !_isStartButtonShown)
+        {
+            startButton.SetActive(true);
+            _isStartButtonShown = true;
+        }
+        else
+            startButton.SetActive(false);
+
         TeamManager.AssignTeam(PhotonNetwork.LocalPlayer);
-        Debug.Log($"OnJoinedRoom called, PhotonView ID: {photonView.ViewID}");
         StartCoroutine(UpdatePlayerCountAfterDelay());
         ListPlayers();
         GameManager.instance.CloseLoadingScreen();
@@ -305,5 +307,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
             mapTwoVote = (int)stream.ReceiveNext();
             randomMapVote = (int)stream.ReceiveNext();
         }
+    }
+
+    public override void OnMasterClientSwitched(Photon.Realtime.Player newMasterClient)
+    {
+        if (PhotonNetwork.IsMasterClient)
+            startButton.gameObject.SetActive(true);
+        else
+            startButton.gameObject.SetActive(false);
     }
 }
