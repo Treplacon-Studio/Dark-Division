@@ -226,7 +226,7 @@ public class WeaponInfo
         },
         {
             WeaponName.Tac45,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Secondary)
+            new WeaponStats(10, 10, 0.5f, 10, WeaponStats.WeaponType.Secondary)
         },
         {
             WeaponName.FnFive8,
