@@ -34,11 +34,14 @@ public class Recoil : MonoBehaviour
     private CinemachineVirtualCamera _playerVirtualCamera;
     private BoneRotator _playerBoneRotator;
 
+    private PlayerNetworkController _pnc;
+
     void Awake()
     {
-        _playerVirtualCamera = ActionsManager.Instance.ComponentHolder.bulletPoolingManager
+        _pnc = PlayerUtils.FindComponentInParents<PlayerNetworkController>(gameObject);
+        _playerVirtualCamera = ActionsManager.GetInstance(_pnc.GetInstanceID()).ComponentHolder.bulletPoolingManager
             .player.FindComponentInDescendants<CinemachineVirtualCamera>();
-        _playerBoneRotator = ActionsManager.Instance.ComponentHolder.bulletPoolingManager
+        _playerBoneRotator = ActionsManager.GetInstance(_pnc.GetInstanceID()).ComponentHolder.bulletPoolingManager
             .player.FindComponentInDescendants<BoneRotator>();
         cameraShakeIntensity *= 0.00001f;
         cameraShakeIntensityAds *= 0.00001f;
@@ -54,7 +57,7 @@ public class Recoil : MonoBehaviour
         recoil = recoilParam;
         randomHorizontalRecoil = Random.Range(-horizontalRecoilLimit, horizontalRecoilLimit);
         randomHorizontalRecoilAds = Random.Range(-horizontalRecoilLimitAds, horizontalRecoilLimitAds);
-        _shakeTimer = ActionsManager.Instance.Aiming.IsAiming() ? cameraShakeDurationAds : cameraShakeDuration;
+        _shakeTimer = ActionsManager.GetInstance(_pnc.GetInstanceID()).Aiming.IsAiming() ? cameraShakeDurationAds : cameraShakeDuration;
     }
 
     void Recoiling ()
@@ -119,7 +122,7 @@ public class Recoil : MonoBehaviour
     
     void Update ()
     {
-        if (ActionsManager.Instance.Aiming.IsAiming())
+        if (ActionsManager.GetInstance(_pnc.GetInstanceID()).Aiming.IsAiming())
             RecoilingAds();
         else Recoiling();
     }

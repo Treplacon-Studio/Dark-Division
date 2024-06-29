@@ -1,4 +1,5 @@
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public static class PlayerUtils
@@ -45,6 +46,28 @@ public static class PlayerUtils
             component = FindComponentInDescendants<T>(child.gameObject);
             if (component != null)
                 return component;
+        }
+        return null;
+    }
+    
+    public static T FindComponentInParents<T>(GameObject child) where T : Component
+    {
+        if (child == null)
+            return null;
+        var component = child.GetComponent<T>();
+        
+        if (component != null)
+            return component;
+        
+        var parentTransform = child.transform.parent;
+       
+        while (parentTransform != null)
+        {
+            component = parentTransform.GetComponentInParent<T>(true);
+            if (component != null)
+                return component;
+
+            parentTransform = parentTransform.parent;
         }
         return null;
     }

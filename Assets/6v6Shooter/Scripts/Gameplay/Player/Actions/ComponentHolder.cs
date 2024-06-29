@@ -4,6 +4,8 @@ using Photon.Pun;
 [DefaultExecutionOrder(-32000)]
 public class ComponentHolder : MonoBehaviour
 {
+    [SerializeField] private PlayerNetworkController pnc;
+    
     public PlayerAnimationController playerAnimationController;
     public BulletPoolingManager bulletPoolingManager;
     public WeaponSpecificAnimations weaponSpecificAnimations;
@@ -11,6 +13,6 @@ public class ComponentHolder : MonoBehaviour
 
     private void Awake()
     {
-        ActionsManager.Instance.ComponentHolder = this;
+        ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder = this;
     }
 }

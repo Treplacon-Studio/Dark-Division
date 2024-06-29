@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ba2fec5a8e7be4fab924072c63be84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pnc: {fileID: 1734144903506448782}
   moveBackwardFactor: 0.8
   moveSideFactor: 0.8
   antiBumpFactor: 0.75
@@ -405,6 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca950eccb2c0c254eafb1d0e293fc566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pnc: {fileID: 1734144903506448782}
   fpsHandsGameObject:
   - {fileID: 6037358768804326773}
   - {fileID: 8875921124953815031}
@@ -964,6 +966,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6443414777878683149, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
+      propertyPath: pnc
+      value: 
+      objectReference: {fileID: 1734144903506448782}
     - target: {fileID: 6487691259600520334, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1428,9 +1434,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6aaea0fb433ff49bc81a5034d47201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pnc: {fileID: 1734144903506448782}
   playerAnimationController: {fileID: 4251897770696568557}
   bulletPoolingManager: {fileID: 9056460525465871236}
   weaponSpecificAnimations: {fileID: 9148950219190972381}
+  PlayerPhotonView: {fileID: 0}
 --- !u!114 &6116744105300394562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1443,6 +1451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f8206872c2af5341bca11a13379f35e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pnc: {fileID: 1734144903506448782}
   componentHolder: {fileID: 488876943435637576}
 --- !u!114 &6546616258942828221
 MonoBehaviour:
@@ -1456,6 +1465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb72513da620e94f8a898994356f26e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pnc: {fileID: 1734144903506448782}
   componentHolder: {fileID: 488876943435637576}
 --- !u!114 &2299113268673606139
 MonoBehaviour:
@@ -1469,6 +1479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0ea15bbfdce3e048969677248db2b7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pnc: {fileID: 1734144903506448782}
   componentHolder: {fileID: 488876943435637576}
 --- !u!114 &2700330927227269679
 MonoBehaviour:
@@ -1482,6 +1493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bff61314267ad0d4fa22cb558d6a3a48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pnc: {fileID: 1734144903506448782}
   componentHolder: {fileID: 488876943435637576}
   defaultFOV: 60
   scopeMultiplier: 1.5
@@ -1505,6 +1517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f497fc73d2dc37a49a20261e275d478b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pnc: {fileID: 1734144903506448782}
   componentHolder: {fileID: 488876943435637576}
   leftHand: {fileID: 4354813582346846881}
   clips:
@@ -1526,6 +1539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc32a45a977ac84f915d14bd5699e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pnc: {fileID: 1734144903506448782}
   componentHolder: {fileID: 488876943435637576}
   clips:
   - name: 0
@@ -1546,6 +1560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fe6f8c6f823ace42a4002a13dbdf541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pnc: {fileID: 1734144903506448782}
   componentHolder: {fileID: 488876943435637576}
 --- !u!114 &6477326664110607089
 MonoBehaviour:
@@ -1559,6 +1574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5be2f99a36532874ca7076344463e42c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pnc: {fileID: 1734144903506448782}
   componentHolder: {fileID: 488876943435637576}
 --- !u!114 &6044903437843222053
 MonoBehaviour:
@@ -1572,6 +1588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 814d66a564efa584bbb828ceeff96399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pnc: {fileID: 1734144903506448782}
   componentHolder: {fileID: 488876943435637576}
   gunSocket: {fileID: 3548320511207226762}
 --- !u!114 &4251897770696568557

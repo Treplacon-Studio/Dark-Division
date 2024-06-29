@@ -23,6 +23,8 @@ public class BulletPoolingManager : MonoBehaviour
         }
     }
 
+    private PlayerNetworkController _pnc;
+
     [Header("Bullets")]
     [SerializeField] private GameObject assaultRifleBullet;
     [SerializeField] private GameObject pistolBullet;
@@ -45,6 +47,7 @@ public class BulletPoolingManager : MonoBehaviour
 
     void Awake()
     {
+        _pnc = PlayerUtils.FindComponentInParents<PlayerNetworkController>(gameObject);
         _photonView = player.GetComponent<PhotonView>();
     }
     
@@ -55,17 +58,17 @@ public class BulletPoolingManager : MonoBehaviour
 
     public int GetAmmoPrimary()
     {
-        return pools[ActionsManager.Instance.Switching.GetCurrentWeaponID()].currentAmmo;
+        return pools[ActionsManager.GetInstance(_pnc.GetInstanceID()).Switching.GetCurrentWeaponID()].currentAmmo;
     }
 
     public int GetAmmoSecondary()
     {
-        return pools[(ActionsManager.Instance.Switching.GetCurrentWeaponID()+1)%2].currentAmmo;
+        return pools[(ActionsManager.GetInstance(_pnc.GetInstanceID()).Switching.GetCurrentWeaponID()+1)%2].currentAmmo;
     }
 
     public int GetMaxAmmo()
     {
-        return pools[ActionsManager.Instance.Switching.GetCurrentWeaponID()].size;
+        return pools[ActionsManager.GetInstance(_pnc.GetInstanceID()).Switching.GetCurrentWeaponID()].size;
     }
 
     public int ResetAmmo(int id)
@@ -89,7 +92,7 @@ public class BulletPoolingManager : MonoBehaviour
         bp.gameObject.transform.Rotate(90, 0, 0, Space.Self);
         bp.ResetHits();
         bp.SetOwner(player);
-        bp.SetRecoil(ActionsManager.Instance.Switching.WeaponComponent().gameObject.GetComponent<Recoil>());
+        bp.SetRecoil(ActionsManager.GetInstance(_pnc.GetInstanceID()).Switching.WeaponComponent().gameObject.GetComponent<Recoil>());
         objectToSpawn.SetActive(true);
 
         _poolDictionary[id].Enqueue(objectToSpawn);
@@ -132,9 +135,12 @@ public class BulletPoolingManager : MonoBehaviour
                 newbulletObj.transform.SetParent(ammoHolder, false);
 
                 //Set the bullets owner photon view to this players photon view
-                BulletPilot objectsPilot = newbulletObj.GetComponent<BulletPilot>();
+                BulletPilot objectsPilot = newbulletObj.GetComponentInChildren<BulletPilot>();
                 if (objectsPilot != null)
+                {
                     objectsPilot.SetOwnerPhotonView(_photonView);
+                    objectsPilot.LateAwake();
+                }
 
 
                 newbulletObj.SetActive(false);
@@ -147,7 +153,7 @@ public class BulletPoolingManager : MonoBehaviour
 
     private GameObject GetProperBullet()
     {
-        switch (pools[ActionsManager.Instance.Switching.GetCurrentWeaponID()].bulletType)
+        switch (pools[ActionsManager.GetInstance(_pnc.GetInstanceID()).Switching.GetCurrentWeaponID()].bulletType)
         {
             case Mag.BulletType.AssaultRifle:
                 return assaultRifleBullet;

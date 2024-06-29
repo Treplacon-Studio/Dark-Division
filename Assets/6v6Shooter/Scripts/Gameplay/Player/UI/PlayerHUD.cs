@@ -4,6 +4,8 @@ using Photon.Pun;
 
 public class PlayerHUD : MonoBehaviour
 {
+    [SerializeField] private PlayerNetworkController pnc;
+    
     [Header("Weapon Boxes")]
     
     [SerializeField] [Tooltip("Text on current weapon box.")]
@@ -51,15 +53,15 @@ public class PlayerHUD : MonoBehaviour
 
     private void UpdateWeaponBoxes()
     {
-        if (ActionsManager.Instance?.Switching.WeaponComponent() is null)
+        if (ActionsManager.GetInstance(pnc.GetInstanceID())?.Switching.WeaponComponent() is null)
             return;
 
-        var weaponsNames = ActionsManager.Instance.Switching.GetWeaponsNames();
+        var weaponsNames = ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.GetWeaponsNames();
         currentWeaponName.text = weaponsNames[0];
         hiddenWeaponName.text = weaponsNames[1];
         
-        ammoLeftInMagCurrentText.text = ActionsManager.Instance.ComponentHolder.bulletPoolingManager.GetAmmoPrimary().ToString();
-        ammoLeftInMagHiddenText.text = ActionsManager.Instance.ComponentHolder.bulletPoolingManager.GetAmmoSecondary().ToString();
+        ammoLeftInMagCurrentText.text = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder.bulletPoolingManager.GetAmmoPrimary().ToString();
+        ammoLeftInMagHiddenText.text = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder.bulletPoolingManager.GetAmmoSecondary().ToString();
     }
 
     void UpdateTimerDisplay()

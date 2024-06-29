@@ -27,9 +27,16 @@ public class BulletPilot : MonoBehaviour
     private Recoil _recoil;
     private Vector3 _currentDirection;
 
+    private PlayerNetworkController _pnc;
+
+    public void LateAwake()
+    {
+        _pnc = PlayerUtils.FindComponentInParents<PlayerNetworkController>(gameObject);
+        _bulletOwner = ActionsManager.GetInstance(_pnc.GetInstanceID()).ComponentHolder.bulletPoolingManager.player;
+    }
+
     private void Awake()
     {
-        _bulletOwner = ActionsManager.Instance.ComponentHolder.bulletPoolingManager.player;
         _photonView = GetComponent<PhotonView>();
         var cameras = FindObjectsOfType<Camera>();
         foreach (var cam in cameras)
@@ -85,6 +92,7 @@ public class BulletPilot : MonoBehaviour
             PhotonView hitPhotonView = hitObject.GetComponent<PhotonView>();
 
             //Player cannot hit himself
+            Debug.Log("BPF " + _bulletOwnerPhotonView);
             if (hitPhotonView != null && hitPhotonView.Owner == _bulletOwnerPhotonView.Owner)
                 return;
 

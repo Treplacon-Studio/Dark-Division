@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Inspecting : MonoBehaviour
 {
+    [SerializeField] private PlayerNetworkController pnc;
+    
     [SerializeField] [Tooltip("Component holder to access components.")]
     private ComponentHolder componentHolder;
     
@@ -12,7 +14,7 @@ public class Inspecting : MonoBehaviour
 
     private void Awake()
     {
-        ActionsManager.Instance.Inspecting = this;
+        ActionsManager.GetInstance(pnc.GetInstanceID()).Inspecting = this;
     }
 
     public void Run()
@@ -42,7 +44,7 @@ public class Inspecting : MonoBehaviour
         componentHolder.playerAnimationController.inspectingLock = true;
         
         AnimationClip clip = null;
-        var currentWeapon = ActionsManager.Instance.Switching.WeaponComponent();
+        var currentWeapon = ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent();
         foreach(var elem in clips)
             if (currentWeapon != null && elem.name == currentWeapon.Info().Name())
                 clip = elem.clip;
