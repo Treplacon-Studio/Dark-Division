@@ -38,12 +38,13 @@ public class PlayerHUD : MonoBehaviour
 
     private void Update()
     {
+        UpdateWeaponBoxes();
+
         if (TeamDeathmatchManager.instance.CheckIfGameShouldEnd())
         {
             return;
         }
 
-        UpdateWeaponBoxes();
         UpdateTeamScores();
         UpdateTimerDisplay();
     }

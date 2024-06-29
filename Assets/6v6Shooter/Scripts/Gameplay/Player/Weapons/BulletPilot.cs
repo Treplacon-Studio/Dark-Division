@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using _6v6Shooter.Scripts.Gameplay;
 using Photon.Pun;
@@ -23,6 +21,7 @@ public class BulletPilot : MonoBehaviour
     private GameObject _bulletOwner;
     private Camera _playerCamera;
     private PhotonView _photonView;
+    private PhotonView _bulletOwnerPhotonView;
     private Rigidbody _rb;
     private HashSet<GameObject> _alreadyHitObjects = new();
     private Recoil _recoil;
@@ -31,6 +30,8 @@ public class BulletPilot : MonoBehaviour
     private void Awake()
     {
         _bulletOwner = ActionsManager.Instance.ComponentHolder.bulletPoolingManager.player;
+        _bulletOwnerPhotonView = ActionsManager.Instance.ComponentHolder.PlayerPhotonView;
+        _photonView = GetComponent<PhotonView>();
         var cameras = FindObjectsOfType<Camera>();
         foreach (var cam in cameras)
         {
@@ -39,7 +40,6 @@ public class BulletPilot : MonoBehaviour
             break;
         }
         _rb = GetComponent<Rigidbody>();
-        _photonView = GetComponent<PhotonView>();
     }
 
     public void SetRecoil(Recoil recoil)
@@ -82,16 +82,25 @@ public class BulletPilot : MonoBehaviour
         {
             var hitObject = hit.collider.gameObject;
 
-            //Player cannot hit himself
-            if (hit.collider.gameObject == _bulletOwner)
+            // Get the PhotonView of the hit object
+            PhotonView hitPhotonView = hitObject.GetComponent<PhotonView>();
+
+            // Player cannot hit himself
+            if (hitPhotonView != null && hitPhotonView.Owner == _bulletOwnerPhotonView.Owner)
                 return;
-            
+
             if (!_alreadyHitObjects.Contains(hitObject))
             {
-                hitObject.GetComponent<HealthController>().TakeDamage(10f);
-                Debug.Log($"{_bulletOwner.name} hits {hitObject.name}!");
-                _alreadyHitObjects.Add(hitObject);
-                Invoke(nameof(Deactivate), fadeDuration);
+                var healthController = hitObject.GetComponent<HealthController>();
+                if (healthController != null)
+                {
+                    healthController.TakeDamage(10f);
+                    Debug.Log($"{_bulletOwner.name} hits {hitObject.name}!");
+                    _alreadyHitObjects.Add(hitObject);
+                    Invoke(nameof(Deactivate), fadeDuration);
+                }
+                else
+                    Debug.LogError("HealthController component not found on hit object.");
             }
         }
     }

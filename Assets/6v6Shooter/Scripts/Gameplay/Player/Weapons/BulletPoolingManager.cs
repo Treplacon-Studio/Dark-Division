@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.IO;
 
 public class BulletPoolingManager : MonoBehaviour
 {
@@ -39,6 +40,13 @@ public class BulletPoolingManager : MonoBehaviour
     public GameObject player;
     
     private Dictionary<int, Queue<GameObject>> _poolDictionary;
+
+    private int _ownerPhotonViewActorNumber;
+
+    void Awake()
+    {
+        _ownerPhotonViewActorNumber = player.GetComponent<PhotonView>().OwnerActorNr;
+    }
     
     private void Start()
     {
@@ -115,10 +123,12 @@ public class BulletPoolingManager : MonoBehaviour
                     continue;
                 }
 
-                var obj = Instantiate(GetProperBullet(), ammoHolder, true);
-                obj.transform.SetParent(ammoHolder, false);
-                obj.SetActive(false);
-                objectPool.Enqueue(obj);
+                GameObject bulletTypeToSpawn = GetProperBullet();
+                string bulletPrefabName = GetProperBulletPrefabName(bulletTypeToSpawn);
+                GameObject newbulletObj = PhotonNetwork.Instantiate(Path.Combine("Weapons", "Bullets", $"{bulletPrefabName}"), Vector3.zero, Quaternion.identity);
+                newbulletObj.transform.SetParent(ammoHolder, false);                
+                newbulletObj.SetActive(false);
+                objectPool.Enqueue(newbulletObj);
             }
 
             _poolDictionary.Add(pool.id, objectPool);
@@ -140,6 +150,22 @@ public class BulletPoolingManager : MonoBehaviour
             case Mag.BulletType.SniperRifle:
                 return sniperRifleBullet;
         }
+
+        return null;
+    }
+
+    private string GetProperBulletPrefabName(GameObject bulletType)
+    {
+        if (bulletType == assaultRifleBullet)
+            return "SM_Assaultrifle_Bullet";
+        else if (bulletType == pistolBullet)
+            return "SM_Pistol_Bullet";
+        else if (bulletType == shotgunBullet)
+            return "SM_Shotgun_Bullet";
+        else if (bulletType == submachineGunBullet)
+            return "SM_Sniperrifle_Bullet";
+        else if (bulletType == sniperRifleBullet)
+            return "SM_Submachine_Bullet";
 
         return null;
     }
