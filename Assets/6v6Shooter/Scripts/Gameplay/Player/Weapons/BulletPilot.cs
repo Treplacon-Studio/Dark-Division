@@ -85,8 +85,14 @@ public class BulletPilot : MonoBehaviour
             PhotonView hitPhotonView = hitObject.GetComponent<PhotonView>();
 
             //Player cannot hit himself
-            if (hitPhotonView != null && hitPhotonView.Owner == _bulletOwnerPhotonView.Owner)
-                return;
+            if (hitPhotonView != null)
+            {
+                if (hitObject.CompareTag("TargetDummy") is false)
+                {
+                    if (hitPhotonView.Owner == _bulletOwnerPhotonView.Owner)
+                        return;
+                }
+            }
 
             if (!_alreadyHitObjects.Contains(hitObject))
             {

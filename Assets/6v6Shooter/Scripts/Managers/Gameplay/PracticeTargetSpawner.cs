@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 using System.IO;
+
 
 public class PracticeTargetSpawner : MonoBehaviour
 {
@@ -32,7 +34,7 @@ public class PracticeTargetSpawner : MonoBehaviour
 
     void SpawnAndMakeIndependent(Vector3 position)
     {
-        GameObject obj = PhotonNetwork.Instantiate(Path.Combine("TargetPractice", "SM_DummyOnStick"), position, Quaternion.identity);
+        GameObject obj = PhotonNetwork.InstantiateRoomObject(Path.Combine("TargetPractice", "SM_DummyOnStick"), position, Quaternion.identity);
         MakeIndependent(obj);
     }
 
