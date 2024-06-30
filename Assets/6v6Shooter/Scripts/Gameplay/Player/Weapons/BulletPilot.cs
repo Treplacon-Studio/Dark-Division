@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using _6v6Shooter.Scripts.Gameplay;
+using ExitGames.Client.Photon.StructWrapping;
 using Photon.Pun;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -102,7 +104,9 @@ public class BulletPilot : MonoBehaviour
 
                 if (!_alreadyHitObjects.Contains(hitObject))
                 {
-                    hitObject.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, 10f);
+                    if (TargetIsOnSameTeam() is false)
+                        hitPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered, 10f);
+
                     Debug.Log($"{_bulletOwner.name} hits {hitObject.name}!");
                     _alreadyHitObjects.Add(hitObject);
                     Invoke(nameof(Deactivate), fadeDuration);
@@ -139,5 +143,12 @@ public class BulletPilot : MonoBehaviour
     public void SetOwnerPhotonView(PhotonView pv)
     {
         _bulletOwnerPhotonView = pv;
+    }
+
+    public bool TargetIsOnSameTeam()
+    {
+        //Implement logic
+
+        return false;
     }
 }

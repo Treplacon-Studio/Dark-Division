@@ -14,6 +14,7 @@ namespace _6v6Shooter.Scripts.Gameplay
         public float startHealth = 100;
 
         public bool targetDummy;
+        public bool isDead = false;
 
         void Start() {
             health = startHealth;
@@ -31,11 +32,17 @@ namespace _6v6Shooter.Scripts.Gameplay
 
         void Die() {
             if (photonView.IsMine) {
-                TeamDeathmatchManager.instance.GetComponent<PhotonView>().RPC("AddPointForTeam", RpcTarget.AllBuffered);
+                isDead = true;
                 if (targetDummy is true)
                     photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
                 else
-                    StartCoroutine(Respawn());
+                {
+                    if (!isDead)
+                    {
+                        TeamDeathmatchManager.instance.GetComponent<PhotonView>().RPC("AddPointForTeam", RpcTarget.AllBuffered);
+                        StartCoroutine(Respawn());
+                    }
+                }
             }
         }
 
