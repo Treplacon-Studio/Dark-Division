@@ -14,7 +14,6 @@ namespace _6v6Shooter.Scripts.Gameplay
         public float startHealth = 100;
 
         public bool targetDummy;
-        public bool isDead = false;
 
         void Start() {
             health = startHealth;
@@ -32,23 +31,23 @@ namespace _6v6Shooter.Scripts.Gameplay
 
         void Die() {
             if (photonView.IsMine) {
-                isDead = true;
                 if (targetDummy is true)
                     photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
                 else
                 {
-                    if (!isDead)
-                    {
-                        TeamDeathmatchManager.instance.GetComponent<PhotonView>().RPC("AddPointForTeam", RpcTarget.AllBuffered);
-                        StartCoroutine(Respawn());
-                    }
+                    Team? team = TeamManager.GetTeam(PhotonNetwork.LocalPlayer);
+                    Debug.Log("AddPointForTeam HIT");
+                    Debug.Log(PhotonNetwork.LocalPlayer);
+                    Debug.Log(team);
+                    TeamDeathmatchManager.instance.GetComponent<PhotonView>().RPC("AddPointForTeam", RpcTarget.AllBuffered, team);
+                    StartCoroutine(Respawn());
                 }
             }
         }
 
         IEnumerator Respawn() {
-            yield return new WaitForSeconds(1.0f);
             photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
+            yield return new WaitForSeconds(1.0f);
         }
 
         [PunRPC]

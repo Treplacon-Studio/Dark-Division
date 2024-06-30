@@ -39,11 +39,9 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void AddPointForTeam()
+    public void AddPointForTeam(Team team)
     {
-        Team? team = TeamManager.GetTeam(PhotonNetwork.LocalPlayer);
         if (team == Team.Blue)
-        
             TeamRedScore++;
         else if (team == Team.Red)
             TeamBlueScore++;
