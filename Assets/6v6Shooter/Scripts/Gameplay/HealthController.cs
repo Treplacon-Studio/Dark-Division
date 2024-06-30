@@ -30,8 +30,8 @@ namespace _6v6Shooter.Scripts.Gameplay
         }
 
         void Die() {
-            if (photonView.IsMine && targetDummy is true) {
-                TeamDeathmatchManager.instance.AddPointForTeam();
+            if (photonView.IsMine) {
+                TeamDeathmatchManager.instance.GetComponent<PhotonView>().RPC("AddPointForTeam", RpcTarget.AllBuffered);
                 if (targetDummy is true)
                     photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
                 else
@@ -40,20 +40,7 @@ namespace _6v6Shooter.Scripts.Gameplay
         }
 
         IEnumerator Respawn() {
-            GameObject respawnText = GameObject.Find("RespawnText");
-
-            float respawnTime = 8.0f;
-            while (respawnTime > 0.0f) {
-                yield return new WaitForSeconds(1.0f);
-                respawnTime -= 1.0f;
-                respawnText.GetComponent<Text>().text = "You are killed. Respawning at: " + respawnTime.ToString(".00");
-            }
-
-            respawnText.GetComponent<Text>().text = "";
-
-            int randomPoint = Random.Range(-20, 20);
-            transform.position = new Vector3(randomPoint, 0, randomPoint);
-
+            yield return new WaitForSeconds(1.0f);
             photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
         }
 

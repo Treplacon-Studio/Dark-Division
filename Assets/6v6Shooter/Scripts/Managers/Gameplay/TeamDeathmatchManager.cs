@@ -38,15 +38,15 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
         return false;
     }
 
+    [PunRPC]
     public void AddPointForTeam()
     {
-        Debug.Log(PhotonNetwork.LocalPlayer);
-
         Team? team = TeamManager.GetTeam(PhotonNetwork.LocalPlayer);
         if (team == Team.Blue)
-            TeamBlueScore++;
-        else if (team == Team.Red)
+        
             TeamRedScore++;
+        else if (team == Team.Red)
+            TeamBlueScore++;
         else
             Debug.Log("Error validating team for this player so point will not count.");
     }

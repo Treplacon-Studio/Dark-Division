@@ -33,11 +33,6 @@ public class PlayerHUD : MonoBehaviour
     public TMP_Text TeamScoreText;
     public TMP_Text EnemyScoreText;
 
-    void Start()
-    {
-        UpdateTeamScores();
-    }
-
     private void Update()
     {
         UpdateWeaponBoxes();
