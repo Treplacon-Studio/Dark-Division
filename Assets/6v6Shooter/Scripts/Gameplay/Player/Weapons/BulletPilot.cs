@@ -92,22 +92,21 @@ public class BulletPilot : MonoBehaviour
             PhotonView hitPhotonView = hitObject.GetComponent<PhotonView>();
 
             //Player cannot hit himself
-            Debug.Log("BPF " + _bulletOwnerPhotonView);
-            if (hitPhotonView != null && hitPhotonView.Owner == _bulletOwnerPhotonView.Owner)
-                return;
-
-            if (!_alreadyHitObjects.Contains(hitObject))
+            if (hitPhotonView != null)
             {
-                var healthController = hitObject.GetComponent<HealthController>();
-                if (healthController != null)
+                if (hitObject.CompareTag("TargetDummy") is false)
                 {
-                    healthController.TakeDamage(10f);
+                    if (hitPhotonView.Owner == _bulletOwnerPhotonView.Owner)
+                        return;
+                }
+
+                if (!_alreadyHitObjects.Contains(hitObject))
+                {
+                    hitObject.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, 10f);
                     Debug.Log($"{_bulletOwner.name} hits {hitObject.name}!");
                     _alreadyHitObjects.Add(hitObject);
                     Invoke(nameof(Deactivate), fadeDuration);
                 }
-                else
-                    Debug.LogError("HealthController component not found on hit object.");
             }
         }
     }

@@ -128,7 +128,7 @@ public class BulletPoolingManager : MonoBehaviour
                     Debug.LogError("AmmoHolder not found on player!");
                     continue;
                 }
-                Debug.Log($"Instantiating bullet #{i}");
+                
                 GameObject bulletTypeToSpawn = GetProperBullet();
                 string bulletPrefabName = GetProperBulletPrefabName(bulletTypeToSpawn);
                 GameObject newbulletObj = PhotonNetwork.Instantiate(Path.Combine("Weapons", "Bullets", $"{bulletPrefabName}"), Vector3.zero, Quaternion.identity);
