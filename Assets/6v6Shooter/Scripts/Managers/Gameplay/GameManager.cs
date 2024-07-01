@@ -33,8 +33,12 @@ public class GameManager : MonoBehaviour
         SceneHandler.Instance.ChangeGameState(SceneHandler.GameState.Playing);
     }
 
-    public void OpenLoadingScreen() => LoadingScreenCanvas.gameObject.SetActive(true);
-    public void CloseLoadingScreen() => LoadingScreenCanvas.gameObject.SetActive(false);
+    public void OpenLoadingScreen() => LoadingScreenCanvas.SetActive(true);
+    public void CloseLoadingScreen() 
+    {   
+        Debug.Log("LOADING SCREEN STARTED...");
+        LoadingScreenCanvas.SetActive(false);
+    }
 
     public void StartLoadingBar(string sceneName, bool loadWithPhoton, Sprite background = null)
     {
@@ -81,14 +85,17 @@ public class GameManager : MonoBehaviour
 
     IEnumerator LoadAsynchronously(string sceneName)
     {
+        Debug.Log("Starting scene load");
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         while (!operation.isDone)
         {
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
+            Debug.Log($"Loading progress: {progress}");
             loadingBar.fillAmount = progress;
             yield return null;
         }
 
+        Debug.Log("Scene load complete");
         CloseLoadingScreen();
     }
 }
