@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Switching : MonoBehaviour
 {
+    [SerializeField] private PlayerNetworkController pnc;
+    
     [SerializeField] [Tooltip("Component holder to access components.")]
     private ComponentHolder componentHolder;
     
@@ -19,7 +21,7 @@ public class Switching : MonoBehaviour
 
     private void Awake()
     {
-        ActionsManager.Instance.Switching = this;
+        ActionsManager.GetInstance(pnc.GetInstanceID()).Switching = this;
     }
 
     public void SetNewEquipment(GameObject[] weapons, int[,] attachments)

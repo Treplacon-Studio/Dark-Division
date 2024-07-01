@@ -70,132 +70,25 @@ namespace _6v6Shooter.Scripts.Gameplay
             }
         }
 
-        void Die()
-        {
-            Debug.Log("Die function triggered");
-
-            if (photonView.IsMine && targetDummy)
-            {
-                TeamDeathmatchManager.instance.AddPointForTeam();
-                photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
-            }
-            else
-            {
-                Debug.Log("Enabling Ragdoll");
-                EnableRagdoll();
-                SwitchToRagdollCamera();
-                StartCoroutine(Respawn());
-            }
-        }
-
-        void EnableRagdoll()
-        {
-            fpsHandsGameObject.SetActive(false);
-            soldierGameObject.SetActive(true);
-
-            Debug.Log("Ragdoll Enabled");
-            if (animator != null) animator.enabled = false;
-            if (movementController != null) movementController.enabled = false;
-            if (boneRotator != null) boneRotator.enabled = false;
-
-            MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
-            foreach (var script in scripts)
-            {
-                if (script != this && script != photonView && script != movementController && script != boneRotator)
+        void Die() {
+            if (photonView.IsMine) {
+                if (targetDummy is true)
+                    photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
+                else
                 {
-                    script.enabled = false;
+                    Team? team = TeamManager.GetTeam(PhotonNetwork.LocalPlayer);
+                    Debug.Log("AddPointForTeam HIT");
+                    Debug.Log(PhotonNetwork.LocalPlayer);
+                    Debug.Log(team);
+                    TeamDeathmatchManager.instance.GetComponent<PhotonView>().RPC("AddPointForTeam", RpcTarget.AllBuffered, team);
+                    StartCoroutine(Respawn());
                 }
             }
-
-            foreach (Rigidbody rb in ragdollBodies)
-            {
-                rb.velocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
-                rb.isKinematic = false;
-            }
-
-            Rigidbody mainRb = GetComponent<Rigidbody>();
-            if (mainRb != null)
-            {
-                mainRb.isKinematic = true;
-            }
         }
 
-        void DisableRagdoll()
-        {
-            fpsHandsGameObject.SetActive(true);
-            soldierGameObject.SetActive(false);
-
-            if (animator != null) animator.enabled = true;
-            if (movementController != null) movementController.enabled = true;
-            if (boneRotator != null) boneRotator.enabled = true;
-
-            MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
-            foreach (var script in scripts)
-            {
-                if (script != this && script != photonView && script != movementController && script != boneRotator)
-                {
-                    script.enabled = true;
-                }
-            }
-
-            foreach (Rigidbody rb in ragdollBodies)
-            {
-                rb.isKinematic = true;
-            }
-
-            Rigidbody mainRb = GetComponent<Rigidbody>();
-            if (mainRb != null)
-            {
-                mainRb.isKinematic = false;
-            }
-
-            // Reset the animator
-            if (animator != null)
-            {
-                animator.Rebind(); // Resets the animator to its initial state
-                animator.Update(0f); // Ensures the reset is applied immediately
-            }
-        }
-
-        void SwitchToRagdollCamera()
-        {
-            if (ragdollCamera != null && mainCamera != null)
-            {
-                ragdollCamera.enabled = true;
-                mainCamera.enabled = false;
-            }
-        }
-
-        void SwitchToMainCamera()
-        {
-            if (ragdollCamera != null && mainCamera != null)
-            {
-                ragdollCamera.enabled = false;
-                mainCamera.enabled = true;
-            }
-        }
-
-        IEnumerator Respawn()
-        {
-            yield return new WaitForSeconds(5f); // Add a respawn delay if needed
-
-            string team = GetTeam();
-            Transform spawnPoint = spawnManager.GetRandomSpawnPoint(team);
-            if (spawnPoint != null)
-            {
-                transform.position = spawnPoint.position;
-                transform.rotation = spawnPoint.rotation;
-            }
-            else
-            {
-                Debug.LogError("No spawn point found for the team.");
-            }
-
-            health = startHealth;
-
-            DisableRagdoll();
-            SwitchToMainCamera();
+        IEnumerator Respawn() {
+            photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
+            yield return new WaitForSeconds(1.0f);
         }
 
         [PunRPC]

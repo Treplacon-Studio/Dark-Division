@@ -5,6 +5,8 @@ using UnityEngine.Serialization;
 
 public class PlayerSetup : MonoBehaviourPun
 {
+    [SerializeField] private PlayerNetworkController pnc;
+    
     private CinemachineVirtualCamera playerCamera;
     
     public GameObject[] fpsHandsGameObject;
@@ -55,7 +57,7 @@ public class PlayerSetup : MonoBehaviourPun
     //ApplyAttachments[WeaponCategory] method from Weapon class
     private void SetupWeapons(GameObject[] weapons, int[,] attachments)
     {
-        ActionsManager.Instance.Switching.SetNewEquipment(weapons, attachments);
+        ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.SetNewEquipment(weapons, attachments);
     }
 
     
