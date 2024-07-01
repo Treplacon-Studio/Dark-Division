@@ -122,6 +122,9 @@ public class Recoil : MonoBehaviour
     
     void Update ()
     {
+        if (ActionsManager.GetInstance(_pnc.GetInstanceID()).Aiming is null)
+            return;
+        
         if (ActionsManager.GetInstance(_pnc.GetInstanceID()).Aiming.IsAiming())
             RecoilingAds();
         else Recoiling();
