@@ -33,7 +33,6 @@ namespace _6v6Shooter.Scripts.Gameplay
 
         void Start()
         {
-
             fpsHandsGameObject.SetActive(true);
             fpsHandsOutfit.SetActive(true);
             soldierGameObject.SetActive(false);
@@ -96,20 +95,21 @@ namespace _6v6Shooter.Scripts.Gameplay
                     Debug.Log(team);
                     TeamDeathmatchManager.instance.GetComponent<PhotonView>().RPC("AddPointForTeam", RpcTarget.AllBuffered, team);
                     Debug.Log("Enabling Ragdoll");
-                    EnableRagdoll();
+                    photonView.RPC("EnableRagdollRPC", RpcTarget.All);
                     SwitchToRagdollCamera();
                     StartCoroutine(Respawn());
                 }
             }
         }
 
-        IEnumerator Respawn(){
+        IEnumerator Respawn()
+        {
             yield return new WaitForSeconds(4f);
 
             // Get the team and find a random spawn point
             string team = GetTeam();
             Transform spawnPoint = spawnManager.GetRandomSpawnPoint(team);
-            
+
             if (spawnPoint != null)
             {
                 Debug.Log($"Respawning player at {spawnPoint.position} for team {team}");
@@ -125,16 +125,27 @@ namespace _6v6Shooter.Scripts.Gameplay
             // Reset health
             photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
 
-            DisableRagdoll();
+            photonView.RPC("DisableRagdollRPC", RpcTarget.All);
             SwitchToMainCamera();
         }
-
 
         [PunRPC]
         public void RegainHealth()
         {
             health = startHealth;
             healthBar.fillAmount = health / startHealth;
+        }
+
+        [PunRPC]
+        void EnableRagdollRPC()
+        {
+            EnableRagdoll();
+        }
+
+        [PunRPC]
+        void DisableRagdollRPC()
+        {
+            DisableRagdoll();
         }
 
         void EnableRagdoll()
