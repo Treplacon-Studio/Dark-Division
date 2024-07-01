@@ -33,17 +33,24 @@ public class PlayerHUD : MonoBehaviour
     public TMP_Text TeamScoreText;
     public TMP_Text EnemyScoreText;
 
+    private bool _hudDisplayed = true;
+
+    private void Awake()
+    {
+         string currentScene = SceneHandler.Instance.GetCurrentSceneName();
+        if (currentScene == "S05_PracticeRange")
+            _hudDisplayed = false;
+    }
+
     private void Update()
     {
         UpdateWeaponBoxes();
 
-        if (TeamDeathmatchManager.instance.CheckIfGameShouldEnd())
+        if (_hudDisplayed)
         {
-            return;
+            UpdateTeamScores();
+            UpdateTimerDisplay();
         }
-
-        UpdateTeamScores();
-        UpdateTimerDisplay();
     }
 
     private void UpdateWeaponBoxes()
