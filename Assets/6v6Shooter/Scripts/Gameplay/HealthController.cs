@@ -150,10 +150,13 @@ namespace _6v6Shooter.Scripts.Gameplay
 
         void EnableRagdoll()
         {
-            fpsHandsGameObject.SetActive(false);
-            fpsHandsOutfit.SetActive(false);
-            soldierGameObject.SetActive(true);
-            soldierOutfit.SetActive(true);
+            if (photonView.IsMine){
+                fpsHandsGameObject.SetActive(false);
+                fpsHandsOutfit.SetActive(false);
+                soldierGameObject.SetActive(true);
+                soldierOutfit.SetActive(true);
+            }
+            
 
             Debug.Log("Ragdoll Enabled");
             if (animator != null) animator.enabled = false;
@@ -185,10 +188,13 @@ namespace _6v6Shooter.Scripts.Gameplay
 
         void DisableRagdoll()
         {
-            fpsHandsGameObject.SetActive(true);
-            fpsHandsOutfit.SetActive(true);
-            soldierGameObject.SetActive(false);
-            soldierOutfit.SetActive(false);
+            if (photonView.IsMine) {
+                fpsHandsGameObject.SetActive(true);
+                fpsHandsOutfit.SetActive(true);
+                soldierGameObject.SetActive(false);
+                soldierOutfit.SetActive(false);
+            }
+            
 
             if (animator != null) animator.enabled = true;
             if (movementController != null) movementController.enabled = true;
