@@ -6,10 +6,19 @@ using System.IO;
 
 public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
 {
+    public enum GameModeType
+    {
+        None,
+        TrainingMode,
+        TeamDeathmatch
+    }
+
     public static PublicMatchSpawnManager instance;
 
     public Transform[] redSpawnPoints;
     public Transform[] blueSpawnPoints;
+
+    public GameModeType selectedGameModeType = GameModeType.None;
 
     private List<Transform> occupiedRedSpawnPoints = new List<Transform>();
     private List<Transform> occupiedBlueSpawnPoints = new List<Transform>();
