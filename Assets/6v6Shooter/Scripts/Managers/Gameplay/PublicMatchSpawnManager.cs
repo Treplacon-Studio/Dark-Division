@@ -25,18 +25,10 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
 
     public Transform practiceRangeSpawnPosition;
 
-    private PhotonView photonView;
-
     private void Awake()
     {
         if (instance == null)
             instance = this;
-
-        photonView = GetComponent<PhotonView>();
-        if (photonView == null)
-            Debug.LogError("PhotonView component missing from PublicMatchSpawnManager.");
-        else
-            photonView.ViewID = 10000;
     }
 
     void Start()
