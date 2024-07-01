@@ -174,7 +174,7 @@ namespace _6v6Shooter.Scripts.Gameplay
             yield return new WaitForSeconds(5f); // Add a respawn delay if needed
 
             spawnManager.RequestSpawnPlayer("Blue");
-            photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
+            health = 100;
 
             DisableRagdoll();
             SwitchToMainCamera();
