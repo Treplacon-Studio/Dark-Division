@@ -23,6 +23,8 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
     private List<Transform> occupiedRedSpawnPoints = new List<Transform>();
     private List<Transform> occupiedBlueSpawnPoints = new List<Transform>();
 
+    public Transform practiceRangeSpawnPosition;
+
     private PhotonView photonView;
 
     private void Awake()
@@ -35,6 +37,13 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
             Debug.LogError("PhotonView component missing from PublicMatchSpawnManager.");
         else
             photonView.ViewID = 10000;
+    }
+
+    void Start()
+    {
+        string currentScene = SceneHandler.Instance.GetCurrentSceneName();
+        if (currentScene == "S05_PracticeRange")
+            SpawnPlayerInPracticeRange();
     }
 
     public Transform GetRandomSpawnPoint(string team)
@@ -160,5 +169,11 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
         }
 
         return null;
+    }
+
+    public void SpawnPlayerInPracticeRange()
+    {
+        practiceRangeSpawnPosition.position = new Vector3(-25, 0, 0);
+        PhotonNetwork.Instantiate(Path.Combine("Gameplay", "Player_M01"), practiceRangeSpawnPosition.position, practiceRangeSpawnPosition.rotation);
     }
 }

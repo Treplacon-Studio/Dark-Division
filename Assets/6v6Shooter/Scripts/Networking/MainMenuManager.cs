@@ -112,10 +112,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         cameraManage.SetCameraPriority("settings");
     }
     public void OnQuitSelected() {
-        // Application.Quit(); used for actual build
-        //UnityEditor.EditorApplication.isPlaying = false;
         cameraManage.SetCameraPriority("exit");
-        // turn off unity editor
     }
 
     //Back buttons
