@@ -149,6 +149,13 @@ namespace _6v6Shooter.Scripts.Gameplay
             {
                 mainRb.isKinematic = false;
             }
+
+            // Reset the animator
+            if (animator != null)
+            {
+                animator.Rebind(); // Resets the animator to its initial state
+                animator.Update(0f); // Ensures the reset is applied immediately
+            }
         }
 
         void SwitchToRagdollCamera()
@@ -173,8 +180,19 @@ namespace _6v6Shooter.Scripts.Gameplay
         {
             yield return new WaitForSeconds(5f); // Add a respawn delay if needed
 
-            spawnManager.RequestSpawnPlayer("Blue");
-            health = 100;
+            string team = GetTeam();
+            Transform spawnPoint = spawnManager.GetRandomSpawnPoint(team);
+            if (spawnPoint != null)
+            {
+                transform.position = spawnPoint.position;
+                transform.rotation = spawnPoint.rotation;
+            }
+            else
+            {
+                Debug.LogError("No spawn point found for the team.");
+            }
+
+            health = startHealth;
 
             DisableRagdoll();
             SwitchToMainCamera();
