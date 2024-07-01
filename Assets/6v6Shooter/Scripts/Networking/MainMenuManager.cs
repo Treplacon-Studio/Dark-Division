@@ -94,7 +94,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     }
     public void OnQuickplaySelected() => SetPanelViewability(selectGamePanel:true, gameModeContainer:true, navRow:true);
     public void OnRankedPlaySelected() {}
-    public void OnPracticeRangeSelected() => GameManager.instance.StartLoadingBar("S05_PracticeRange", true);
+    public void OnPracticeRangeSelected() => GameManager.instance.StartLoadingBar("S05_PracticeRange", false);
     public void OnCreateClassSelected() 
     {
         SetPanelViewability(selectLoadoutPanel:true);
