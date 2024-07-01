@@ -88,6 +88,5 @@ public class GameManager : MonoBehaviour
             loadingBar.fillAmount = progress;
             yield return null;
         }
-        //CloseLoadingScreen();
     }
 }
