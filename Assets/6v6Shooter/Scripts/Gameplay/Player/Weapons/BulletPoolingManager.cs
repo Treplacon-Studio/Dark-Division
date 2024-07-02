@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
+using System.IO;
 
 public class BulletPoolingManager : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class BulletPoolingManager : MonoBehaviour
         }
     }
 
+    private PlayerNetworkController _pnc;
+
     [Header("Bullets")]
     [SerializeField] private GameObject assaultRifleBullet;
     [SerializeField] private GameObject pistolBullet;
@@ -39,6 +42,14 @@ public class BulletPoolingManager : MonoBehaviour
     public GameObject player;
     
     private Dictionary<int, Queue<GameObject>> _poolDictionary;
+
+    private PhotonView _photonView;
+
+    void Awake()
+    {
+        _pnc = PlayerUtils.FindComponentInParents<PlayerNetworkController>(gameObject);
+        _photonView = player.GetComponent<PhotonView>();
+    }
     
     private void Start()
     {
@@ -47,17 +58,17 @@ public class BulletPoolingManager : MonoBehaviour
 
     public int GetAmmoPrimary()
     {
-        return pools[ActionsManager.Instance.Switching.GetCurrentWeaponID()].currentAmmo;
+        return pools[ActionsManager.GetInstance(_pnc.GetInstanceID()).Switching.GetCurrentWeaponID()].currentAmmo;
     }
 
     public int GetAmmoSecondary()
     {
-        return pools[(ActionsManager.Instance.Switching.GetCurrentWeaponID()+1)%2].currentAmmo;
+        return pools[(ActionsManager.GetInstance(_pnc.GetInstanceID()).Switching.GetCurrentWeaponID()+1)%2].currentAmmo;
     }
 
     public int GetMaxAmmo()
     {
-        return pools[ActionsManager.Instance.Switching.GetCurrentWeaponID()].size;
+        return pools[ActionsManager.GetInstance(_pnc.GetInstanceID()).Switching.GetCurrentWeaponID()].size;
     }
 
     public int ResetAmmo(int id)
@@ -81,7 +92,7 @@ public class BulletPoolingManager : MonoBehaviour
         bp.gameObject.transform.Rotate(90, 0, 0, Space.Self);
         bp.ResetHits();
         bp.SetOwner(player);
-        bp.SetRecoil(ActionsManager.Instance.Switching.WeaponComponent().gameObject.GetComponent<Recoil>());
+        bp.SetRecoil(ActionsManager.GetInstance(_pnc.GetInstanceID()).Switching.WeaponComponent().gameObject.GetComponent<Recoil>());
         objectToSpawn.SetActive(true);
 
         _poolDictionary[id].Enqueue(objectToSpawn);
@@ -101,6 +112,9 @@ public class BulletPoolingManager : MonoBehaviour
 
     public void ApplyPools()
     {
+        if (_photonView.IsMine is false)
+            return;
+
         _poolDictionary = new Dictionary<int, Queue<GameObject>>();
 
         foreach (var pool in pools)
@@ -114,11 +128,23 @@ public class BulletPoolingManager : MonoBehaviour
                     Debug.LogError("AmmoHolder not found on player!");
                     continue;
                 }
+                
+                GameObject bulletTypeToSpawn = GetProperBullet();
+                string bulletPrefabName = GetProperBulletPrefabName(bulletTypeToSpawn);
+                GameObject newbulletObj = PhotonNetwork.Instantiate(Path.Combine("Weapons", "Bullets", $"{bulletPrefabName}"), Vector3.zero, Quaternion.identity);
+                newbulletObj.transform.SetParent(ammoHolder, false);
 
-                var obj = Instantiate(GetProperBullet(), ammoHolder, true);
-                obj.transform.SetParent(ammoHolder, false);
-                obj.SetActive(false);
-                objectPool.Enqueue(obj);
+                //Set the bullets owner photon view to this players photon view
+                BulletPilot objectsPilot = newbulletObj.GetComponentInChildren<BulletPilot>();
+                if (objectsPilot != null)
+                {
+                    objectsPilot.SetOwnerPhotonView(_photonView);
+                    objectsPilot.LateAwake();
+                }
+
+
+                newbulletObj.SetActive(false);
+                objectPool.Enqueue(newbulletObj);
             }
 
             _poolDictionary.Add(pool.id, objectPool);
@@ -127,7 +153,7 @@ public class BulletPoolingManager : MonoBehaviour
 
     private GameObject GetProperBullet()
     {
-        switch (pools[ActionsManager.Instance.Switching.GetCurrentWeaponID()].bulletType)
+        switch (pools[ActionsManager.GetInstance(_pnc.GetInstanceID()).Switching.GetCurrentWeaponID()].bulletType)
         {
             case Mag.BulletType.AssaultRifle:
                 return assaultRifleBullet;
@@ -140,6 +166,22 @@ public class BulletPoolingManager : MonoBehaviour
             case Mag.BulletType.SniperRifle:
                 return sniperRifleBullet;
         }
+
+        return null;
+    }
+
+    private string GetProperBulletPrefabName(GameObject bulletType)
+    {
+        if (bulletType == assaultRifleBullet)
+            return "SM_Assaultrifle_Bullet";
+        else if (bulletType == pistolBullet)
+            return "SM_Pistol_Bullet";
+        else if (bulletType == shotgunBullet)
+            return "SM_Shotgun_Bullet";
+        else if (bulletType == submachineGunBullet)
+            return "SM_Sniperrifle_Bullet";
+        else if (bulletType == sniperRifleBullet)
+            return "SM_Submachine_Bullet";
 
         return null;
     }

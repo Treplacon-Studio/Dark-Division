@@ -1,7 +1,8 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using _6v6Shooter.Scripts.Gameplay;
+using ExitGames.Client.Photon.StructWrapping;
+using Photon.Pun;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -28,14 +29,24 @@ public class BulletPilot : MonoBehaviour
 
     private GameObject _bulletOwner;
     private Camera _playerCamera;
+    private PhotonView _photonView;
+    private PhotonView _bulletOwnerPhotonView;
     private Rigidbody _rb;
     private HashSet<GameObject> _alreadyHitObjects = new();
     private Recoil _recoil;
     private Vector3 _currentDirection;
 
+    private PlayerNetworkController _pnc;
+
+    public void LateAwake()
+    {
+        _pnc = PlayerUtils.FindComponentInParents<PlayerNetworkController>(gameObject);
+        _bulletOwner = ActionsManager.GetInstance(_pnc.GetInstanceID()).ComponentHolder.bulletPoolingManager.player;
+    }
+
     private void Awake()
     {
-        _bulletOwner = ActionsManager.Instance.ComponentHolder.bulletPoolingManager.player;
+        _photonView = GetComponent<PhotonView>();
         var cameras = FindObjectsOfType<Camera>();
         foreach (var cam in cameras)
         {
@@ -85,18 +96,28 @@ public class BulletPilot : MonoBehaviour
         if (Physics.Raycast(transform.position, _currentDirection, out var hit, currentRayLength, hitLayers))
         {
             var hitObject = hit.collider.gameObject;
-            
+
+            //Get the PhotonView of the hit object
+            PhotonView hitPhotonView = hitObject.GetComponent<PhotonView>();
+
             //Player cannot hit himself
-            if (hit.collider.gameObject == _bulletOwner)
-                return;
-            
-            if (!_alreadyHitObjects.Contains(hitObject))
+            if (hitPhotonView != null)
             {
-                SpawnHitDecal();
-                hitObject.GetComponent<HealthController>().TakeDamage(10f);
-                Debug.Log($"{_bulletOwner.name} hits {hitObject.name}!");
-                _alreadyHitObjects.Add(hitObject);
-                Invoke(nameof(Deactivate), fadeDuration);
+                if (hitObject.CompareTag("TargetDummy") is false)
+                {
+                    if (hitPhotonView.Owner == _bulletOwnerPhotonView.Owner)
+                        return;
+                }
+
+                if (!_alreadyHitObjects.Contains(hitObject))
+                {
+                    if (TargetIsOnSameTeam() is false)
+                        hitPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered, 10f);
+
+                    Debug.Log($"{_bulletOwner.name} hits {hitObject.name}!");
+                    _alreadyHitObjects.Add(hitObject);
+                    Invoke(nameof(Deactivate), fadeDuration);
+                }
             }
         }
     }
@@ -153,5 +174,17 @@ public class BulletPilot : MonoBehaviour
     public void SetOwner(GameObject owner)
     {
         _bulletOwner = owner;
+    }
+
+    public void SetOwnerPhotonView(PhotonView pv)
+    {
+        _bulletOwnerPhotonView = pv;
+    }
+
+    public bool TargetIsOnSameTeam()
+    {
+        //Implement logic
+
+        return false;
     }
 }

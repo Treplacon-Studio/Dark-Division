@@ -312,3 +312,10 @@ public struct WeaponStats
         WType = wType;
     }
 }
+
+[Serializable]
+public class WeaponAnimation
+{
+    public WeaponInfo.WeaponName name;
+    public AnimationClip clip;
+}

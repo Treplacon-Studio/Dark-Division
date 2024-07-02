@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class Sprinting : MonoBehaviour
 {
+    [SerializeField] private PlayerNetworkController pnc;
+    
     [SerializeField] [Tooltip("Component holder to access components.")]
     private ComponentHolder componentHolder;
     
     private void Awake()
     {
-        ActionsManager.Instance.Sprinting = this;
+        ActionsManager.GetInstance(pnc.GetInstanceID()).Sprinting = this;
     }
 
     public void Run()
