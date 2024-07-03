@@ -19,13 +19,11 @@ public class HealthController : MonoBehaviourPunCallbacks
     public GameObject soldierOutfit;
 
     public PublicMatchSpawnManager spawnManager;
-    public DeathUIManager deathUIManager;
 
     void Start()
     {
         playerSetup = GetComponent<PlayerSetup>();
         spawnManager = FindObjectOfType<PublicMatchSpawnManager>();
-        deathUIManager = FindObjectOfType<DeathUIManager>();
         if (spawnManager == null)
         {
             Debug.LogError("PublicMatchSpawnManager not found in the scene.");
@@ -60,7 +58,6 @@ public class HealthController : MonoBehaviourPunCallbacks
                 TeamDeathmatchManager.instance.GetComponent<PhotonView>().RPC("AddPointForTeam", RpcTarget.AllBuffered, team);
                 playerSetup.GetComponent<PhotonView>().RPC("EnableRagdollRPC", RpcTarget.All);
                 playerSetup.SwitchToRagdollCamera();
-                deathUIManager.ShowDeathUI(4f); // Show death UI with 4-second countdown
                 StartCoroutine(Respawn());
             }
         }

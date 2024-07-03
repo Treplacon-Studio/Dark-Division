@@ -13,6 +13,8 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
     [Header("SCORE")]
     public int TeamBlueScore = 0;
     public int TeamRedScore = 0;
+    public TextMeshProUGUI scoreTxtRed;
+    public TextMeshProUGUI scoreTxtBlue;
 
     [Header("END GAME")]
     public GameObject endGameCanvas;
@@ -63,7 +65,6 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
         else
             Debug.Log("Error validating team for this player so point will not count.");
 
-        // Check if game should end after adding a point
         if (!hasGameEnded && CheckIfGameShouldEnd())
         {
             ShowEndGameCanvas();
@@ -74,9 +75,11 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
     private void ShowEndGameCanvas()
     {
         endGameCanvas.SetActive(true);
+        SetScoreboard();
 
         if (TeamBlueScore > TeamRedScore)
         {
+            
             blueWinsText.SetActive(true);
             redWinsText.SetActive(false);
             drawText.SetActive(false);
@@ -105,11 +108,10 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
         while (countdown > 0)
         {
             countdownText.text = countdown.ToString() + "s";
-            yield return new WaitForSeconds(1.0f); // Update every second
+            yield return new WaitForSeconds(1.0f);
             countdown--;
         }
 
-        //BackToLobby RPC method for all players
         photonView.RPC("BackToLobby", RpcTarget.All);
     }
 
@@ -117,5 +119,10 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
     private void BackToLobby()
     {
         GameManager.instance.StartLoadingBar("S02_Lobby", true);
+    }
+
+    private void SetScoreboard() {
+        scoreTxtBlue.text = TeamBlueScore.ToString();
+        scoreTxtRed.text = TeamRedScore.ToString();
     }
 }

@@ -436,7 +436,6 @@ MonoBehaviour:
   soldierGameObject: {fileID: 4306695325223899434}
   soldierOutfit: {fileID: 3907968447405751329}
   spawnManager: {fileID: 0}
-  deathUIManager: {fileID: 0}
 --- !u!114 &6771075786898946733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,6 +563,7 @@ MonoBehaviour:
   soldierGameObject:
   - {fileID: 4306695325223899434}
   - {fileID: 3907968447405751329}
+  playerHUD: {fileID: 8601440484312244442}
   mainCamera: {fileID: 3578215366242738822}
   ragdollCamera: {fileID: 2845504193458648595}
   allGuns:
@@ -817,7 +817,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6767841295965228983}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0, w: 1}
   m_LocalPosition: {x: -0.77, y: 3.24, z: 6.78}
   m_LocalScale: {x: 0.99999964, y: 1, z: 0.99999964}
   m_ConstrainProportionsScale: 0
@@ -2098,7 +2098,11 @@ PrefabInstance:
     - target: {fileID: 6673835008295786661, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 6673835008295786661, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 6710636194661381086, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -2394,6 +2398,11 @@ MonoBehaviour:
 --- !u!4 &2931313995302589008 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7559685689817571769, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
+  m_PrefabInstance: {fileID: 4631803339159008233}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8601440484312244442 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3970217830503289651, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
   m_PrefabInstance: {fileID: 4631803339159008233}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5237462488571000133

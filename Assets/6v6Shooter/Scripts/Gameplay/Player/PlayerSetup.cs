@@ -13,6 +13,7 @@ public class PlayerSetup : MonoBehaviourPun
     
     public GameObject[] fpsHandsGameObject;
     public GameObject[] soldierGameObject;
+    public GameObject playerHUD;
 
     private Animator animator;
     private MovementController movementController;
@@ -73,6 +74,7 @@ public class PlayerSetup : MonoBehaviourPun
         if (TeamDeathmatchManager.instance.IsGameOver)
         {
             DisableMovement();
+            playerHUD.SetActive(false);
         }
     }
 
