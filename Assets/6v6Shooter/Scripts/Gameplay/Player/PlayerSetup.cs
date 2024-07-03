@@ -69,6 +69,13 @@ public class PlayerSetup : MonoBehaviourPun
         if (ragdollCamera != null) ragdollCamera.enabled = false;
     }
 
+    void Update() {
+        if (TeamDeathmatchManager.instance.IsGameOver)
+        {
+            DisableMovement();
+        }
+    }
+
     public void PlayerBodySetup(bool firstPerson)
     {
         if (firstPerson)
@@ -216,5 +223,10 @@ public class PlayerSetup : MonoBehaviourPun
             ragdollCamera.enabled = false;
             mainCamera.enabled = true;
         }
+    }
+
+    public void DisableMovement() {
+        if (movementController != null) movementController.enabled = false;
+        if (boneRotator != null) boneRotator.enabled = false;
     }
 }
