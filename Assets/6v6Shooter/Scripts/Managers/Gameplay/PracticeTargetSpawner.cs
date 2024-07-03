@@ -41,13 +41,8 @@ public class PracticeTargetSpawner : MonoBehaviour
         PhotonView photonView = obj.GetComponent<PhotonView>();
 
         if (photonView != null)
-        {
             photonView.TransferOwnership(0); // Assign to "Scene" to make it independent of any player
-            Debug.Log("Assigned PhotonView ID and made it independent: " + photonView.ViewID);
-        }
         else
-        {
             Debug.LogError("PhotonView component is missing on the object.");
-        }
     }
 }

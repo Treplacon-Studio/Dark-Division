@@ -214,7 +214,7 @@ public class WeaponInfo
         },
         {
             WeaponName.Dsr50,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary)
+            new WeaponStats(40, 10, 0.1f, 10, WeaponStats.WeaponType.Primary)
         },
         {
             WeaponName.Gauge320,
@@ -311,4 +311,11 @@ public struct WeaponStats
         BulletSpeed = bulletSpeed;
         WType = wType;
     }
+}
+
+[Serializable]
+public class WeaponAnimation
+{
+    public WeaponInfo.WeaponName name;
+    public AnimationClip clip;
 }

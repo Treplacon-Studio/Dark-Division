@@ -1,8 +1,11 @@
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
 
 public class PlayerHUD : MonoBehaviour
 {
+    [SerializeField] private PlayerNetworkController pnc;
+    
     [Header("Weapon Boxes")]
     
     [SerializeField] [Tooltip("Text on current weapon box.")]
@@ -23,21 +26,72 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] [Tooltip("Whole ammo that left.")]
     private TextMeshProUGUI ammoLeftHiddenText;
 
+    [Header("TIME")]
+    public TMP_Text TimeRemainingText;
+
+    [Header("SCORE")]
+    public TMP_Text TeamScoreText;
+    public TMP_Text EnemyScoreText;
+
+    private bool _hudDisplayed = true;
+
+    private void Awake()
+    {
+         string currentScene = SceneHandler.Instance.GetCurrentSceneName();
+        if (currentScene == "S05_PracticeRange")
+            _hudDisplayed = false;
+    }
+
     private void Update()
     {
         UpdateWeaponBoxes();
+
+        if (_hudDisplayed)
+        {
+            UpdateTeamScores();
+            UpdateTimerDisplay();
+        }
     }
 
     private void UpdateWeaponBoxes()
     {
-        if (ActionsManager.Instance?.Switching.WeaponComponent() is null)
+        var instance = ActionsManager.GetInstance(pnc.GetInstanceID());
+        var switching = instance?.Switching;
+        var weaponComponent = switching?.WeaponComponent();
+        
+        if (instance is null || switching is null || weaponComponent is null)
             return;
 
-        var weaponsNames = ActionsManager.Instance.Switching.GetWeaponsNames();
+        var weaponsNames = switching.GetWeaponsNames();
         currentWeaponName.text = weaponsNames[0];
         hiddenWeaponName.text = weaponsNames[1];
         
-        ammoLeftInMagCurrentText.text = ActionsManager.Instance.ComponentHolder.bulletPoolingManager.GetAmmoPrimary().ToString();
-        ammoLeftInMagHiddenText.text = ActionsManager.Instance.ComponentHolder.bulletPoolingManager.GetAmmoSecondary().ToString();
+        ammoLeftInMagCurrentText.text = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder.bulletPoolingManager.GetAmmoPrimary().ToString();
+        ammoLeftInMagHiddenText.text = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder.bulletPoolingManager.GetAmmoSecondary().ToString();
+    }
+
+    void UpdateTimerDisplay()
+    {
+        int minutes = Mathf.FloorToInt(TeamDeathmatchManager.instance.TimeRemaining / 60);
+        int seconds = Mathf.FloorToInt(TeamDeathmatchManager.instance.TimeRemaining % 60);
+
+        TimeRemainingText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+
+    private void UpdateTeamScores()
+    {
+        Team? team = TeamManager.GetTeam(PhotonNetwork.LocalPlayer);
+        if (team == Team.Blue)
+        {
+            TeamScoreText.text = $"{TeamDeathmatchManager.instance.TeamBlueScore}";
+            EnemyScoreText.text = $"{TeamDeathmatchManager.instance.TeamRedScore}";
+        }
+        else if (team == Team.Red)
+        {
+            TeamScoreText.text = $"{TeamDeathmatchManager.instance.TeamRedScore}";
+            EnemyScoreText.text = $"{TeamDeathmatchManager.instance.TeamBlueScore}";
+        }
+        else
+            Debug.Log("Error validating team for this player.");        
     }
 }

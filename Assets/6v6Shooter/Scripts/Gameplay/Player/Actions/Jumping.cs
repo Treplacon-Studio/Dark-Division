@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Jumping : MonoBehaviour
 {
+    [SerializeField] private PlayerNetworkController pnc;
+    
     [SerializeField] [Tooltip("Component holder to access components.")]
     private ComponentHolder componentHolder;
     
@@ -10,7 +12,7 @@ public class Jumping : MonoBehaviour
 
     private void Awake()
     {
-        ActionsManager.Instance.Jumping = this;
+        ActionsManager.GetInstance(pnc.GetInstanceID()).Jumping = this;
     }
 
     public void Run(bool isLanding, bool isGrounded)
