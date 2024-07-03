@@ -71,11 +71,16 @@ public class PlayerSetup : MonoBehaviourPun
     }
 
     void Update() {
-        if (TeamDeathmatchManager.instance.IsGameOver)
+        if (TeamDeathmatchManager.instance.IsGameActive is false)
         {
             DisableMovement();
             playerHUD.SetActive(false);
         }
+        else {
+            EnableMovement();
+            playerHUD.SetActive(true);
+        }
+        Debug.Log("playersetup bool" + TeamDeathmatchManager.instance.IsGameActive);
     }
 
     public void PlayerBodySetup(bool firstPerson)
@@ -230,5 +235,10 @@ public class PlayerSetup : MonoBehaviourPun
     public void DisableMovement() {
         if (movementController != null) movementController.enabled = false;
         if (boneRotator != null) boneRotator.enabled = false;
+    }
+
+    public void EnableMovement() {
+        if (movementController != null) movementController.enabled = true;
+        if (boneRotator != null) boneRotator.enabled = true;
     }
 }

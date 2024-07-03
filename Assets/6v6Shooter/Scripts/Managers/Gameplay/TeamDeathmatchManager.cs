@@ -9,6 +9,8 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
 
     [Header("TIME")]
     public float TimeRemaining = 600.0f;
+    public float BeginMatchCountdown = 10f;
+    private float _syncCountdown;
 
     [Header("SCORE")]
     public int TeamBlueScore = 0;
@@ -16,15 +18,17 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
     public TextMeshProUGUI scoreTxtRed;
     public TextMeshProUGUI scoreTxtBlue;
 
-    [Header("END GAME")]
+    [Header("UI")]
     public GameObject endGameCanvas;
+    public GameObject BeginMatchCountdownScreen;
     public GameObject redWinsText;
     public GameObject blueWinsText;
     public GameObject drawText;
-    public TextMeshProUGUI countdownText;
+    public TextMeshProUGUI endGameCountdownTxt;
+    public TextMeshProUGUI startGameCountdownTxt;
     public float countdownDuration = 10.0f;
 
-    public bool IsGameOver { get; private set; }
+    public bool IsGameActive { get; private set; }
 
     private bool hasGameEnded = false;
 
@@ -32,19 +36,65 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
     {
         if (instance == null)
             instance = this;
+        BeginMatchCountdownScreen.SetActive(true);
+    }
+
+    void Start()
+    {
+        IsGameActive = false;
+        //When the master client joins in the game, we begin the countdown process to start the match
+        if (PhotonNetwork.IsMasterClient)
+            _syncCountdown = BeginMatchCountdown;
     }
 
     void Update()
     {
-        if (!hasGameEnded && CheckIfGameShouldEnd())
+     if (!hasGameEnded && CheckIfGameShouldEnd())
         {
             TimeRemaining = 0.0f;
+            photonView.RPC("SyncGameActiveState", RpcTarget.AllBuffered, false);
             ShowEndGameCanvas();
             hasGameEnded = true;
         }
 
-        if (TimeRemaining > 0)
-            TimeRemaining -= Time.deltaTime;
+        if (IsGameActive is true)
+        {
+            if (TimeRemaining > 0)
+                TimeRemaining -= Time.deltaTime;
+        }
+        else
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                if (BeginMatchCountdown >= 0)
+                {
+                    BeginMatchCountdown -= Time.deltaTime;
+                    photonView.RPC("SyncMatchBeginCountdown", RpcTarget.AllBuffered, BeginMatchCountdown);
+                }
+                else
+                {
+                    IsGameActive = true;
+                    BeginMatchCountdownScreen.SetActive(false);
+                    photonView.RPC("SyncGameActiveState", RpcTarget.AllBuffered, true);
+                }
+            }
+            else
+            {
+                if (BeginMatchCountdown >= 0)
+                {
+                    BeginMatchCountdown = _syncCountdown;
+                }
+                else
+                {
+                    BeginMatchCountdownScreen.SetActive(false);
+                    IsGameActive = true;
+                    Debug.Log("Is active " + IsGameActive);
+                }
+            }
+
+            UpdateCountdownUI();
+        }
+
     }
 
     public bool CheckIfGameShouldEnd()
@@ -53,6 +103,19 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
             return true;
 
         return false;
+    }
+
+    void UpdateCountdownUI()
+    {
+        startGameCountdownTxt.text = BeginMatchCountdown > 0 
+        ? Mathf.Ceil(BeginMatchCountdown).ToString() 
+        : "GO!";
+    }
+
+    [PunRPC]
+    public void SyncMatchBeginCountdown(float countdown)
+    {
+        _syncCountdown = countdown;
     }
 
     [PunRPC]
@@ -97,7 +160,7 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
             blueWinsText.SetActive(false);
         }
 
-        IsGameOver = true;
+        IsGameActive = false;
 
         StartCoroutine(EndGameCountdown());
     }
@@ -107,7 +170,7 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
         int countdown = Mathf.CeilToInt(countdownDuration);
         while (countdown > 0)
         {
-            countdownText.text = countdown.ToString() + "s";
+            endGameCountdownTxt.text = countdown.ToString();
             yield return new WaitForSeconds(1.0f);
             countdown--;
         }
@@ -124,5 +187,10 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
     private void SetScoreboard() {
         scoreTxtBlue.text = TeamBlueScore.ToString();
         scoreTxtRed.text = TeamRedScore.ToString();
+    }
+
+    [PunRPC]
+    private void SyncGameActiveState (bool isActive){
+        IsGameActive = isActive;
     }
 }

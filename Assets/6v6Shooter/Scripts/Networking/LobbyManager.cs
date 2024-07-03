@@ -55,6 +55,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         ConnectToPhotonServer();
         mapImage = null;
+        ListPlayers();
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     private void ClearPlayerListings()
