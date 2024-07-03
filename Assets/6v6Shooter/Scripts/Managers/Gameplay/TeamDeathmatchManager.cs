@@ -18,6 +18,7 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
     public GameObject endGameCanvas;
     public GameObject redWinsText;
     public GameObject blueWinsText;
+    public GameObject drawText;
     public TextMeshProUGUI countdownText;
     public float countdownDuration = 10.0f;
 
@@ -83,6 +84,10 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
         {
             redWinsText.SetActive(true);
             blueWinsText.SetActive(false);
+        }
+        else if (TeamRedScore == TeamBlueScore)
+        {
+            drawText.SetActive(false);
         }
         else
         {
