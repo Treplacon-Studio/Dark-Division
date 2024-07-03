@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
 {
@@ -10,6 +11,7 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
     [Header("TIME")]
     public float TimeRemaining = 600.0f;
     public float BeginMatchCountdown = 10f;
+    public float EndMatchCountdown = 10f;
     private float _syncCountdown;
 
     [Header("SCORE")]
@@ -27,21 +29,21 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
     public TextMeshProUGUI endGameCountdownTxt;
     public TextMeshProUGUI startGameCountdownTxt;
     public float countdownDuration = 10.0f;
+    public bool GameInPlay;
+    private List<GameObject> players = new List<GameObject>();
 
-    public bool IsGameActive { get; private set; }
 
-    private bool hasGameEnded = false;
-
-    void Awake()
-    {
-        if (instance == null)
+    void Awake() {
+        if(instance == null) 
             instance = this;
+
+        DisablePlayerMovementForAll();
+        GameInPlay = false;
         BeginMatchCountdownScreen.SetActive(true);
     }
 
     void Start()
     {
-        IsGameActive = false;
         //When the master client joins in the game, we begin the countdown process to start the match
         if (PhotonNetwork.IsMasterClient)
             _syncCountdown = BeginMatchCountdown;
@@ -49,21 +51,27 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
-     if (!hasGameEnded && CheckIfGameShouldEnd())
+        if (CheckIfGameShouldEnd())
         {
             TimeRemaining = 0.0f;
-            photonView.RPC("SyncGameActiveState", RpcTarget.AllBuffered, false);
             ShowEndGameCanvas();
-            hasGameEnded = true;
+            if (EndMatchCountdown >= 0)
+                EndMatchCountdown -= Time.deltaTime;
+                photonView.RPC("SyncMatchEndCountdown", RpcTarget.AllBuffered, BeginMatchCountdown);
+
+            if (EndMatchCountdown <= 0)
+                photonView.RPC("BackToLobby", RpcTarget.All);
         }
 
-        if (IsGameActive is true)
+        if (GameInPlay is true)
         {
             if (TimeRemaining > 0)
                 TimeRemaining -= Time.deltaTime;
         }
         else
         {
+            DisablePlayerMovementForAll();
+    
             if (PhotonNetwork.IsMasterClient)
             {
                 if (BeginMatchCountdown >= 0)
@@ -73,9 +81,9 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
                 }
                 else
                 {
-                    IsGameActive = true;
+                    GameInPlay = true;
                     BeginMatchCountdownScreen.SetActive(false);
-                    photonView.RPC("SyncGameActiveState", RpcTarget.AllBuffered, true);
+                    EnablePlayerMovementForAll();
                 }
             }
             else
@@ -86,9 +94,9 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
                 }
                 else
                 {
+                    GameInPlay = true;
                     BeginMatchCountdownScreen.SetActive(false);
-                    IsGameActive = true;
-                    Debug.Log("Is active " + IsGameActive);
+                    EnablePlayerMovementForAll();
                 }
             }
 
@@ -110,6 +118,74 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
         startGameCountdownTxt.text = BeginMatchCountdown > 0 
         ? Mathf.Ceil(BeginMatchCountdown).ToString() 
         : "GO!";
+
+        endGameCountdownTxt.text = EndMatchCountdown > 0 
+        ? Mathf.Ceil(EndMatchCountdown).ToString() 
+        : "0";
+
+    }
+
+    void DisablePlayerMovementForAll()
+    {
+        players.Clear();
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            players.Add(player);
+            MovementController movement = player.GetComponent<MovementController>();
+            Transform playerHUDTransform = player.transform.Find("PlayerHUD");
+
+            if (movement != null)
+                movement.enabled = false;
+
+            if (playerHUDTransform != null)
+                playerHUDTransform.gameObject.SetActive(false);
+
+            Transform boneTransform = player.transform.Find("Character 01/rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003");
+
+            if (boneTransform != null)
+            {
+                BoneRotator boneRotator = boneTransform.GetComponent<BoneRotator>();
+                if (boneRotator != null)
+                    boneRotator.enabled = false;
+
+                else 
+                    Debug.LogWarning("BoneRotator component not found on " + boneTransform.name);
+            }
+            else
+                Debug.LogWarning("Bone transform path not found for " + player.name);
+            
+        }
+    }
+
+    void EnablePlayerMovementForAll()
+    {
+        foreach (GameObject player in players)
+        {
+            MovementController movement = player.GetComponent<MovementController>();
+            Transform playerHUDTransform = player.transform.Find("PlayerHUD");
+            if (movement != null)
+                movement.enabled = true;
+
+            if (playerHUDTransform != null)
+                playerHUDTransform.gameObject.SetActive(true);
+
+            Transform boneTransform = player.transform.Find("Character 01/rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003");
+
+            if (boneTransform != null)
+            {
+                BoneRotator boneRotator = boneTransform.GetComponent<BoneRotator>();
+                if (boneRotator != null)
+                {
+                    boneRotator.enabled = true;
+                }
+                else
+                {
+                    Debug.LogWarning("BoneRotator component not found on " + boneTransform.name);
+                }
+            }
+            else
+                Debug.LogWarning("Bone transform path not found for " + player.name);
+        }
     }
 
     [PunRPC]
@@ -117,6 +193,13 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
     {
         _syncCountdown = countdown;
     }
+
+    [PunRPC]
+    public void SyncMatchEndCountdown(float countdown)
+    {
+        _syncCountdown = countdown;
+    }
+    
 
     [PunRPC]
     public void AddPointForTeam(Team team)
@@ -128,10 +211,9 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
         else
             Debug.Log("Error validating team for this player so point will not count.");
 
-        if (!hasGameEnded && CheckIfGameShouldEnd())
+        if (CheckIfGameShouldEnd())
         {
-            ShowEndGameCanvas();
-            hasGameEnded = true;
+            GameInPlay = false;
         }
     }
 
@@ -160,23 +242,23 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
             blueWinsText.SetActive(false);
         }
 
-        IsGameActive = false;
+        GameInPlay = false;
 
-        StartCoroutine(EndGameCountdown());
+        // StartCoroutine(EndGameCountdown());
     }
 
-    private IEnumerator EndGameCountdown()
-    {
-        int countdown = Mathf.CeilToInt(countdownDuration);
-        while (countdown > 0)
-        {
-            endGameCountdownTxt.text = countdown.ToString();
-            yield return new WaitForSeconds(1.0f);
-            countdown--;
-        }
+    // private IEnumerator EndGameCountdown()
+    // {
+    //     int countdown = Mathf.CeilToInt(countdownDuration);
+    //     while (countdown > 0)
+    //     {
+    //         endGameCountdownTxt.text = countdown.ToString();
+    //         yield return new WaitForSeconds(1.0f);
+    //         countdown--;
+    //     }
 
-        photonView.RPC("BackToLobby", RpcTarget.All);
-    }
+    //     photonView.RPC("BackToLobby", RpcTarget.All);
+    // }
 
     [PunRPC]
     private void BackToLobby()
@@ -184,13 +266,9 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
         GameManager.instance.StartLoadingBar("S02_Lobby", true);
     }
 
-    private void SetScoreboard() {
+    private void SetScoreboard() 
+    {
         scoreTxtBlue.text = TeamBlueScore.ToString();
         scoreTxtRed.text = TeamRedScore.ToString();
-    }
-
-    [PunRPC]
-    private void SyncGameActiveState (bool isActive){
-        IsGameActive = isActive;
     }
 }

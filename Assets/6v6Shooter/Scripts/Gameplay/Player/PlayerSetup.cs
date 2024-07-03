@@ -70,19 +70,6 @@ public class PlayerSetup : MonoBehaviourPun
         if (ragdollCamera != null) ragdollCamera.enabled = false;
     }
 
-    void Update() {
-        if (TeamDeathmatchManager.instance.IsGameActive is false)
-        {
-            DisableMovement();
-            playerHUD.SetActive(false);
-        }
-        else {
-            EnableMovement();
-            playerHUD.SetActive(true);
-        }
-        Debug.Log("playersetup bool" + TeamDeathmatchManager.instance.IsGameActive);
-    }
-
     public void PlayerBodySetup(bool firstPerson)
     {
         if (firstPerson)
@@ -230,15 +217,5 @@ public class PlayerSetup : MonoBehaviourPun
             ragdollCamera.enabled = false;
             mainCamera.enabled = true;
         }
-    }
-
-    public void DisableMovement() {
-        if (movementController != null) movementController.enabled = false;
-        if (boneRotator != null) boneRotator.enabled = false;
-    }
-
-    public void EnableMovement() {
-        if (movementController != null) movementController.enabled = true;
-        if (boneRotator != null) boneRotator.enabled = true;
     }
 }
