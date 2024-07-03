@@ -79,18 +79,17 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
         {
             blueWinsText.SetActive(true);
             redWinsText.SetActive(false);
+            drawText.SetActive(false);
         }
         else if (TeamRedScore > TeamBlueScore)
         {
             redWinsText.SetActive(true);
             blueWinsText.SetActive(false);
+            drawText.SetActive(false);
         }
         else if (TeamRedScore == TeamBlueScore)
         {
-            drawText.SetActive(false);
-        }
-        else
-        {
+            drawText.SetActive(true);
             redWinsText.SetActive(false);
             blueWinsText.SetActive(false);
         }
