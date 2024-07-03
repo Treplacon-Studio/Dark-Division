@@ -393,6 +393,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 514cc6d7b4afc524290b1bd6e9b62db1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4938641533971085603}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 514cc6d7b4afc524290b1bd6e9b62db1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1418945272485026237}
   m_SourcePrefab: {fileID: 100100000, guid: 514cc6d7b4afc524290b1bd6e9b62db1, type: 3}
 --- !u!1 &779719882959683335 stripped
 GameObject:
@@ -429,7 +432,7 @@ Animator:
   m_GameObject: {fileID: 5668809554432863330}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fc13d76e771627d4388db8460544260f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -492,6 +495,21 @@ MonoBehaviour:
   cameraRecoilPowerAds: 0.005
   cameraShakeIntensityAds: 5
   cameraShakeDurationAds: 0.1
+--- !u!114 &1418945272485026237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5668809554432863330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a97258ca1a6eba458469f3636299626, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coghDelay: 0
+  coghHalf: 0.7
+  coghReleaseDelay: 1
 --- !u!4 &9084993592348291664 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4864274517845073053, guid: 514cc6d7b4afc524290b1bd6e9b62db1, type: 3}

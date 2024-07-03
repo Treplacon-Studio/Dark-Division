@@ -49,7 +49,11 @@ public class Inspecting : MonoBehaviour
             if (currentWeapon != null && elem.name == currentWeapon.Info().Name())
                 clip = elem.clip;
 
-        yield return new WaitForSeconds(clip.length + 0.05f);
+        if(clip is null)
+            Debug.LogError("Inspecting clip has not been attached.");
+        
+        yield return new WaitForSeconds(clip!.length + 0.05f);
+        
         componentHolder.playerAnimationController.inspectingLock = false;
     }
 }
