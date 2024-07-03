@@ -18,14 +18,14 @@ public class HealthController : MonoBehaviourPunCallbacks
     public GameObject soldierGameObject;
     public GameObject soldierOutfit;
 
-    // Reference to the PublicMatchSpawnManager
     public PublicMatchSpawnManager spawnManager;
-
+    public DeathUIManager deathUIManager;
 
     void Start()
     {
         playerSetup = GetComponent<PlayerSetup>();
         spawnManager = FindObjectOfType<PublicMatchSpawnManager>();
+        deathUIManager = FindObjectOfType<DeathUIManager>();
         if (spawnManager == null)
         {
             Debug.LogError("PublicMatchSpawnManager not found in the scene.");
@@ -60,6 +60,7 @@ public class HealthController : MonoBehaviourPunCallbacks
                 TeamDeathmatchManager.instance.GetComponent<PhotonView>().RPC("AddPointForTeam", RpcTarget.AllBuffered, team);
                 playerSetup.GetComponent<PhotonView>().RPC("EnableRagdollRPC", RpcTarget.All);
                 playerSetup.SwitchToRagdollCamera();
+                deathUIManager.ShowDeathUI(4f); // Show death UI with 4-second countdown
                 StartCoroutine(Respawn());
             }
         }
@@ -69,25 +70,20 @@ public class HealthController : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(4f);
 
-        // Get the team and find a random spawn point
         string team = GetTeam();
         Transform spawnPoint = spawnManager.GetRandomSpawnPoint(team);
 
         if (spawnPoint != null)
         {
-            Debug.Log($"Respawning player at {spawnPoint.position} for team {team}");
             transform.position = spawnPoint.position;
             transform.rotation = spawnPoint.rotation;
         }
         else
         {
             Debug.LogError("No valid spawn point found for the team.");
-            // Optionally handle this case, e.g., fallback spawn or error handling
         }
 
-        // Reset health
         photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
-
         playerSetup.GetComponent<PhotonView>().RPC("DisableRagdollRPC", RpcTarget.All);
         playerSetup.SwitchToMainCamera();
     }
