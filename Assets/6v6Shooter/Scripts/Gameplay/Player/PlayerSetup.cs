@@ -218,4 +218,16 @@ public class PlayerSetup : MonoBehaviourPun
             mainCamera.enabled = true;
         }
     }
+
+    public void DisableHUD()
+    {
+        if (playerHUD != null)
+            playerHUD.SetActive(false);
+    }
+
+    public void EnableHUD()
+    {
+        if (playerHUD != null)
+            playerHUD.SetActive(true);
+    }
 }

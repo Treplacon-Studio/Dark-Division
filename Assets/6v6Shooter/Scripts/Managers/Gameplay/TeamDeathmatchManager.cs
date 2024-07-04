@@ -32,7 +32,6 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
     public bool GameInPlay;
     private List<GameObject> players = new List<GameObject>();
 
-
     void Awake() {
         if(instance == null) 
             instance = this;
@@ -44,7 +43,6 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        //When the master client joins in the game, we begin the countdown process to start the match
         if (PhotonNetwork.IsMasterClient)
             _syncCountdown = BeginMatchCountdown;
     }
@@ -52,77 +50,80 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
     void Update()
     {
         if (CheckIfGameShouldEnd())
-        {
-            TimeRemaining = 0.0f;
-            ShowEndGameCanvas();
-            if (EndMatchCountdown >= 0)
-                EndMatchCountdown -= Time.deltaTime;
-                photonView.RPC("SyncMatchEndCountdown", RpcTarget.AllBuffered, BeginMatchCountdown);
+            HandleEndGame();
 
-            if (EndMatchCountdown <= 0)
-                photonView.RPC("BackToLobby", RpcTarget.All);
+        else if (GameInPlay)
+            HandleInGame();
+
+        else
+            HandleGameStartCountdown();
+
+        UpdateCountdownUI();
+    }
+
+    void HandleEndGame()
+    {
+        TimeRemaining = 0.0f;
+        DisablePlayerMovementForAll();
+        ShowEndGameCanvas();
+
+        if (EndMatchCountdown >= 0)
+        {
+            EndMatchCountdown -= Time.deltaTime;
+            photonView.RPC("SyncMatchEndCountdown", RpcTarget.AllBuffered, EndMatchCountdown);
         }
 
-        if (GameInPlay is true)
+        if (EndMatchCountdown <= 0)
+            photonView.RPC("BackToLobby", RpcTarget.All);
+    }
+
+    void HandleInGame()
+    {
+        if (TimeRemaining > 0)
+            TimeRemaining -= Time.deltaTime;
+    }
+
+    void HandleGameStartCountdown()
+    {
+        DisablePlayerMovementForAll();
+
+        if (PhotonNetwork.IsMasterClient)
         {
-            if (TimeRemaining > 0)
-                TimeRemaining -= Time.deltaTime;
+            if (BeginMatchCountdown >= 0)
+            {
+                BeginMatchCountdown -= Time.deltaTime;
+                photonView.RPC("SyncMatchBeginCountdown", RpcTarget.AllBuffered, BeginMatchCountdown);
+            }
+            else
+                StartGame();
         }
         else
         {
-            DisablePlayerMovementForAll();
-    
-            if (PhotonNetwork.IsMasterClient)
+            if (BeginMatchCountdown >= 0)
             {
-                if (BeginMatchCountdown >= 0)
-                {
-                    BeginMatchCountdown -= Time.deltaTime;
-                    photonView.RPC("SyncMatchBeginCountdown", RpcTarget.AllBuffered, BeginMatchCountdown);
-                }
-                else
-                {
-                    GameInPlay = true;
-                    BeginMatchCountdownScreen.SetActive(false);
-                    EnablePlayerMovementForAll();
-                }
+                BeginMatchCountdown = _syncCountdown;
             }
             else
-            {
-                if (BeginMatchCountdown >= 0)
-                {
-                    BeginMatchCountdown = _syncCountdown;
-                }
-                else
-                {
-                    GameInPlay = true;
-                    BeginMatchCountdownScreen.SetActive(false);
-                    EnablePlayerMovementForAll();
-                }
-            }
-
-            UpdateCountdownUI();
+                StartGame();
         }
-
     }
 
-    public bool CheckIfGameShouldEnd()
+    void StartGame()
     {
-        if (TimeRemaining < 1 || TeamBlueScore >= 75 || TeamRedScore >= 75)
-            return true;
-
-        return false;
+        GameInPlay = true;
+        BeginMatchCountdownScreen.SetActive(false);
+        EnablePlayerMovementForAll();
     }
 
     void UpdateCountdownUI()
     {
         startGameCountdownTxt.text = BeginMatchCountdown > 0 
-        ? Mathf.Ceil(BeginMatchCountdown).ToString() 
-        : "GO!";
+            ? Mathf.Ceil(BeginMatchCountdown).ToString() 
+            : "GO!";
 
         endGameCountdownTxt.text = EndMatchCountdown > 0 
-        ? Mathf.Ceil(EndMatchCountdown).ToString() 
-        : "0";
-
+            ? Mathf.Ceil(EndMatchCountdown).ToString() 
+            : "0";
     }
 
     void DisablePlayerMovementForAll()
@@ -147,22 +148,22 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
                 BoneRotator boneRotator = boneTransform.GetComponent<BoneRotator>();
                 if (boneRotator != null)
                     boneRotator.enabled = false;
-
                 else 
                     Debug.LogWarning("BoneRotator component not found on " + boneTransform.name);
             }
             else
                 Debug.LogWarning("Bone transform path not found for " + player.name);
-            
         }
     }
 
     void EnablePlayerMovementForAll()
     {
+        Debug.Log("Enabling");
         foreach (GameObject player in players)
         {
             MovementController movement = player.GetComponent<MovementController>();
             Transform playerHUDTransform = player.transform.Find("PlayerHUD");
+
             if (movement != null)
                 movement.enabled = true;
 
@@ -175,17 +176,21 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
             {
                 BoneRotator boneRotator = boneTransform.GetComponent<BoneRotator>();
                 if (boneRotator != null)
-                {
                     boneRotator.enabled = true;
-                }
                 else
-                {
                     Debug.LogWarning("BoneRotator component not found on " + boneTransform.name);
-                }
             }
             else
                 Debug.LogWarning("Bone transform path not found for " + player.name);
         }
+    }
+
+    public bool CheckIfGameShouldEnd()
+    {
+        if (TimeRemaining < 1 || TeamBlueScore >= 75 || TeamRedScore >= 75)
+            return true;
+
+        return false;
     }
 
     [PunRPC]
@@ -197,9 +202,8 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SyncMatchEndCountdown(float countdown)
     {
-        _syncCountdown = countdown;
+        EndMatchCountdown = countdown;
     }
-    
 
     [PunRPC]
     public void AddPointForTeam(Team team)
@@ -212,9 +216,7 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
             Debug.Log("Error validating team for this player so point will not count.");
 
         if (CheckIfGameShouldEnd())
-        {
             GameInPlay = false;
-        }
     }
 
     private void ShowEndGameCanvas()
@@ -224,7 +226,6 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
 
         if (TeamBlueScore > TeamRedScore)
         {
-            
             blueWinsText.SetActive(true);
             redWinsText.SetActive(false);
             drawText.SetActive(false);
@@ -243,28 +244,10 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
         }
 
         GameInPlay = false;
-
-        // StartCoroutine(EndGameCountdown());
     }
-
-    // private IEnumerator EndGameCountdown()
-    // {
-    //     int countdown = Mathf.CeilToInt(countdownDuration);
-    //     while (countdown > 0)
-    //     {
-    //         endGameCountdownTxt.text = countdown.ToString();
-    //         yield return new WaitForSeconds(1.0f);
-    //         countdown--;
-    //     }
-
-    //     photonView.RPC("BackToLobby", RpcTarget.All);
-    // }
 
     [PunRPC]
-    private void BackToLobby()
-    {
-        GameManager.instance.StartLoadingBar("S02_Lobby", true);
-    }
+    private void BackToLobby() => GameManager.instance.StartLoadingBar("S02_Lobby", true);
 
     private void SetScoreboard() 
     {
