@@ -568,10 +568,6 @@ MonoBehaviour:
   startHealth: 100
   targetDummy: 0
   playerSetup: {fileID: 0}
-  fpsHandsGameObject: {fileID: 352261492695714546}
-  fpsHandsOutfit: {fileID: 8570225655099605180}
-  soldierGameObject: {fileID: 4306695325223899434}
-  soldierOutfit: {fileID: 3907968447405751329}
   resCanvas: {fileID: 7393405412458930250}
   resCount: {fileID: 5253761205033289656}
   spawnManager: {fileID: 0}
@@ -3341,7 +3337,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7559685689817571769, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
       insertIndex: -1
       addedObject: {fileID: 909621878100512083}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3532853166474213501, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3247471964094453220}
   m_SourcePrefab: {fileID: 100100000, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
 --- !u!114 &618799484758352109 stripped
 MonoBehaviour:
@@ -3370,6 +3369,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7559685689817571769, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
   m_PrefabInstance: {fileID: 4631803339159008233}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8160610090911878036 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3532853166474213501, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
+  m_PrefabInstance: {fileID: 4631803339159008233}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3247471964094453220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8160610090911878036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39d4a0ac65cafc844aefeb30becea9f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameText: {fileID: 0}
+  healthBarImage: {fileID: 0}
 --- !u!1001 &5237462488571000133
 PrefabInstance:
   m_ObjectHideFlags: 0

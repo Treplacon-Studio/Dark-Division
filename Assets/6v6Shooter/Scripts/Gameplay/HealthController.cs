@@ -13,11 +13,6 @@ public class HealthController : MonoBehaviourPunCallbacks
     public bool targetDummy;
 
     [SerializeField] PlayerSetup playerSetup;
-
-    public GameObject fpsHandsGameObject;
-    public GameObject fpsHandsOutfit;
-    public GameObject soldierGameObject;
-    public GameObject soldierOutfit;
     public GameObject resCanvas;
     public TextMeshProUGUI resCount;
 
