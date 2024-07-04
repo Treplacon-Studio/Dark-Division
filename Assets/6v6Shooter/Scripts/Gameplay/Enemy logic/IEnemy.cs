@@ -1,4 +1,4 @@
 ﻿internal interface IEnemy
 {
-    void OnHit(int damageAmount);
+    //void OnHit(int damageAmount);
 }

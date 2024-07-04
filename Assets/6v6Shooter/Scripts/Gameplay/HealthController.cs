@@ -49,7 +49,7 @@ public class HealthController : MonoBehaviourPunCallbacks
 
     void Die()
     {
-        if (photonView.IsMine)
+        if (photonView != null && photonView.IsMine)
         {
             if (targetDummy)
             {
@@ -65,6 +65,13 @@ public class HealthController : MonoBehaviourPunCallbacks
                 playerSetup.SwitchToRagdollCamera();
                 StartCoroutine(Respawn());
                 StartCoroutine(CountdownTimer(4));
+            }
+        }
+        else 
+        {
+            if (targetDummy)
+            {
+                RegainHealth();
             }
         }
     }
