@@ -2,7 +2,6 @@ using System.Collections;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
-using Cinemachine;
 
 public class HealthController : MonoBehaviourPunCallbacks
 {
@@ -12,11 +11,6 @@ public class HealthController : MonoBehaviourPunCallbacks
     public bool targetDummy;
 
     [SerializeField] PlayerSetup playerSetup;
-
-    public GameObject fpsHandsGameObject;
-    public GameObject fpsHandsOutfit;
-    public GameObject soldierGameObject;
-    public GameObject soldierOutfit;
 
     public PublicMatchSpawnManager spawnManager;
 
@@ -46,7 +40,7 @@ public class HealthController : MonoBehaviourPunCallbacks
 
     void Die()
     {
-        if (photonView.IsMine)
+        if (photonView != null && photonView.IsMine)
         {
             if (targetDummy)
             {
@@ -59,6 +53,13 @@ public class HealthController : MonoBehaviourPunCallbacks
                 playerSetup.GetComponent<PhotonView>().RPC("EnableRagdollRPC", RpcTarget.All);
                 playerSetup.SwitchToRagdollCamera();
                 StartCoroutine(Respawn());
+            }
+        }
+        else 
+        {
+            if (targetDummy)
+            {
+                RegainHealth();
             }
         }
     }
