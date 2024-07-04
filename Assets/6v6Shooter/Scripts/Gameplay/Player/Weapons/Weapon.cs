@@ -230,7 +230,7 @@ public class WeaponInfo
         },
         {
             WeaponName.FnFive8,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Secondary)
+            new WeaponStats(10, 10, 0.5f, 50, WeaponStats.WeaponType.Secondary)
         },
         {
             WeaponName.DefaultKnife,
