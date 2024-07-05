@@ -39,50 +39,51 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
     }
 
     public Transform GetRandomSpawnPoint(string team)
+{
+    Transform spawnPoint = null;
+    List<Transform> availableSpawnPoints = new List<Transform>();
+
+    if (team == "Red")
     {
-        Transform spawnPoint = null;
-        List<Transform> availableSpawnPoints = new List<Transform>();
-
-        if (team == "Red")
+        foreach (Transform point in redSpawnPoints)
         {
-            foreach (Transform point in redSpawnPoints)
+            if (!occupiedRedSpawnPoints.Contains(point))
             {
-                if (!occupiedRedSpawnPoints.Contains(point))
-                {
-                    availableSpawnPoints.Add(point);
-                }
+                availableSpawnPoints.Add(point);
             }
         }
-        else if (team == "Blue")
-        {
-            foreach (Transform point in blueSpawnPoints)
-            {
-                if (!occupiedBlueSpawnPoints.Contains(point))
-                {
-                    availableSpawnPoints.Add(point);
-                }
-            }
-        }
-        else
-        {
-            Debug.LogError("Invalid team specified!");
-            return null;
-        }
-
-        if (availableSpawnPoints.Count == 0)
-        {
-            Debug.LogError("No available spawn points for team: " + team);
-            return null;
-        }
-
-        // Pick a random spawn point
-        int randomIndex = Random.Range(0, availableSpawnPoints.Count);
-        spawnPoint = availableSpawnPoints[randomIndex];
-
-        Debug.Log($"Selected spawn point for team {team}: {spawnPoint.position}");
-
-        return spawnPoint;
     }
+    else if (team == "Blue")
+    {
+        foreach (Transform point in blueSpawnPoints)
+        {
+            if (!occupiedBlueSpawnPoints.Contains(point))
+            {
+                availableSpawnPoints.Add(point);
+            }
+        }
+    }
+    else
+    {
+        Debug.LogError("Invalid team specified!");
+        return null;
+    }
+
+    if (availableSpawnPoints.Count == 0)
+    {
+        Debug.LogError("No available spawn points for team: " + team);
+        return null;
+    }
+
+    // Pick a random spawn point
+    int randomIndex = Random.Range(0, availableSpawnPoints.Count);
+    spawnPoint = availableSpawnPoints[randomIndex];
+
+    Debug.Log($"Selected spawn point for team {team}: {spawnPoint.position}");
+
+    return spawnPoint;
+}
+
 
     [PunRPC]
     public void MarkSpawnPointOccupied(Vector3 position, Quaternion rotation, string team)
