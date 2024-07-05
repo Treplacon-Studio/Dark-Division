@@ -13,6 +13,7 @@ public class PlayerSetup : MonoBehaviourPun
     
     public GameObject[] fpsHandsGameObject;
     public GameObject[] soldierGameObject;
+    public GameObject playerHUD;
 
     private Animator animator;
     private MovementController movementController;
@@ -216,5 +217,17 @@ public class PlayerSetup : MonoBehaviourPun
             ragdollCamera.enabled = false;
             mainCamera.enabled = true;
         }
+    }
+
+    public void DisableHUD()
+    {
+        if (playerHUD != null)
+            playerHUD.SetActive(false);
+    }
+
+    public void EnableHUD()
+    {
+        if (playerHUD != null)
+            playerHUD.SetActive(true);
     }
 }

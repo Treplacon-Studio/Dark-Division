@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class DummyEnemy : MonoBehaviour, IEnemy
@@ -8,7 +5,6 @@ public class DummyEnemy : MonoBehaviour, IEnemy
     [Header("Define enemy type")]
     [SerializeField] private EnemyType enemyType;
     private Vector3 initialPosition;
-    private Renderer rend;
 
     [Header("DummyOnStick values")]
     private bool isDestroyed = false;
@@ -31,13 +27,10 @@ public class DummyEnemy : MonoBehaviour, IEnemy
     void Start()
     {
         initialPosition = transform.position;
-        rend = GetComponent<Renderer>();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F)) { OnHit(25); }
-
         switch (enemyType)
         {
             case EnemyType.DummyOnStick:
@@ -52,14 +45,6 @@ public class DummyEnemy : MonoBehaviour, IEnemy
                 DummyPatrolerLogic();
                 break;
         }
-    }
-
-    public void OnHit(int damageAmount)
-    {
-        Color newColor = Random.ColorHSV(0f, 1f, 1f, 1f, 1f, 1f);
-        rend.material.color = newColor;
-
-        dummyOnStickHealth -= damageAmount;
     }
 
     private void DummyOnStickLogic()
@@ -115,9 +100,7 @@ public class DummyEnemy : MonoBehaviour, IEnemy
 
             // Check if lerping is complete
             if (lerpPercentage >= 1f)
-            {
                 isLerping = false; // Stop lerping
-            }
         }
     }
 
