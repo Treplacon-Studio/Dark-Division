@@ -6,10 +6,22 @@ using System.IO;
 
 public class PracticeRangeManager : MonoBehaviourPunCallbacks
 {
-    public Transform spawnPoint;
+    public Transform practiceRangeSpawnPosition;
 
     void Start()
     {
-        GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "Player_M01"), spawnPoint.position, spawnPoint.rotation);
+        SpawnPlayerInPracticeRange();
+        SpawnTargetsInPracticeRange();
+    }
+
+    private void SpawnPlayerInPracticeRange()
+    {
+        practiceRangeSpawnPosition.position = new Vector3(-25, 0, 0);
+        PhotonNetwork.Instantiate(Path.Combine("Gameplay", "Player_M01"), practiceRangeSpawnPosition.position, practiceRangeSpawnPosition.rotation);
+    }
+
+    private void SpawnTargetsInPracticeRange()
+    {
+        
     }
 }
