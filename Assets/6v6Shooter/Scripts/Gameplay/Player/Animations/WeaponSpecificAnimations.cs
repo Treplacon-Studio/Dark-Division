@@ -14,6 +14,10 @@ public class WeaponSpecificAnimations : MonoBehaviour
     [SerializeField] private RuntimeAnimatorController tac45Controller;
     
     [SerializeField] private RuntimeAnimatorController fnFiveController;
+    
+    [SerializeField] private RuntimeAnimatorController vector500Controller;
+    
+    [SerializeField] private RuntimeAnimatorController vel308Controller;
 
     public void ChangeAnimations(WeaponInfo.WeaponName n)
     {
@@ -33,6 +37,12 @@ public class WeaponSpecificAnimations : MonoBehaviour
                 break;
             case WeaponInfo.WeaponName.FnFive8:
                 ChangeWeaponAnimations(fnFiveController);
+                break;
+            case WeaponInfo.WeaponName.VectorGhost500:
+                ChangeWeaponAnimations(vector500Controller);
+                break;
+            case WeaponInfo.WeaponName.VelIronclad308:
+                ChangeWeaponAnimations(vel308Controller);
                 break;
         }
     }
