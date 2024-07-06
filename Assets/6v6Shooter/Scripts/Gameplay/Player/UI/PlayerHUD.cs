@@ -55,10 +55,14 @@ public class PlayerHUD : MonoBehaviour
 
     private void UpdateWeaponBoxes()
     {
-        if (ActionsManager.GetInstance(pnc.GetInstanceID())?.Switching.WeaponComponent() is null)
+        var instance = ActionsManager.GetInstance(pnc.GetInstanceID());
+        var switching = instance?.Switching;
+        var weaponComponent = switching?.WeaponComponent();
+        
+        if (instance is null || switching is null || weaponComponent is null)
             return;
 
-        var weaponsNames = ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.GetWeaponsNames();
+        var weaponsNames = switching.GetWeaponsNames();
         currentWeaponName.text = weaponsNames[0];
         hiddenWeaponName.text = weaponsNames[1];
         

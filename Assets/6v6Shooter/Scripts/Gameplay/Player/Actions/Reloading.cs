@@ -82,7 +82,11 @@ public class Reloading : MonoBehaviour
         foreach(var elem in clips)
             if (currentWeapon != null && elem.name == currentWeapon.Info().Name())
                 clip = elem.clip;
-        if (clip is not null) yield return new WaitForSeconds(clip.length + 0.05f);
+        
+        if(clip is null)
+            Debug.LogError("Reloading clip has not been attached.");
+        
+        yield return new WaitForSeconds(clip!.length + 0.05f);
 
         componentHolder.bulletPoolingManager.ResetAmmo(currentWeaponID);
         componentHolder.playerAnimationController.reloadingLock = false;

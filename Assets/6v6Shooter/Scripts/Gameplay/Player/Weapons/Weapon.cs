@@ -214,7 +214,7 @@ public class WeaponInfo
         },
         {
             WeaponName.Dsr50,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary)
+            new WeaponStats(40, 10, 0.1f, 10, WeaponStats.WeaponType.Primary)
         },
         {
             WeaponName.Gauge320,
@@ -226,11 +226,11 @@ public class WeaponInfo
         },
         {
             WeaponName.Tac45,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Secondary)
+            new WeaponStats(10, 10, 0.5f, 10, WeaponStats.WeaponType.Secondary)
         },
         {
             WeaponName.FnFive8,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Secondary)
+            new WeaponStats(10, 10, 0.5f, 50, WeaponStats.WeaponType.Secondary)
         },
         {
             WeaponName.DefaultKnife,

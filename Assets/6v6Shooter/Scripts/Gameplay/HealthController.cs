@@ -36,8 +36,9 @@ public class HealthController : MonoBehaviourPunCallbacks
     public void TakeDamage(float damage)
     {
         health -= damage;
+        Debug.Log($"Health: {health}");
         healthBar.fillAmount = health / startHealth;
-
+        Debug.Log($"Fill: {healthBar.fillAmount}");
         if (health <= 0f)
             Die();
     }
