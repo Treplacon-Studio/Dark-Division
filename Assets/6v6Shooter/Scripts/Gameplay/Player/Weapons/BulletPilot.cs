@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using _6v6Shooter.Scripts.Gameplay;
 using ExitGames.Client.Photon.StructWrapping;
 using Photon.Pun;
 using Unity.VisualScripting;
