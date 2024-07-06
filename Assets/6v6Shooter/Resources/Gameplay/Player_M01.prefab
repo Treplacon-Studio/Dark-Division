@@ -747,7 +747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7921569, g: 0.42419484, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1077,6 +1077,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6949923578105244879}
     m_Modifications:
+    - target: {fileID: 531215125606612801, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
+      propertyPath: m_Color.a
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 944237197057178561, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1141,6 +1145,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3928763778369085011, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
+      propertyPath: PhotonView
+      value: 
+      objectReference: {fileID: 1177123281737511450}
+    - target: {fileID: 3928763778369085011, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
+      propertyPath: NameConatiner
+      value: 
+      objectReference: {fileID: 8160610090911878036}
+    - target: {fileID: 3928763778369085011, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
+      propertyPath: nameHealthContainer
+      value: 
+      objectReference: {fileID: 8160610090911878036}
     - target: {fileID: 3970217830503289651, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
       propertyPath: m_Name
       value: PlayerHUD
@@ -1331,6 +1347,11 @@ MonoBehaviour:
 --- !u!1 &7396244008369022646 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2802299059215799647, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
+  m_PrefabInstance: {fileID: 4631803339159008233}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8160610090911878036 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3532853166474213501, guid: 7d4f1147940e00743b929c2d1206b972, type: 3}
   m_PrefabInstance: {fileID: 4631803339159008233}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8706400325717496374 stripped
