@@ -7,11 +7,13 @@ using System.IO;
 public class PracticeRangeManager : MonoBehaviourPunCallbacks
 {
     public Transform practiceRangeSpawnPosition;
+    public Transform[] practiceDummyType1SpawnPositions;
+    public Transform[] practiceDummyType2SpawnPositions;
 
     void Start()
     {
-        SpawnPlayerInPracticeRange();
         SpawnTargetsInPracticeRange();
+        SpawnPlayerInPracticeRange();
     }
 
     private void SpawnPlayerInPracticeRange()
@@ -22,6 +24,14 @@ public class PracticeRangeManager : MonoBehaviourPunCallbacks
 
     private void SpawnTargetsInPracticeRange()
     {
-        
+        foreach (Transform spawnPosition in practiceDummyType1SpawnPositions)
+        {
+            PhotonNetwork.Instantiate(Path.Combine("TargetPractice", "SM_DummyOnStick"), spawnPosition.position, spawnPosition.rotation);
+        }
+
+        foreach (Transform spawnPosition in practiceDummyType2SpawnPositions)
+        {
+            PhotonNetwork.Instantiate(Path.Combine("TargetPractice", "DummiesOnstick"), spawnPosition.position, spawnPosition.rotation);
+        }
     }
 }
