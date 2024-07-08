@@ -2,7 +2,6 @@ using System.Collections;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
-using Cinemachine;
 using TMPro;
 
 public class HealthController : MonoBehaviourPunCallbacks
@@ -37,6 +36,7 @@ public class HealthController : MonoBehaviourPunCallbacks
     {
         health -= damage;
         healthBar.fillAmount = health / startHealth;
+        Debug.Log(health);
 
         if (health <= 0f)
             Die();
