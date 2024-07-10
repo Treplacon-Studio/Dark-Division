@@ -23,7 +23,6 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
     private List<Transform> occupiedRedSpawnPoints = new List<Transform>();
     private List<Transform> occupiedBlueSpawnPoints = new List<Transform>();
 
-    public Transform practiceRangeSpawnPosition;
 
     private void Awake()
     {
@@ -31,57 +30,44 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
             instance = this;
     }
 
-    void Start()
-    {
-        string currentScene = SceneHandler.Instance.GetCurrentSceneName();
-        if (currentScene == "S05_PracticeRange")
-            SpawnPlayerInPracticeRange();
-    }
-
     public Transform GetRandomSpawnPoint(string team)
-{
-    Transform spawnPoint = null;
-    List<Transform> availableSpawnPoints = new List<Transform>();
-
-    if (team == "Red")
     {
-        foreach (Transform point in redSpawnPoints)
+        Transform spawnPoint = null;
+        List<Transform> availableSpawnPoints = new List<Transform>();
+
+        if (team == "Red")
         {
-            if (!occupiedRedSpawnPoints.Contains(point))
+            foreach (Transform point in redSpawnPoints)
             {
-                availableSpawnPoints.Add(point);
+                if (!occupiedRedSpawnPoints.Contains(point))
+                    availableSpawnPoints.Add(point);
             }
         }
-    }
-    else if (team == "Blue")
-    {
-        foreach (Transform point in blueSpawnPoints)
+        else if (team == "Blue")
         {
-            if (!occupiedBlueSpawnPoints.Contains(point))
+            foreach (Transform point in blueSpawnPoints)
             {
-                availableSpawnPoints.Add(point);
+                if (!occupiedBlueSpawnPoints.Contains(point))
+                    availableSpawnPoints.Add(point);
             }
         }
-    }
-    else
-    {
-        Debug.LogError("Invalid team specified!");
-        return null;
-    }
+        else
+        {
+            Debug.LogError("Invalid team specified!");
+            return null;
+        }
 
-    if (availableSpawnPoints.Count == 0)
-    {
-        Debug.LogError("No available spawn points for team: " + team);
-        return null;
-    }
+        if (availableSpawnPoints.Count == 0)
+        {
+            Debug.LogError("No available spawn points for team: " + team);
+            return null;
+        }
 
-    // Pick a random spawn point
-    int randomIndex = Random.Range(0, availableSpawnPoints.Count);
-    spawnPoint = availableSpawnPoints[randomIndex];
+        // Pick a random spawn point
+        int randomIndex = Random.Range(0, availableSpawnPoints.Count);
+        spawnPoint = availableSpawnPoints[randomIndex];
 
-    Debug.Log($"Selected spawn point for team {team}: {spawnPoint.position}");
-
-    return spawnPoint;
+        return spawnPoint;
 }
 
 
@@ -162,11 +148,5 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
         }
 
         return null;
-    }
-
-    public void SpawnPlayerInPracticeRange()
-    {
-        practiceRangeSpawnPosition.position = new Vector3(-25, 0, 0);
-        PhotonNetwork.Instantiate(Path.Combine("Gameplay", "Player_M01"), practiceRangeSpawnPosition.position, practiceRangeSpawnPosition.rotation);
     }
 }

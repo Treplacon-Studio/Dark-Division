@@ -5,9 +5,9 @@ using Photon.Pun;
 public class FaceCamera : MonoBehaviourPun
 {
     private Transform trans;
-    private UnityEngine.Vector3 offset = new UnityEngine.Vector3(0, 180, 0);
-     public PhotonView PhotonView;
-     public GameObject NameConatiner;
+    private Vector3 offset = new Vector3(0, 180, 0);
+    public PhotonView PhotonView;
+    public GameObject NameConatiner;
 
     void Start()
     {

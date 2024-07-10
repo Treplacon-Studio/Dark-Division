@@ -118,22 +118,6 @@ public class BulletPilot : MonoBehaviour
                     Invoke(nameof(Deactivate), fadeDuration);
                 }
             }
-            //Most likely will be used for gameobjects in the scene and target dummies
-            else 
-            {
-                if (hitObject.CompareTag("TargetDummy"))
-                {
-                    if (!_alreadyHitObjects.Contains(hitObject))
-                    {
-                        HealthController hitHealthController = hitObject.GetComponent<HealthController>();
-                        hitHealthController.TakeDamage(10f);
-
-                        Debug.Log($"{_bulletOwner.name} hits {hitObject.name}!");
-                        _alreadyHitObjects.Add(hitObject);
-                        Invoke(nameof(Deactivate), fadeDuration);
-                    }
-                }
-            }
         }
     }
     
