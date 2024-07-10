@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 
-public class PlayerHUD : MonoBehaviour
+public class PlayerHUD : MonoBehaviourPun
 {
     [SerializeField] private PlayerNetworkController pnc;
     
@@ -33,7 +33,7 @@ public class PlayerHUD : MonoBehaviour
     public TMP_Text TeamScoreText;
     public TMP_Text EnemyScoreText;
 
-    public GameObject GameScorePanel;
+    public GameObject GameScorePanel;    
 
     private bool _hudDisplayed = true;
 
