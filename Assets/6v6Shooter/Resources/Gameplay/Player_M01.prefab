@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 6771075786898946733}
   - component: {fileID: 3156062634620299737}
   - component: {fileID: 865983694801071382}
+  - component: {fileID: 3011949060295142160}
   m_Layer: 8
   m_Name: Player_M01
   m_TagString: Player
@@ -153,6 +154,7 @@ Transform:
   - {fileID: 2921622918413907996}
   - {fileID: 2076209517146114232}
   - {fileID: 1268673735481083641}
+  - {fileID: 4902606074380141218}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5868901327778188909
@@ -465,6 +467,28 @@ MonoBehaviour:
   allGuns:
   - {fileID: 3865421205507840918, guid: 2b5b71e944b012044bbee1933f74ee34, type: 3}
   - {fileID: 7978140472342592121, guid: 27507584088fd0e4cb301a8d7728143c, type: 3}
+--- !u!114 &3011949060295142160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2391168230377457778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e33a9118d1e8c94491958c4741cba46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Camera: {fileID: 7006952169608419981}
+  ObjectToThrow1: {fileID: 557660577158164141, guid: 9eec22de01b7d40408c3d036ff6af7c4, type: 3}
+  ObjectToThrow2: {fileID: 8795372638676980286, guid: 16d8f0a4161914b4d80ef64c0ca690c3, type: 3}
+  EquipmentAmmo1: 10
+  EquipmentAmmo2: 10
+  Cooldown: 1
+  ThrowBtn1: 103
+  ThrowBtn2: 104
+  ThrowForce: 8
+  ThrowUpwardForce: 4
 --- !u!1 &3172153452278017615
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,6 +561,37 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 6496173279460894973}
+--- !u!1 &5565781777099159040
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4902606074380141218}
+  m_Layer: 8
+  m_Name: EquipmentProperties
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4902606074380141218
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5565781777099159040}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6949923578105244879}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5752755769315565896
 GameObject:
   m_ObjectHideFlags: 0
