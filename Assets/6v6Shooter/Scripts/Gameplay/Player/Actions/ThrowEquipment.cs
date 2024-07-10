@@ -6,8 +6,8 @@ public class ThrowEquipment : MonoBehaviour
 {
     [Header("References")]
     public Transform Camera;
-    public GameObject ObjectToThrow1;
-    public GameObject ObjectToThrow2;
+    public GameObject PrimaryEquipment;
+    public GameObject SecondaryEquipment;
 
     [Header("Settings")]
     public int EquipmentAmmo1;
@@ -31,12 +31,12 @@ public class ThrowEquipment : MonoBehaviour
     {
         if (Input.GetKeyDown(ThrowBtn1) && canThrow && EquipmentAmmo1 > 0)
         {
-            Throw(ObjectToThrow1);
+            Throw(PrimaryEquipment);
             EquipmentAmmo1--;
         }
         else if (Input.GetKeyDown(ThrowBtn2) && canThrow && EquipmentAmmo2 > 0)
         {
-            Throw(ObjectToThrow2);
+            Throw(SecondaryEquipment);
             EquipmentAmmo2--;
         }
     }
