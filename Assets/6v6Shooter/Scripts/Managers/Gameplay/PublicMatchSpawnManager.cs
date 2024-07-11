@@ -86,8 +86,6 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
             occupiedRedSpawnPoints.Add(spawnPoint);
         else if (team == "Blue")
             occupiedBlueSpawnPoints.Add(spawnPoint);
-
-        Debug.Log($"Spawn point marked occupied for team {team}: {spawnPoint.position}");
     }
 
     [PunRPC]
