@@ -94,7 +94,7 @@ public class PlayerSetup : MonoBehaviourPun
     //Sets weapons to the player equipment
     //Before calling this method for every weapon's Weapon component set its attachments with 
     //ApplyAttachments[WeaponCategory] method from Weapon class
-    private void SetupWeapons(GameObject[] weapons, int[,] attachments)
+    private void SetupWeapons(string[] weapons, int[,] attachments)
     {
         ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.SetNewEquipment(weapons, attachments);
     }
@@ -103,7 +103,7 @@ public class PlayerSetup : MonoBehaviourPun
     // ---------------
     //  FOR DEBUGGING
     // ---------------
-    public GameObject[] allGuns;
+    public string[] allGuns;
     
     //Method for debugging, automatically loads all weapons to equipment
     //Here can easily test attachments
