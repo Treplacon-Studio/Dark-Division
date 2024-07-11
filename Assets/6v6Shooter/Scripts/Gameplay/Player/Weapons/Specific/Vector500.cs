@@ -19,14 +19,10 @@ public class Vector500 : MonoBehaviour
     private Animator _anim;
 
     private PlayerNetworkController _pnc;
-
-    private void Awake()
-    {
-        _pnc = PlayerUtils.FindComponentInParents<PlayerNetworkController>(gameObject);
-    }
     
     private void Start()
     {
+        _pnc = PlayerUtils.FindComponentInParents<PlayerNetworkController>(gameObject);
         _anim = GetComponent<Animator>();
         _previousShootingLock = ActionsManager.GetInstance(_pnc.GetInstanceID()).ComponentHolder.playerAnimationController.shootingLock;
         if (_anim == null)

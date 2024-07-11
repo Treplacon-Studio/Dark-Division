@@ -1,4 +1,5 @@
 using ExitGames.Client.Photon.StructWrapping;
+using Photon.Pun;
 using UnityEngine;
 
 
@@ -43,7 +44,9 @@ public class Switching : MonoBehaviour
         
         for (var index = 0; index < equippedGuns.Length; index++)
         {
-            equippedGuns[index] = Instantiate(weapons[index], gunSocket.transform);
+            equippedGuns[index] = PhotonNetwork.Instantiate("Weapons/[Submachine gun] Vector-Ghost 500",
+                gunSocket.transform.position,
+                gunSocket.transform.rotation * Quaternion.Euler(90, 0, 0));
             equippedGuns[index].GetComponent<Weapon>().ApplyAttachmentsAssaultRifle(attachments, index);
             if (equippedGuns[index] != null)
                 equippedGuns[index].SetActive(false);

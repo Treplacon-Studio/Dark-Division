@@ -35,9 +35,8 @@ public class Recoil : MonoBehaviour
     private BoneRotator _playerBoneRotator;
 
     private PlayerNetworkController _pnc;
-
-    void Awake()
-    {
+    
+    void Start() {
         _pnc = PlayerUtils.FindComponentInParents<PlayerNetworkController>(gameObject);
         _playerVirtualCamera = ActionsManager.GetInstance(_pnc.GetInstanceID()).ComponentHolder.bulletPoolingManager
             .player.FindComponentInDescendants<CinemachineVirtualCamera>();
@@ -45,9 +44,7 @@ public class Recoil : MonoBehaviour
             .player.FindComponentInDescendants<BoneRotator>();
         cameraShakeIntensity *= 0.00001f;
         cameraShakeIntensityAds *= 0.00001f;
-    }
-    
-    void Start() {
+        
         _originalRotation = Quaternion.Euler(90, 0, 0);
         _cameraOriginalPosition = _playerVirtualCamera.transform.localPosition;
     }
