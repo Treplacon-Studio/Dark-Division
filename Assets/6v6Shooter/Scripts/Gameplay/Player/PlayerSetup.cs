@@ -26,7 +26,8 @@ public class PlayerSetup : MonoBehaviourPun
     
     void Start()
     {
-        AutoLoadAllWeapons();
+        if (photonView.IsMine)
+            AutoLoadAllWeapons();
         
         playerCamera = GetComponentInChildren<CinemachineVirtualCamera>(true);
 

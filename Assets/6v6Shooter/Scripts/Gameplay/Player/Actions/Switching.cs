@@ -27,9 +27,9 @@ public class Switching : MonoBehaviour
     public void SetNewEquipment(string[] weapons, int[,] attachments)
     {
         _gunInHandsIndex = 0;
-        
-        if(equippedGuns is not null)
-        { 
+
+        if (equippedGuns is not null)
+        {
             foreach (var gun in equippedGuns)
             {
                 gun.SetActive(false);
@@ -37,17 +37,18 @@ public class Switching : MonoBehaviour
                 DestroyImmediate(gun, true);
             }
         }
-        
+
         equippedGuns = new GameObject[weapons.Length];
         componentHolder.bulletPoolingManager.ClearPools();
-        
+
         for (var index = 0; index < equippedGuns.Length; index++)
         {
             equippedGuns[index] = PhotonNetwork.Instantiate(weapons[index],
                 gunSocket.transform.position,
                 gunSocket.transform.rotation * Quaternion.Euler(90, 0, 0));
-            equippedGuns[index].transform.parent = gunSocket.transform;
-            
+            //equippedGuns[index].transform.parent = gunSocket.transform;
+            equippedGuns[index].gameObject.GetComponent<PhotonParenting>().Parent(gunSocket);
+
             equippedGuns[index].GetComponent<Weapon>().ApplyAttachmentsAssaultRifle(attachments, index);
             if (equippedGuns[index] != null)
                 equippedGuns[index].SetActive(false);
