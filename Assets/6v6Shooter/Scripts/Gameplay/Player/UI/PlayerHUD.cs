@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 
-public class PlayerHUD : MonoBehaviour
+public class PlayerHUD : MonoBehaviourPun
 {
     [SerializeField] private PlayerNetworkController pnc;
     
@@ -33,13 +33,23 @@ public class PlayerHUD : MonoBehaviour
     public TMP_Text TeamScoreText;
     public TMP_Text EnemyScoreText;
 
+    public GameObject GameScorePanel;    
+
     private bool _hudDisplayed = true;
 
     private void Awake()
     {
-         string currentScene = SceneHandler.Instance.GetCurrentSceneName();
+        string currentScene = SceneHandler.Instance.GetCurrentSceneName();
         if (currentScene == "S05_PracticeRange")
             _hudDisplayed = false;
+    }
+
+    void Start()
+    {
+        if (_hudDisplayed is true)
+            GameScorePanel.SetActive(true);
+        else 
+            GameScorePanel.SetActive(false);
     }
 
     private void Update()

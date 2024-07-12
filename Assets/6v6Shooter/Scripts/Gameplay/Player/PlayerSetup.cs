@@ -14,6 +14,7 @@ public class PlayerSetup : MonoBehaviourPun
     public GameObject[] fpsHandsGameObject;
     public GameObject[] soldierGameObject;
     public GameObject playerHUD;
+    public GameObject[] MiniMapObjects;
 
     private Animator animator;
     private MovementController movementController;
@@ -42,6 +43,13 @@ public class PlayerSetup : MonoBehaviourPun
 
             transform.GetComponent<MovementController>().enabled = true;
             transform.GetComponentInChildren<PlayerAnimationController>().enabled = true;
+
+            foreach (var item in MiniMapObjects)
+            {
+                item.SetActive(true);
+            }
+            
+            EnableHUD();
         }
         else
         {
@@ -52,6 +60,13 @@ public class PlayerSetup : MonoBehaviourPun
 
             transform.GetComponent<MovementController>().enabled = false;
             transform.GetComponentInChildren<PlayerAnimationController>().enabled = false;
+
+            foreach (var item in MiniMapObjects)
+            {
+                item.SetActive(false);
+            }
+
+            DisableHUD();
         }
 
         animator = GetComponentInChildren<Animator>();

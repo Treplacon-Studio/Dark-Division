@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneHandler : MonoBehaviour
 {
-     //enum game states
+    //enum game states
     public enum GameState
     {
         MainMenu,
