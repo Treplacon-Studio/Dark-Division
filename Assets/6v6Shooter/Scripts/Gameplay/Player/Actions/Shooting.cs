@@ -26,7 +26,7 @@ public class Shooting : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void RPC_AutomaticFire()
+    public void RPC_AutomaticFire()
     {
         if (ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent() is null)
             return;

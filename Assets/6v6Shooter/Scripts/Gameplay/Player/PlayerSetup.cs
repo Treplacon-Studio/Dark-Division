@@ -107,14 +107,6 @@ public class PlayerSetup : MonoBehaviourPun
         }
     }
     
-    //Sets weapons to the player equipment
-    //Before calling this method for every weapon's Weapon component set its attachments with 
-    //ApplyAttachments[WeaponCategory] method from Weapon class
-    private void SetupWeapons(string[] weapons, int[,] attachments)
-    {
-        ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.SetNewEquipment(weapons, attachments);
-    }
-    
     // ---------------
     //  FOR DEBUGGING
     // ---------------
@@ -133,7 +125,7 @@ public class PlayerSetup : MonoBehaviourPun
             {0, -1, -1, -1, -1},
         };
         
-        SetupWeapons(allGuns, attachments);
+        ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.SetNewEquipment(allGuns, attachments);
     }
 
     [PunRPC]

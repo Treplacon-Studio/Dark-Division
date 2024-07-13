@@ -23,7 +23,7 @@ public class Switching : MonoBehaviourPunCallbacks
     {
         ActionsManager.GetInstance(pnc.GetInstanceID()).Switching = this;
     }
-
+    
     public void SetNewEquipment(string[] weapons, int[,] attachments)
     {
         _gunInHandsIndex = 0;
@@ -32,7 +32,7 @@ public class Switching : MonoBehaviourPunCallbacks
         {
             foreach (var gun in equippedGuns)
             {
-                gun.GetComponent<PhotonActivating>().SetActive(false);
+                gun.SetActive(false);
                 gun.transform.SetParent(null);
                 DestroyImmediate(gun, true);
             }
@@ -46,11 +46,12 @@ public class Switching : MonoBehaviourPunCallbacks
             equippedGuns[index] = PhotonNetwork.Instantiate(weapons[index],
                 gunSocket.transform.position,
                 gunSocket.transform.rotation * Quaternion.Euler(90, 0, 0));
-            equippedGuns[index].gameObject.GetComponent<PhotonParenting>().Parent(gunSocket);
+            
+            equippedGuns[index].transform.SetParent(gunSocket.transform);
 
             equippedGuns[index].GetComponent<Weapon>().ApplyAttachmentsAssaultRifle(attachments, index);
             if (equippedGuns[index] != null)
-                equippedGuns[index].GetComponent<PhotonActivating>().SetActive(false);
+                equippedGuns[index].SetActive(false);
             else
                 Debug.LogError("Equipped gun is null!");
             equippedGuns[index].transform.SetParent(gunSocket.transform);
@@ -69,10 +70,10 @@ public class Switching : MonoBehaviourPunCallbacks
     {
         _gunInHandsIndex = wn;
         foreach (var w in equippedGuns)
-            w.GetComponent<PhotonActivating>().SetActive(false);
+            w.SetActive(false);
         componentHolder.weaponSpecificAnimations.ChangeAnimations(equippedGuns[wn].GetComponent<Weapon>().Info().Name());
         _weapon = equippedGuns[wn];
-        _weapon.GetComponent<PhotonActivating>().SetActive(true);
+        _weapon.SetActive(true);
     }
 
     public void Run()
