@@ -28,7 +28,7 @@ public class PlayerSetup : MonoBehaviourPun
     void Start()
     {
         if (photonView.IsMine)
-            AutoLoadAllWeapons();
+            photonView.RPC("RPC_AutoLoadAllWeapons", RpcTarget.All);
         
         playerCamera = GetComponentInChildren<CinemachineVirtualCamera>(true);
 
@@ -114,7 +114,6 @@ public class PlayerSetup : MonoBehaviourPun
     {
         ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.SetNewEquipment(weapons, attachments);
     }
-
     
     // ---------------
     //  FOR DEBUGGING
@@ -123,7 +122,9 @@ public class PlayerSetup : MonoBehaviourPun
     
     //Method for debugging, automatically loads all weapons to equipment
     //Here can easily test attachments
-    private void AutoLoadAllWeapons()
+
+    [PunRPC]
+    private void RPC_AutoLoadAllWeapons()
     {
         int[,] attachments =
         {

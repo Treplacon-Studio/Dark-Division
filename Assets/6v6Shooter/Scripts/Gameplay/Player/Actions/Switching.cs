@@ -2,7 +2,7 @@ using Photon.Pun;
 using UnityEngine;
 
 
-public class Switching : MonoBehaviour
+public class Switching : MonoBehaviourPunCallbacks
 {
     [SerializeField] private PlayerNetworkController pnc;
     
@@ -72,7 +72,7 @@ public class Switching : MonoBehaviour
             w.GetComponent<PhotonActivating>().SetActive(false);
         componentHolder.weaponSpecificAnimations.ChangeAnimations(equippedGuns[wn].GetComponent<Weapon>().Info().Name());
         _weapon = equippedGuns[wn];
-        _weapon.GetComponent<PhotonActivating>().SetActive(true);;
+        _weapon.GetComponent<PhotonActivating>().SetActive(true);
     }
 
     public void Run()
