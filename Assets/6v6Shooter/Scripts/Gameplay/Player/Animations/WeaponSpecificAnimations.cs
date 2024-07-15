@@ -18,6 +18,8 @@ public class WeaponSpecificAnimations : MonoBehaviour
     [SerializeField] private RuntimeAnimatorController vector500Controller;
     
     [SerializeField] private RuntimeAnimatorController vel308Controller;
+    
+    [SerializeField] private RuntimeAnimatorController balistaVortexController;
 
     public void ChangeAnimations(WeaponInfo.WeaponName n)
     {
@@ -43,6 +45,9 @@ public class WeaponSpecificAnimations : MonoBehaviour
                 break;
             case WeaponInfo.WeaponName.VelIronclad308:
                 ChangeWeaponAnimations(vel308Controller);
+                break;
+            case WeaponInfo.WeaponName.BalistaVortex:
+                ChangeWeaponAnimations(balistaVortexController);
                 break;
         }
     }

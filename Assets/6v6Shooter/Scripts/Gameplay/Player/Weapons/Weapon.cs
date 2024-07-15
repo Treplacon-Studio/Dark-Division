@@ -210,7 +210,7 @@ public class WeaponInfo
         },
         {
             WeaponName.BalistaVortex,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary)
+            new WeaponStats(40, 10, 0.1f, 10, WeaponStats.WeaponType.Primary)
         },
         {
             WeaponName.Dsr50,

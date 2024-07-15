@@ -13,9 +13,6 @@ public class Reloading : MonoBehaviour
     [SerializeField] [Tooltip("Left hand.")]
     private GameObject leftHand;
 
-    [SerializeField] [Tooltip("Clips for specific weapon animations.")]
-    private WeaponAnimation[] clips;
-
     private LocalTransformStructure _tWeaponMagSocket;
 
     private readonly struct LocalTransformStructure
@@ -76,12 +73,9 @@ public class Reloading : MonoBehaviour
         var currentWeaponID = ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.GetCurrentWeaponID();
         
         componentHolder.playerAnimationController.reloadingLock = true;
-        var animator = componentHolder.playerAnimationController.anim;
-        AnimationClip clip = null;
         var currentWeapon = ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent();
-        foreach(var elem in clips)
-            if (currentWeapon != null && elem.name == currentWeapon.Info().Name())
-                clip = elem.clip;
+        var clip = GetComponent<AnimationClipsHolder>()
+            .baseWeaponAnimations[(int)currentWeapon.Info().Name()].reload;
         
         if(clip is null)
             Debug.LogError("Reloading clip has not been attached.");
