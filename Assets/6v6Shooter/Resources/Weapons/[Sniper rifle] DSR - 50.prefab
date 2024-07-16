@@ -79,6 +79,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: cfb55eca0d4423c41a9f455970803f76, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a112271ba8c011945a67a28a189c7af8, type: 2}
     - target: {fileID: 919132149155446097, guid: cfb55eca0d4423c41a9f455970803f76, type: 3}
       propertyPath: m_Name
       value: SniperBarrel - Default (DSR - 50)
@@ -166,6 +170,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 8daca9bc1e7aec64284caf9c492ca065, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a112271ba8c011945a67a28a189c7af8, type: 2}
     - target: {fileID: 919132149155446097, guid: 8daca9bc1e7aec64284caf9c492ca065, type: 3}
       propertyPath: m_Name
       value: Mag_Sniper - Extended
@@ -270,6 +278,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c8acc4935dbe48843a26f601e2cb68a8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a112271ba8c011945a67a28a189c7af8, type: 2}
     - target: {fileID: 919132149155446097, guid: c8acc4935dbe48843a26f601e2cb68a8, type: 3}
       propertyPath: m_Name
       value: Mag_Sniper - Double
@@ -374,13 +386,21 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -4921691290398879190, guid: 50c4d85c2b24cbc469455d0b78a46eba, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a112271ba8c011945a67a28a189c7af8, type: 2}
+    - target: {fileID: -4921691290398879190, guid: 50c4d85c2b24cbc469455d0b78a46eba, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: a112271ba8c011945a67a28a189c7af8, type: 2}
     - target: {fileID: 919132149155446097, guid: 50c4d85c2b24cbc469455d0b78a46eba, type: 3}
       propertyPath: m_Name
       value: '[Sniper rifle] DSR - 50'
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 50c4d85c2b24cbc469455d0b78a46eba, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -422,6 +442,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 50c4d85c2b24cbc469455d0b78a46eba, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8023835979996127092}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 50c4d85c2b24cbc469455d0b78a46eba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -5153850925074726023}
   m_SourcePrefab: {fileID: 100100000, guid: 50c4d85c2b24cbc469455d0b78a46eba, type: 3}
 --- !u!4 &788929427178444893 stripped
 Transform:
@@ -519,10 +542,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recoil: 0
-  maxRecoilX: -30
-  maxRecoilY: 3
+  verticalRecoilLimit: -2.5
+  horizontalRecoilLimit: 10
+  randomHorizontalRecoil: 0
   recoilSpeed: 50
-  _originalRotation: {x: 0, y: 0, z: 0, w: 0}
+  cameraRecoilPower: 0.005
+  cameraShakeIntensity: 5
+  cameraShakeDuration: 0.1
+  verticalRecoilLimitAds: -2.5
+  horizontalRecoilLimitAds: 10
+  randomHorizontalRecoilAds: 0
+  recoilSpeedAds: 40
+  cameraRecoilPowerAds: 0.005
+  cameraShakeIntensityAds: 5
+  cameraShakeDurationAds: 0.1
+--- !u!114 &-5153850925074726023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4157387243052243831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!4 &4842816863459116124 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8522583170679513722, guid: 50c4d85c2b24cbc469455d0b78a46eba, type: 3}
@@ -597,6 +652,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 2115e2691d74df94eb8940f68030bf15, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a112271ba8c011945a67a28a189c7af8, type: 2}
     - target: {fileID: 919132149155446097, guid: 2115e2691d74df94eb8940f68030bf15, type: 3}
       propertyPath: m_Name
       value: Mag_Sniper - ExtendedDouble
@@ -701,6 +760,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 3639c9b3a4202a847b7f33fbb233be4b, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a112271ba8c011945a67a28a189c7af8, type: 2}
     - target: {fileID: 919132149155446097, guid: 3639c9b3a4202a847b7f33fbb233be4b, type: 3}
       propertyPath: m_Name
       value: Mag_Sniper - Default
@@ -805,6 +868,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 576f278e0f810044ba07964cbd1653ab, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a112271ba8c011945a67a28a189c7af8, type: 2}
     - target: {fileID: 919132149155446097, guid: 576f278e0f810044ba07964cbd1653ab, type: 3}
       propertyPath: m_Name
       value: Mag_Sniper - Fast
@@ -893,6 +960,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c21eee0268762c14a9a29b06a27524d0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a112271ba8c011945a67a28a189c7af8, type: 2}
     - target: {fileID: 919132149155446097, guid: c21eee0268762c14a9a29b06a27524d0, type: 3}
       propertyPath: m_Name
       value: Sight - Default (DSR - 50)

@@ -1,7 +1,8 @@
 using UnityEngine;
+using Photon.Pun;
 
 
-public class Shooting : MonoBehaviour
+public class Shooting : MonoBehaviourPunCallbacks
 {
     [SerializeField] private PlayerNetworkController pnc;
     
@@ -19,6 +20,13 @@ public class Shooting : MonoBehaviour
     }
 
     private void AutomaticFire()
+    {
+        if (pnc.PhotonViewIsMine())
+            photonView.RPC("RPC_AutomaticFire", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RPC_AutomaticFire()
     {
         if (ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent() is null)
             return;

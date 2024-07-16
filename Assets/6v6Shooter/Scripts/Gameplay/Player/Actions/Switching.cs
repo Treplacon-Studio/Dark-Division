@@ -1,8 +1,8 @@
-using ExitGames.Client.Photon.StructWrapping;
+using Photon.Pun;
 using UnityEngine;
 
 
-public class Switching : MonoBehaviour
+public class Switching : MonoBehaviourPunCallbacks
 {
     [SerializeField] private PlayerNetworkController pnc;
     
@@ -23,13 +23,13 @@ public class Switching : MonoBehaviour
     {
         ActionsManager.GetInstance(pnc.GetInstanceID()).Switching = this;
     }
-
-    public void SetNewEquipment(GameObject[] weapons, int[,] attachments)
+    
+    public void SetNewEquipment(string[] weapons, int[,] attachments)
     {
         _gunInHandsIndex = 0;
-        
-        if(equippedGuns is not null)
-        { 
+
+        if (equippedGuns is not null)
+        {
             foreach (var gun in equippedGuns)
             {
                 gun.SetActive(false);
@@ -37,13 +37,18 @@ public class Switching : MonoBehaviour
                 DestroyImmediate(gun, true);
             }
         }
-        
+
         equippedGuns = new GameObject[weapons.Length];
         componentHolder.bulletPoolingManager.ClearPools();
-        
+
         for (var index = 0; index < equippedGuns.Length; index++)
         {
-            equippedGuns[index] = Instantiate(weapons[index], gunSocket.transform);
+            equippedGuns[index] = PhotonNetwork.Instantiate(weapons[index],
+                gunSocket.transform.position,
+                gunSocket.transform.rotation * Quaternion.Euler(90, 0, 0));
+            
+            equippedGuns[index].transform.SetParent(gunSocket.transform);
+
             equippedGuns[index].GetComponent<Weapon>().ApplyAttachmentsAssaultRifle(attachments, index);
             if (equippedGuns[index] != null)
                 equippedGuns[index].SetActive(false);

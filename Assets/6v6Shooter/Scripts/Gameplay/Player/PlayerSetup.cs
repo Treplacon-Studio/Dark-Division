@@ -27,7 +27,8 @@ public class PlayerSetup : MonoBehaviourPun
     
     void Start()
     {
-        AutoLoadAllWeapons();
+        if (photonView.IsMine)
+            photonView.RPC("RPC_AutoLoadAllWeapons", RpcTarget.All);
         
         playerCamera = GetComponentInChildren<CinemachineVirtualCamera>(true);
 
@@ -106,32 +107,25 @@ public class PlayerSetup : MonoBehaviourPun
         }
     }
     
-    //Sets weapons to the player equipment
-    //Before calling this method for every weapon's Weapon component set its attachments with 
-    //ApplyAttachments[WeaponCategory] method from Weapon class
-    private void SetupWeapons(GameObject[] weapons, int[,] attachments)
-    {
-        ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.SetNewEquipment(weapons, attachments);
-    }
-
-    
     // ---------------
     //  FOR DEBUGGING
     // ---------------
-    public GameObject[] allGuns;
+    public string[] allGuns;
     
     //Method for debugging, automatically loads all weapons to equipment
     //Here can easily test attachments
-    private void AutoLoadAllWeapons()
+
+    [PunRPC]
+    private void RPC_AutoLoadAllWeapons()
     {
         int[,] attachments =
         {
-            {0, -1, -1, -1, -1},
-            {0, -1, -1, -1, -1},
+            {0, 0, 0, -1, -1},
+            {0, -1, 0, 0, -1},
             {0, -1, -1, -1, -1},
         };
         
-        SetupWeapons(allGuns, attachments);
+        ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.SetNewEquipment(allGuns, attachments);
     }
 
     [PunRPC]

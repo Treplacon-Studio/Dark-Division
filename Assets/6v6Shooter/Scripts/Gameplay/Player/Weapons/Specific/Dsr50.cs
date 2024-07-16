@@ -29,6 +29,7 @@ public class Dsr50 : MonoBehaviour
     private void Start()
     {
         _anim = GetComponent<Animator>();
+        _pnc ??= PlayerUtils.FindComponentInParents<PlayerNetworkController>(gameObject);
         _previousShootingLock = ActionsManager.GetInstance(_pnc.GetInstanceID()).ComponentHolder.playerAnimationController.shootingLock;
         if (_anim == null)
             Debug.LogError("Weapon animator not found.");
@@ -79,6 +80,8 @@ public class Dsr50 : MonoBehaviour
         if (_anim.GetBool("pCogh"))
             _anim.SetBool("pCogh", false);
 
+        _pnc ??= PlayerUtils.FindComponentInParents<PlayerNetworkController>(gameObject);
+        
         //Reloading cogh
         if (ActionsManager.GetInstance(_pnc.GetInstanceID()).ComponentHolder.playerAnimationController.reloadingLock)
         {

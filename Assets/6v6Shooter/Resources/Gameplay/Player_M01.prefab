@@ -276,6 +276,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 4725852122799245703}
   - {fileID: 6281329577703691064}
+  - {fileID: 5639729583711772724}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -463,8 +464,8 @@ MonoBehaviour:
   mainCamera: {fileID: 3578215366242738822}
   ragdollCamera: {fileID: 2845504193458648595}
   allGuns:
-  - {fileID: 3865421205507840918, guid: 2b5b71e944b012044bbee1933f74ee34, type: 3}
-  - {fileID: 7978140472342592121, guid: 27507584088fd0e4cb301a8d7728143c, type: 3}
+  - Weapons/[Sniper rifle] DSR - 50
+  - Weapons/[Submachine gun] Vector-Ghost 500
 --- !u!1 &3172153452278017615
 GameObject:
   m_ObjectHideFlags: 0
@@ -2648,6 +2649,9 @@ PrefabInstance:
       addedObject: {fileID: 1459547178906316190}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 5931777065478430053}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1808419031248484775}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
       insertIndex: -1
@@ -2682,6 +2686,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6281329577703691064}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9219427702174086113}
     - targetCorrespondingSourceObject: {fileID: 1427564092133216371, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6190474195967591875}
@@ -2703,6 +2710,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3191471581941501502, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5401899042492567940}
+    - targetCorrespondingSourceObject: {fileID: 3191471581941501502, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5639729583711772724}
     - targetCorrespondingSourceObject: {fileID: 7314640086900818429, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5569138067219044064}
@@ -2748,6 +2758,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -2872130700342054256, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6356603621406675852}
+    - targetCorrespondingSourceObject: {fileID: -77777678413688990, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9063971171221916293}
     - targetCorrespondingSourceObject: {fileID: 9202385070671585391, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5612404444478992560}
@@ -3027,6 +3040,28 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -77777678413688990, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
   m_PrefabInstance: {fileID: 8636887660519547295}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &9063971171221916293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664226021943963389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!4 &712445070465718704 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -126243084094752721, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
@@ -4167,7 +4202,22 @@ MonoBehaviour:
       m_Action: Look
       m_Flags: 0
     m_Flags: 0
-  PhotonView: {fileID: 1177123281737511450}
+--- !u!114 &5639729583711772724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6599464432287903649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!4 &6815833586663924901 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -6247945034147084998, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
@@ -4426,6 +4476,155 @@ MonoBehaviour:
   bulletPoolingManager: {fileID: 6442591284501692457}
   weaponSpecificAnimations: {fileID: 4436818288665304464}
   PlayerPhotonView: {fileID: 1177123281737511450}
+--- !u!114 &5931777065478430053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8871258114443566286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b14b9ea00f518548a1ccdccba8f11e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementAnimations:
+  - idle: {fileID: 2881052850308745032, guid: b480ae7471ba63f46b768d78ebbbbdf1, type: 3}
+    walk: {fileID: -5682774410706092184, guid: b480ae7471ba63f46b768d78ebbbbdf1, type: 3}
+    run: {fileID: 6476583994964581476, guid: b480ae7471ba63f46b768d78ebbbbdf1, type: 3}
+    jump: {fileID: -4452253151045449904, guid: b480ae7471ba63f46b768d78ebbbbdf1, type: 3}
+  - idle: {fileID: -3424281674504759409, guid: 07fe6388d7b1b79488bd79273d3033cf, type: 3}
+    walk: {fileID: 3154452018312941466, guid: 07fe6388d7b1b79488bd79273d3033cf, type: 3}
+    run: {fileID: 8868456501920979953, guid: 07fe6388d7b1b79488bd79273d3033cf, type: 3}
+    jump: {fileID: -5449367548539806683, guid: 07fe6388d7b1b79488bd79273d3033cf, type: 3}
+  - idle: {fileID: 4421086351376145278, guid: cf0531b92c2eda245a41100b9a7b5dfe, type: 3}
+    walk: {fileID: 5969079820934640756, guid: cf0531b92c2eda245a41100b9a7b5dfe, type: 3}
+    run: {fileID: 1085845443486272988, guid: cf0531b92c2eda245a41100b9a7b5dfe, type: 3}
+    jump: {fileID: -400972367839357116, guid: cf0531b92c2eda245a41100b9a7b5dfe, type: 3}
+  - idle: {fileID: -1393372591448042605, guid: b17f9047d0350cc4ea0b823190cb60a6, type: 3}
+    walk: {fileID: -7504066363271432684, guid: b17f9047d0350cc4ea0b823190cb60a6, type: 3}
+    run: {fileID: -61536942183898437, guid: b17f9047d0350cc4ea0b823190cb60a6, type: 3}
+    jump: {fileID: 909065471402926194, guid: b17f9047d0350cc4ea0b823190cb60a6, type: 3}
+  - idle: {fileID: -1155298627367462585, guid: be7f1b53d4349624caf26ec8d0f030a8, type: 3}
+    walk: {fileID: -8344442285558231490, guid: be7f1b53d4349624caf26ec8d0f030a8, type: 3}
+    run: {fileID: 5437511178172631833, guid: be7f1b53d4349624caf26ec8d0f030a8, type: 3}
+    jump: {fileID: 2083204409846926503, guid: be7f1b53d4349624caf26ec8d0f030a8, type: 3}
+  - idle: {fileID: 2702240203946539215, guid: aff88c46469144f4690969cdebf27e3e, type: 3}
+    walk: {fileID: 5132440209589262647, guid: aff88c46469144f4690969cdebf27e3e, type: 3}
+    run: {fileID: 7589993537951031402, guid: aff88c46469144f4690969cdebf27e3e, type: 3}
+    jump: {fileID: 1305929222239249596, guid: aff88c46469144f4690969cdebf27e3e, type: 3}
+  - idle: {fileID: 0}
+    walk: {fileID: 0}
+    run: {fileID: 0}
+    jump: {fileID: 0}
+  - idle: {fileID: 0}
+    walk: {fileID: 0}
+    run: {fileID: 0}
+    jump: {fileID: 0}
+  - idle: {fileID: 3523925853070356776, guid: e7e0fd63149a5274c899d6df1aa3a0b7, type: 3}
+    walk: {fileID: 3450113025050765552, guid: e7e0fd63149a5274c899d6df1aa3a0b7, type: 3}
+    run: {fileID: -1210244320495202671, guid: e7e0fd63149a5274c899d6df1aa3a0b7, type: 3}
+    jump: {fileID: 4798260825220106233, guid: e7e0fd63149a5274c899d6df1aa3a0b7, type: 3}
+  - idle: {fileID: 2036777213075586210, guid: af39e962cce4ac345afe3c63f544435e, type: 3}
+    walk: {fileID: -8573665147023216644, guid: af39e962cce4ac345afe3c63f544435e, type: 3}
+    run: {fileID: 6030900005534924323, guid: af39e962cce4ac345afe3c63f544435e, type: 3}
+    jump: {fileID: 5964930527669360201, guid: af39e962cce4ac345afe3c63f544435e, type: 3}
+  - idle: {fileID: 0}
+    walk: {fileID: 0}
+    run: {fileID: 0}
+    jump: {fileID: 0}
+  - idle: {fileID: 0}
+    walk: {fileID: 0}
+    run: {fileID: 0}
+    jump: {fileID: 0}
+  - idle: {fileID: 0}
+    walk: {fileID: 0}
+    run: {fileID: 0}
+    jump: {fileID: 0}
+  - idle: {fileID: 0}
+    walk: {fileID: 0}
+    run: {fileID: 0}
+    jump: {fileID: 0}
+  - idle: {fileID: 0}
+    walk: {fileID: 0}
+    run: {fileID: 0}
+    jump: {fileID: 0}
+  baseWeaponAnimations:
+  - inspect: {fileID: -5966658422511217176, guid: b480ae7471ba63f46b768d78ebbbbdf1, type: 3}
+    reload: {fileID: 3297057325586623611, guid: 2c0f09b05b308b34ca55447af1d7958b, type: 3}
+    ads: {fileID: -8260616908297003055, guid: b480ae7471ba63f46b768d78ebbbbdf1, type: 3}
+    shootAds: {fileID: 8082673829993197979, guid: b480ae7471ba63f46b768d78ebbbbdf1, type: 3}
+    shootHfr: {fileID: -3623026698698365809, guid: b480ae7471ba63f46b768d78ebbbbdf1, type: 3}
+  - inspect: {fileID: -1643195173839614823, guid: 07fe6388d7b1b79488bd79273d3033cf, type: 3}
+    reload: {fileID: -3611874855109080695, guid: 36e9398e8a092b747a52cc4780ed9dba, type: 3}
+    ads: {fileID: -6108092664051711537, guid: 07fe6388d7b1b79488bd79273d3033cf, type: 3}
+    shootAds: {fileID: 134173532364432782, guid: 07fe6388d7b1b79488bd79273d3033cf, type: 3}
+    shootHfr: {fileID: -2329744329367712483, guid: 07fe6388d7b1b79488bd79273d3033cf, type: 3}
+  - inspect: {fileID: 5716555757823242163, guid: cf0531b92c2eda245a41100b9a7b5dfe, type: 3}
+    reload: {fileID: -6504449474477443759, guid: 4519743c38afaba408a5241b47fddf1e, type: 3}
+    ads: {fileID: -398042002482421668, guid: cf0531b92c2eda245a41100b9a7b5dfe, type: 3}
+    shootAds: {fileID: 3174046406187226632, guid: cf0531b92c2eda245a41100b9a7b5dfe, type: 3}
+    shootHfr: {fileID: 7147635895577297749, guid: cf0531b92c2eda245a41100b9a7b5dfe, type: 3}
+  - inspect: {fileID: 3072983801525347870, guid: b17f9047d0350cc4ea0b823190cb60a6, type: 3}
+    reload: {fileID: 5628895712930882831, guid: ef978d485c4a44440a169d946506948e, type: 3}
+    ads: {fileID: 3029804416484751695, guid: b17f9047d0350cc4ea0b823190cb60a6, type: 3}
+    shootAds: {fileID: -6094300023105914722, guid: b17f9047d0350cc4ea0b823190cb60a6, type: 3}
+    shootHfr: {fileID: -2498207934861717673, guid: b17f9047d0350cc4ea0b823190cb60a6, type: 3}
+  - inspect: {fileID: 2816429058466958280, guid: be7f1b53d4349624caf26ec8d0f030a8, type: 3}
+    reload: {fileID: 3862663208298896915, guid: 42af252740ea8894a8f0649284656e3e, type: 3}
+    ads: {fileID: -4678287342876149405, guid: be7f1b53d4349624caf26ec8d0f030a8, type: 3}
+    shootAds: {fileID: -4384788563899253386, guid: be7f1b53d4349624caf26ec8d0f030a8, type: 3}
+    shootHfr: {fileID: -2007723707990744818, guid: be7f1b53d4349624caf26ec8d0f030a8, type: 3}
+  - inspect: {fileID: 7191473947735470651, guid: aff88c46469144f4690969cdebf27e3e, type: 3}
+    reload: {fileID: -132744109375073833, guid: b7ad11fab64ba1c4591944b2ca1ba554, type: 3}
+    ads: {fileID: -4367948711705842137, guid: aff88c46469144f4690969cdebf27e3e, type: 3}
+    shootAds: {fileID: -8711158386732774590, guid: aff88c46469144f4690969cdebf27e3e, type: 3}
+    shootHfr: {fileID: 5489775592519124195, guid: aff88c46469144f4690969cdebf27e3e, type: 3}
+  - inspect: {fileID: 0}
+    reload: {fileID: 0}
+    ads: {fileID: 0}
+    shootAds: {fileID: 0}
+    shootHfr: {fileID: 0}
+  - inspect: {fileID: 0}
+    reload: {fileID: 0}
+    ads: {fileID: 0}
+    shootAds: {fileID: 0}
+    shootHfr: {fileID: 0}
+  - inspect: {fileID: -4028160381980160679, guid: e7e0fd63149a5274c899d6df1aa3a0b7, type: 3}
+    reload: {fileID: 3483640017329721876, guid: 7b52779b6064e5949b86b06d266e4b96, type: 3}
+    ads: {fileID: -3116339475552079924, guid: e7e0fd63149a5274c899d6df1aa3a0b7, type: 3}
+    shootAds: {fileID: 6872549711306399813, guid: e7e0fd63149a5274c899d6df1aa3a0b7, type: 3}
+    shootHfr: {fileID: -2539964311151521017, guid: e7e0fd63149a5274c899d6df1aa3a0b7, type: 3}
+  - inspect: {fileID: -3901491131808083731, guid: af39e962cce4ac345afe3c63f544435e, type: 3}
+    reload: {fileID: 581529857540672011, guid: 62ba0fa08d47d2b4f8ce2af0715e00d3, type: 3}
+    ads: {fileID: -7695252534230385180, guid: af39e962cce4ac345afe3c63f544435e, type: 3}
+    shootAds: {fileID: -5946058568370517919, guid: af39e962cce4ac345afe3c63f544435e, type: 3}
+    shootHfr: {fileID: -4571978918968059662, guid: af39e962cce4ac345afe3c63f544435e, type: 3}
+  - inspect: {fileID: 0}
+    reload: {fileID: 0}
+    ads: {fileID: 0}
+    shootAds: {fileID: 0}
+    shootHfr: {fileID: 0}
+  - inspect: {fileID: 0}
+    reload: {fileID: 0}
+    ads: {fileID: 0}
+    shootAds: {fileID: 0}
+    shootHfr: {fileID: 0}
+  - inspect: {fileID: 0}
+    reload: {fileID: 0}
+    ads: {fileID: 0}
+    shootAds: {fileID: 0}
+    shootHfr: {fileID: 0}
+  - inspect: {fileID: 0}
+    reload: {fileID: 0}
+    ads: {fileID: 0}
+    shootAds: {fileID: 0}
+    shootHfr: {fileID: 0}
+  - inspect: {fileID: 0}
+    reload: {fileID: 0}
+    ads: {fileID: 0}
+    shootAds: {fileID: 0}
+    shootHfr: {fileID: 0}
 --- !u!114 &1808419031248484775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4485,21 +4684,6 @@ MonoBehaviour:
   defaultFOV: 60
   scopeMultiplier: 1.5
   aimTime: 0.3
-  clips:
-  - name: 0
-    clip: {fileID: -6448453233133985016, guid: b480ae7471ba63f46b768d78ebbbbdf1, type: 3}
-  - name: 1
-    clip: {fileID: 536542834818608109, guid: 07fe6388d7b1b79488bd79273d3033cf, type: 3}
-  - name: 5
-    clip: {fileID: -8184786174920937527, guid: aff88c46469144f4690969cdebf27e3e, type: 3}
-  - name: 8
-    clip: {fileID: -3116339475552079924, guid: e7e0fd63149a5274c899d6df1aa3a0b7, type: 3}
-  - name: 9
-    clip: {fileID: -7695252534230385180, guid: af39e962cce4ac345afe3c63f544435e, type: 3}
-  - name: 2
-    clip: {fileID: -398042002482421668, guid: cf0531b92c2eda245a41100b9a7b5dfe, type: 3}
-  - name: 3
-    clip: {fileID: 3029804416484751695, guid: b17f9047d0350cc4ea0b823190cb60a6, type: 3}
 --- !u!114 &4183641822936563382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4515,21 +4699,6 @@ MonoBehaviour:
   pnc: {fileID: 6771075786898946733}
   componentHolder: {fileID: 1459547178906316190}
   leftHand: {fileID: 317085245908439510}
-  clips:
-  - name: 0
-    clip: {fileID: 3297057325586623611, guid: 2c0f09b05b308b34ca55447af1d7958b, type: 3}
-  - name: 1
-    clip: {fileID: -3611874855109080695, guid: 36e9398e8a092b747a52cc4780ed9dba, type: 3}
-  - name: 5
-    clip: {fileID: -132744109375073833, guid: b7ad11fab64ba1c4591944b2ca1ba554, type: 3}
-  - name: 8
-    clip: {fileID: 3483640017329721876, guid: 7b52779b6064e5949b86b06d266e4b96, type: 3}
-  - name: 9
-    clip: {fileID: 581529857540672011, guid: 62ba0fa08d47d2b4f8ce2af0715e00d3, type: 3}
-  - name: 2
-    clip: {fileID: -6504449474477443759, guid: 4519743c38afaba408a5241b47fddf1e, type: 3}
-  - name: 3
-    clip: {fileID: 5628895712930882831, guid: ef978d485c4a44440a169d946506948e, type: 3}
 --- !u!114 &4767689636004788639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4544,21 +4713,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pnc: {fileID: 6771075786898946733}
   componentHolder: {fileID: 1459547178906316190}
-  clips:
-  - name: 0
-    clip: {fileID: -5966658422511217176, guid: b480ae7471ba63f46b768d78ebbbbdf1, type: 3}
-  - name: 1
-    clip: {fileID: -1643195173839614823, guid: 07fe6388d7b1b79488bd79273d3033cf, type: 3}
-  - name: 5
-    clip: {fileID: 7191473947735470651, guid: aff88c46469144f4690969cdebf27e3e, type: 3}
-  - name: 8
-    clip: {fileID: -4028160381980160679, guid: e7e0fd63149a5274c899d6df1aa3a0b7, type: 3}
-  - name: 9
-    clip: {fileID: -3901491131808083731, guid: af39e962cce4ac345afe3c63f544435e, type: 3}
-  - name: 2
-    clip: {fileID: 5716555757823242163, guid: cf0531b92c2eda245a41100b9a7b5dfe, type: 3}
-  - name: 3
-    clip: {fileID: 3072983801525347870, guid: b17f9047d0350cc4ea0b823190cb60a6, type: 3}
 --- !u!114 &8210053847737947324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4643,6 +4797,7 @@ MonoBehaviour:
   fnFiveController: {fileID: 9100000, guid: 90ba5d94bb1394740a0f658fdc52872a, type: 2}
   vector500Controller: {fileID: 9100000, guid: ff0e38a10173a0b4fb38e066d643d72a, type: 2}
   vel308Controller: {fileID: 9100000, guid: c088ad0f348414345b0be7e946ac12e3, type: 2}
+  balistaVortexController: {fileID: 9100000, guid: 2bd1231ae7b1b20409fb50c04207e913, type: 2}
 --- !u!114 &6281329577703691064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4665,13 +4820,13 @@ MonoBehaviour:
     SynchronizeType: 2
     Name: pVertical
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 2
     Name: pShooting
   - Type: 4
-    SynchronizeType: 1
+    SynchronizeType: 2
     Name: pStopShooting
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 2
     Name: pShootingADS
   - Type: 9
     SynchronizeType: 1
@@ -4683,28 +4838,52 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: pInspectingWeapon
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 2
     Name: pReloadingWeapon
   - Type: 4
     SynchronizeType: 2
     Name: pSprinting
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 2
     Name: pGrounded
   - Type: 4
-    SynchronizeType: 1
+    SynchronizeType: 2
     Name: pJumping
   - Type: 4
-    SynchronizeType: 1
+    SynchronizeType: 2
     Name: pLanding
   - Type: 4
-    SynchronizeType: 1
+    SynchronizeType: 2
     Name: pCrouching
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
   - SynchronizeType: 0
     LayerIndex: 1
+--- !u!114 &9219427702174086113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8871258114443566286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 6281329577703691064}
+  - {fileID: 5639729583711772724}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!4 &9024534686101532437 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8439193838953886070, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}

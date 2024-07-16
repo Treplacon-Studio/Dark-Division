@@ -1,4 +1,5 @@
 using System.Linq;
+using Photon.Realtime;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -71,4 +72,33 @@ public static class PlayerUtils
         }
         return null;
     }
+
+    #region Array Operations
+   
+    public static T[] FlattenArray<T>(T[,] multiArray)
+    {
+        var rows = multiArray.GetLength(0);
+        var cols = multiArray.GetLength(1);
+        var flatArray = new T[rows * cols];
+    
+        for (var i = 0; i < rows; i++)
+            for (var j = 0; j < cols; j++)
+                flatArray[i * cols + j] = multiArray[i, j];
+    
+        return flatArray;
+    }
+    
+    public static T[,] UnflattenArray<T>(T[] flatArray, int rows, int cols)
+    {
+        var multiArray = new T[rows, cols];
+
+        for (var i = 0; i < rows; i++)
+            for (var j = 0; j < cols; j++)
+                multiArray[i, j] = flatArray[i * cols + j];
+    
+        return multiArray;
+    }
+    
+    #endregion
+    
 }

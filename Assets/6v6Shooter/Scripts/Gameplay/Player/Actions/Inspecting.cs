@@ -8,9 +8,6 @@ public class Inspecting : MonoBehaviour
     
     [SerializeField] [Tooltip("Component holder to access components.")]
     private ComponentHolder componentHolder;
-    
-    [SerializeField] [Tooltip("Clips for specific weapon animations.")]
-    private WeaponAnimation[] clips;
 
     private void Awake()
     {
@@ -43,11 +40,9 @@ public class Inspecting : MonoBehaviour
     {
         componentHolder.playerAnimationController.inspectingLock = true;
         
-        AnimationClip clip = null;
         var currentWeapon = ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent();
-        foreach(var elem in clips)
-            if (currentWeapon != null && elem.name == currentWeapon.Info().Name())
-                clip = elem.clip;
+        var clip = GetComponent<AnimationClipsHolder>()
+            .baseWeaponAnimations[(int)currentWeapon.Info().Name()].inspect;
 
         if(clip is null)
             Debug.LogError("Inspecting clip has not been attached.");
