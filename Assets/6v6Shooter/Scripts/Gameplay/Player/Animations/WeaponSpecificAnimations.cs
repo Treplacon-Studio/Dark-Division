@@ -20,6 +20,10 @@ public class WeaponSpecificAnimations : MonoBehaviour
     [SerializeField] private RuntimeAnimatorController vel308Controller;
     
     [SerializeField] private RuntimeAnimatorController balistaVortexController;
+    
+    [SerializeField] private RuntimeAnimatorController gauge320Controller;
+    
+    [SerializeField] private RuntimeAnimatorController stoeger22Controller;
 
     public void ChangeAnimations(WeaponInfo.WeaponName n)
     {
@@ -48,6 +52,12 @@ public class WeaponSpecificAnimations : MonoBehaviour
                 break;
             case WeaponInfo.WeaponName.BalistaVortex:
                 ChangeWeaponAnimations(balistaVortexController);
+                break;
+            case WeaponInfo.WeaponName.Gauge320:
+                ChangeWeaponAnimations(gauge320Controller);
+                break;
+            case WeaponInfo.WeaponName.Stoeger22:
+                ChangeWeaponAnimations(stoeger22Controller);
                 break;
         }
     }

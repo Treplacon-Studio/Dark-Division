@@ -464,8 +464,8 @@ MonoBehaviour:
   mainCamera: {fileID: 3578215366242738822}
   ragdollCamera: {fileID: 2845504193458648595}
   allGuns:
-  - Weapons/[Sniper rifle] DSR - 50
-  - Weapons/[Submachine gun] Vector-Ghost 500
+  - Weapons/[Shotgun] Gauge 320 Pump
+  - Weapons/[Shotgun] Stoeger - 22
 --- !u!1 &3172153452278017615
 GameObject:
   m_ObjectHideFlags: 0
@@ -4513,14 +4513,14 @@ MonoBehaviour:
     walk: {fileID: 5132440209589262647, guid: aff88c46469144f4690969cdebf27e3e, type: 3}
     run: {fileID: 7589993537951031402, guid: aff88c46469144f4690969cdebf27e3e, type: 3}
     jump: {fileID: 1305929222239249596, guid: aff88c46469144f4690969cdebf27e3e, type: 3}
-  - idle: {fileID: 0}
-    walk: {fileID: 0}
-    run: {fileID: 0}
-    jump: {fileID: 0}
-  - idle: {fileID: 0}
-    walk: {fileID: 0}
-    run: {fileID: 0}
-    jump: {fileID: 0}
+  - idle: {fileID: 9138923421775253814, guid: dbc3ebbabbbe7fc47b5e9c0e84903cb5, type: 3}
+    walk: {fileID: -1040862627021839773, guid: dbc3ebbabbbe7fc47b5e9c0e84903cb5, type: 3}
+    run: {fileID: 3582115461482790490, guid: dbc3ebbabbbe7fc47b5e9c0e84903cb5, type: 3}
+    jump: {fileID: -6323511108247615736, guid: dbc3ebbabbbe7fc47b5e9c0e84903cb5, type: 3}
+  - idle: {fileID: 5587836336690152416, guid: ccf16ff1ade6c7a48a77ee86cf396f98, type: 3}
+    walk: {fileID: 4134955431345639154, guid: ccf16ff1ade6c7a48a77ee86cf396f98, type: 3}
+    run: {fileID: -4269959941881241725, guid: ccf16ff1ade6c7a48a77ee86cf396f98, type: 3}
+    jump: {fileID: -5266940139310951113, guid: ccf16ff1ade6c7a48a77ee86cf396f98, type: 3}
   - idle: {fileID: 3523925853070356776, guid: e7e0fd63149a5274c899d6df1aa3a0b7, type: 3}
     walk: {fileID: 3450113025050765552, guid: e7e0fd63149a5274c899d6df1aa3a0b7, type: 3}
     run: {fileID: -1210244320495202671, guid: e7e0fd63149a5274c899d6df1aa3a0b7, type: 3}
@@ -4580,16 +4580,16 @@ MonoBehaviour:
     ads: {fileID: -4367948711705842137, guid: aff88c46469144f4690969cdebf27e3e, type: 3}
     shootAds: {fileID: -8711158386732774590, guid: aff88c46469144f4690969cdebf27e3e, type: 3}
     shootHfr: {fileID: 5489775592519124195, guid: aff88c46469144f4690969cdebf27e3e, type: 3}
-  - inspect: {fileID: 0}
-    reload: {fileID: 0}
-    ads: {fileID: 0}
-    shootAds: {fileID: 0}
-    shootHfr: {fileID: 0}
-  - inspect: {fileID: 0}
-    reload: {fileID: 0}
-    ads: {fileID: 0}
-    shootAds: {fileID: 0}
-    shootHfr: {fileID: 0}
+  - inspect: {fileID: -1677138123325103706, guid: dbc3ebbabbbe7fc47b5e9c0e84903cb5, type: 3}
+    reload: {fileID: -4854414879588029875, guid: 68d79524add88414f8568bb09697993a, type: 3}
+    ads: {fileID: 9074852374565498941, guid: dbc3ebbabbbe7fc47b5e9c0e84903cb5, type: 3}
+    shootAds: {fileID: 3764762745222329547, guid: dbc3ebbabbbe7fc47b5e9c0e84903cb5, type: 3}
+    shootHfr: {fileID: -8388354766567814979, guid: dbc3ebbabbbe7fc47b5e9c0e84903cb5, type: 3}
+  - inspect: {fileID: -5207237669262114481, guid: ccf16ff1ade6c7a48a77ee86cf396f98, type: 3}
+    reload: {fileID: -7077521291661948953, guid: 633146ce72046cc46a3fd0877ffb71e7, type: 3}
+    ads: {fileID: 3094959717130832968, guid: ccf16ff1ade6c7a48a77ee86cf396f98, type: 3}
+    shootAds: {fileID: -8087531679749185865, guid: ccf16ff1ade6c7a48a77ee86cf396f98, type: 3}
+    shootHfr: {fileID: 1697455949867101926, guid: ccf16ff1ade6c7a48a77ee86cf396f98, type: 3}
   - inspect: {fileID: -4028160381980160679, guid: e7e0fd63149a5274c899d6df1aa3a0b7, type: 3}
     reload: {fileID: 3483640017329721876, guid: 7b52779b6064e5949b86b06d266e4b96, type: 3}
     ads: {fileID: -3116339475552079924, guid: e7e0fd63149a5274c899d6df1aa3a0b7, type: 3}
@@ -4798,6 +4798,8 @@ MonoBehaviour:
   vector500Controller: {fileID: 9100000, guid: ff0e38a10173a0b4fb38e066d643d72a, type: 2}
   vel308Controller: {fileID: 9100000, guid: c088ad0f348414345b0be7e946ac12e3, type: 2}
   balistaVortexController: {fileID: 9100000, guid: 2bd1231ae7b1b20409fb50c04207e913, type: 2}
+  gauge320Controller: {fileID: 9100000, guid: 13a5bf128f3fcdd44838e625c25dc1e6, type: 2}
+  stoeger22Controller: {fileID: 9100000, guid: 00c30fa14bbbb2d4181c7130bf108943, type: 2}
 --- !u!114 &6281329577703691064
 MonoBehaviour:
   m_ObjectHideFlags: 0
