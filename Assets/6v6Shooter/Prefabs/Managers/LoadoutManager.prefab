@@ -44,8 +44,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68b289ec18805ff479222db555792a34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PrimaryWeaponCategories:
-  - categoryName: Assault Rifles
-    weapons:
-    - {fileID: 919132149155446097, guid: 5ec271b929e791d48909874ee67193d1, type: 3}
-    - {fileID: 919132149155446097, guid: f56367abcc6a55c4eabded13c374f7e7, type: 3}
+  SelectedLoadoutPreviewPanel: {fileID: 0}
+  PrimaryWeaponText: {fileID: 0}
+  SecondaryWeaponText: {fileID: 0}
+  PrimaryWeaponTypeText: {fileID: 0}
+  SecondaryWeaponTypeText: {fileID: 0}
+  PrimaryWeaponItems:
+  - WeaponName: SCAR-Enforcer 557
+    WeaponPrefabName: '[Assault rifle] SCAR-Enforcer 557'
+    WeaponTypeItem: 0
+    WeaponCategoryItem: 0
+  - WeaponName: M4A1-Sentinel 254
+    WeaponPrefabName: '[Assault rifle] M4A1-Sentinel 254'
+    WeaponTypeItem: 0
+    WeaponCategoryItem: 0
+  - WeaponName: Vector-Ghost 500
+    WeaponPrefabName: '[Submachine gun] Vector-Ghost 500'
+    WeaponTypeItem: 1
+    WeaponCategoryItem: 0
+  - WeaponName: VEL-Ironclad 308
+    WeaponPrefabName: '[Sub machine gun] VEL-Ironclad 308'
+    WeaponTypeItem: 1
+    WeaponCategoryItem: 0
+  - WeaponName: Balista Vortex
+    WeaponPrefabName: '[Sniper rifle] Ballista Vortex'
+    WeaponTypeItem: 2
+    WeaponCategoryItem: 0
+  - WeaponName: DSR-50
+    WeaponPrefabName: '[Sniper rifle] DSR - 50'
+    WeaponTypeItem: 2
+    WeaponCategoryItem: 0
+  - WeaponName: Gauge 320
+    WeaponPrefabName: '[Shotgun] Gauge 320 Pump'
+    WeaponTypeItem: 3
+    WeaponCategoryItem: 0
+  - WeaponName: Stoeger-22
+    WeaponPrefabName: '[Shotgun] Stoeger - 22'
+    WeaponTypeItem: 3
+    WeaponCategoryItem: 0
+  SecondaryWeaponItems:
+  - WeaponName: TAC-45
+    WeaponPrefabName: '[Pistol] Tac - 45'
+    WeaponTypeItem: 4
+    WeaponCategoryItem: 1
+  - WeaponName: FN FIve - Eight
+    WeaponPrefabName: '[Pistol] FN Five - Eight'
+    WeaponTypeItem: 4
+    WeaponCategoryItem: 1
+  PlayerLoadouts: []
+  RenameLoadoutModal: {fileID: 0}
+  LoadoutButtons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

@@ -30,7 +30,6 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public GameObject SelectGameTypeContainer;
     public GameObject SelectNavRow;
     public GameObject loadoutList; 
-    private int hoveredLoadoutIndex = -1;
 
     [Header("Loadout UI")]
     public GameObject[] loadoutButtons;
@@ -48,22 +47,6 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         ConnectToPhotonServer();
         inputField = inputFieldGameObject.GetComponent<TMP_InputField>();
         cameraManage.SetCameraPriority("main");
-    }
-
-     private void Update()
-    {
-        if (!inputField.isFocused)
-        {
-            if (Input.GetKeyDown(KeyCode.R) && hoveredLoadoutIndex >= 0 && hoveredLoadoutIndex < loadoutButtons.Length)
-            {
-                renameScreen.SetActive(!renameScreen.activeSelf);
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape) && renameScreen.activeSelf)
-        {
-            renameScreen.SetActive(false);
-        }
     }
 
     public void SetPanelViewability(bool selectGamePanel = false, 
@@ -194,65 +177,6 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         else
             Debug.Log("Menu navigation state was not specified!");
     }
-
-    #endregion
-
-    #region Loadout Rename
-
-    /* private IEnumerator DeactivateAfterTime(GameObject obj, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        obj.SetActive(false);
-    }
-
-    public void OnLoadoutHoverEnter(int loadoutIndex)
-    {
-        hoveredLoadoutIndex = loadoutIndex;
-        Debug.Log("Hovered over loadout index: " + loadoutIndex);
-    }
-
-     public void OnLoadoutHoverExit()
-    {
-        Debug.Log("Exited loadout hover");
-    }
-
-    public void RenameSubmit()
-    {
-    if (string.IsNullOrWhiteSpace(inputField.text))
-        {
-            errMsg.SetActive(true);
-            StartCoroutine(DeactivateAfterTime(errMsg, 3f)); // Start coroutine to deactivate after 3 seconds
-            return;
-        }
-
-    if (hoveredLoadoutIndex >= 0 && hoveredLoadoutIndex < loadoutButtons.Length)
-    {
-        Transform loadoutNameTransform = loadoutButtons[hoveredLoadoutIndex].transform.Find("LoadOutName");
-        Debug.Log("Loadout Name Transform: " + loadoutNameTransform);
-        if (loadoutNameTransform != null)
-        {
-            TextMeshProUGUI loadoutNameText = loadoutNameTransform.GetComponent<TextMeshProUGUI>();
-            Debug.Log("Loadout Name Text: " + loadoutNameText);
-            if (loadoutNameText != null)
-            {
-                loadoutNameText.text = inputField.text;
-            }
-            else
-            {
-                Debug.LogError("TextMeshProUGUI component not found on loadout name object.");
-            }
-        }
-        else
-        {
-            Debug.LogError("Loadout name GameObject not found as a child of loadout button.");
-        }
-    }
-        renameScreen.SetActive(false);
-        hoveredLoadoutIndex = -1;
-        errMsg.SetActive(false);
-    } */
-
-
 
     #endregion
 }

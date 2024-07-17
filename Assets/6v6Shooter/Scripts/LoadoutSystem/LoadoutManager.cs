@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class LoadoutManager : MonoBehaviour
 {
@@ -13,14 +14,35 @@ public class LoadoutManager : MonoBehaviour
     public GameObject SelectedLoadoutPreviewPanel;
     public TextMeshProUGUI PrimaryWeaponText;
     public TextMeshProUGUI SecondaryWeaponText;
-    
+    public TextMeshProUGUI PrimaryWeaponTypeText;
+    public TextMeshProUGUI SecondaryWeaponTypeText;
 
-    public List<Loadout> PlayerLoadouts { get; set; }
+    [Header("WEAPON ITEMS")]
+    public List<WeaponItem> PrimaryWeaponItems;
+    public List<WeaponItem> SecondaryWeaponItems;
+    
+    [Header("LOADOUTS")]
+    public List<Loadout> PlayerLoadouts;
+
+    [Header("LOADOUT RENAMING")]
+    public GameObject RenameLoadoutModal;
+    public Button[] LoadoutButtons;
+    private Button _hoveredButton;
 
     void Start()
     {
+        ClearAllLoadouts();
+
+        SetLoadoutButtonsForRenaming();
+
+        RenameLoadoutModal.SetActive(false);
         SelectedLoadoutPreviewPanel.SetActive(false);
         PlayerLoadouts = LoadAllLoadouts();
+    }
+
+    void Update()
+    {
+        UpdateHoveredButton();
     }
 
     public void SaveLoadout(int slot, Loadout loadout)
@@ -84,17 +106,22 @@ public class LoadoutManager : MonoBehaviour
     private void ApplyLoadout(Loadout loadout)
     {
         Debug.Log("Applying Loadout:");
-        Debug.Log("Primary Weapon: " + loadout.PrimaryWeapon);
-        Debug.Log("Secondary Weapon: " + loadout.SecondaryWeapon);
-        Debug.Log("Attachments: " + string.Join(", ", loadout.Attachments));
+        Debug.Log("Primary Weapon: " + loadout.PrimaryWeapon.WeaponName);
+        Debug.Log("Secondary Weapon: " + loadout.SecondaryWeapon.WeaponName);
         
-        PrimaryWeaponText.text = loadout.PrimaryWeapon;
-        SecondaryWeaponText.text = loadout.SecondaryWeapon;
+        PrimaryWeaponText.text = loadout.PrimaryWeapon.WeaponName;
+        SecondaryWeaponText.text = loadout.SecondaryWeapon.WeaponName;
     }
 
     private Loadout GetDefaultLoadout()
     {
-        return new Loadout("SCAR-Enforcer 557", "TAC - 45", new List<string> { "None", "None" });
+        WeaponItem defaultPrimaryWeapon = PrimaryWeaponItems[0];
+        WeaponItem defaultSecondaryWeapon = SecondaryWeaponItems[0];
+
+        return new Loadout(
+            defaultPrimaryWeapon,
+            defaultSecondaryWeapon
+        );
     }
 
     public void ClearLoadout(int slot)
@@ -105,56 +132,104 @@ public class LoadoutManager : MonoBehaviour
         PlayerPrefs.DeleteKey(LoadoutKey + slot);
         PlayerPrefs.Save();
     }
-}
 
-[System.Serializable]
-public class WeaponCategory
-{
-    public string categoryName;
-    public List<GameObject> weapons;
+    public void ClearAllLoadouts()
+    {
+        for (int i = 0; i < MaxLoadouts; i++)
+        {
+            PlayerPrefs.DeleteKey(LoadoutKey + i);
+        }
+        PlayerPrefs.Save();
+    }
+
+    #region  RENAMING LOADOUT
+
+    private void SetLoadoutButtonsForRenaming()
+    {
+        foreach (Button button in LoadoutButtons)
+        {
+            EventTrigger trigger = button.gameObject.AddComponent<EventTrigger>();
+
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.PointerEnter;
+            entry.callback.AddListener((eventData) => { OnPointerEnter(button); });
+            trigger.triggers.Add(entry);
+
+            EventTrigger.Entry exitEntry = new EventTrigger.Entry();
+            exitEntry.eventID = EventTriggerType.PointerExit;
+            exitEntry.callback.AddListener((eventData) => { OnPointerExit(); });
+            trigger.triggers.Add(exitEntry);
+        }
+    }
+
+    private void UpdateHoveredButton()
+    {
+        if (_hoveredButton != null && Input.GetKeyDown(KeyCode.R))
+            ShowRenameLoadoutModal();
+    }
+
+    private void OnPointerEnter(Button button)
+    {
+        _hoveredButton = button;
+    }
+
+    private void OnPointerExit()
+    {
+        _hoveredButton = null;
+    }
+
+    private void ShowRenameLoadoutModal()
+    {
+        RenameLoadoutModal.SetActive(true);
+    }
+
+    #endregion
 }
 
 [System.Serializable]
 public class Loadout
 {
-    public string PrimaryWeapon;
-    public string SecondaryWeapon;
-    public List<string> Attachments;
+    public WeaponItem PrimaryWeapon;
+    public WeaponItem SecondaryWeapon;
 
-    public Loadout(string primaryWeapon, string secondaryWeapon, List<string> attachments)
+    public Loadout(WeaponItem primaryWeapon, WeaponItem secondaryWeapon)
     {
         PrimaryWeapon = primaryWeapon;
         SecondaryWeapon = secondaryWeapon;
-        Attachments = attachments;
     }
 }
 
 [System.Serializable]
-public class PrimaryWeapons
+public class WeaponItem
 {
-    public string[] ListOfPrimaryWeapons = {"SCAR-Enforcer 557", "M4A1-Sentinel 254", "Vector-Ghost500", "VEL-Ironclad 308", "Balista Vortex", "DSR - 50", "Gauge 320", "Stoeger - 22"};
-}
+    public string WeaponName;                                             //Name that is shown
+    public string WeaponPrefabName;                                       //Name of prefab
+    public WeaponType WeaponTypeItem = WeaponType.None;                   //Assault, Submachine, etc
+    public WeaponCategory WeaponCategoryItem = WeaponCategory.None;       //Primary/Secondary/Melee/None
 
-[System.Serializable]
-public class SecondaryWeapons
-{
-    public string[] ListOfSecondaryWeapons = {"TAC - 45", "FN Five - Eight"};
-}
+    public enum WeaponCategory
+    {
+        Primary,
+        Secondary, 
+        Melee,
+        None
+    }
 
-[System.Serializable]
-public class MeleeWeapons
-{
-    public string[] ListOfMeleeWeapons = {"Default Knife", "Butterfly Knife", "Battle Axe", "Katana", "Plasma Sword"};
-}
+    public enum WeaponType
+    {
+        Assault,
+        Submachine,
+        Sniper,
+        Shotgun,
+        Pistol,
+        None
+    }
 
-[System.Serializable]
-public class LethalWeapons
-{
-    
-}
-
-[System.Serializable]
-public class TacticalWeapons
-{
-    
+    public WeaponItem(string weaponName, string weaponPrefabName, WeaponType weaponTypeItem, WeaponCategory weaponCategoryItem)
+    {
+        WeaponName = weaponName;
+        WeaponPrefabName = weaponPrefabName;
+        WeaponTypeItem = weaponTypeItem;
+        WeaponCategoryItem = weaponCategoryItem;
+    }
 }
