@@ -112,11 +112,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         cameraManage.SetCameraPriority("settings");
     }
     public void OnQuitSelected() {
-<<<<<<< HEAD
         cameraManage.SetCameraPriority("exit");
-=======
-        Application.Quit();
->>>>>>> dev
     }
 
     //Back buttons
