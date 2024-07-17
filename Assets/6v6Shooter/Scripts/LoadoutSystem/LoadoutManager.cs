@@ -77,6 +77,8 @@ public class LoadoutManager : MonoBehaviour
 
         Loadout loadout = JsonUtility.FromJson<Loadout>(loadoutJson);
         ApplyLoadout(loadout);
+
+        SelectedLoadoutPreviewPanel.SetActive(true);
     }
 
     private void ApplyLoadout(Loadout loadout)
@@ -84,10 +86,10 @@ public class LoadoutManager : MonoBehaviour
         Debug.Log("Applying Loadout:");
         Debug.Log("Primary Weapon: " + loadout.PrimaryWeapon);
         Debug.Log("Secondary Weapon: " + loadout.SecondaryWeapon);
-        //Debug.Log("Attachments: " + string.Join(", ", loadout.Attachments));
+        Debug.Log("Attachments: " + string.Join(", ", loadout.Attachments));
         
         PrimaryWeaponText.text = loadout.PrimaryWeapon;
-        PrimaryWeaponText.text = loadout.SecondaryWeapon;
+        SecondaryWeaponText.text = loadout.SecondaryWeapon;
     }
 
     private Loadout GetDefaultLoadout()
