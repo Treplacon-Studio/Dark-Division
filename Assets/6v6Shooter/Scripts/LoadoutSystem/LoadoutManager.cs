@@ -26,8 +26,9 @@ public class LoadoutManager : MonoBehaviour
 
     [Header("LOADOUT RENAMING")]
     public GameObject RenameLoadoutModal;
-    public Button[] LoadoutButtons;
-    private Button _hoveredButton;
+    public GameObject[] LoadoutButtons;
+    public TMP_InputField inputField;
+    private GameObject _hoveredButton;
 
     void Start()
     {
@@ -146,9 +147,11 @@ public class LoadoutManager : MonoBehaviour
 
     private void SetLoadoutButtonsForRenaming()
     {
-        foreach (Button button in LoadoutButtons)
+        inputField.onValueChanged.AddListener(OnInputValueChanged); //Add event listener to the user rename input field
+
+        foreach (GameObject button in LoadoutButtons)
         {
-            EventTrigger trigger = button.gameObject.AddComponent<EventTrigger>();
+            EventTrigger trigger = button.AddComponent<EventTrigger>();
 
             EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerEnter;
@@ -162,13 +165,19 @@ public class LoadoutManager : MonoBehaviour
         }
     }
 
+    private void OnInputValueChanged(string userInput)
+    {
+        Debug.Log(userInput);
+        RenameLoadout(userInput);
+    }
+
     private void UpdateHoveredButton()
     {
         if (_hoveredButton != null && Input.GetKeyDown(KeyCode.R))
             ShowRenameLoadoutModal();
     }
 
-    private void OnPointerEnter(Button button)
+    private void OnPointerEnter(GameObject button)
     {
         _hoveredButton = button;
     }
@@ -181,6 +190,12 @@ public class LoadoutManager : MonoBehaviour
     private void ShowRenameLoadoutModal()
     {
         RenameLoadoutModal.SetActive(true);
+    }
+
+    private void RenameLoadout(string newName)
+    {
+        TextMeshProUGUI loadoutNameText = _hoveredButton.GetComponentInChildren<TextMeshProUGUI>();
+        loadoutNameText.text = newName;
     }
 
     #endregion
