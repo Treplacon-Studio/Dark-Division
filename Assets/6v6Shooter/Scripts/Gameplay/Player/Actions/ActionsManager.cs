@@ -1,18 +1,19 @@
-using System;
-using UnityEngine;
-
+using System.Collections.Generic;
 
 public class ActionsManager
 {
-    private static ActionsManager _instance;
+    private static Dictionary<int, ActionsManager> _instances = new();
 
-    public static ActionsManager Instance
+    public static ActionsManager GetInstance(int playerId)
     {
-        get { return _instance ??= new ActionsManager(); }
+        if (!_instances.ContainsKey(playerId))
+        {
+            _instances[playerId] = new ActionsManager();
+        }
+        return _instances[playerId];
     }
-
-    public PlayerAnimationController Pac;
-
+    
+    public ComponentHolder ComponentHolder;
     public Reloading Reloading;
     public Inspecting Inspecting;
     public Aiming Aiming;

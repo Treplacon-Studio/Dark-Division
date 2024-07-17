@@ -1,50 +1,68 @@
 using UnityEngine;
+using Photon.Pun;
 
 
-public class Shooting : MonoBehaviour
+public class Shooting : MonoBehaviourPunCallbacks
 {
-    [SerializeField] [Tooltip("Bullet pool manager component to shot bullets.")]
-    private BulletPoolingManager bpm;
+    [SerializeField] private PlayerNetworkController pnc;
+    
+    [SerializeField] [Tooltip("Component holder to access components.")]
+    private ComponentHolder componentHolder;
 
     private Transform _bulletStartPoint;
-    private PlayerAnimationController _pac;
     private float _nextFireTime;
 
     private void Awake()
     {
-        _pac = GetComponent<PlayerAnimationController>();
-        ActionsManager.Instance.Shooting = this;
-        if (ActionsManager.Instance?.Switching is not null)
-            _bulletStartPoint = ActionsManager.Instance.Switching.WeaponComponent().GetStartPoint().transform;
+        ActionsManager.GetInstance(pnc.GetInstanceID()).Shooting = this;
+        if (ActionsManager.GetInstance(pnc.GetInstanceID())?.Switching is not null && ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent() is not null)
+            _bulletStartPoint = ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent().GetStartPoint().transform;
     }
 
     private void AutomaticFire()
     {
-        if (_pac.reloadingLock)
+        if (pnc.PhotonViewIsMine())
+            photonView.RPC("RPC_AutomaticFire", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RPC_AutomaticFire()
+    {
+        if (ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent() is null)
+            return;
+        
+        if (componentHolder.playerAnimationController.reloadingLock)
         {
-            _pac.shootingLock = false;
+            componentHolder.playerAnimationController.shootingLock = false;
             return;
         }
 
         var shootKeyClicked = Input.GetMouseButton(0);
-        _pac.shootingLock = shootKeyClicked && Time.time >= _nextFireTime;
+        componentHolder.playerAnimationController.shootingLock = shootKeyClicked && Time.time >= _nextFireTime;
+        componentHolder.playerAnimationController.StopShooting(!shootKeyClicked && Time.time >= _nextFireTime);
 
         if (!shootKeyClicked || !(Time.time >= _nextFireTime))
             return;
+        
+        var currentWeaponID = ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.GetCurrentWeaponID();
+        
+        //No ammo
+        if (componentHolder.bulletPoolingManager.GetAmmoPrimary() <= 0)
+            return;
 
-        var wi = ActionsManager.Instance.Switching.WeaponComponent().Info().Stats();
-        _nextFireTime = Time.time + wi.FireRate;
-        _bulletStartPoint ??= ActionsManager.Instance.Switching.WeaponComponent().GetStartPoint().transform;
-        bpm.SpawnFromPool(wi.BType,
-            _bulletStartPoint.transform.position,
-            _bulletStartPoint.transform.rotation);
-        _pac.PlayShootAnimation(ActionsManager.Instance.Aiming.IsAiming());
+        var wc = ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent();
+        wc.gameObject.GetComponent<Recoil>().StartRecoil(0.03f);
+        _nextFireTime = Time.time + wc.Info().Stats().FireRate;
+        _bulletStartPoint ??= ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent().GetStartPoint().transform;
+       
+        componentHolder.bulletPoolingManager.SpawnFromPool(currentWeaponID, _bulletStartPoint.transform);
+        componentHolder.playerAnimationController.PlayShootAnimation(ActionsManager.GetInstance(pnc.GetInstanceID()).Aiming.IsAiming());
     }
 
     public void Run()
     {
-        if (ActionsManager.Instance?.Switching is not null)
-            _bulletStartPoint ??= ActionsManager.Instance.Switching.WeaponComponent().GetStartPoint().transform;
+        if (ActionsManager.GetInstance(pnc.GetInstanceID())?.Switching is not null && ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent() is not null)
+            _bulletStartPoint ??= ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent().GetStartPoint().transform;
         AutomaticFire();
     }
 }

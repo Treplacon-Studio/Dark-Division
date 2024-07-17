@@ -20,6 +20,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] TMP_Text mapOneVoteDisplay;
     [SerializeField] TMP_Text mapTwoVoteDisplay;
     [SerializeField] TMP_Text randomMapVoteDisplay;
+    [SerializeField] GameObject startButton; //Delete this eventually
 
     private PhotonView photonView;
     private int currentTime;
@@ -46,12 +47,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         Debug.Log($"PhotonView ID in Awake: {photonView.ViewID}");
+
+        startButton.SetActive(false);
     }
 
     void Start()
     {
         ConnectToPhotonServer();
         mapImage = null;
+        ListPlayers();
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     private void ClearPlayerListings()
@@ -123,7 +129,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
         photonView.RPC("UpdateMapVotes", RpcTarget.AllBuffered, mapOneVote, mapTwoVote, randomMapVote);
     }
 
-    [PunRPC]
+    //[PunRPC]
     public void StartTimer(int startTime)
     {
         currentTime = startTime;
@@ -177,9 +183,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void LoadMap()
     {
-        // TODO
-        // map 1 and 2 are hardcoded which is fine for now, will have to change up when we have multiple maps
-        // im guessing the selceted maps need a func or set list or something to dynamically fill in the values
         string selectedMap;
 
         if (mapOneVote > mapTwoVote && mapOneVote > randomMapVote)
@@ -224,10 +227,24 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
         PhotonNetwork.JoinRandomOrCreateRoom();
     }
 
+    //Delete this method eventually
+    public void GiveMasterClientStartButton()
+    {
+        if (PhotonNetwork.IsMasterClient)
+            startButton.SetActive(true);
+    }
+
     public override void OnJoinedRoom()
     {
         TeamManager.AssignTeam(PhotonNetwork.LocalPlayer);
         Debug.Log($"OnJoinedRoom called, PhotonView ID: {photonView.ViewID}");
+
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+        {
+            PhotonNetwork.SetMasterClient(PhotonNetwork.LocalPlayer);
+            GiveMasterClientStartButton();
+        }
+
         StartCoroutine(UpdatePlayerCountAfterDelay());
         ListPlayers();
         GameManager.instance.CloseLoadingScreen();

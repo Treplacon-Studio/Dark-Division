@@ -94,7 +94,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     }
     public void OnQuickplaySelected() => SetPanelViewability(selectGamePanel:true, gameModeContainer:true, navRow:true);
     public void OnRankedPlaySelected() {}
-    public void OnPracticeRangeSelected() => GameManager.instance.StartLoadingBar("S05_PraticeRange", true);
+    public void OnPracticeRangeSelected() => GameManager.instance.StartLoadingBar("S05_PracticeRange", false);
     public void OnCreateClassSelected() 
     {
         SetPanelViewability(selectLoadoutPanel:true);
@@ -112,7 +112,11 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         cameraManage.SetCameraPriority("settings");
     }
     public void OnQuitSelected() {
+<<<<<<< HEAD
         cameraManage.SetCameraPriority("exit");
+=======
+        Application.Quit();
+>>>>>>> dev
     }
 
     //Back buttons
@@ -143,11 +147,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
     public void ConnectToPhotonServer()
     {
-        string playerName = PhotonNetwork.NickName;
-        if (!PhotonNetwork.IsConnected && playerName.Length < 14 && playerName.Length > 3)
-        {
-            PhotonNetwork.ConnectUsingSettings();
-        }
+        PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnConnectedToMaster()
@@ -158,14 +158,14 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
     public override void OnConnected() => Debug.Log("Connected to Internet");
 
-    public void JoinOrCreateRoom()
-    {
-        PhotonNetwork.JoinRandomRoom();
-    }
-
     public void CreateRoom()
     {
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 1});
+    }
+
+    public void JoinOrCreateRoom()
+    {
+        PhotonNetwork.JoinRandomRoom();
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -176,7 +176,8 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         Debug.Log($"{PhotonNetwork.NickName} created a room!");
-        SetPanelViewability(buttonPanel:true); 
+        SetPanelViewability(buttonPanel:true);
+        GameManager.instance.CloseLoadingScreen();
     }
 
     public override void OnJoinedRoom()

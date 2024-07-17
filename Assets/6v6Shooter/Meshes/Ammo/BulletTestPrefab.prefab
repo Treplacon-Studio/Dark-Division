@@ -132,7 +132,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!114 &6188734363695636792
 MonoBehaviour:
@@ -146,5 +146,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd10cb224e8fb84c8193a0683da7121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 150
-  lifeTime: 2
+  initialSpeed: 200
+  rayLengthFactor: 1
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  fadeDuration: 0.5
+  bulletHolePrefab: {fileID: 5640596512813233541, guid: 10bc210003af55d41896c4c9d2043102, type: 3}

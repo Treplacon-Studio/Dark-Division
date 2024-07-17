@@ -2,67 +2,120 @@ using System.Collections;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-namespace _6v6Shooter.Scripts.Gameplay
+public class HealthController : MonoBehaviourPunCallbacks
 {
-    public class HealthController : MonoBehaviourPunCallbacks
+    [SerializeField] private Image healthBar;
+    public float health;
+    public float startHealth = 100;
+    public bool targetDummy;
+
+    [SerializeField] PlayerSetup playerSetup;
+    public GameObject resCanvas;
+    public TextMeshProUGUI resCount;
+
+    public PublicMatchSpawnManager spawnManager;
+
+    void Start()
     {
-
-        [SerializeField]
-        Image healthBar;
-
-        public float health;
-        public float startHealth = 100;
-
-        public bool targetDummy;
-
-        void Start() {
-            health = startHealth;
-            healthBar.fillAmount = health / startHealth;
+        playerSetup = GetComponent<PlayerSetup>();
+        spawnManager = FindObjectOfType<PublicMatchSpawnManager>();
+        if (spawnManager == null)
+        {
+            Debug.LogError("PublicMatchSpawnManager not found in the scene.");
+            return;
         }
 
-        [PunRPC]
-        public void TakeDamage(float damage) {
-            health -= damage;
-            healthBar.fillAmount = health / startHealth;    
-        
-            if (health <= 0f)
-                Die();
-        }
+        health = startHealth;
+        healthBar.fillAmount = health / startHealth;
+    }
 
-        void Die() {
-            if (photonView.IsMine && targetDummy is true) {
-                if (targetDummy is true)
-                    photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
-                else
-                    StartCoroutine(Respawn());
+    [PunRPC]
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        healthBar.fillAmount = health / startHealth;
+
+        if (health <= 0f)
+            Die();
+    }
+
+    void Die()
+    {
+        if (photonView != null && photonView.IsMine)
+        {
+            if (targetDummy)
+            {
+                photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
+            }
+            else
+            {
+                Team? team = TeamManager.GetTeam(PhotonNetwork.LocalPlayer);
+                TeamDeathmatchManager.instance.GetComponent<PhotonView>().RPC("AddPointForTeam", RpcTarget.AllBuffered, team);
+                playerSetup.DisableHUD();
+                resCanvas.SetActive(true);
+                playerSetup.GetComponent<PhotonView>().RPC("EnableRagdollRPC", RpcTarget.All);
+                playerSetup.SwitchToRagdollCamera();
+                StartCoroutine(Respawn());
+                StartCoroutine(CountdownTimer(4));
             }
         }
-
-        IEnumerator Respawn() {
-            GameObject respawnText = GameObject.Find("RespawnText");
-
-            float respawnTime = 8.0f;
-            while (respawnTime > 0.0f) {
-                yield return new WaitForSeconds(1.0f);
-                respawnTime -= 1.0f;
-                transform.GetComponent<PlayerMotor>().enabled = false;
-                respawnText.GetComponent<Text>().text = "You are killed. Respawning at: " + respawnTime.ToString(".00");
+        else 
+        {
+            if (targetDummy)
+            {
+                RegainHealth();
             }
+        }
+    }
 
-            respawnText.GetComponent<Text>().text = "";
+    IEnumerator Respawn()
+    {
+        yield return new WaitForSeconds(4f);
 
-            int randomPoint = Random.Range(-20, 20);
-            transform.position = new Vector3(randomPoint, 0, randomPoint);
-            transform.GetComponent<PlayerMotor>().enabled = true;
+        string team = GetTeam();
+        Transform spawnPoint = spawnManager.GetRandomSpawnPoint(team);
 
-            photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
+        if (spawnPoint != null)
+        {
+            transform.position = spawnPoint.position;
+            transform.rotation = spawnPoint.rotation;
+        }
+        else
+        {
+            Debug.LogError("No valid spawn point found for the team.");
         }
 
-        [PunRPC]
-        public void RegainHealth() {
-            health = startHealth;
-            healthBar.fillAmount = health / startHealth;
+        resCanvas.SetActive(false);
+        playerSetup.EnableHUD();
+        photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
+        playerSetup.GetComponent<PhotonView>().RPC("DisableRagdollRPC", RpcTarget.All);
+        playerSetup.SwitchToMainCamera();
+    }
+
+    IEnumerator CountdownTimer(int seconds)
+    {
+        int remainingTime = seconds;
+        while (remainingTime > 0)
+        {
+            resCount.text = remainingTime.ToString();
+            yield return new WaitForSeconds(1f);
+            remainingTime--;
         }
+        resCount.text = "0";
+    }
+
+    [PunRPC]
+    public void RegainHealth()
+    {
+        health = startHealth;
+        healthBar.fillAmount = health / startHealth;
+    }
+
+    private string GetTeam()
+    {
+        Team? team = TeamManager.GetTeam(PhotonNetwork.LocalPlayer);
+        return team.ToString();
     }
 }

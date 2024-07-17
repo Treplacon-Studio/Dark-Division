@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class Crouching : MonoBehaviour
 {
-    private PlayerAnimationController _pac;
+    [SerializeField] private PlayerNetworkController pnc;
+    
+    [SerializeField] [Tooltip("Component holder to access components.")]
+    private ComponentHolder componentHolder;
 
     private void Awake()
     {
-        _pac = GetComponent<PlayerAnimationController>();
-        ActionsManager.Instance.Crouching = this;
+        ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching = this;
     }
 
     public void Run(bool isCrouching)

@@ -54,7 +54,6 @@ public class UserLoginManager : MonoBehaviour
             Debug.Log("Player name must be at least 3 characters");
             return false;
         }
-        // add validation for bad words
         else
         {
             return true;

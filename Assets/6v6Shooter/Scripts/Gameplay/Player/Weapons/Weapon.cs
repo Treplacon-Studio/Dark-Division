@@ -40,7 +40,7 @@ public class Weapon : MonoBehaviour
     {
         _weaponInfo ??= new WeaponInfo(weaponName);
         ResetAttachments();
-        ApplyAttachmentsAssaultRifle(0, -1, -1, -1, -1);
+        ApplyAttachmentsAssaultRifle(null, 0);
     }
 
     public WeaponInfo Info()
@@ -58,13 +58,23 @@ public class Weapon : MonoBehaviour
         return magSocket;
     }
 
-    public void ApplyAttachmentsAssaultRifle(int aMag = -1, int aBarrel = -1, int aUnderBarrel = -1, int aSight = -1,
-        int aStock = -1)
+    public void ApplyAttachmentsAssaultRifle(int[,] attachments, int index)
     {
-        HandleMagChange(aMag);
-        HandleBarrelChange(aBarrel);
-        HandleSightChange(aSight);
-        HandleStockChange(aStock);
+        if (attachments is null)
+        {
+            HandleMagChange(0);
+            HandleBarrelChange(-1);
+            HandleSightChange(-1);
+            HandleStockChange(-1);
+        }
+        else
+        {
+            HandleMagChange(attachments[index, 0]);
+            HandleBarrelChange(attachments[index, 1]);
+            HandleSightChange(attachments[index, 2]);
+            HandleStockChange(attachments[index, 3]);
+        }
+     
     }
 
     public GameObject GetStartPoint()
@@ -184,63 +194,63 @@ public class WeaponInfo
     {
         {
             WeaponName.ScarEnforcer557,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary)
         },
         {
             WeaponName.M4A1Sentinel254,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary)
         },
         {
             WeaponName.VectorGhost500,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary)
         },
         {
             WeaponName.VelIronclad308,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary)
         },
         {
             WeaponName.BalistaVortex,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(40, 10, 0.1f, 10, WeaponStats.WeaponType.Primary)
         },
         {
             WeaponName.Dsr50,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Primary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(40, 10, 0.1f, 10, WeaponStats.WeaponType.Primary)
         },
         {
             WeaponName.Gauge320,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Secondary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Secondary)
         },
         {
             WeaponName.Stoeger22,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Secondary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Secondary)
         },
         {
             WeaponName.Tac45,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Secondary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.5f, 10, WeaponStats.WeaponType.Secondary)
         },
         {
             WeaponName.FnFive8,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Secondary, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.5f, 50, WeaponStats.WeaponType.Secondary)
         },
         {
             WeaponName.DefaultKnife,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee)
         },
         {
             WeaponName.ButterflyKnife,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee)
         },
         {
             WeaponName.BattleAxe,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee)
         },
         {
             WeaponName.Katana,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee)
         },
         {
             WeaponName.PlasmaSword,
-            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee, WeaponStats.BulletType.Ammo_9mm)
+            new WeaponStats(10, 10, 0.1f, 10, WeaponStats.WeaponType.Melee)
         }
     };
 
@@ -286,29 +296,26 @@ public struct WeaponStats
         Secondary,
         Melee
     }
-
-    public enum BulletType
-    {
-        Ammo_9mm,
-        Ammo_7dot62,
-        Ammo_50cal,
-        Shells
-    }
-
+    
     public float Damage;
     public float Range;
     public float FireRate;
     public float BulletSpeed;
-    public BulletType BType;
     public WeaponType WType;
 
-    public WeaponStats(float damage, float range, float fireRate, float bulletSpeed, WeaponType wType, BulletType bType)
+    public WeaponStats(float damage, float range, float fireRate, float bulletSpeed, WeaponType wType)
     {
         Damage = damage;
         Range = range;
         FireRate = fireRate;
         BulletSpeed = bulletSpeed;
         WType = wType;
-        BType = bType;
     }
+}
+
+[Serializable]
+public class WeaponAnimation
+{
+    public WeaponInfo.WeaponName name;
+    public AnimationClip clip;
 }

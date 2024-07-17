@@ -6,26 +6,28 @@ using System.IO;
 
 public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
 {
+    public enum GameModeType
+    {
+        None,
+        TrainingMode,
+        TeamDeathmatch
+    }
+
     public static PublicMatchSpawnManager instance;
 
     public Transform[] redSpawnPoints;
     public Transform[] blueSpawnPoints;
 
+    public GameModeType selectedGameModeType = GameModeType.None;
+
     private List<Transform> occupiedRedSpawnPoints = new List<Transform>();
     private List<Transform> occupiedBlueSpawnPoints = new List<Transform>();
 
-    private PhotonView photonView;
 
     private void Awake()
     {
         if (instance == null)
             instance = this;
-
-        photonView = GetComponent<PhotonView>();
-        if (photonView == null)
-            Debug.LogError("PhotonView component missing from PublicMatchSpawnManager.");
-        else
-            photonView.ViewID = 10000;
     }
 
     public Transform GetRandomSpawnPoint(string team)
@@ -38,9 +40,7 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
             foreach (Transform point in redSpawnPoints)
             {
                 if (!occupiedRedSpawnPoints.Contains(point))
-                {
                     availableSpawnPoints.Add(point);
-                }
             }
         }
         else if (team == "Blue")
@@ -48,9 +48,7 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
             foreach (Transform point in blueSpawnPoints)
             {
                 if (!occupiedBlueSpawnPoints.Contains(point))
-                {
                     availableSpawnPoints.Add(point);
-                }
             }
         }
         else
@@ -65,12 +63,13 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
             return null;
         }
 
-        // pick random spawn point
+        // Pick a random spawn point
         int randomIndex = Random.Range(0, availableSpawnPoints.Count);
         spawnPoint = availableSpawnPoints[randomIndex];
 
         return spawnPoint;
-    }
+}
+
 
     [PunRPC]
     public void MarkSpawnPointOccupied(Vector3 position, Quaternion rotation, string team)
@@ -89,9 +88,11 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
             occupiedBlueSpawnPoints.Add(spawnPoint);
     }
 
+    [PunRPC]
     public void SpawnPlayer(string team)
-    {     
-        Debug.Log($"WE ARE SPAWNING PLAYER TO TEAM {team}"); 
+    {
+        Debug.Log($"Spawning player for team {team}");
+
         Transform spawnPoint = GetRandomSpawnPoint(team);
 
         if (spawnPoint == null)
@@ -100,10 +101,8 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        Debug.Log("Creating Player");
         GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "Player_M01"), spawnPoint.position, spawnPoint.rotation);
         PhotonView playerPhotonView = newPlayer.GetComponent<PhotonView>();
-        Debug.Log($"{newPlayer} INSTANTIATED INTO THE SCENE"); 
 
         photonView.RPC("MarkSpawnPointOccupied", RpcTarget.AllBuffered, spawnPoint.position, spawnPoint.rotation, team);
     }
@@ -120,6 +119,8 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
             occupiedRedSpawnPoints.Remove(spawnPoint);
         else if (team == "Blue")
             occupiedBlueSpawnPoints.Remove(spawnPoint);
+
+        Debug.Log($"Spawn point freed for team {team}: {spawnPoint.position}");
     }
 
     public void RequestSpawnPlayer(string team)

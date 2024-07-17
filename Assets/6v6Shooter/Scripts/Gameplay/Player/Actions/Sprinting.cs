@@ -3,16 +3,18 @@ using UnityEngine;
 
 public class Sprinting : MonoBehaviour
 {
-    private PlayerAnimationController _pac;
-
+    [SerializeField] private PlayerNetworkController pnc;
+    
+    [SerializeField] [Tooltip("Component holder to access components.")]
+    private ComponentHolder componentHolder;
+    
     private void Awake()
     {
-        _pac = GetComponent<PlayerAnimationController>();
-        ActionsManager.Instance.Sprinting = this;
+        ActionsManager.GetInstance(pnc.GetInstanceID()).Sprinting = this;
     }
 
     public void Run()
     {
-        _pac.PlaySprintAnimation(Input.GetKey(KeyCode.LeftShift));
+        componentHolder.playerAnimationController.PlaySprintAnimation(Input.GetKey(KeyCode.LeftShift));
     }
 }

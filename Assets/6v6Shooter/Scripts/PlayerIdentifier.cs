@@ -4,15 +4,16 @@ using TMPro;
 
 public class PlayerIdentifier : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private TextMeshProUGUI playerNameText;
+    public TextMeshProUGUI PlayerNameText;
 
     void Start()
     {
         SetPlayerUI();
     }
 
-    public void SetPlayerUI() {
-        if (!string.IsNullOrWhiteSpace(photonView.Owner.NickName) && playerNameText != null)
-            playerNameText.text = photonView.Owner.NickName ?? "No name";
+    public void SetPlayerUI()
+    {
+        if (!string.IsNullOrWhiteSpace(photonView.Owner.NickName) && PlayerNameText != null)
+            PlayerNameText.text = photonView.Owner.NickName ?? "No name";
     }
 }

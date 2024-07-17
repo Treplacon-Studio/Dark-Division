@@ -8,6 +8,8 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(AudioSource))]
 public class MovementController : MonoBehaviourPunCallbacks
 {
+    [SerializeField] private PlayerNetworkController pnc;
+    
     [Header("Movement properties")]
     [SerializeField]
     [Range(0f, 1f)]
@@ -223,7 +225,7 @@ public class MovementController : MonoBehaviourPunCallbacks
 
             _moveVelocity = _moveDirection * _speed;
 
-            if (ActionsManager.Instance.Jumping.JumpTriggered() && ActionsManager.Instance.Jumping.CanJump())
+            if (ActionsManager.GetInstance(pnc.GetInstanceID()).Jumping.JumpTriggered() && ActionsManager.GetInstance(pnc.GetInstanceID()).Jumping.CanJump())
             {
                 _moveVelocity.y = yJumpingSpeed;
                 _moveVelocity += _moveDirection * xJumpingSpeed;
@@ -267,29 +269,29 @@ public class MovementController : MonoBehaviourPunCallbacks
     {
         if (photonView.IsMine)
         {
-            if (ActionsManager.Instance?.Sprinting is not null)
-                ActionsManager.Instance.Sprinting.Run();
+            if (ActionsManager.GetInstance(pnc.GetInstanceID())?.Sprinting is not null)
+                ActionsManager.GetInstance(pnc.GetInstanceID()).Sprinting.Run();
             
-            if (ActionsManager.Instance?.Jumping is not null)
-                ActionsManager.Instance.Jumping.Run(_isLanding, _isGrounded);
+            if (ActionsManager.GetInstance(pnc.GetInstanceID())?.Jumping is not null)
+                ActionsManager.GetInstance(pnc.GetInstanceID()).Jumping.Run(_isLanding, _isGrounded);
             
-            if (ActionsManager.Instance?.Shooting is not null)
-                ActionsManager.Instance.Shooting.Run();
+            if (ActionsManager.GetInstance(pnc.GetInstanceID())?.Shooting is not null)
+                ActionsManager.GetInstance(pnc.GetInstanceID()).Shooting.Run();
             
-            if (ActionsManager.Instance?.Aiming is not null)
-                ActionsManager.Instance.Aiming.Run(aimMode);
+            if (ActionsManager.GetInstance(pnc.GetInstanceID())?.Aiming is not null)
+                ActionsManager.GetInstance(pnc.GetInstanceID()).Aiming.Run(aimMode);
             
-            if (ActionsManager.Instance?.Walking is not null)
-                ActionsManager.Instance.Walking.Run(_input, _isGrounded);
+            if (ActionsManager.GetInstance(pnc.GetInstanceID())?.Walking is not null)
+                ActionsManager.GetInstance(pnc.GetInstanceID()).Walking.Run(_input, _isGrounded);
             
-            if (ActionsManager.Instance?.Reloading is not null)
-                ActionsManager.Instance.Reloading.Run();
+            if (ActionsManager.GetInstance(pnc.GetInstanceID())?.Reloading is not null)
+                ActionsManager.GetInstance(pnc.GetInstanceID()).Reloading.Run();
             
-            if (ActionsManager.Instance?.Inspecting is not null)
-                ActionsManager.Instance.Inspecting.Run();
+            if (ActionsManager.GetInstance(pnc.GetInstanceID())?.Inspecting is not null)
+                ActionsManager.GetInstance(pnc.GetInstanceID()).Inspecting.Run();
             
-            if (ActionsManager.Instance?.Switching is not null)
-                ActionsManager.Instance.Switching.Run();
+            if (ActionsManager.GetInstance(pnc.GetInstanceID())?.Switching is not null)
+                ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.Run();
         }
     }
 

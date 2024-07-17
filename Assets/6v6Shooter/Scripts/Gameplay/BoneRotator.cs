@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Photon.Pun;
 
-public class BoneRotator : MonoBehaviour
+public class BoneRotator : MonoBehaviourPunCallbacks
 {
-    private Transform bone; // The bone to control
     public float rotationSpeed = 100f; // Speed of rotation
     [SerializeField] private InputAction lookAction;
 
@@ -13,8 +13,7 @@ public class BoneRotator : MonoBehaviour
 
     void Start()
     {
-        bone = this.transform;
-        currentEulerAngles = bone.localEulerAngles;
+        currentEulerAngles = transform.localEulerAngles;
     }
 
     void OnEnable()
@@ -29,6 +28,9 @@ public class BoneRotator : MonoBehaviour
 
     void LateUpdate()
     {
+        if (photonView.IsMine is false)
+            return;
+
         Vector2 lookInput = lookAction.ReadValue<Vector2>();
         float lookY = lookInput.y;
 
@@ -37,6 +39,12 @@ public class BoneRotator : MonoBehaviour
         // Clamping the X rotation for looking up and down
         currentEulerAngles.x = Mathf.Clamp(currentEulerAngles.x, -90f, 90f);
 
-        bone.localEulerAngles = currentEulerAngles;
+        transform.localEulerAngles = currentEulerAngles;
+    }
+
+    public void AddRotation(float rotation)
+    {
+        currentEulerAngles.x -= rotation;
+        currentEulerAngles.x = Mathf.Clamp(currentEulerAngles.x, -90f, 90f);
     }
 }
