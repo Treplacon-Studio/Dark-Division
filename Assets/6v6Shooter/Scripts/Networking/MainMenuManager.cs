@@ -1,8 +1,6 @@
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using TMPro; 
-using System.Collections;
 
 public class MainMenuManager : MonoBehaviourPunCallbacks
 {
@@ -31,13 +29,6 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public GameObject SelectNavRow;
     public GameObject loadoutList; 
 
-    [Header("Loadout UI")]
-    public GameObject[] loadoutButtons;
-    public GameObject renameScreen; 
-
-    public GameObject inputFieldGameObject;
-    private TMP_InputField inputField;
-    [SerializeField] private GameObject errMsg;
 
     #region Unity Methods
 
@@ -45,7 +36,6 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     {
         SetPanelViewability();
         ConnectToPhotonServer();
-        inputField = inputFieldGameObject.GetComponent<TMP_InputField>();
         cameraManage.SetCameraPriority("main");
     }
 
@@ -105,7 +95,6 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         cameraManage.SetCameraPriority("main");
     }
     public void OnBackToSelectLoadoutButtonClicked() => SetPanelViewability(selectLoadoutPanel:true);
-    public void OnCancelRename() => renameScreen.SetActive(false);
 
     public void FindAnOpenMatch()
     {

@@ -17,13 +17,6 @@ public class LoadoutManager : MonoBehaviour
     public TextMeshProUGUI PrimaryWeaponTypeText;
     public TextMeshProUGUI SecondaryWeaponTypeText;
 
-    [Header("WEAPON ITEMS")]
-    public List<WeaponItem> PrimaryWeaponItems;
-    public List<WeaponItem> SecondaryWeaponItems;
-    
-    [Header("LOADOUTS")]
-    public List<Loadout> PlayerLoadouts;
-
     [Header("LOADOUT RENAMING")]
     public GameObject RenameLoadoutModal;
     public GameObject LoadoutButtonPrefab;
@@ -35,9 +28,21 @@ public class LoadoutManager : MonoBehaviour
     private int _currentRenameLoadoutIndex;
     private GameObject[] LoadoutButtons;
 
+    [Header("INSTANTIATE POSITION")]
+    public Transform WeaponSpawnPoint;
+    private GameObject _lastWeaponShown;
+
+    [Header("WEAPON ITEMS")]
+    public List<WeaponItem> PrimaryWeaponItems;
+    public List<WeaponItem> SecondaryWeaponItems;
+    
+    [Header("LOADOUTS")]
+    public List<Loadout> PlayerLoadouts;
+
+
     void Start()
     {
-        //ClearAllLoadouts(); //This is just for testing
+        ClearAllLoadouts(); //This is just for testing
 
         PlayerLoadouts = LoadAllLoadouts();
         LoadoutButtons = new GameObject[MaxLoadouts];
@@ -120,6 +125,9 @@ public class LoadoutManager : MonoBehaviour
         
         PrimaryWeaponText.text = loadout.PrimaryWeapon.WeaponName;
         SecondaryWeaponText.text = loadout.SecondaryWeapon.WeaponName;
+
+        //Instantiate the primary weapon prefab
+        InstantiateWeapon(loadout.PrimaryWeapon.WeaponPrefabName);
     }
 
     private Loadout GetDefaultLoadout(int index)
@@ -153,6 +161,8 @@ public class LoadoutManager : MonoBehaviour
     }
 
     #region  RENAMING LOADOUT
+
+    public void OnCancelRename() => RenameLoadoutModal.SetActive(false);
 
     private void SetLoadoutButtonsForRenaming()
     {
@@ -202,6 +212,9 @@ public class LoadoutManager : MonoBehaviour
             }
         }
 
+        //Set the text field to the current loadout name
+        LoadoutRenameInputField.text = PlayerLoadouts[_currentRenameLoadoutIndex].LoadoutName;
+
         RenameLoadoutModal.SetActive(true);
     }
 
@@ -239,8 +252,29 @@ public class LoadoutManager : MonoBehaviour
             exitEntry.callback.AddListener((eventData) => { OnPointerExit(); });
             trigger.triggers.Add(exitEntry);
 
+            //istener to load the loadout
+            Button btnComponent = button.GetComponent<Button>();
+            int loadoutIndex = i;
+            btnComponent.onClick.AddListener(() => LoadLoadoutByIndex(loadoutIndex));
+
             LoadoutButtons[i] = button;
         }
+    }
+
+    #endregion
+
+    #region  WEAPON PREFAB
+
+    private void InstantiateWeapon(string weaponPrefabName)
+    {
+        if (_lastWeaponShown != null)
+            Destroy(_lastWeaponShown);
+
+        GameObject weaponPrefab = Resources.Load<GameObject>($"Weapons/LoadoutWeaponPrefabs/{weaponPrefabName}");
+        if (weaponPrefab != null)
+            _lastWeaponShown = Instantiate(weaponPrefab, WeaponSpawnPoint.position, WeaponSpawnPoint.rotation, WeaponSpawnPoint);
+        else
+            Debug.LogError($"Weapon prefab '{weaponPrefabName}' not found in Resources/Weapons folder.");
     }
 
     #endregion
