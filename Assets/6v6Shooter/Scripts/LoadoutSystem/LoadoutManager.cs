@@ -17,6 +17,7 @@ public class LoadoutManager : MonoBehaviour
     [Header("UI ELEMENTS")]
     public GameObject SelectedLoadoutPreviewPanel;
     public GameObject SelectWeaponButtonContainer;
+    public GameObject SelectWeaponButtonPrefab;
     public TextMeshProUGUI PrimaryWeaponText;
     public TextMeshProUGUI SecondaryWeaponText;
     public TextMeshProUGUI PrimaryWeaponTypeText;
@@ -47,7 +48,7 @@ public class LoadoutManager : MonoBehaviour
 
     void Start()
     {
-        ClearAllLoadouts(); //This is just for testing
+        //ClearAllLoadouts(); //This is just for testing
 
         PlayerLoadouts = LoadAllLoadouts();
         LoadoutButtons = new GameObject[MaxLoadouts];
@@ -297,7 +298,33 @@ public class LoadoutManager : MonoBehaviour
 
     private void InstantiateWeaponSelectionButtons()
     {
-        
+        //Clear exisiting
+        foreach (Transform child in SelectWeaponButtonContainer.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (WeaponItem weaponItem in PrimaryWeaponItems)
+        {
+            if (weaponItem.WeaponTypeItem == WeaponItem.WeaponType.Assault)
+            {
+                GameObject weaponButton = Instantiate(SelectWeaponButtonPrefab, SelectWeaponButtonContainer.transform);
+
+                TextMeshProUGUI weaponButtonText = weaponButton.GetComponentInChildren<TextMeshProUGUI>();
+                if (weaponButtonText != null)
+                    weaponButtonText.text = weaponItem.WeaponName;
+
+                //Add event listener on button after instantiation
+                Button weaponButtonComponent = weaponButton.GetComponent<Button>();
+                if (weaponButtonComponent != null)
+                    weaponButtonComponent.onClick.AddListener(() => OnWeaponSelected(weaponItem));
+            }
+        }
+    }
+
+    private void OnWeaponSelected(WeaponItem selectedWeapon)
+    {
+        Debug.Log("Selected Weapon: " + selectedWeapon.WeaponName);
     }
     
     #endregion
