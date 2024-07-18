@@ -10,6 +10,7 @@ public class MM_CinemaCC : MonoBehaviour
     public CinemachineVirtualCamera mainVC;
     public CinemachineVirtualCamera modeVC;
     public CinemachineVirtualCamera workbenchVC;
+    public CinemachineVirtualCamera weaponDisplayVC;
     public CinemachineVirtualCamera settingsVC;
     public CinemachineVirtualCamera shopVC;
     public CinemachineVirtualCamera exitVC;
@@ -22,8 +23,9 @@ public class MM_CinemaCC : MonoBehaviour
         settingsVC.Priority = 0;
         shopVC.Priority = 0;
         exitVC.Priority = 0;
+        weaponDisplayVC.Priority = 0;
 
-         switch (cameraName.ToLower())
+        switch (cameraName.ToLower())
         {
             case "main":
                 mainVC.Priority = 1;
@@ -33,6 +35,9 @@ public class MM_CinemaCC : MonoBehaviour
                 break;
             case "workbench":
                 workbenchVC.Priority = 1;
+                break;
+            case "weapondisplay":
+                weaponDisplayVC.Priority = 1;
                 break;
             case "settings":
                 settingsVC.Priority = 1;

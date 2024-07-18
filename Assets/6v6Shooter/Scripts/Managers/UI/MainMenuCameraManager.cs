@@ -1,21 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MainMenuCameraController : MonoBehaviour
 {
-    public static MainMenuCameraController instance;
-
     [Header("Menu transitions")]
     [SerializeField] private Transform[] transitionTargets;
     [SerializeField] private float transitionDuration = 1.0f;
     [SerializeField] private Camera lobbyCamera;
-
-    void Awake()
-    {
-        if (instance == null) 
-            instance = this;
-    }
     
     public void FocusOn(int index)
     {

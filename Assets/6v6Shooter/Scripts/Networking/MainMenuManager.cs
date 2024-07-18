@@ -14,7 +14,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
     public MenuNavigationState currentState = MenuNavigationState.None;
 
-    public MM_CinemaCC cameraManage;
+    public MM_CinemaCC cameraManager;
 
     public GameObject ButtonPanel;
     public GameObject SelectLoadoutPanel;
@@ -36,7 +36,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     {
         SetPanelViewability();
         ConnectToPhotonServer();
-        cameraManage.SetCameraPriority("main");
+        cameraManager.SetCameraPriority("main");
     }
 
     public void SetPanelViewability(bool selectGamePanel = false, 
@@ -63,7 +63,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public void OnPlayGameSelected()
     { 
         SetPanelViewability(selectGamePanel:true, gameTypeContainer:true, navRow:true);
-        cameraManage.SetCameraPriority("mode");
+        cameraManager.SetCameraPriority("mode");
     }
     public void OnQuickplaySelected() => SetPanelViewability(selectGamePanel:true, gameModeContainer:true, navRow:true);
     public void OnRankedPlaySelected() {}
@@ -71,28 +71,28 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public void OnCreateClassSelected() 
     {
         SetPanelViewability(selectLoadoutPanel:true);
-        cameraManage.SetCameraPriority("workbench");
+        cameraManager.SetCameraPriority("workbench");
     }
     public void SelectLoadout(int loadoutNum) => SetPanelViewability(editLoadoutPanel:true);
     public void OnStoreSelected() 
     {
         SetPanelViewability(shopPanel:true);
-        cameraManage.SetCameraPriority("shop");
+        cameraManager.SetCameraPriority("shop");
     }
     public void OnSettingsSelected() 
     {
         SetPanelViewability(settingsPanel:true);
-        cameraManage.SetCameraPriority("settings");
+        cameraManager.SetCameraPriority("settings");
     }
     public void OnQuitSelected() {
-        cameraManage.SetCameraPriority("exit");
+        cameraManager.SetCameraPriority("exit");
     }
 
     //Back buttons
     public void OnBackToMainMenuButtonClicked() 
     {
         SetPanelViewability(buttonPanel:true);
-        cameraManage.SetCameraPriority("main");
+        cameraManager.SetCameraPriority("main");
     }
     public void OnBackToSelectLoadoutButtonClicked() => SetPanelViewability(selectLoadoutPanel:true);
 

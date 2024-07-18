@@ -10,6 +10,8 @@ public class LoadoutManager : MonoBehaviour
     private const string LoadoutKey = "Loadout_";
     private const int MaxLoadouts = 6;
 
+    public MM_CinemaCC cameraManager;
+
     [Header("UI ELEMENTS")]
     public GameObject SelectedLoadoutPreviewPanel;
     public TextMeshProUGUI PrimaryWeaponText;
@@ -277,6 +279,17 @@ public class LoadoutManager : MonoBehaviour
             Debug.LogError($"Weapon prefab '{weaponPrefabName}' not found in Resources/Weapons folder.");
     }
 
+    #endregion
+
+    #region  CHANGING WEAPON
+    
+    public void ViewWeaponDisplay()
+    {
+        SelectedLoadoutPreviewPanel.SetActive(false);
+        LoadoutButtonsContainer.gameObject.SetActive(false);
+        cameraManager.SetCameraPriority("weaponDisplay");
+    }
+    
     #endregion
 }
 
