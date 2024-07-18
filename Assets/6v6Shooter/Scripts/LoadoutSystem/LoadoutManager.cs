@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,6 +12,7 @@ public class LoadoutManager : MonoBehaviour
     private const int MaxLoadouts = 6;
 
     public MM_CinemaCC cameraManager;
+    public MainMenuManager MainMenuManager;
 
     [Header("UI ELEMENTS")]
     public GameObject SelectedLoadoutPreviewPanel;
@@ -287,6 +289,7 @@ public class LoadoutManager : MonoBehaviour
     {
         SelectedLoadoutPreviewPanel.SetActive(false);
         LoadoutButtonsContainer.gameObject.SetActive(false);
+        MainMenuManager.SetPanelViewability(editLoadoutPanel:true);
         cameraManager.SetCameraPriority("weaponDisplay");
     }
     

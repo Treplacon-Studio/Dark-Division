@@ -7,6 +7,8 @@ public class MM_CinemaCC : MonoBehaviour
 {
 
     private Animator animator;
+
+    [Header("SCENE OBJECT CAMERA POSITIONS")]
     public CinemachineVirtualCamera mainVC;
     public CinemachineVirtualCamera modeVC;
     public CinemachineVirtualCamera workbenchVC;
@@ -14,6 +16,13 @@ public class MM_CinemaCC : MonoBehaviour
     public CinemachineVirtualCamera settingsVC;
     public CinemachineVirtualCamera shopVC;
     public CinemachineVirtualCamera exitVC;
+
+    [Header("WEAPON CONTAINER CAMERA POSITIONS")]
+    public CinemachineVirtualCamera pistolVC;
+    public CinemachineVirtualCamera submachineVC;
+    public CinemachineVirtualCamera assaultVC;
+    public CinemachineVirtualCamera sniperVC;
+    public CinemachineVirtualCamera ShotgunVC;
 
     public void SetCameraPriority(string cameraName)
     {
@@ -24,6 +33,12 @@ public class MM_CinemaCC : MonoBehaviour
         shopVC.Priority = 0;
         exitVC.Priority = 0;
         weaponDisplayVC.Priority = 0;
+
+        pistolVC.Priority = 0;
+        submachineVC.Priority = 0;
+        assaultVC.Priority = 0;
+        sniperVC.Priority = 0;
+        ShotgunVC.Priority = 0;
 
         switch (cameraName.ToLower())
         {
@@ -46,6 +61,21 @@ public class MM_CinemaCC : MonoBehaviour
                 shopVC.Priority = 1;
                 break;
             case "exit":
+                exitVC.Priority = 1;
+                break;
+            case "pistolcontainer":
+                exitVC.Priority = 1;
+                break;
+            case "submachinecontainer":
+                exitVC.Priority = 1;
+                break;
+            case "assaultcontainer":
+                exitVC.Priority = 1;
+                break;
+            case "snipercontainer":
+                exitVC.Priority = 1;
+                break;
+            case "shotguncontainer":
                 exitVC.Priority = 1;
                 break;
             default:
