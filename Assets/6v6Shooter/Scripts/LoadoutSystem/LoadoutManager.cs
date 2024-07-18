@@ -26,19 +26,27 @@ public class LoadoutManager : MonoBehaviour
 
     [Header("LOADOUT RENAMING")]
     public GameObject RenameLoadoutModal;
-    public GameObject[] LoadoutButtons;
-    public TMP_InputField inputField;
+    public GameObject LoadoutButtonPrefab;
+    public Transform LoadoutButtonsContainer;
+    public Button SubmitButton;
+    public TMP_InputField LoadoutRenameInputField;
     private GameObject _hoveredButton;
+    private GameObject _lastHoveredButton;
+    private int _currentRenameLoadoutIndex;
+    private GameObject[] LoadoutButtons;
 
     void Start()
     {
-        ClearAllLoadouts();
+        //ClearAllLoadouts(); //This is just for testing
+
+        PlayerLoadouts = LoadAllLoadouts();
+        LoadoutButtons = new GameObject[MaxLoadouts];
+        InstantiateLoadoutButtons();
 
         SetLoadoutButtonsForRenaming();
 
         RenameLoadoutModal.SetActive(false);
         SelectedLoadoutPreviewPanel.SetActive(false);
-        PlayerLoadouts = LoadAllLoadouts();
     }
 
     void Update()
@@ -78,7 +86,7 @@ public class LoadoutManager : MonoBehaviour
             if (string.IsNullOrEmpty(json))
             {
                 //If no loadout saved in this slot, create and save a default loadout
-                Loadout defaultLoadout = GetDefaultLoadout();
+                Loadout defaultLoadout = GetDefaultLoadout(i + 1);
                 SaveLoadout(i, defaultLoadout);
                 loadouts.Add(defaultLoadout);
             }
@@ -114,12 +122,13 @@ public class LoadoutManager : MonoBehaviour
         SecondaryWeaponText.text = loadout.SecondaryWeapon.WeaponName;
     }
 
-    private Loadout GetDefaultLoadout()
+    private Loadout GetDefaultLoadout(int index)
     {
         WeaponItem defaultPrimaryWeapon = PrimaryWeaponItems[0];
         WeaponItem defaultSecondaryWeapon = SecondaryWeaponItems[0];
 
         return new Loadout(
+            "Loadout " + index,
             defaultPrimaryWeapon,
             defaultSecondaryWeapon
         );
@@ -147,7 +156,7 @@ public class LoadoutManager : MonoBehaviour
 
     private void SetLoadoutButtonsForRenaming()
     {
-        inputField.onValueChanged.AddListener(OnInputValueChanged); //Add event listener to the user rename input field
+        SubmitButton.onClick.AddListener(OnRenameLoadoutClicked);
 
         foreach (GameObject button in LoadoutButtons)
         {
@@ -165,12 +174,6 @@ public class LoadoutManager : MonoBehaviour
         }
     }
 
-    private void OnInputValueChanged(string userInput)
-    {
-        Debug.Log(userInput);
-        RenameLoadout(userInput);
-    }
-
     private void UpdateHoveredButton()
     {
         if (_hoveredButton != null && Input.GetKeyDown(KeyCode.R))
@@ -180,6 +183,7 @@ public class LoadoutManager : MonoBehaviour
     private void OnPointerEnter(GameObject button)
     {
         _hoveredButton = button;
+        _lastHoveredButton = _hoveredButton;
     }
 
     private void OnPointerExit()
@@ -189,13 +193,54 @@ public class LoadoutManager : MonoBehaviour
 
     private void ShowRenameLoadoutModal()
     {
+        for (int i = 0; i < LoadoutButtons.Length; i++)
+        {
+            if (LoadoutButtons[i] == _lastHoveredButton)
+            {
+                _currentRenameLoadoutIndex = i;
+                break;
+            }
+        }
+
         RenameLoadoutModal.SetActive(true);
     }
 
-    private void RenameLoadout(string newName)
+    private void OnRenameLoadoutClicked()
     {
-        TextMeshProUGUI loadoutNameText = _hoveredButton.GetComponentInChildren<TextMeshProUGUI>();
-        loadoutNameText.text = newName;
+        TextMeshProUGUI loadoutNameText = _lastHoveredButton.GetComponentInChildren<TextMeshProUGUI>();
+        loadoutNameText.text = LoadoutRenameInputField.text;
+
+        //Update the loadout name
+        PlayerLoadouts[_currentRenameLoadoutIndex].LoadoutName = LoadoutRenameInputField.text;
+
+        SaveLoadout(_currentRenameLoadoutIndex, PlayerLoadouts[_currentRenameLoadoutIndex]);
+
+        RenameLoadoutModal.SetActive(false);
+    }
+
+    private void InstantiateLoadoutButtons()
+    {
+        for (int i = 0; i < PlayerLoadouts.Count; i++)
+        {
+            GameObject button = Instantiate(LoadoutButtonPrefab, LoadoutButtonsContainer);
+            TextMeshProUGUI loadoutNameText = button.GetComponentInChildren<TextMeshProUGUI>();
+            loadoutNameText.text = PlayerLoadouts[i].LoadoutName;
+            
+            //Set button event trigger for renaming
+            EventTrigger trigger = button.AddComponent<EventTrigger>();
+
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.PointerEnter;
+            entry.callback.AddListener((eventData) => { OnPointerEnter(button); });
+            trigger.triggers.Add(entry);
+
+            EventTrigger.Entry exitEntry = new EventTrigger.Entry();
+            exitEntry.eventID = EventTriggerType.PointerExit;
+            exitEntry.callback.AddListener((eventData) => { OnPointerExit(); });
+            trigger.triggers.Add(exitEntry);
+
+            LoadoutButtons[i] = button;
+        }
     }
 
     #endregion
@@ -204,11 +249,13 @@ public class LoadoutManager : MonoBehaviour
 [System.Serializable]
 public class Loadout
 {
+    public string LoadoutName;
     public WeaponItem PrimaryWeapon;
     public WeaponItem SecondaryWeapon;
 
-    public Loadout(WeaponItem primaryWeapon, WeaponItem secondaryWeapon)
+    public Loadout(string loadoutName, WeaponItem primaryWeapon, WeaponItem secondaryWeapon)
     {
+        LoadoutName = loadoutName;
         PrimaryWeapon = primaryWeapon;
         SecondaryWeapon = secondaryWeapon;
     }
