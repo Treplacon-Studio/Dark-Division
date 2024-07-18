@@ -16,6 +16,7 @@ public class LoadoutManager : MonoBehaviour
 
     [Header("UI ELEMENTS")]
     public GameObject SelectedLoadoutPreviewPanel;
+    public GameObject SelectWeaponButtonContainer;
     public TextMeshProUGUI PrimaryWeaponText;
     public TextMeshProUGUI SecondaryWeaponText;
     public TextMeshProUGUI PrimaryWeaponTypeText;
@@ -267,7 +268,7 @@ public class LoadoutManager : MonoBehaviour
 
     #endregion
 
-    #region  WEAPON PREFAB
+    #region  WEAPON PREFAB DISPLAY
 
     private void InstantiateWeapon(string weaponPrefabName)
     {
@@ -283,14 +284,20 @@ public class LoadoutManager : MonoBehaviour
 
     #endregion
 
-    #region  CHANGING WEAPON
-    
+    #region  SELECT WEAPON SCREEN
+
     public void ViewWeaponDisplay()
     {
         SelectedLoadoutPreviewPanel.SetActive(false);
         LoadoutButtonsContainer.gameObject.SetActive(false);
         MainMenuManager.SetPanelViewability(editLoadoutPanel:true);
         cameraManager.SetCameraPriority("weaponDisplay");
+        InstantiateWeaponSelectionButtons();
+    }
+
+    private void InstantiateWeaponSelectionButtons()
+    {
+        
     }
     
     #endregion
