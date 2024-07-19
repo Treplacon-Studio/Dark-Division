@@ -23,6 +23,7 @@ public class LoadoutManager : MonoBehaviour
     public TextMeshProUGUI SecondaryWeaponText;
     public TextMeshProUGUI PrimaryWeaponTypeText;
     public TextMeshProUGUI SecondaryWeaponTypeText;
+    public TextMeshProUGUI LoadoutHeaderText;
 
     [Header("LOADOUT RENAMING")]
     public GameObject RenameLoadoutModal;
@@ -122,6 +123,7 @@ public class LoadoutManager : MonoBehaviour
             return;
 
         Loadout loadout = JsonUtility.FromJson<Loadout>(loadoutJson);
+        LoadoutHeaderText.text = loadout.LoadoutName;
         ApplyLoadout(loadout);
 
         SelectedLoadoutPreviewPanel.SetActive(true);
@@ -369,7 +371,7 @@ public class LoadoutManager : MonoBehaviour
             if (weaponLerpScript != null)
             {
                 weaponLerpScript.LerpToCamera();
-                _lastWeaponShown = weapon; // Set the new last weapon shown
+                _lastWeaponShown = weapon; //Set the new last weapon shown
             }
             else
             {
