@@ -39,6 +39,7 @@ public class LoadoutManager : MonoBehaviour
     [Header("INSTANTIATE POSITION")]
     public Transform WeaponSpawnPoint;
     private GameObject _lastWeaponShown;
+    private GameObject _lastWeaponSelected;
 
     [Header("WEAPON CONTAINER")]
     public List<GameObject> WeaponsInContainer;
@@ -49,6 +50,9 @@ public class LoadoutManager : MonoBehaviour
     
     [Header("LOADOUTS")]
     public List<Loadout> PlayerLoadouts;
+
+    private WeaponItem _tempSelectedWeapon;
+    private int _currentLoadoutIndex;
 
 
     void Start()
@@ -118,6 +122,8 @@ public class LoadoutManager : MonoBehaviour
 
     public void LoadLoadoutByIndex(int loadoutIndex)
     {
+        _currentLoadoutIndex = loadoutIndex;
+
         string loadoutJson = PlayerPrefs.GetString(LoadoutKey + loadoutIndex, string.Empty);
         if (string.IsNullOrEmpty(loadoutJson))
             return;
@@ -323,21 +329,21 @@ public class LoadoutManager : MonoBehaviour
                 //Add event listener on button after instantiation
                 Button weaponButtonComponent = weaponButton.GetComponent<Button>();
                 if (weaponButtonComponent != null)
-                    weaponButtonComponent.onClick.AddListener(() => OnWeaponSelected(weaponItem));
+                    weaponButtonComponent.onClick.AddListener(() => OnWeaponViewSelected(weaponItem));
             }
         }
     }
 
-    private void OnWeaponSelected(WeaponItem selectedWeapon)
+    private void OnWeaponViewSelected(WeaponItem selectedWeapon)
     {
+        _tempSelectedWeapon = selectedWeapon;
+
         // Reset the position of the last weapon if it is currently displayed
-        if (_lastWeaponShown != null)
+        if (_lastWeaponSelected != null)
         {
-            var lastWeaponLerpScript = _lastWeaponShown.GetComponent<WeaponLerpToCameraPosition>();
+            var lastWeaponLerpScript = _lastWeaponSelected.GetComponent<WeaponLerpToCameraPosition>();
             if (lastWeaponLerpScript != null && lastWeaponLerpScript.IsDisplayed())
-            {
                 lastWeaponLerpScript.ResetPosition();
-            }
         }
 
         // Determine which camera position to pan into
@@ -371,7 +377,7 @@ public class LoadoutManager : MonoBehaviour
             if (weaponLerpScript != null)
             {
                 weaponLerpScript.LerpToCamera();
-                _lastWeaponShown = weapon; //Set the new last weapon shown
+                _lastWeaponSelected = weapon; //Set the new last weapon shown
             }
             else
             {
@@ -382,6 +388,24 @@ public class LoadoutManager : MonoBehaviour
         {
             Debug.LogError("Weapon with prefab name " + selectedWeapon.WeaponPrefabName + " not found in container.");
         }
+    }
+
+    public void OnChangedWeapon()
+    {
+        if (_tempSelectedWeapon == null)
+        {
+            Debug.LogError("No weapon selected to change in loadout.");
+            return;
+        }
+
+        Loadout loadout = PlayerLoadouts[_currentLoadoutIndex];
+        loadout.PrimaryWeapon = _tempSelectedWeapon;
+        SaveLoadout(_currentLoadoutIndex, loadout);
+        PrimaryWeaponText.text = loadout.PrimaryWeapon.WeaponName;
+
+        cameraManager.SetCameraPriority("workbench");
+        MainMenuManager.SetPanelViewability(selectLoadoutPanel:true);
+        LoadLoadoutByIndex(_currentLoadoutIndex);
     }
     
     #endregion
