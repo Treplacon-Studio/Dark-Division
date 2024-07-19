@@ -306,7 +306,7 @@ public class LoadoutManager : MonoBehaviour
 
         foreach (WeaponItem weaponItem in PrimaryWeaponItems)
         {
-            if (weaponItem.WeaponTypeItem == WeaponItem.WeaponType.Assault)
+            if (weaponItem.WeaponCategoryItem == WeaponItem.WeaponCategory.Primary)
             {
                 GameObject weaponButton = Instantiate(SelectWeaponButtonPrefab, SelectWeaponButtonContainer.transform);
 
@@ -325,6 +325,7 @@ public class LoadoutManager : MonoBehaviour
     private void OnWeaponSelected(WeaponItem selectedWeapon)
     {
         Debug.Log("Selected Weapon: " + selectedWeapon.WeaponName);
+        cameraManager.SetCameraPriority("assaultcontainer");
     }
     
     #endregion

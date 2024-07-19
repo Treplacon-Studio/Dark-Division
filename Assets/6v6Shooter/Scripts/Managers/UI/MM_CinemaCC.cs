@@ -5,7 +5,6 @@ using Cinemachine;
 
 public class MM_CinemaCC : MonoBehaviour
 {
-
     private Animator animator;
 
     [Header("SCENE OBJECT CAMERA POSITIONS")]
@@ -22,7 +21,7 @@ public class MM_CinemaCC : MonoBehaviour
     public CinemachineVirtualCamera submachineVC;
     public CinemachineVirtualCamera assaultVC;
     public CinemachineVirtualCamera sniperVC;
-    public CinemachineVirtualCamera ShotgunVC;
+    public CinemachineVirtualCamera shotgunVC;
 
     public void SetCameraPriority(string cameraName)
     {
@@ -38,7 +37,7 @@ public class MM_CinemaCC : MonoBehaviour
         submachineVC.Priority = 0;
         assaultVC.Priority = 0;
         sniperVC.Priority = 0;
-        ShotgunVC.Priority = 0;
+        shotgunVC.Priority = 0;
 
         switch (cameraName.ToLower())
         {
@@ -64,19 +63,19 @@ public class MM_CinemaCC : MonoBehaviour
                 exitVC.Priority = 1;
                 break;
             case "pistolcontainer":
-                exitVC.Priority = 1;
+                pistolVC.Priority = 1;
                 break;
             case "submachinecontainer":
-                exitVC.Priority = 1;
+                submachineVC.Priority = 1;
                 break;
             case "assaultcontainer":
-                exitVC.Priority = 1;
+                assaultVC.Priority = 1;
                 break;
             case "snipercontainer":
-                exitVC.Priority = 1;
+                sniperVC.Priority = 1;
                 break;
             case "shotguncontainer":
-                exitVC.Priority = 1;
+                shotgunVC.Priority = 1;
                 break;
             default:
                 Debug.LogError("Invalid camera name: " + cameraName);
