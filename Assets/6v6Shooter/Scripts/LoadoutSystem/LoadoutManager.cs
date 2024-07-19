@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using TMPro;
 using UnityEngine;
@@ -37,6 +38,9 @@ public class LoadoutManager : MonoBehaviour
     [Header("INSTANTIATE POSITION")]
     public Transform WeaponSpawnPoint;
     private GameObject _lastWeaponShown;
+
+    [Header("WEAPON CONTAINER")]
+    public List<GameObject> WeaponsInContainer;
 
     [Header("WEAPON ITEMS")]
     public List<WeaponItem> PrimaryWeaponItems;
@@ -324,18 +328,58 @@ public class LoadoutManager : MonoBehaviour
 
     private void OnWeaponSelected(WeaponItem selectedWeapon)
     {
-        if (selectedWeapon.WeaponTypeItem == WeaponItem.WeaponType.Assault)
-            cameraManager.SetCameraPriority("assaultcontainer");
-        else if (selectedWeapon.WeaponTypeItem == WeaponItem.WeaponType.Submachine)
-            cameraManager.SetCameraPriority("submachinecontainer");
-        else if (selectedWeapon.WeaponTypeItem == WeaponItem.WeaponType.Sniper)
-            cameraManager.SetCameraPriority("snipercontainer");
-        else if (selectedWeapon.WeaponTypeItem == WeaponItem.WeaponType.Shotgun)
-            cameraManager.SetCameraPriority("shotguncontainer");
-        else if (selectedWeapon.WeaponTypeItem == WeaponItem.WeaponType.Pistol)
-            cameraManager.SetCameraPriority("pistolcontainer");
+        // Reset the position of the last weapon if it is currently displayed
+        if (_lastWeaponShown != null)
+        {
+            var lastWeaponLerpScript = _lastWeaponShown.GetComponent<WeaponLerpToCameraPosition>();
+            if (lastWeaponLerpScript != null && lastWeaponLerpScript.IsDisplayed())
+            {
+                lastWeaponLerpScript.ResetPosition();
+            }
+        }
+
+        // Determine which camera position to pan into
+        switch (selectedWeapon.WeaponTypeItem)
+        {
+            case WeaponItem.WeaponType.Assault:
+                cameraManager.SetCameraPriority("assaultcontainer");
+                break;
+            case WeaponItem.WeaponType.Submachine:
+                cameraManager.SetCameraPriority("submachinecontainer");
+                break;
+            case WeaponItem.WeaponType.Sniper:
+                cameraManager.SetCameraPriority("snipercontainer");
+                break;
+            case WeaponItem.WeaponType.Shotgun:
+                cameraManager.SetCameraPriority("shotguncontainer");
+                break;
+            case WeaponItem.WeaponType.Pistol:
+                cameraManager.SetCameraPriority("pistolcontainer");
+                break;
+            default:
+                Debug.Log("Error has occurred in OnWeaponSelected() method");
+                return;
+        }
+
+        // Find the weapon in the container that matches the prefab name and call its LerpToCamera method
+        var weapon = WeaponsInContainer.FirstOrDefault(w => w.name == selectedWeapon.WeaponPrefabName);
+        if (weapon != null)
+        {
+            var weaponLerpScript = weapon.GetComponent<WeaponLerpToCameraPosition>();
+            if (weaponLerpScript != null)
+            {
+                weaponLerpScript.LerpToCamera();
+                _lastWeaponShown = weapon; // Set the new last weapon shown
+            }
+            else
+            {
+                Debug.LogError("WeaponLerpToCameraPosition script not found on weapon: " + selectedWeapon.WeaponPrefabName);
+            }
+        }
         else
-            Debug.Log("Error has occured in OnWeaponSelected() method");
+        {
+            Debug.LogError("Weapon with prefab name " + selectedWeapon.WeaponPrefabName + " not found in container.");
+        }
     }
     
     #endregion
