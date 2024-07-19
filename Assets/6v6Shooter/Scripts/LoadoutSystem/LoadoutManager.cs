@@ -324,8 +324,18 @@ public class LoadoutManager : MonoBehaviour
 
     private void OnWeaponSelected(WeaponItem selectedWeapon)
     {
-        Debug.Log("Selected Weapon: " + selectedWeapon.WeaponName);
-        cameraManager.SetCameraPriority("assaultcontainer");
+        if (selectedWeapon.WeaponTypeItem == WeaponItem.WeaponType.Assault)
+            cameraManager.SetCameraPriority("assaultcontainer");
+        else if (selectedWeapon.WeaponTypeItem == WeaponItem.WeaponType.Submachine)
+            cameraManager.SetCameraPriority("submachinecontainer");
+        else if (selectedWeapon.WeaponTypeItem == WeaponItem.WeaponType.Sniper)
+            cameraManager.SetCameraPriority("snipercontainer");
+        else if (selectedWeapon.WeaponTypeItem == WeaponItem.WeaponType.Shotgun)
+            cameraManager.SetCameraPriority("shotguncontainer");
+        else if (selectedWeapon.WeaponTypeItem == WeaponItem.WeaponType.Pistol)
+            cameraManager.SetCameraPriority("pistolcontainer");
+        else
+            Debug.Log("Error has occured in OnWeaponSelected() method");
     }
     
     #endregion
