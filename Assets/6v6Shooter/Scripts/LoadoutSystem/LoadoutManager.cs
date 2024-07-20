@@ -429,12 +429,23 @@ public class LoadoutManager : MonoBehaviour
         }
 
         Loadout loadout = PlayerLoadouts[_currentLoadoutIndex];
-        loadout.PrimaryWeapon = _tempSelectedWeapon;
-        SaveLoadout(_currentLoadoutIndex, loadout);
-        PrimaryWeaponText.text = loadout.PrimaryWeapon.WeaponName;
 
+        if (_tempSelectedWeapon.WeaponCategoryItem == WeaponItem.WeaponCategory.Primary)
+        {
+            loadout.PrimaryWeapon = _tempSelectedWeapon;
+            PrimaryWeaponText.text = loadout.PrimaryWeapon.WeaponName;
+        }
+
+        if (_tempSelectedWeapon.WeaponCategoryItem == WeaponItem.WeaponCategory.Secondary)
+        {
+            loadout.SecondaryWeapon = _tempSelectedWeapon;
+            SecondaryWeaponText.text = loadout.SecondaryWeapon.WeaponName;
+        }
+        
+        SaveLoadout(_currentLoadoutIndex, loadout);
         cameraManager.SetCameraPriority("workbench");
         MainMenuManager.SetPanelViewability(selectLoadoutPanel:true);
+        LoadoutButtonsContainer.gameObject.SetActive(true);
         LoadLoadoutByIndex(_currentLoadoutIndex);
     }
     
@@ -445,7 +456,7 @@ public class LoadoutManager : MonoBehaviour
     {
         MainMenuManager.OnCreateClassSelected();
         SelectedLoadoutPreviewPanel.SetActive(true);
-
+        LoadoutButtonsContainer.gameObject.SetActive(true);
     }
 }
 
