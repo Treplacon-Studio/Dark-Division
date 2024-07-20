@@ -409,6 +409,14 @@ public class LoadoutManager : MonoBehaviour
     }
     
     #endregion
+
+    //Selecting back button
+    public void OnBackToLoadoutButtonClicked()
+    {
+        MainMenuManager.OnCreateClassSelected();
+        SelectedLoadoutPreviewPanel.SetActive(true);
+
+    }
 }
 
 [System.Serializable]

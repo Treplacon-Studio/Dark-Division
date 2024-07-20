@@ -73,7 +73,6 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         SetPanelViewability(selectLoadoutPanel:true);
         cameraManager.SetCameraPriority("workbench");
     }
-    public void SelectLoadout(int loadoutNum) => SetPanelViewability(editLoadoutPanel:true);
     public void OnStoreSelected() 
     {
         SetPanelViewability(shopPanel:true);
