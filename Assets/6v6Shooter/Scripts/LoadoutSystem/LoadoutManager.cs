@@ -299,16 +299,20 @@ public class LoadoutManager : MonoBehaviour
 
     #region  SELECT WEAPON SCREEN
 
-    public void ViewWeaponDisplay()
+    public void ViewWeaponDisplay(bool isPrimary)
     {
         SelectedLoadoutPreviewPanel.SetActive(false);
         LoadoutButtonsContainer.gameObject.SetActive(false);
         MainMenuManager.SetPanelViewability(editLoadoutPanel:true);
         cameraManager.SetCameraPriority("weaponDisplay");
-        InstantiateWeaponSelectionButtons();
+
+        if (isPrimary)
+            InstantiatePrimaryWeaponSelectionButtons();
+        else
+            InstantiateSecondaryWeaponSelectionButtons();
     }
 
-    private void InstantiateWeaponSelectionButtons()
+    private void InstantiatePrimaryWeaponSelectionButtons()
     {
         //Clear exisiting
         foreach (Transform child in SelectWeaponButtonContainer.transform)
@@ -319,6 +323,32 @@ public class LoadoutManager : MonoBehaviour
         foreach (WeaponItem weaponItem in PrimaryWeaponItems)
         {
             if (weaponItem.WeaponCategoryItem == WeaponItem.WeaponCategory.Primary)
+            {
+                GameObject weaponButton = Instantiate(SelectWeaponButtonPrefab, SelectWeaponButtonContainer.transform);
+
+                TextMeshProUGUI weaponButtonText = weaponButton.GetComponentInChildren<TextMeshProUGUI>();
+                if (weaponButtonText != null)
+                    weaponButtonText.text = weaponItem.WeaponName;
+
+                //Add event listener on button after instantiation
+                Button weaponButtonComponent = weaponButton.GetComponent<Button>();
+                if (weaponButtonComponent != null)
+                    weaponButtonComponent.onClick.AddListener(() => OnWeaponViewSelected(weaponItem));
+            }
+        }
+    }
+
+    private void InstantiateSecondaryWeaponSelectionButtons()
+    {
+        //Clear exisiting
+        foreach (Transform child in SelectWeaponButtonContainer.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (WeaponItem weaponItem in SecondaryWeaponItems)
+        {
+            if (weaponItem.WeaponCategoryItem == WeaponItem.WeaponCategory.Secondary)
             {
                 GameObject weaponButton = Instantiate(SelectWeaponButtonPrefab, SelectWeaponButtonContainer.transform);
 
