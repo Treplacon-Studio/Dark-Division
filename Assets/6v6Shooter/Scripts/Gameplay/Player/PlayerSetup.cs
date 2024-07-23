@@ -120,9 +120,9 @@ public class PlayerSetup : MonoBehaviourPun
     {
         int[,] attachments =
         {
-            {0, -1, -1, -1, -1},
-            {0, -1, -1, -1, -1},
-            {0, -1, -1, -1, -1},
+            {0, -1, -1, -1, -1, 0},
+            {0, -1, -1, -1, -1, 0},
+            {0, -1, -1, -1, -1, 0},
         };
         
         ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.SetNewEquipment(allGuns, attachments);

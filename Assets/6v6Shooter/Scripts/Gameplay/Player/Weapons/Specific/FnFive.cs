@@ -28,6 +28,7 @@ public class FnFive : MonoBehaviour
     private void Start()
     {
         _anim = GetComponent<Animator>();
+        _pnc ??= PlayerUtils.FindComponentInParents<PlayerNetworkController>(gameObject);
         _previousShootingLock = ActionsManager.GetInstance(_pnc.GetInstanceID()).ComponentHolder.playerAnimationController.shootingLock;
         if (_anim == null)
             Debug.LogError("Weapon animator not found.");
@@ -40,6 +41,7 @@ public class FnFive : MonoBehaviour
             _anim.SetBool("pCoghReload", false);
 
         //Reloading cogh
+        _pnc ??= PlayerUtils.FindComponentInParents<PlayerNetworkController>(gameObject);
         if (ActionsManager.GetInstance(_pnc.GetInstanceID()).ComponentHolder.playerAnimationController.reloadingLock)
         {
             if (!_lockReload)

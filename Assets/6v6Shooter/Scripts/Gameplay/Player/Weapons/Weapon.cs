@@ -29,12 +29,16 @@ public class Weapon : MonoBehaviour
 
     [SerializeField] [Tooltip("Weapon stocks attachments.")]
     private GameObject[] stocks;
+    
+    [SerializeField] [Tooltip("Weapon stands attachments (snipers only)")]
+    private GameObject[] stands;
 
     private GameObject _mag;
     private GameObject _barrel;
     private GameObject _underBarrel;
     private GameObject _sight;
     private GameObject _stock;
+    private GameObject _stand;
 
     public void Awake()
     {
@@ -58,6 +62,11 @@ public class Weapon : MonoBehaviour
         return magSocket;
     }
 
+    private bool HasStand()
+    {
+        return weaponName is WeaponInfo.WeaponName.Dsr50 or WeaponInfo.WeaponName.BalistaVortex;
+    }
+
     public void ApplyAttachmentsAssaultRifle(int[,] attachments, int index)
     {
         if (attachments is null)
@@ -66,6 +75,10 @@ public class Weapon : MonoBehaviour
             HandleBarrelChange(-1);
             HandleSightChange(-1);
             HandleStockChange(-1);
+            HandleUnderBarrelChange(-1);
+
+            if (HasStand())
+                HandleStandChange(-1);
         }
         else
         {
@@ -73,6 +86,10 @@ public class Weapon : MonoBehaviour
             HandleBarrelChange(attachments[index, 1]);
             HandleSightChange(attachments[index, 2]);
             HandleStockChange(attachments[index, 3]);
+            HandleUnderBarrelChange(attachments[index, 4]);
+            
+            if(HasStand())
+                HandleStandChange(attachments[index, 5]);
         }
      
     }
@@ -86,8 +103,10 @@ public class Weapon : MonoBehaviour
     {
         foreach (var o in mags) o.SetActive(false);
         foreach (var o in barrels) o.SetActive(false);
+        foreach (var o in underBarrels) o.SetActive(false);
         foreach (var o in sights) o.SetActive(false);
         foreach (var o in stocks) o.SetActive(false);
+        foreach (var o in stands) o.SetActive(false);
     }
 
     private void HandleMagChange(int ind)
@@ -163,6 +182,21 @@ public class Weapon : MonoBehaviour
 
         stocks[ind].SetActive(true);
         _stock = stocks[ind];
+    }
+    
+    private void HandleStandChange(int ind)
+    {
+        foreach (var m in stands)
+            m.SetActive(false);
+
+        if (ind == -1)
+            return;
+
+        if (ind >= stands.Length)
+            Debug.LogError($"There is no stand with index given: {ind}.");
+
+        stands[ind].SetActive(true);
+        _stand = stands[ind];
     }
 }
 
