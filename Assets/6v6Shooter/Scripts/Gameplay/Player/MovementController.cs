@@ -1,3 +1,4 @@
+using System;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -167,7 +168,7 @@ public class MovementController : MonoBehaviourPunCallbacks
         {
             if (Physics.Raycast(transform.position, direction, out var hit))
             {
-                if (hit.distance <= 1.0f)
+                if (hit.distance <= 2.0f)
                 {
                     _isLanding = true;
                     break;
@@ -180,25 +181,17 @@ public class MovementController : MonoBehaviourPunCallbacks
     {
         if (_isGrounded)
         {
-            if (_isFalling) _isFalling = false;
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                if (!isCrouching)
-                    _speed = runningSpeed;
-            }
-            else if (Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.LeftControl))
-            {
-                isCrouching = !isCrouching;
-            }
-
-            if (!Input.GetKey(KeyCode.LeftShift))
-                _speed = isCrouching ? crouchSpeed : walkingSpeed;
+            if (_isFalling) 
+                _isFalling = false;
+            
+            _speed = Input.GetKey(KeyCode.LeftShift) ? runningSpeed : walkingSpeed;
+            if (ActionsManager.GetInstance(pnc.GetInstanceID()).Aiming.IsAiming())
+                _speed = walkingSpeed;
         }
         else
         {
-            if (!_isFalling) _isFalling = true;
-            if (Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.LeftControl))
-                isCrouching = !isCrouching;
+            if (!_isFalling) 
+                _isFalling = true;
         }
     }
 
@@ -230,9 +223,6 @@ public class MovementController : MonoBehaviourPunCallbacks
                 _moveVelocity.y = yJumpingSpeed;
                 _moveVelocity += _moveDirection * xJumpingSpeed;
                 _frameDelayCounter = 0;
-
-                if (isCrouching)
-                    isCrouching = true;
             }
         }
         else
@@ -292,6 +282,9 @@ public class MovementController : MonoBehaviourPunCallbacks
             
             if (ActionsManager.GetInstance(pnc.GetInstanceID())?.Switching is not null)
                 ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.Run();
+            
+            if (ActionsManager.GetInstance(pnc.GetInstanceID())?.Crouching is not null)
+                ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching.Run();
         }
     }
 

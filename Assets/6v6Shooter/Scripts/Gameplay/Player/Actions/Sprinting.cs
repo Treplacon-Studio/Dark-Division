@@ -15,6 +15,7 @@ public class Sprinting : MonoBehaviour
 
     public void Run()
     {
-        componentHolder.playerAnimationController.PlaySprintAnimation(Input.GetKey(KeyCode.LeftShift));
+        componentHolder.playerAnimationController.PlaySprintAnimation(
+            !ActionsManager.GetInstance(pnc.GetInstanceID()).Aiming.IsAiming() && Input.GetKey(KeyCode.LeftShift));
     }
 }
