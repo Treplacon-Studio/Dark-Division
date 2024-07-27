@@ -6,8 +6,8 @@ AvatarMask:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: AM_FullBody
-  m_Mask: 00000000010000000100000001000000010000000000000000000000000000000000000000000000000000000000000000000000
+  m_Name: AM_ArmsAndGun
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
   m_Elements:
   - m_Path: 
     m_Weight: 1
@@ -16,9 +16,9 @@ AvatarMask:
   - m_Path: rig/root
     m_Weight: 1
   - m_Path: rig/root/DEF-spine
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: rig/root/DEF-spine/DEF-spine.001
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002
     m_Weight: 1
   - m_Path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003
@@ -142,23 +142,29 @@ AvatarMask:
     m_Weight: 1
   - m_Path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/DEF-spine.004/DEF-neck/DEF-head
     m_Weight: 1
+  - m_Path: rig/root/DEF-spine/DEF-spine.001/DEF-spine.002/DEF-spine.003/GunSocket
+    m_Weight: 1
   - m_Path: rig/root/DEF-spine/DEF-thigh.L
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: rig/root/DEF-spine/DEF-thigh.L/DEF-shin.L
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: rig/root/DEF-spine/DEF-thigh.L/DEF-shin.L/DEF-foot.L
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: rig/root/DEF-spine/DEF-thigh.L/DEF-shin.L/DEF-foot.L/DEF-toe.L
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: rig/root/DEF-spine/DEF-thigh.R
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: rig/root/DEF-spine/DEF-thigh.R/DEF-shin.R
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: rig/root/DEF-spine/DEF-thigh.R/DEF-shin.R/DEF-foot.R
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: rig/root/DEF-spine/DEF-thigh.R/DEF-shin.R/DEF-foot.R/DEF-toe.R
-    m_Weight: 1
-  - m_Path: SM_Male1FpsBody
-    m_Weight: 1
-  - m_Path: SM_Male1Fullbody
+    m_Weight: 0
+  - m_Path: SM_MaleBody
+    m_Weight: 0
+  - m_Path: SM_MaleBody_FPS
+    m_Weight: 0
+  - m_Path: SM_Outfit1_Male
+    m_Weight: 0
+  - m_Path: SM_Outfit1_Male_FPS
     m_Weight: 0
