@@ -37,7 +37,7 @@ public class Recoil : MonoBehaviour
     private PlayerNetworkController _pnc;
     
     void Start() {
-        _pnc = PlayerUtils.FindComponentInParents<PlayerNetworkController>(gameObject);
+        _pnc ??= PlayerUtils.FindComponentInParents<PlayerNetworkController>(gameObject);
         _playerVirtualCamera = ActionsManager.GetInstance(_pnc.GetInstanceID()).ComponentHolder.bulletPoolingManager
             .player.FindComponentInDescendants<CinemachineVirtualCamera>();
         _playerBoneRotator = ActionsManager.GetInstance(_pnc.GetInstanceID()).ComponentHolder.bulletPoolingManager
@@ -119,6 +119,7 @@ public class Recoil : MonoBehaviour
     
     void Update ()
     {
+        _pnc ??= PlayerUtils.FindComponentInParents<PlayerNetworkController>(gameObject);
         if (ActionsManager.GetInstance(_pnc.GetInstanceID()).Aiming is null)
             return;
         
