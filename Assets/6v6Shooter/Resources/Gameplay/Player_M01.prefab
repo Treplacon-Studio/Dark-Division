@@ -4762,12 +4762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pnc: {fileID: 6771075786898946733}
-  componentHolder: {fileID: 1459547178906316190}
-  fHeightDelta: 0
-  fCrouchTime: 1
-  v2CrouchSpeed: {x: 0, y: 0}
-  sUpDownStateName: 
-  sDownUpStateName: 
+  fCrouchTime: 0.4
 --- !u!114 &6801993316129549875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4895,14 +4890,25 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 2
     Name: pLanding
+  - Type: 9
+    SynchronizeType: 0
+    Name: pStopShootingTrigger
+  - Type: 1
+    SynchronizeType: 0
+    Name: pShootingState
+  - Type: 1
+    SynchronizeType: 0
+    Name: pCrouchState
   - Type: 4
-    SynchronizeType: 2
-    Name: pCrouching
+    SynchronizeType: 0
+    Name: pAiming
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
   - SynchronizeType: 0
     LayerIndex: 1
+  - SynchronizeType: 0
+    LayerIndex: 2
 --- !u!114 &9219427702174086113
 MonoBehaviour:
   m_ObjectHideFlags: 0

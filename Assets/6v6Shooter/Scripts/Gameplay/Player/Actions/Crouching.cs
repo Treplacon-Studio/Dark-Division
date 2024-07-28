@@ -8,20 +8,8 @@ public class Crouching : MonoBehaviour
     [SerializeField]  [Tooltip("Player network controller component.")]
     private PlayerNetworkController pnc;
     
-    [SerializeField] [Tooltip("Component holder to access components.")]
-    private ComponentHolder componentHolder;
-    
-    [SerializeField] [Tooltip("Difference between stand and crouch height.")]
-    private float fHeightDelta;
-    
     [SerializeField] [Tooltip("Time that full crouch-walk or reversed transition takes.")]
-    private float fCrouchTime = 1f;
-    
-    [SerializeField] [Tooltip("Speed of switching through stand and crouch states. Vector2(up, down).")]
-    private Vector2 v2CrouchSpeed;
-    
-    [SerializeField] [Tooltip("Names of the stand-crouch states.")]
-    private string sUpDownStateName, sDownUpStateName;
+    private float fCrouchTime = 0.0005f;
 
     private bool _bCrouching, _bLastCrouching;
     private float _fTransitionStartTime, _fTransitionState, _fTransitionStateUnCrouched;
@@ -51,24 +39,31 @@ public class Crouching : MonoBehaviour
     /// </summary>
     private void SetCrouchTransitionParameter()
     {
-        //On crouching start set transition start time
-        if (_bCrouching && !_bLastCrouching)
-            _fTransitionStartTime = Time.time;
+        var fCurrentTime = Time.time;
         
-        //Clamped 01 value of transition state to set in animator.
-        _fTransitionState = Mathf.Clamp01((Time.time - _fTransitionStartTime)/fCrouchTime);
-
-        //If crouching set un-crouched state to same as crouched.
+        //Reset transition when crouching started
+        if (_bCrouching && !_bLastCrouching)
+            _fTransitionStartTime = fCurrentTime;
+        
+        //Clamp normalized time to 01
+        _fTransitionState = Mathf.Clamp01((fCurrentTime - _fTransitionStartTime) / fCrouchTime);
+        
+        //Set transition states in case of crouching activation
         if (_bCrouching)
             _fTransitionStateUnCrouched = _fTransitionState;
+        else
+        {
+            if (_fTransitionStateUnCrouched > 0)
+            {
+                _fTransitionStateUnCrouched -= Time.deltaTime / fCrouchTime;
+                _fTransitionStateUnCrouched = Mathf.Max(_fTransitionStateUnCrouched, 0);
+            }
+        }
         
-        //Decrease un-crouched state everytime (character keep getting up from crouch with crouch time speed).
-        if(_fTransitionStateUnCrouched > 0)
-            _fTransitionStateUnCrouched -= _fTransitionState * fCrouchTime/Time.deltaTime;
-        
-        //Apply state
+        //Set proper state
+        var fTransitionStateToApply = _bCrouching ? _fTransitionState : _fTransitionStateUnCrouched;
         ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder.playerAnimationController
-            .SetCrouchingState(_bCrouching ? _fTransitionState : _fTransitionStateUnCrouched);
+            .SetCrouchingState(fTransitionStateToApply);
     }
     
     /// <summary>
