@@ -52,6 +52,11 @@ public class PlayerAnimationController : MonoBehaviour
         anim.ResetTrigger("pAimSight");
     }
 
+    public void SetAimState(bool aiming)
+    {
+        anim.SetBool("pAiming", aiming);
+    }
+
     //Shooting
     public void PlayShootAnimation(bool isAiming)
     {
@@ -63,10 +68,26 @@ public class PlayerAnimationController : MonoBehaviour
         anim.SetBool("pStopShooting", stop);
     }
 
-    //Crouching
-    public void PlayCrouchAnimation(bool isCrouching)
+    public void TriggerStopShooting(bool set)
     {
-        anim.SetBool("pCrouching", isCrouching);
+        if(set)
+            anim.SetTrigger("pStopShootingTrigger");
+        else
+            anim.ResetTrigger("pStopShootingTrigger");
+    }
+
+    /// <summary>
+    /// Sets shooting transition to animator as blending of HFR and ADS.
+    /// </summary>
+    public void SetShootingTransitionState(float ts)
+    {
+        anim.SetFloat("pShootingState", ts);
+    }
+
+    //Crouching
+    public void SetCrouchingState(float state)
+    {
+        anim.SetFloat("pCrouchState", state);
     }
 
     //Sprinting

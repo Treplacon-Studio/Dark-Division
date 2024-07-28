@@ -91,6 +91,9 @@ public class Aiming : MonoBehaviour
                 DisableScope();
             }
         }
+        
+        //Update info for animator if player is still aiming
+        componentHolder.playerAnimationController.SetAimState(IsAiming());
     }
 
     public bool IsAiming()

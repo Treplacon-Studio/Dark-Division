@@ -14,6 +14,9 @@ public class Crouching : MonoBehaviour
     [SerializeField] [Tooltip("Difference between stand and crouch height.")]
     private float fHeightDelta;
     
+    [SerializeField] [Tooltip("Time that full crouch-walk or reversed transition takes.")]
+    private float fCrouchTime = 1f;
+    
     [SerializeField] [Tooltip("Speed of switching through stand and crouch states. Vector2(up, down).")]
     private Vector2 v2CrouchSpeed;
     
@@ -21,15 +24,14 @@ public class Crouching : MonoBehaviour
     private string sUpDownStateName, sDownUpStateName;
 
     private bool _bCrouching, _bLastCrouching;
-    private bool _bDuringAnimation;
-    private Animator _animator;
-    
-    private static readonly int PCrouching = Animator.StringToHash("pCrouching");
+    private float _fTransitionStartTime, _fTransitionState, _fTransitionStateUnCrouched;
 
     private void Awake()
     {
         ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching = this;
-        _animator = GetComponent<Animator>();
+        
+        if (fCrouchTime <= 0)
+            Debug.LogError($"Value fCrouchTime must be positive. Current value: {fCrouchTime}.");
     }
 
     /// <summary>
@@ -40,34 +42,37 @@ public class Crouching : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.LeftControl))
             _bCrouching = !_bCrouching;
         
-        if (_bDuringAnimation)
-            return;
-
-        _animator ??= GetComponent<Animator>();
-        _animator.SetBool(PCrouching, _bCrouching);
-
-        return;
-        var currentState = _animator.GetCurrentAnimatorStateInfo(2);
-        var fNormalizedTime = currentState.normalizedTime % 1;
-        
-        if (_animator.IsInTransition(2))
-        {
-            if (_bCrouching)
-                _animator.Play(currentState.fullPathHash, 2, 1 - fNormalizedTime);
-            else
-                _animator.Play(currentState.fullPathHash, 2, fNormalizedTime);
-        }
-        else
-        {
-            _animator.Play(currentState.fullPathHash, 2, fNormalizedTime);
-        }
-
+        SetCrouchTransitionParameter();
         SaveLastCrouchState();
+    }
+
+    /// <summary>
+    /// Controls crouch state between walking/idling and crouch walking/crouch idling.
+    /// </summary>
+    private void SetCrouchTransitionParameter()
+    {
+        //On crouching start set transition start time
+        if (_bCrouching && !_bLastCrouching)
+            _fTransitionStartTime = Time.time;
+        
+        //Clamped 01 value of transition state to set in animator.
+        _fTransitionState = Mathf.Clamp01((Time.time - _fTransitionStartTime)/fCrouchTime);
+
+        //If crouching set un-crouched state to same as crouched.
+        if (_bCrouching)
+            _fTransitionStateUnCrouched = _fTransitionState;
+        
+        //Decrease un-crouched state everytime (character keep getting up from crouch with crouch time speed).
+        if(_fTransitionStateUnCrouched > 0)
+            _fTransitionStateUnCrouched -= _fTransitionState * fCrouchTime/Time.deltaTime;
+        
+        //Apply state
+        ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder.playerAnimationController
+            .SetCrouchingState(_bCrouching ? _fTransitionState : _fTransitionStateUnCrouched);
     }
     
     /// <summary>
-    /// Method <c>SaveLastCrouchState</c> updates last crouch state.
-    /// Should be called in the end of code flow.
+    /// Updates last crouch state.
     /// </summary>
     private void SaveLastCrouchState()
     {

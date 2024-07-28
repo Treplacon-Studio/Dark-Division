@@ -201,7 +201,7 @@ public class MovementController : MonoBehaviourPunCallbacks
         if (_input.y < 0) _input.y *= moveBackwardFactor;
         if (_input.x != 0) _input.x *= moveSideFactor;
         if (_input.sqrMagnitude > 1) _input.Normalize();
-
+        
         if (_isGrounded)
         {
             _moveDirection = transform.forward * _input.y + transform.right * _input.x;
