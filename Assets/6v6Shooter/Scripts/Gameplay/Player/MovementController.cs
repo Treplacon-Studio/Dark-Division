@@ -22,6 +22,9 @@ public class MovementController : MonoBehaviourPunCallbacks
 
     [SerializeField] [Tooltip("Reduces shaking when stepping on non flat terrain.")]
     private float antiBumpFactor = 0.75f;
+    
+    [SerializeField] [Tooltip("Anti bump for sliding.")]
+    private float antiBumpFactorSliding = 0.75f;
 
     [SerializeField] [Tooltip("Lets the character to change movement direction while in air.")]
     private bool airControl = true;
@@ -60,7 +63,10 @@ public class MovementController : MonoBehaviourPunCallbacks
     //Running
     [Header("Running properties")] [SerializeField] [Tooltip("Character speed while running.")]
     private float runningSpeed = 8f;
-
+    
+    //Sliding
+    private Vector2 _v2inputDump;
+    
 
     //Jumping
     [Header("Jumping properties")] [SerializeField] [Tooltip("Horizontal jump speed.")]
@@ -179,14 +185,15 @@ public class MovementController : MonoBehaviourPunCallbacks
 
     private void HandleActions()
     {
+        var multiplier = ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching.GetSlideSpeedMultiplier();
         if (_isGrounded)
         {
             if (_isFalling) 
                 _isFalling = false;
             
-            _speed = Input.GetKey(KeyCode.LeftShift) ? runningSpeed : walkingSpeed;
+            _speed = (Input.GetKey(KeyCode.LeftShift) ? runningSpeed : walkingSpeed) * multiplier;
             if (ActionsManager.GetInstance(pnc.GetInstanceID()).Aiming.IsAiming())
-                _speed = walkingSpeed;
+                _speed = walkingSpeed * multiplier;
         }
         else
         {
@@ -198,6 +205,13 @@ public class MovementController : MonoBehaviourPunCallbacks
     private void MovePosition()
     {
         _input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
+        //If sliding, input should be blocked
+        if (ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching.IsSliding())
+            _input = _v2inputDump;
+        else _v2inputDump = _input;
+        
+            
         if (_input.y < 0) _input.y *= moveBackwardFactor;
         if (_input.x != 0) _input.x *= moveSideFactor;
         if (_input.sqrMagnitude > 1) _input.Normalize();
@@ -211,7 +225,7 @@ public class MovementController : MonoBehaviourPunCallbacks
                 _characterController.height / 2f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
 
             _moveDirection = Vector3.ProjectOnPlane(_moveDirection, rh.normal).normalized;
-            _moveDirection.y = -antiBumpFactor;
+            _moveDirection.y = - (ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching.IsSliding() ? antiBumpFactorSliding: antiBumpFactor);
 
             if (OnSteepSlope())
                 SteepSlopeMovement();
@@ -314,6 +328,6 @@ public class MovementController : MonoBehaviourPunCallbacks
         var slideSpeed = _speed * slopeSpeed * slopeAngleFactor;
 
         _moveDirection = slopeDirection * slideSpeed;
-        _moveDirection.y = -antiBumpFactor;
+        _moveDirection.y = - (ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching.IsSliding() ? antiBumpFactorSliding: antiBumpFactor);
     }
 }

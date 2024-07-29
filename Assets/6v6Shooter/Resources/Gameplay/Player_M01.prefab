@@ -171,6 +171,7 @@ MonoBehaviour:
   moveBackwardFactor: 0.8
   moveSideFactor: 0.8
   antiBumpFactor: -0.1
+  antiBumpFactorSliding: 0.75
   airControl: 1
   slopeSpeed: 5
   pac: {fileID: 2567233660450999576}
@@ -4586,7 +4587,7 @@ MonoBehaviour:
     run: {fileID: 0}
     jump: {fileID: 0}
   baseWeaponAnimations:
-  - inspect: {fileID: -5966658422511217176, guid: b480ae7471ba63f46b768d78ebbbbdf1, type: 3}
+  - inspect: {fileID: -5966658422511217176, guid: 6732d70135844304db87ee70ff96f240, type: 3}
     reload: {fileID: 3297057325586623611, guid: 2c0f09b05b308b34ca55447af1d7958b, type: 3}
     ads: {fileID: -8260616908297003055, guid: b480ae7471ba63f46b768d78ebbbbdf1, type: 3}
     shootAds: {fileID: 8082673829993197979, guid: b480ae7471ba63f46b768d78ebbbbdf1, type: 3}
@@ -4763,6 +4764,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pnc: {fileID: 6771075786898946733}
   fCrouchTime: 0.4
+  fSlideTime: 3
+  fSlideHalfTime: 0.3
+  fSlideMaxSpeedMultiplier: 2.3
 --- !u!114 &6801993316129549875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4902,6 +4906,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: pAiming
+  - Type: 4
+    SynchronizeType: 0
+    Name: pSliding
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
