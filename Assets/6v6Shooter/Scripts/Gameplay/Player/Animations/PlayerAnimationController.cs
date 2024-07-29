@@ -95,6 +95,12 @@ public class PlayerAnimationController : MonoBehaviour
     {
         anim.SetBool("pSprinting", isSprinting);
     }
+    
+    //Sliding
+    public void PlaySlideAnimation(bool slide)
+    {
+        anim.SetBool("pSliding", slide);
+    }
 
     //Jumping
     public bool PlayJumpAnimation(bool landing, bool grounded)

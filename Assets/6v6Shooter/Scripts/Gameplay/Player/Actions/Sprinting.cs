@@ -7,15 +7,31 @@ public class Sprinting : MonoBehaviour
     
     [SerializeField] [Tooltip("Component holder to access components.")]
     private ComponentHolder componentHolder;
+
+    private bool _bSprinting;
     
     private void Awake()
     {
         ActionsManager.GetInstance(pnc.GetInstanceID()).Sprinting = this;
     }
 
+    /// <summary>
+    /// Treat <c>Run</c> method as update. It runs in movement update.
+    /// </summary>
     public void Run()
     {
-        componentHolder.playerAnimationController.PlaySprintAnimation(
-            !ActionsManager.GetInstance(pnc.GetInstanceID()).Aiming.IsAiming() && Input.GetKey(KeyCode.LeftShift));
+        //Player cannot sprint when aiming
+        _bSprinting = !ActionsManager.GetInstance(pnc.GetInstanceID()).Aiming.IsAiming() &&
+                      Input.GetKey(KeyCode.LeftShift);
+        
+        componentHolder.playerAnimationController.PlaySprintAnimation(_bSprinting);
+    }
+
+    /// <summary>
+    /// Returns information if player is currently sprinting.
+    /// </summary>
+    public bool IsSprinting()
+    {
+        return _bSprinting;
     }
 }
