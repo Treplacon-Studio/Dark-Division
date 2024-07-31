@@ -15,6 +15,9 @@ public class Walking : MonoBehaviour
 
     public void Run(Vector2 input, bool grounded)
     {
+        //Transition between running and idle while starting to slide and backwards.
+        input = ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching.TransitionToIdleWhenSliding(input);
+        
         componentHolder.playerAnimationController.PlayWalkingAnimation(input, grounded);
     }
 }

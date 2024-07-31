@@ -25,6 +25,11 @@ public class Sprinting : MonoBehaviour
                       Input.GetKey(KeyCode.LeftShift);
         
         componentHolder.playerAnimationController.PlaySprintAnimation(_bSprinting);
+        
+        /*
+         Idle on slide is implemented inside walking script because this script corresponds
+         to vertical and horizontal input.
+         */
     }
 
     /// <summary>

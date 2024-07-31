@@ -1393,7 +1393,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -9136698348544319197, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -9136698348544319197, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -9077829442046079950, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2097,7 +2101,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -918988967257986195, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -918988967257986195, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -884147223739551671, guid: fdc03f507e2bf074481c152e22a7c26f, type: 3}
       propertyPath: m_Layer
@@ -4765,6 +4773,7 @@ MonoBehaviour:
   pnc: {fileID: 6771075786898946733}
   fCrouchTime: 0.4
   fSlideTime: 3
+  fIdleTransitionTime: 1
   fSlideHalfTime: 0.3
   fSlideMaxSpeedMultiplier: 2.3
 --- !u!114 &6801993316129549875
