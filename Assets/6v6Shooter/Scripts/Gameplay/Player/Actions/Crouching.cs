@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 
 /// <summary>
@@ -15,6 +16,9 @@ public class Crouching : MonoBehaviour
     [SerializeField] [Tooltip("Time that slide works.")]
     private float fSlideTime = 3f;
     
+    [SerializeField] [Tooltip("Time that hands go from run to idle when sliding and backwards.")]
+    private float fIdleTransitionTime = 1f;
+    
     [SerializeField] [Tooltip("Time that slide gets max multiplier. Has to be lower than fSlideTime.")]
     private float fSlideHalfTime = 0.5f;
     
@@ -23,9 +27,10 @@ public class Crouching : MonoBehaviour
 
     private bool _bCrouching, _bLastCrouching;
     private float _fTransitionStartTime, _fTransitionState, _fTransitionStateUnCrouched;
-    private bool _bSliding;
-    private Coroutine _cSlideSpeedOverTime;
+    private bool _bSliding, _bLastSliding, _bLastUpdateIdle;
+    private Coroutine _cSlideSpeedOverTime, _cUpdateSlideIdleMultiplierInTime;
     private float _fSlideMultiplier = 1f;
+    private float _fIdleInSlideMultiplier = 1f;
 
     private void Awake()
     {
@@ -61,7 +66,8 @@ public class Crouching : MonoBehaviour
             playerAnimationController.PlaySlideAnimation(_bSliding);
         
         SetCrouchTransitionParameter();
-        SaveLastCrouchState();
+        UpdateIdleMultiplier();
+        SaveLastStates();
     }
 
     private IEnumerator SlideSpeedOverTime()
@@ -123,13 +129,64 @@ public class Crouching : MonoBehaviour
         ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder.playerAnimationController
             .SetCrouchingState(fTransitionStateToApply);
     }
+
+    /// <summary>
+    /// If sliding, smoothly transists input from moving to idle and backwards.
+    /// </summary>
+    /// <param name="input">Entry input vector to be updated.</param>
+    /// <returns>
+    /// Updated input vector taking in mind sliding feature.
+    /// </returns>
+    public Vector2 TransitionToIdleWhenSliding(Vector2 input)
+    {
+        return input * _fIdleInSlideMultiplier;
+    }
+
+    public void UpdateIdleMultiplier()
+    {
+        //If sliding started run coroutine that will decrease multiplier in time
+        if (_cUpdateSlideIdleMultiplierInTime is null)
+        {
+            _cUpdateSlideIdleMultiplierInTime = _bSliding switch
+            {
+                true when !_bLastSliding => StartCoroutine(UpdateSlideIdleMultiplierInTime(false)),
+                false when _bLastSliding => StartCoroutine(UpdateSlideIdleMultiplierInTime(true)),
+                _ => _cUpdateSlideIdleMultiplierInTime
+            };
+        }
+    }
+    
+
+    /// <summary>
+    /// Changes idle multiplier in time.
+    /// </summary>
+    /// <param name="increasing">Indicates whether the slide multiplier should increase or decrease.</param>
+    private IEnumerator UpdateSlideIdleMultiplierInTime(bool increasing)
+    {
+        _bLastUpdateIdle = increasing;
+        
+        Debug.Log(_fIdleInSlideMultiplier + " " + increasing);
+        var fTargetMultiplier = increasing ? 1f : 0f;
+        var fElapsedTime = 0f;
+
+        while (fElapsedTime < fIdleTransitionTime)
+        {
+            fElapsedTime += Time.deltaTime;
+            _fIdleInSlideMultiplier = Mathf.Lerp(_fIdleInSlideMultiplier, fTargetMultiplier, fElapsedTime / fIdleTransitionTime);
+            yield return null;
+        }
+        
+        _fIdleInSlideMultiplier = Mathf.Clamp01(fTargetMultiplier);
+        _cUpdateSlideIdleMultiplierInTime = null;
+    }
     
     /// <summary>
-    /// Updates last crouch state.
+    /// Updates last crouch and slide state.
     /// </summary>
-    private void SaveLastCrouchState()
+    private void SaveLastStates()
     {
         _bLastCrouching = _bCrouching;
+        _bLastSliding = _bSliding;
     }
 
     /// <summary>
