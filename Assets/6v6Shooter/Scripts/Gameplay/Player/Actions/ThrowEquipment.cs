@@ -8,6 +8,7 @@ public class ThrowEquipment : MonoBehaviour
     public Transform Camera;
     public GameObject ObjectToThrow1;
     public GameObject ObjectToThrow2;
+    public Animator Animator;  // Add reference to the Animator
 
     [Header("Settings")]
     public int EquipmentAmmo1;
@@ -20,7 +21,7 @@ public class ThrowEquipment : MonoBehaviour
     public float ThrowForce;
     public float ThrowUpwardForce;
 
-    bool canThrow;
+    private bool canThrow;
 
     private void Start()
     {
@@ -29,13 +30,18 @@ public class ThrowEquipment : MonoBehaviour
 
     private void Update() 
     {
+        // Check if ThrowBtn1 is pressed and held
         if (Input.GetKeyDown(ThrowBtn1) && canThrow && EquipmentAmmo1 > 0)
         {
+            Animator.SetTrigger("pThrow"); // Trigger the throw animation
             Throw(ObjectToThrow1);
             EquipmentAmmo1--;
         }
-        else if (Input.GetKeyDown(ThrowBtn2) && canThrow && EquipmentAmmo2 > 0)
+
+        // Check if ThrowBtn2 is pressed and held
+        if (Input.GetKeyDown(ThrowBtn2) && canThrow && EquipmentAmmo2 > 0)
         {
+            Animator.SetTrigger("pThrow"); // Trigger the throw animation
             Throw(ObjectToThrow2);
             EquipmentAmmo2--;
         }
