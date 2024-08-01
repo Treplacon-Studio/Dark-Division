@@ -9,6 +9,7 @@ public class ThrowEquipment : MonoBehaviour
     public GameObject ObjectToThrow1;
     public GameObject ObjectToThrow2;
     public Animator Animator;  // Add reference to the Animator
+     public GameObject Weapon;
 
     [Header("Settings")]
     public int EquipmentAmmo1;
@@ -22,28 +23,43 @@ public class ThrowEquipment : MonoBehaviour
     public float ThrowUpwardForce;
 
     private bool canThrow;
+     private bool isHolding;
 
     private void Start()
     {
         canThrow = true;
     }
 
-    private void Update() 
+    private void Update()
     {
-        // Check if ThrowBtn1 is pressed and held
+        // Start throwing process
         if (Input.GetKeyDown(ThrowBtn1) && canThrow && EquipmentAmmo1 > 0)
         {
-            Animator.SetTrigger("pThrow"); // Trigger the throw animation
-            Throw(ObjectToThrow1);
+            Animator.SetTrigger("pThrow"); // Trigger the prep throw animation
+            isHolding = true;
             EquipmentAmmo1--;
+
+            if (Weapon != null)
+            {
+                Weapon.SetActive(false); // Disable the weapon during throw
+            }
         }
 
-        // Check if ThrowBtn2 is pressed and held
-        if (Input.GetKeyDown(ThrowBtn2) && canThrow && EquipmentAmmo2 > 0)
+        // Hold the throw
+        if (Input.GetKey(ThrowBtn1) && isHolding)
         {
-            Animator.SetTrigger("pThrow"); // Trigger the throw animation
-            Throw(ObjectToThrow2);
-            EquipmentAmmo2--;
+            Animator.SetBool("isHolding", true); // Set the bool to transition to the hold animation
+        }
+
+        // Release the throw
+        if (Input.GetKeyUp(ThrowBtn1) && isHolding)
+        {
+            Animator.SetBool("isHolding", false); // Unset the hold bool
+            Animator.SetTrigger("pReleaseThrow"); // Trigger the release animation
+            Throw(ObjectToThrow1);
+            isHolding = false;
+
+            Invoke(nameof(ReEnableWeapon), 0.5f); // Re-enable the weapon after a short delay (adjust as needed)
         }
     }
 
@@ -66,5 +82,13 @@ public class ThrowEquipment : MonoBehaviour
     private void ResetThrow()
     {
         canThrow = true;
+    }
+
+     private void ReEnableWeapon()
+    {
+        if (Weapon != null)
+        {
+            Weapon.SetActive(true); // Re-enable the weapon after the throw
+        }
     }
 }

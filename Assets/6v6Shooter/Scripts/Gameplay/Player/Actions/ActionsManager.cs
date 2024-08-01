@@ -24,4 +24,5 @@ public class ActionsManager
     public Sprinting Sprinting;
     public Jumping Jumping;
     public Crouching Crouching;
+    public ThrowEquipment ThrowEquipment;
 }
