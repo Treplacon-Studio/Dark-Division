@@ -19,9 +19,6 @@ public class MovementController : MonoBehaviourPunCallbacks
 
     [SerializeField] [Range(0f, 1f)] [Tooltip("Slows moving left and right speed as a fracture of normal speed.")]
     private float moveSideFactor = 0.8f;
-
-    [SerializeField] [Tooltip("Reduces shaking when stepping on non flat terrain.")]
-    private float antiBumpFactor = 0.75f;
     
     [SerializeField] [Tooltip("Anti bump for sliding.")]
     private float antiBumpFactorSliding = 0.75f;
@@ -204,8 +201,9 @@ public class MovementController : MonoBehaviourPunCallbacks
 
     private void MovePosition()
     {
+        
         _input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-
+        
         //If sliding, input should be blocked
         if (ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching.IsSliding())
             _input = _v2inputDump;
@@ -223,9 +221,6 @@ public class MovementController : MonoBehaviourPunCallbacks
             Physics.SphereCast(transform.position + _characterController.center, _characterController.radius,
                 Vector3.down, out var rh,
                 _characterController.height / 2f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
-
-            _moveDirection = Vector3.ProjectOnPlane(_moveDirection, rh.normal).normalized;
-            _moveDirection.y = - (ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching.IsSliding() ? antiBumpFactorSliding: antiBumpFactor);
 
             if (OnSteepSlope())
                 SteepSlopeMovement();
@@ -328,6 +323,5 @@ public class MovementController : MonoBehaviourPunCallbacks
         var slideSpeed = _speed * slopeSpeed * slopeAngleFactor;
 
         _moveDirection = slopeDirection * slideSpeed;
-        _moveDirection.y = - (ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching.IsSliding() ? antiBumpFactorSliding: antiBumpFactor);
     }
 }
