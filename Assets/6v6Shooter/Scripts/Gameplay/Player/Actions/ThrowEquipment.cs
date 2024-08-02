@@ -9,7 +9,7 @@ public class ThrowEquipment : MonoBehaviour
     public GameObject ObjectToThrow1;
     public GameObject ObjectToThrow2;
     public Animator Animator;  // Add reference to the Animator
-     public GameObject Weapon;
+    [SerializeField] public GameObject Weapon;
 
     [Header("Settings")]
     public int EquipmentAmmo1;
@@ -23,7 +23,8 @@ public class ThrowEquipment : MonoBehaviour
     public float ThrowUpwardForce;
 
     private bool canThrow;
-     private bool isHolding;
+    private bool isHolding;
+    private bool isFrozen;
 
     private void Start()
     {
@@ -37,6 +38,7 @@ public class ThrowEquipment : MonoBehaviour
         {
             Animator.SetTrigger("pThrow"); // Trigger the prep throw animation
             isHolding = true;
+            isFrozen = false;
             EquipmentAmmo1--;
 
             if (Weapon != null)
@@ -45,19 +47,13 @@ public class ThrowEquipment : MonoBehaviour
             }
         }
 
-        // Hold the throw
-        if (Input.GetKey(ThrowBtn1) && isHolding)
-        {
-            Animator.SetBool("isHolding", true); // Set the bool to transition to the hold animation
-        }
-
         // Release the throw
         if (Input.GetKeyUp(ThrowBtn1) && isHolding)
         {
-            Animator.SetBool("isHolding", false); // Unset the hold bool
             Animator.SetTrigger("pReleaseThrow"); // Trigger the release animation
             Throw(ObjectToThrow1);
             isHolding = false;
+            isFrozen = false;
 
             Invoke(nameof(ReEnableWeapon), 0.5f); // Re-enable the weapon after a short delay (adjust as needed)
         }
@@ -84,11 +80,27 @@ public class ThrowEquipment : MonoBehaviour
         canThrow = true;
     }
 
-     private void ReEnableWeapon()
+    private void ReEnableWeapon()
     {
         if (Weapon != null)
         {
             Weapon.SetActive(true); // Re-enable the weapon after the throw
         }
+    }
+
+    // Method to freeze the animation
+    public void FreezeAnimation()
+    {
+        if (isHolding && !isFrozen)
+        {
+            Animator.speed = 0; // Freeze the animation
+            isFrozen = true;
+        }
+    }
+
+    // Method to unfreeze the animation
+    public void UnfreezeAnimation()
+    {
+        Animator.speed = 1; // Unfreeze the animation
     }
 }
