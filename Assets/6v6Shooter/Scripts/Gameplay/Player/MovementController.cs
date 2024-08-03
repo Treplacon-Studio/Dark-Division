@@ -188,9 +188,9 @@ public class MovementController : MonoBehaviourPunCallbacks
             if (_isFalling) 
                 _isFalling = false;
             
-            _speed = (Input.GetKey(KeyCode.LeftShift) ? runningSpeed : walkingSpeed) * multiplier;
-            if (ActionsManager.GetInstance(pnc.GetInstanceID()).Aiming.IsAiming())
-                _speed = walkingSpeed * multiplier;
+            _speed = Input.GetKey(KeyCode.LeftShift) ? runningSpeed : walkingSpeed;
+            if (ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching.IsSliding())
+                _speed = runningSpeed * multiplier;
         }
         else
         {

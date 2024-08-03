@@ -50,14 +50,23 @@ public class Crouching : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.LeftControl))
         {
-            _bCrouching = !_bCrouching;
-            
-            //If player is sprinting and try to crouch, then slide will begin
-            if (ActionsManager.GetInstance(pnc.GetInstanceID()).Sprinting.IsSprinting() && _bCrouching)
+            if (_bSliding)
             {
-                //Player slides not crouch
-                _bCrouching = false;
-                _cSlideSpeedOverTime = StartCoroutine(SlideSpeedOverTime());
+                if(_cSlideSpeedOverTime is not null)
+                    StopCoroutine(_cSlideSpeedOverTime);
+                _bSliding = false;
+            }
+            else
+            {
+                _bCrouching = !_bCrouching;
+
+                //If player is sprinting and try to crouch, then slide will begin
+                if (ActionsManager.GetInstance(pnc.GetInstanceID()).Sprinting.IsSprinting() && _bCrouching)
+                {
+                    //Player slides not crouch
+                    _bCrouching = false;
+                    _cSlideSpeedOverTime = StartCoroutine(SlideSpeedOverTime());
+                }
             }
         }
         
