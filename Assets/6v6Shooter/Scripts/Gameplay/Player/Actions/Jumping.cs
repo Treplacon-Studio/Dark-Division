@@ -20,9 +20,15 @@ public class Jumping : MonoBehaviour
     
     [SerializeField] [Tooltip("Movement controller component.")]
     private MovementController mc;
+
+    [SerializeField] [Tooltip("Time that walking to hands idle in jump transition takes.")]
+    private float fWalkIdleTransitionTime;
     
     private bool _bCanJump = true;
     private bool _bLock;
+    
+    private float _fTransitionStartTime, _fTransitionMultiplier;
+    private bool _bWasGrounded;
     
     #endregion Specific Parameters
     
@@ -42,9 +48,45 @@ public class Jumping : MonoBehaviour
         var bGrounded = mc.IsGrounded();
         var componentHolder = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder;
         componentHolder.playerAnimationController.PlayJumpAnimation(bLanding, bGrounded);
+
+        SetJumpTransitionParameter();
+        _bWasGrounded = bGrounded;
     }
     
     #endregion Base Methods
+    
+    #region Specific Methods
+    
+    /// <summary>
+    /// Controls crouch (transitional) state between walking/idling and crouch walking/crouch idling.
+    /// </summary>
+    private void SetJumpTransitionParameter()
+    {
+        if (mc.IsGrounded() && _bWasGrounded)
+        {
+            _fTransitionMultiplier += Time.deltaTime / fWalkIdleTransitionTime;
+            _fTransitionMultiplier = Mathf.Clamp01(_fTransitionMultiplier);
+        }
+        else if (!mc.IsGrounded() && !mc.IsLanding())
+        {
+            _fTransitionMultiplier -= Time.deltaTime / fWalkIdleTransitionTime;
+            _fTransitionMultiplier = Mathf.Clamp01(_fTransitionMultiplier);
+        }
+    }
+
+    /// <summary>
+    /// If jumping, smoothly transits input from moving to idle and backwards.
+    /// </summary>
+    /// <param name="input">Entry input vector to be updated.</param>
+    /// <returns>
+    /// Updated input vector taking in mind jumping feature.
+    /// </returns>
+    public Vector2 TransitionToIdleWhenJumping(Vector2 input)
+    {
+        return input * _fTransitionMultiplier;
+    }
+    
+    #endregion Specific Methods
     
     #region Accessors
     

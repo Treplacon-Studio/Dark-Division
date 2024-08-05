@@ -32,8 +32,10 @@ public class Walking : MonoBehaviour
 
     public void Run()
     {
-        //Transition between running and idle while starting to slide and backwards.
-        var v2Input = ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching.TransitionToIdleWhenSliding(mc.GetInput());
+        var v2Input = mc.GetInput();
+        v2Input = ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching.TransitionToIdleWhenSliding(v2Input);
+        v2Input = ActionsManager.GetInstance(pnc.GetInstanceID()).Jumping.TransitionToIdleWhenJumping(v2Input);
+        
         var bGrounded = mc.IsGrounded();
         
         var componentHolder = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder;
