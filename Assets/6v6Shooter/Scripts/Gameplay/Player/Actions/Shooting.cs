@@ -1,30 +1,54 @@
-using System.Collections;
 using UnityEngine;
 using Photon.Pun;
 
-
+/// <summary>
+/// Class handles shooting feature.
+/// </summary>
 [RequireComponent(typeof(AnimationClipsHolder))]
 public class Shooting : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private PlayerNetworkController pnc;
+    #region Base Parameters
     
-    [SerializeField] [Tooltip("Component holder to access components.")]
-    private ComponentHolder componentHolder;
+    [Header("Basic action setup.")]
+    
+    [SerializeField] [Tooltip("Player network controller component.")]
+    private PlayerNetworkController pnc;
+    
+    #endregion Base Parameters
+    
+    #region Specific Parameters
 
     private Transform _bulletStartPoint;
     private float _fNextFireTime;
     private float _fTransitionState, _fTransitionUnAimed, _fTransitionStartTime;
     private bool _bLastAiming, _bLastStopShooting;
+    
+    #endregion Specific Parameters
 
+    #region Base Methods
     private void Awake()
     {
         ActionsManager.GetInstance(pnc.GetInstanceID()).Shooting = this;
         if (ActionsManager.GetInstance(pnc.GetInstanceID())?.Switching is not null && ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent() is not null)
             _bulletStartPoint = ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent().GetStartPoint().transform;
     }
-
+    
     /// <summary>
-    /// Photon <c>RPC_AutomaticFire</c> invoker.
+    /// Called every frame method for action handle.
+    /// </summary>
+    public void Run()
+    {
+        if (ActionsManager.GetInstance(pnc.GetInstanceID())?.Switching is not null && ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent() is not null)
+            _bulletStartPoint ??= ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent().GetStartPoint().transform;
+        AutomaticFire();
+    }
+    
+    #endregion Base Methods
+
+    #region Specific Methods
+    
+    /// <summary>
+    /// Photon invoker.
     /// </summary>
     private void AutomaticFire()
     {
@@ -41,6 +65,7 @@ public class Shooting : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RPC_AutomaticFire()
     {
+        var componentHolder = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder;
         if (ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent() is null)
             return;
         
@@ -79,13 +104,13 @@ public class Shooting : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// Method <c>SetAdsHrfTransitionParameter</c> controls transition state between shooting ADS and HFR.
+    /// Controls transition state between shooting ADS and HFR.
     /// </summary>
     private void SetAdsHrfTransitionParameter()
     {
         //On aiming start set transition start time
-        var isAiming = ActionsManager.GetInstance(pnc.GetInstanceID()).Aiming.IsAiming();
-        if (isAiming && !_bLastAiming)
+        var bIsAiming = ActionsManager.GetInstance(pnc.GetInstanceID()).Aiming.IsAiming();
+        if (bIsAiming && !_bLastAiming)
             _fTransitionStartTime = Time.time;
         
         //Get normal HFR and ADS transition time.
@@ -99,7 +124,7 @@ public class Shooting : MonoBehaviourPunCallbacks
         _fTransitionState = Mathf.Clamp01((Time.time - _fTransitionStartTime)/transitionAnimLen);
 
         //If aiming reset shooting transition
-        if (isAiming)
+        if (bIsAiming)
             _fTransitionUnAimed = _fTransitionState;
         
         //If not aiming, weapon will go back to HFR slowly
@@ -108,19 +133,11 @@ public class Shooting : MonoBehaviourPunCallbacks
         
         //Apply state in case of aiming or not
         ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder.playerAnimationController
-            .SetShootingTransitionState(isAiming ? _fTransitionState : _fTransitionUnAimed);
+            .SetShootingTransitionState(bIsAiming ? _fTransitionState : _fTransitionUnAimed);
         
         //Update aiming state for next frame.
-        _bLastAiming = isAiming;
+        _bLastAiming = bIsAiming;
     }
     
-    /// <summary>
-    /// Treat <c>Run</c> method as update. It runs in movement update.
-    /// </summary>
-    public void Run()
-    {
-        if (ActionsManager.GetInstance(pnc.GetInstanceID())?.Switching is not null && ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent() is not null)
-            _bulletStartPoint ??= ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent().GetStartPoint().transform;
-        AutomaticFire();
-    }
+    #endregion Specific Methods
 }

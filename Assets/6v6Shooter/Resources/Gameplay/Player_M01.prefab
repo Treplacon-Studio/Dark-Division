@@ -168,13 +168,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pnc: {fileID: 6771075786898946733}
-  moveBackwardFactor: 0.8
-  moveSideFactor: 0.8
-  antiBumpFactorSliding: 0.75
-  airControl: 1
-  slopeSpeed: 5
+  fMoveBackwardFactor: 0.8
+  fMoveSideFactor: 0.8
+  fAntiBumpFactorSliding: 0.75
+  bAirControl: 1
+  fSlopeSpeed: 5
   pac: {fileID: 2567233660450999576}
-  centralSpineBone: {fileID: 7022477167291089576}
+  tCentralSpineBone: {fileID: 0}
   lookAround:
     m_Name: Look Around
     m_Type: 0
@@ -192,20 +192,16 @@ MonoBehaviour:
       m_Action: Look Around
       m_Flags: 0
     m_Flags: 0
-  walkingSpeed: 3.5
-  runningSpeed: 9
-  xJumpingSpeed: 2
-  yJumpingSpeed: 7
-  frameDelayBetweenJumps: 1
-  crouchHeight: -0.001
-  crouchSpeed: 2
-  isCrouching: 0
-  aimMode: 0
+  fWalkingSpeed: 3.5
+  fRunningSpeed: 9
+  fXJumpingSpeed: 2
+  fYJumpingSpeed: 7
+  fFrameDelayBetweenJumps: 1
   mouseLookAround:
     sensitivity: 2
     smooth: 0
     smoothTime: 2
-  gravity: 20
+  fGravity: 20
 --- !u!143 &5203672660236697643
 CharacterController:
   m_ObjectHideFlags: 0
@@ -4682,7 +4678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pnc: {fileID: 6771075786898946733}
-  componentHolder: {fileID: 1459547178906316190}
+  mc: {fileID: 5868901327778188909}
 --- !u!114 &1446667766006663466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4696,7 +4692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pnc: {fileID: 6771075786898946733}
-  componentHolder: {fileID: 1459547178906316190}
+  mc: {fileID: 5868901327778188909}
 --- !u!114 &4885980929470703131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4710,7 +4706,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pnc: {fileID: 6771075786898946733}
-  componentHolder: {fileID: 1459547178906316190}
 --- !u!114 &4049059860612850888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4724,10 +4719,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pnc: {fileID: 6771075786898946733}
-  componentHolder: {fileID: 1459547178906316190}
-  defaultFOV: 60
-  scopeMultiplier: 1.5
-  aimTime: 0.3
+  aimMode: 0
+  iDefaultFOV: 60
+  fScopeMultiplier: 1.5
+  fAimTime: 0.2
+  fExtraAimLockTime: 0
 --- !u!114 &4183641822936563382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4741,7 +4737,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pnc: {fileID: 6771075786898946733}
-  componentHolder: {fileID: 1459547178906316190}
   leftHand: {fileID: 317085245908439510}
 --- !u!114 &4767689636004788639
 MonoBehaviour:
@@ -4756,7 +4751,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pnc: {fileID: 6771075786898946733}
-  componentHolder: {fileID: 1459547178906316190}
+  fExtraInspectLockTime: 0
 --- !u!114 &8210053847737947324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4788,7 +4783,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pnc: {fileID: 6771075786898946733}
-  componentHolder: {fileID: 1459547178906316190}
 --- !u!114 &7086888958968208694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4802,7 +4796,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pnc: {fileID: 6771075786898946733}
-  componentHolder: {fileID: 1459547178906316190}
   gunSocket: {fileID: 664226021943963389}
 --- !u!114 &2567233660450999576
 MonoBehaviour:

@@ -1,14 +1,24 @@
 using UnityEngine;
 
-
+/// <summary>
+/// Class handles sprinting feature.
+/// </summary>
 public class Sprinting : MonoBehaviour
 {
-    [SerializeField] private PlayerNetworkController pnc;
+    #region Base Parameters
     
-    [SerializeField] [Tooltip("Component holder to access components.")]
-    private ComponentHolder componentHolder;
+    [SerializeField] 
+    private PlayerNetworkController pnc;
 
+    #endregion Base Parameters
+    
+    #region Specific Parameters
+    
     private bool _bSprinting;
+    
+    #endregion Specific Parameters
+    
+    #region Base Methods
     
     private void Awake()
     {
@@ -16,7 +26,7 @@ public class Sprinting : MonoBehaviour
     }
 
     /// <summary>
-    /// Treat <c>Run</c> method as update. It runs in movement update.
+    /// Called every frame method for action handle.
     /// </summary>
     public void Run()
     {
@@ -24,6 +34,7 @@ public class Sprinting : MonoBehaviour
         _bSprinting = !ActionsManager.GetInstance(pnc.GetInstanceID()).Aiming.IsAiming() &&
                       Input.GetKey(KeyCode.LeftShift);
         
+        var componentHolder = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder;
         componentHolder.playerAnimationController.PlaySprintAnimation(_bSprinting);
         
         /*
@@ -31,6 +42,10 @@ public class Sprinting : MonoBehaviour
          to vertical and horizontal input.
          */
     }
+    
+    #endregion Base Methods
+    
+    #region Accessors
 
     /// <summary>
     /// Returns information if player is currently sprinting.
@@ -39,4 +54,6 @@ public class Sprinting : MonoBehaviour
     {
         return _bSprinting;
     }
+    
+    #endregion Accessors
 }

@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 
 /// <summary>
@@ -7,8 +6,18 @@ using UnityEngine;
 /// </summary>
 public class Crouching : MonoBehaviour
 {
+    #region Base Properties
+    
+    [Header("Basic action setup.")]
+    
     [SerializeField]  [Tooltip("Player network controller component.")]
     private PlayerNetworkController pnc;
+    
+    #endregion Base Properties
+    
+    #region Specific Properties
+    
+    [Header("Specific action setup.")]
     
     [SerializeField] [Tooltip("Time that full crouch-walk or reversed transition takes.")]
     private float fCrouchTime = 0.0005f;
@@ -31,7 +40,11 @@ public class Crouching : MonoBehaviour
     private Coroutine _cSlideSpeedOverTime, _cUpdateSlideIdleMultiplierInTime;
     private float _fSlideMultiplier = 1f;
     private float _fIdleInSlideMultiplier = 1f;
+    
+    #endregion Specific Properties
 
+    #region Base Methods
+    
     private void Awake()
     {
         ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching = this;
@@ -44,18 +57,21 @@ public class Crouching : MonoBehaviour
     }
 
     /// <summary>
-    /// Treat <c>Run</c> method as update. It runs in movement update.
+    /// Called every frame method for action handle.
     /// </summary>
     public void Run()
     {
         if (Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.LeftControl))
         {
+            //Handle slide cancel
             if (_bSliding)
             {
                 if(_cSlideSpeedOverTime is not null)
                     StopCoroutine(_cSlideSpeedOverTime);
                 _bSliding = false;
             }
+            
+            //Handle crouching
             else
             {
                 _bCrouching = !_bCrouching;
@@ -78,7 +94,14 @@ public class Crouching : MonoBehaviour
         UpdateIdleMultiplier();
         SaveLastStates();
     }
+    
+    #endregion Base Methods
+    
+    #region Specific Methods
 
+    /// <summary>
+    /// Async square function speed transition method for sliding.
+    /// </summary>
     private IEnumerator SlideSpeedOverTime()
     {
         _bSliding = true;
@@ -86,6 +109,7 @@ public class Crouching : MonoBehaviour
         var fInitialTime = Time.time;
         var fTimeRemaining = fSlideTime - fSlideHalfTime;
         
+        //Handle slide acceleration
         while (Time.time - fInitialTime < fSlideHalfTime)
         {
             var fElapsed = Time.time - fInitialTime;
@@ -95,6 +119,8 @@ public class Crouching : MonoBehaviour
         }
         
         fInitialTime = Time.time;
+        
+        //Handle slide deacceleration
         while (Time.time - fInitialTime < fTimeRemaining)
         {
             var fElapsed = Time.time - fInitialTime;
@@ -108,7 +134,7 @@ public class Crouching : MonoBehaviour
     }
     
     /// <summary>
-    /// Controls crouch state between walking/idling and crouch walking/crouch idling.
+    /// Controls crouch (transitional) state between walking/idling and crouch walking/crouch idling.
     /// </summary>
     private void SetCrouchTransitionParameter()
     {
@@ -140,7 +166,7 @@ public class Crouching : MonoBehaviour
     }
 
     /// <summary>
-    /// If sliding, smoothly transists input from moving to idle and backwards.
+    /// If sliding, smoothly transits input from moving to idle and backwards.
     /// </summary>
     /// <param name="input">Entry input vector to be updated.</param>
     /// <returns>
@@ -151,21 +177,20 @@ public class Crouching : MonoBehaviour
         return input * _fIdleInSlideMultiplier;
     }
 
-    public void UpdateIdleMultiplier()
+    /// <summary>
+    /// Controls idle while sliding.
+    /// </summary>
+    private void UpdateIdleMultiplier()
     {
         //If sliding started run coroutine that will decrease multiplier in time
-        if (_cUpdateSlideIdleMultiplierInTime is null)
+        _cUpdateSlideIdleMultiplierInTime ??= _bSliding switch
         {
-            _cUpdateSlideIdleMultiplierInTime = _bSliding switch
-            {
-                true when !_bLastSliding => StartCoroutine(UpdateSlideIdleMultiplierInTime(false)),
-                false when _bLastSliding => StartCoroutine(UpdateSlideIdleMultiplierInTime(true)),
-                _ => _cUpdateSlideIdleMultiplierInTime
-            };
-        }
+            true when !_bLastSliding => StartCoroutine(UpdateSlideIdleMultiplierInTime(false)),
+            false when _bLastSliding => StartCoroutine(UpdateSlideIdleMultiplierInTime(true)),
+            _ => _cUpdateSlideIdleMultiplierInTime
+        };
     }
     
-
     /// <summary>
     /// Changes idle multiplier in time.
     /// </summary>
@@ -174,10 +199,9 @@ public class Crouching : MonoBehaviour
     {
         _bLastUpdateIdle = increasing;
         
-        Debug.Log(_fIdleInSlideMultiplier + " " + increasing);
         var fTargetMultiplier = increasing ? 1f : 0f;
         var fElapsedTime = 0f;
-
+        
         while (fElapsedTime < fIdleTransitionTime)
         {
             fElapsedTime += Time.deltaTime;
@@ -197,6 +221,10 @@ public class Crouching : MonoBehaviour
         _bLastCrouching = _bCrouching;
         _bLastSliding = _bSliding;
     }
+    
+    #endregion Specific Methods
+    
+    #region Accessors
 
     /// <summary>
     /// Getter method <c>GetSlideSpeedMultiplier</c>.
@@ -210,10 +238,10 @@ public class Crouching : MonoBehaviour
     }
 
     /// <summary>
-    /// Getter method <c>IsCrouching</c>.
+    /// Getter method.
     /// </summary>
     /// <returns>
-    /// Public info if player is now crouching.
+    /// Information if player is now crouching.
     /// </returns>
     public bool IsCrouching()
     {
@@ -221,13 +249,15 @@ public class Crouching : MonoBehaviour
     }
     
     /// <summary>
-    /// Getter method <c>IsSliding</c>.
+    /// Getter method.
     /// </summary>
     /// <returns>
-    /// Public info if player is now sliding.
+    /// Information if player is now sliding.
     /// </returns>
     public bool IsSliding()
     {
         return _bSliding;
     }
+    
+    #endregion Accessors
 }

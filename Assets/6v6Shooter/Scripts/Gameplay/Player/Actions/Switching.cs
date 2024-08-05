@@ -1,36 +1,81 @@
 using Photon.Pun;
 using UnityEngine;
 
-
+/// <summary>
+/// Class handles weapon switching feature.
+/// </summary>
 public class Switching : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private PlayerNetworkController pnc;
+    #region Base Parameters
     
-    [SerializeField] [Tooltip("Component holder to access components.")]
-    private ComponentHolder componentHolder;
+    [Header("Basic action setup.")]
+    
+    [SerializeField] [Tooltip("Player network controller component.")]
+    private PlayerNetworkController pnc;
+    
+    #endregion Base Parameters
+    
+    #region Specific Parameters
     
     [SerializeField] [Tooltip("Socket where the gun is kept.")]
     private GameObject gunSocket;
     
-    private GameObject[] equippedGuns;
+    private GameObject[] _equippedGuns;
     private GameObject _weapon;
-    private Transform _bulletStartPoint;
-    private float _nextFireTime;
-    private int _gunInHandsIndex;
-    private bool _weaponInitialized;
+    private Transform _tBulletStartPoint;
+    private float _fNextFireTime;
+    private int _iGunInHandsIndex;
+    private bool _bWeaponInitialized;
+    
+    #endregion Specific Parameters
 
+    #region Base Methods
+    
     private void Awake()
     {
         ActionsManager.GetInstance(pnc.GetInstanceID()).Switching = this;
     }
     
+    /// <summary>
+    /// Called every frame method for action handle.
+    /// </summary>
+    public void Run()
+    {
+        var scroll = Input.GetAxis("Mouse ScrollWheel");
+        
+        var componentHolder = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder;
+        if (componentHolder.playerAnimationController.reloadingLock)
+            return;
+
+        if (scroll > 0f) //Scrolled up
+        {
+            if (_iGunInHandsIndex == 0)
+                SwitchWeapon(_equippedGuns.Length - 1);
+            else
+                SwitchWeapon(_iGunInHandsIndex - 1);
+        }
+        else if (scroll < 0f) //Scrolled down
+        {
+            SwitchWeapon((_iGunInHandsIndex + 1) % _equippedGuns.Length);
+        }
+    }
+    
+    #endregion Base Methods
+    
+    #region Specific Methods
+    
+    /// <summary>
+    /// Sets new equipment for a player.
+    /// </summary>
+    /// <param name="weapons">Weapons that should be set as equipment.</param>
+    /// <param name="attachments">Attachments that these weapons will have.</param>
     public void SetNewEquipment(string[] weapons, int[,] attachments)
     {
-        _gunInHandsIndex = 0;
+        _iGunInHandsIndex = 0;
 
-        if (equippedGuns is not null)
+        if (_equippedGuns is not null)
         {
-            foreach (var gun in equippedGuns)
+            foreach (var gun in _equippedGuns)
             {
                 gun.SetActive(false);
                 gun.transform.SetParent(null);
@@ -38,97 +83,104 @@ public class Switching : MonoBehaviourPunCallbacks
             }
         }
 
-        equippedGuns = new GameObject[weapons.Length];
+        _equippedGuns = new GameObject[weapons.Length];
+        
+        var componentHolder = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder;
         componentHolder.bulletPoolingManager.ClearPools();
 
-        for (var index = 0; index < equippedGuns.Length; index++)
+        for (var i = 0; i < _equippedGuns.Length; i++)
         {
-            equippedGuns[index] = PhotonNetwork.Instantiate(weapons[index],
+            _equippedGuns[i] = PhotonNetwork.Instantiate(weapons[i],
                 gunSocket.transform.position,
                 gunSocket.transform.rotation * Quaternion.Euler(90, 0, 0));
             
-            equippedGuns[index].transform.SetParent(gunSocket.transform);
+            _equippedGuns[i].transform.SetParent(gunSocket.transform);
 
-            equippedGuns[index].GetComponent<Weapon>().ApplyAttachmentsAssaultRifle(attachments, index);
-            if (equippedGuns[index] != null)
-                equippedGuns[index].SetActive(false);
+            _equippedGuns[i].GetComponent<Weapon>().ApplyAttachmentsAssaultRifle(attachments, i);
+            if (_equippedGuns[i] != null)
+                _equippedGuns[i].SetActive(false);
             else
                 Debug.LogError("Equipped gun is null!");
-            equippedGuns[index].transform.SetParent(gunSocket.transform);
-            equippedGuns[index].transform.localPosition = Vector3.zero;
-            equippedGuns[index].transform.localScale = Vector3.one * 0.01f;
-            var mg = equippedGuns[index].GetComponent<Weapon>().GetMag().GetComponent<Mag>();
-            componentHolder.bulletPoolingManager.AddPool(new BulletPoolingManager.Pool(index, mg.ammoType, mg.size));
+            _equippedGuns[i].transform.SetParent(gunSocket.transform);
+            _equippedGuns[i].transform.localPosition = Vector3.zero;
+            _equippedGuns[i].transform.localScale = Vector3.one * 0.01f;
+            var mg = _equippedGuns[i].GetComponent<Weapon>().GetMag().GetComponent<Mag>();
+            componentHolder.bulletPoolingManager.AddPool(new BulletPoolingManager.Pool(i, mg.ammoType, mg.size));
         }
 
         componentHolder.bulletPoolingManager.ApplyPools();
-        SwitchWeapon(_gunInHandsIndex);
-        _weaponInitialized = true;
+        SwitchWeapon(_iGunInHandsIndex);
+        _bWeaponInitialized = true;
     }
 
+    /// <summary>
+    /// Switches weapon to given.
+    /// </summary>
+    /// <param name="wn">Number (index) of the weapon in equipment.</param>
     private void SwitchWeapon(int wn)
     {
-        _gunInHandsIndex = wn;
-        foreach (var w in equippedGuns)
+        _iGunInHandsIndex = wn;
+        foreach (var w in _equippedGuns)
             w.SetActive(false);
-        componentHolder.weaponSpecificAnimations.ChangeAnimations(equippedGuns[wn].GetComponent<Weapon>().Info().Name());
-        _weapon = equippedGuns[wn];
+        
+        var componentHolder = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder;
+        componentHolder.weaponSpecificAnimations.ChangeAnimations(_equippedGuns[wn].GetComponent<Weapon>().Info().Name());
+        
+        _weapon = _equippedGuns[wn];
         _weapon.SetActive(true);
     }
+    
+    #endregion Specific Methods
 
-    public void Run()
-    {
-        var scroll = Input.GetAxis("Mouse ScrollWheel");
-
-        if (componentHolder.playerAnimationController.reloadingLock)
-            return;
-
-        if (scroll > 0f) //Scrolled up
-        {
-            if (_gunInHandsIndex == 0)
-                SwitchWeapon(equippedGuns.Length - 1);
-            else
-                SwitchWeapon(_gunInHandsIndex - 1);
-        }
-        else if (scroll < 0f) //Scrolled down
-        {
-            SwitchWeapon((_gunInHandsIndex + 1) % equippedGuns.Length);
-        }
-    }
-
+    #region Accessors
+    
+    /// <summary>
+    /// Getter method.
+    /// </summary>
+    /// <returns>Current weapon.</returns>
     public Weapon WeaponComponent()
     {
-        if (equippedGuns == null)
+        if (_equippedGuns == null)
             return null;
         
         if (_weapon == null)
-            _weapon = equippedGuns[_gunInHandsIndex];
+            _weapon = _equippedGuns[_iGunInHandsIndex];
 
         if (_weapon == null)
             return null;
 
         return _weapon.GetComponent<Weapon>();
     }
-
+    
+    /// <summary>
+    /// Getter method.
+    /// </summary>
+    /// <returns>Index of current weapon.</returns>
     public int GetCurrentWeaponID()
     {
-        return _gunInHandsIndex;
+        return _iGunInHandsIndex;
     }
 
+    /// <summary>
+    /// Getter method.
+    /// </summary>
+    /// <returns>Name of the weapons in equipment.</returns>
     public string[] GetWeaponsNames()
     {
         if (WeaponComponent() is null)
             return new[] { "", "" };
 
-        var names = new string[2];
-        names[0] = WeaponComponent().Info().Name().ToString();
+        var sNames = new string[2];
+        sNames[0] = WeaponComponent().Info().Name().ToString();
 
-        var firstWp = equippedGuns[0].GetComponent<Weapon>().Info().Name().ToString();
-        var secondWp = equippedGuns[1].GetComponent<Weapon>().Info().Name().ToString();
-        if (firstWp == names[0])
-            names[1] = secondWp;
+        var sFirstWp = _equippedGuns[0].GetComponent<Weapon>().Info().Name().ToString();
+        var sSecondWp = _equippedGuns[1].GetComponent<Weapon>().Info().Name().ToString();
+        if (sFirstWp == sNames[0])
+            sNames[1] = sSecondWp;
         else
-            names[1] = firstWp;
-        return names;
+            sNames[1] = sFirstWp;
+        return sNames;
     }
+    
+    #endregion Accessors
 }

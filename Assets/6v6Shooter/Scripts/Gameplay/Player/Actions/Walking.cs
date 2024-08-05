@@ -1,23 +1,44 @@
 using UnityEngine;
 
-
+/// <summary>
+/// Class handles idling, walking and running features.
+/// </summary>
 public class Walking : MonoBehaviour
 {
-    [SerializeField] private PlayerNetworkController pnc;
+    #region Base Parameters
     
-    [SerializeField] [Tooltip("Component holder to access components.")]
-    private ComponentHolder componentHolder;
+    [Header("Basic action setup.")]
     
+    [SerializeField] [Tooltip("Player network controller component.")]
+    private PlayerNetworkController pnc;
+    
+    #endregion Base Parameters
+    
+    #region Specific Parameters
+
+    [Header("Specific action setup.")] 
+    
+    [SerializeField] [Tooltip("Movement controller component.")]
+    private MovementController mc;
+    
+    #endregion Specific Parameters
+    
+    
+    #region Base Methods
     private void Awake()
     {
         ActionsManager.GetInstance(pnc.GetInstanceID()).Walking = this;
     }
 
-    public void Run(Vector2 input, bool grounded)
+    public void Run()
     {
         //Transition between running and idle while starting to slide and backwards.
-        input = ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching.TransitionToIdleWhenSliding(input);
+        var v2Input = ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching.TransitionToIdleWhenSliding(mc.GetInput());
+        var bGrounded = mc.IsGrounded();
         
-        componentHolder.playerAnimationController.PlayWalkingAnimation(input, grounded);
+        var componentHolder = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder;
+        componentHolder.playerAnimationController.PlayWalkingAnimation(v2Input, bGrounded);
     }
+    
+    #endregion Base Methods
 }
