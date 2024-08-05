@@ -15,6 +15,7 @@ public class ThrowEquipment : MonoBehaviour
     public int EquipmentAmmo1;
     public int EquipmentAmmo2;
     public float Cooldown;
+    public float ThrowDelay = 0.3f; // Add a delay parameter for the throw
 
     [Header("Throwing")]
     public KeyCode ThrowBtn1 = KeyCode.G;
@@ -51,12 +52,49 @@ public class ThrowEquipment : MonoBehaviour
         if (Input.GetKeyUp(ThrowBtn1) && isHolding)
         {
             Animator.SetTrigger("pReleaseThrow"); // Trigger the release animation
-            Throw(ObjectToThrow1);
+            Invoke(nameof(ThrowPrimary), ThrowDelay); 
             isHolding = false;
             isFrozen = false;
-
-            Invoke(nameof(ReEnableWeapon), 0.5f); // Re-enable the weapon after a short delay (adjust as needed)
         }
+
+        if (Input.GetKeyDown(ThrowBtn2) && canThrow && EquipmentAmmo2 > 0)
+        {
+            Animator.SetTrigger("pThrow"); // Trigger the prep throw animation
+            isHolding = true;
+            isFrozen = false;
+            EquipmentAmmo2--;
+
+            if (Weapon != null)
+            {
+                Weapon.SetActive(false); // Disable the weapon during throw
+            }
+        }
+
+        // Release the throw
+        if (Input.GetKeyUp(ThrowBtn2) && isHolding)
+        {
+            Animator.SetTrigger("pReleaseThrow"); // Trigger the release animation
+            Invoke(nameof(ThrowSecondary), ThrowDelay); // Delay the throw
+            isHolding = false;
+            isFrozen = false;
+        }
+    }
+
+    //set gameobject for throwing
+    private void ThrowPrimary()
+    {
+        PerformThrow(ObjectToThrow1);
+    }
+
+    private void ThrowSecondary()
+    {
+        PerformThrow(ObjectToThrow2);
+    }
+
+    private void PerformThrow(GameObject throwable)
+    {
+        Throw(throwable);
+        Invoke(nameof(ReEnableWeapon), 0.5f); 
     }
 
     private void Throw(GameObject objectToThrow)
