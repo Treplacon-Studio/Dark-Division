@@ -23,6 +23,8 @@ public class Reloading : MonoBehaviour
     private GameObject leftHand;
 
     private LocalTransformStructure _tWeaponMagSocket;
+
+    private bool _locker;
     
     #endregion Specific Properties
 
@@ -70,7 +72,6 @@ public class Reloading : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && !componentHolder.playerAnimationController.IsLocked())
         {
             StartCoroutine(LockTemporarily());
-
             var bCanReload = true;
             foreach (var s in componentHolder.playerAnimationController.weaponActionsStates)
             {
@@ -88,7 +89,10 @@ public class Reloading : MonoBehaviour
             }
 
             if (bCanReload)
+            {
+                _locker = true;
                 componentHolder.playerAnimationController.PlayReloadAnimation();
+            }
         }
     }
     
@@ -101,6 +105,9 @@ public class Reloading : MonoBehaviour
     /// </summary>
     private IEnumerator LockTemporarily()
     {
+        while (!_locker)
+            yield return null;
+        
         var componentHolder = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder;
         var iCurrentWeaponID = ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.GetCurrentWeaponID();
         
@@ -116,6 +123,8 @@ public class Reloading : MonoBehaviour
 
         componentHolder.bulletPoolingManager.ResetAmmo(iCurrentWeaponID);
         componentHolder.playerAnimationController.reloadingLock = false;
+
+        _locker = false;
     }
 
     /// <summary>

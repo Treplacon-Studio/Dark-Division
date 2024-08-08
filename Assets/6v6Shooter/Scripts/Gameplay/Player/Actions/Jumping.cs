@@ -47,7 +47,11 @@ public class Jumping : MonoBehaviour
         var bLanding = mc.IsLanding();
         var bGrounded = mc.IsGrounded();
         var componentHolder = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder;
-        componentHolder.playerAnimationController.PlayJumpAnimation(bLanding, bGrounded);
+        
+        if(CanInvokeJump())
+            componentHolder.playerAnimationController.PlayJumpAnimation(bLanding, bGrounded);
+        else
+            componentHolder.playerAnimationController.PlayJumpAnimation(true, false);
 
         SetJumpTransitionParameter();
         _bWasGrounded = bGrounded;
@@ -73,6 +77,18 @@ public class Jumping : MonoBehaviour
             _fTransitionMultiplier = Mathf.Clamp01(_fTransitionMultiplier);
         }
     }
+    
+    /// <summary>
+    /// Checks if player can invoke jump.
+    /// </summary>
+    /// <returns>Information if player can invoke jump.</returns>
+    public bool CanInvokeJump()
+    {
+        var componentHolder = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder;
+        return !(componentHolder.playerAnimationController.inspectingLock ||
+                 componentHolder.playerAnimationController.reloadingLock || 
+                 ActionsManager.GetInstance(pnc.GetInstanceID()).Aiming.IsAiming());
+    }
 
     /// <summary>
     /// If jumping, smoothly transits input from moving to idle and backwards.
@@ -91,7 +107,7 @@ public class Jumping : MonoBehaviour
     #region Accessors
     
     /// <summary>
-    /// Getter method .
+    /// Getter method.
     /// </summary>
     /// <returns>
     /// Information if player can now jump.

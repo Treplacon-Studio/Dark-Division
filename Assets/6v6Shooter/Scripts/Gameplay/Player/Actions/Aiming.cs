@@ -43,6 +43,7 @@ public class Aiming : MonoBehaviour
     private bool _bIsAiming;
     private Coroutine _cZoom;
     private Camera _camFPS;
+    private bool _locker;
     
     #endregion Specific Properties
 
@@ -114,6 +115,7 @@ public class Aiming : MonoBehaviour
                     return;
                 _bIsAiming = true;
                 bLocked = true;
+                _locker = true;
                 EnableScope();
             }
 
@@ -137,6 +139,9 @@ public class Aiming : MonoBehaviour
     /// </summary>
     private IEnumerator LockTemporarily()
     {
+        while (!_locker)
+            yield return null;
+        
         var componentHolder = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder;
         componentHolder.playerAnimationController.aimingLock = true;
         
@@ -146,6 +151,8 @@ public class Aiming : MonoBehaviour
         
         yield return new WaitForSeconds(clip.length + fExtraAimLockTime);
         componentHolder.playerAnimationController.aimingLock = false;
+
+        _locker = false;
     }
 
     /// <summary>
