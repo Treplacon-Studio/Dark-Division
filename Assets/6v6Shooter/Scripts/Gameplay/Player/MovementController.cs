@@ -231,9 +231,13 @@ public class MovementController : MonoBehaviourPunCallbacks
 
             if (ActionsManager.GetInstance(pnc.GetInstanceID()).Jumping.JumpTriggered() && ActionsManager.GetInstance(pnc.GetInstanceID()).Jumping.CanJump())
             {
-                _v2MoveVelocity.y = fYJumpingSpeed;
-                _v2MoveVelocity += _v2MoveDirection * fXJumpingSpeed;
-                _fFrameDelayCounter = 0;
+                //Cannot jump when sliding
+                if (!ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching.IsSliding())
+                {
+                    _v2MoveVelocity.y = fYJumpingSpeed;
+                    _v2MoveVelocity += _v2MoveDirection * fXJumpingSpeed;
+                    _fFrameDelayCounter = 0;
+                }
             }
         }
         else

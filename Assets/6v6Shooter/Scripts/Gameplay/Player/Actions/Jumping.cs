@@ -87,7 +87,8 @@ public class Jumping : MonoBehaviour
         var componentHolder = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder;
         return !(componentHolder.playerAnimationController.inspectingLock ||
                  componentHolder.playerAnimationController.reloadingLock || 
-                 ActionsManager.GetInstance(pnc.GetInstanceID()).Aiming.IsAiming());
+                 ActionsManager.GetInstance(pnc.GetInstanceID()).Aiming.IsAiming() ||
+                 ActionsManager.GetInstance(pnc.GetInstanceID()).Crouching.IsSliding());
     }
 
     /// <summary>
