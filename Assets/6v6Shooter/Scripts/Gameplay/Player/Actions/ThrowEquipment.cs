@@ -50,7 +50,7 @@ public class ThrowEquipment : MonoBehaviour
             if (Weapon != null)
             {
                 DisableWeaponChildren();
-                EquipGrenade(StaticObjectToThrow1); // Use static prefab
+                EquipGrenade(StaticObjectToThrow1);
             }
         }
 
@@ -73,7 +73,7 @@ public class ThrowEquipment : MonoBehaviour
             if (Weapon != null)
             {
                 DisableWeaponChildren();
-                EquipGrenade(StaticObjectToThrow2); // Use static prefab
+                EquipGrenade(StaticObjectToThrow2);
             }
         }
 
@@ -153,10 +153,9 @@ public class ThrowEquipment : MonoBehaviour
 {
     if (grenadePrefab != null)
     {
-        // Instantiate the grenade and set it as a child of the HandTransform
         activeGrenade = Instantiate(grenadePrefab, HandTransform);
 
-        // Set local position and rotation to align it correctly in the hand
+        // local position and rotation to align in the hand
         activeGrenade.transform.localPosition = new Vector3(0.000473f, 0.000127f, 0.000352f);
         activeGrenade.transform.localRotation = Quaternion.Euler(new Vector3(-24.417f, 1.343f, 9.508f));
     }
