@@ -5,11 +5,11 @@ using UnityEngine;
 public class ThrowEquipment : MonoBehaviour
 {
     [Header("References")]
-    public Transform Camera;
+    public Transform ThrowPoint;
     public GameObject ObjectToThrow1;
     public GameObject ObjectToThrow2;
-    public GameObject StaticObjectToThrow1; // Reference to static grenade prefab
-    public GameObject StaticObjectToThrow2; // Reference to static grenade prefab
+    public GameObject StaticObjectToThrow1;
+    public GameObject StaticObjectToThrow2; 
     public Animator Animator;
     [SerializeField] public GameObject Weapon;
     [SerializeField] public Transform HandTransform;
@@ -56,6 +56,7 @@ public class ThrowEquipment : MonoBehaviour
 
         if (Input.GetKeyUp(ThrowBtn1) && isHolding)
         {
+            Destroy(activeGrenade);
             Animator.SetTrigger("pFarThrow");
             Invoke(nameof(ThrowPrimary), ThrowDelay);
             isHolding = false;
@@ -78,6 +79,7 @@ public class ThrowEquipment : MonoBehaviour
 
         if (Input.GetKeyUp(ThrowBtn2) && isHolding)
         {
+            Destroy(activeGrenade);
             Animator.SetTrigger("pFarThrow");
             Invoke(nameof(ThrowSecondary), ThrowDelay);
             isHolding = false;
@@ -96,19 +98,26 @@ public class ThrowEquipment : MonoBehaviour
     }
 
     private void PerformThrow(GameObject throwable)
+{
+    Throw(throwable);
+    
+    if (activeGrenade != null)
     {
-        Throw(throwable);
-        Invoke(nameof(ReEnableWeaponChildren), 0.5f);
+        activeGrenade = null;
     }
+
+    Invoke(nameof(ReEnableWeaponChildren), 0.5f);
+}
+
 
     private void Throw(GameObject objectToThrow)
     {
         canThrow = false;
-        GameObject projectile = Instantiate(objectToThrow, Camera.position, Camera.rotation);
+        GameObject projectile = Instantiate(objectToThrow, ThrowPoint.position, ThrowPoint.rotation);
         Rigidbody projectileRB = projectile.GetComponent<Rigidbody>();
 
-        Vector3 forceDirection = Camera.transform.forward;
-        Vector3 addForce = forceDirection * ThrowForce + Camera.transform.up * ThrowUpwardForce;
+        Vector3 forceDirection = ThrowPoint.transform.forward;
+        Vector3 addForce = forceDirection * ThrowForce + ThrowPoint.transform.up * ThrowUpwardForce;
         projectileRB.AddForce(addForce, ForceMode.Impulse);
 
         if (activeGrenade != null)
@@ -141,13 +150,18 @@ public class ThrowEquipment : MonoBehaviour
     }
 
     private void EquipGrenade(GameObject grenadePrefab)
+{
+    if (grenadePrefab != null)
     {
-        if (grenadePrefab != null)
-        {
-            activeGrenade = Instantiate(grenadePrefab, HandTransform.position, HandTransform.rotation, HandTransform);
-            activeGrenade.transform.localScale = Vector3.one; // Ensure the grenade is scaled correctly
-        }
+        // Instantiate the grenade and set it as a child of the HandTransform
+        activeGrenade = Instantiate(grenadePrefab, HandTransform);
+
+        // Set local position and rotation to align it correctly in the hand
+        activeGrenade.transform.localPosition = new Vector3(0.000473f, 0.000127f, 0.000352f);
+        activeGrenade.transform.localRotation = Quaternion.Euler(new Vector3(-24.417f, 1.343f, 9.508f));
     }
+}
+
 
     public void FreezeAnimation()
     {
