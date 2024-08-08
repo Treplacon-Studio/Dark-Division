@@ -22,6 +22,8 @@ public class Inspecting : MonoBehaviour
     [SerializeField] [Tooltip("Additional inspect lock time over animation time.")]
     private float fExtraInspectLockTime;
     
+    private bool _locker;
+    
     #endregion Specific Parameters
     
     #region Base Methods
@@ -52,7 +54,10 @@ public class Inspecting : MonoBehaviour
             }
 
             if (fCanInspect)
+            {
+                _locker = true;
                 componentHolder.playerAnimationController.PlayInspectAnimation();
+            }
         }
     }
     
@@ -65,6 +70,9 @@ public class Inspecting : MonoBehaviour
     /// </summary>
     private IEnumerator LockTemporarily()
     {
+        while (!_locker)
+            yield return null;
+        
         var componentHolder = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder;
         componentHolder.playerAnimationController.inspectingLock = true;
         
@@ -78,6 +86,7 @@ public class Inspecting : MonoBehaviour
         yield return new WaitForSeconds(clip!.length + fExtraInspectLockTime);
         
         componentHolder.playerAnimationController.inspectingLock = false;
+        _locker = false;
     }
     
     #endregion Specific Methods
