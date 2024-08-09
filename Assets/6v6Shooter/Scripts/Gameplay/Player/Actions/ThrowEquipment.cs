@@ -41,27 +41,47 @@ public class ThrowEquipment : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(ThrowBtn1) && canThrow && EquipmentAmmo1 > 0)
-        {
-            Animator.SetTrigger("pThrow");
-            isHolding = true;
-            isFrozen = false;
-            EquipmentAmmo1--;
+{
+    // Check if the equipment is a knife
+    if (IsKnifeEquipped())
+    {
+        Animator.SetTrigger("pKnifeThrow"); // Set the knife throw trigger
+    }
+    else
+    {
+        Animator.SetTrigger("pThrow"); // Set the regular throw trigger
+    }
 
-            if (Weapon != null)
-            {
-                DisableWeaponChildren();
-                EquipGrenade(StaticObjectToThrow1);
-            }
-        }
+    isHolding = true;
+    isFrozen = false;
+    EquipmentAmmo1--;
 
-        if (Input.GetKeyUp(ThrowBtn1) && isHolding)
-        {
-            Destroy(activeGrenade);
-            Animator.SetTrigger("pFarThrow");
-            Invoke(nameof(ThrowPrimary), ThrowDelay);
-            isHolding = false;
-            isFrozen = false;
-        }
+    if (Weapon != null)
+    {
+        DisableWeaponChildren();
+        EquipGrenade(StaticObjectToThrow1);
+    }
+}
+
+if (Input.GetKeyUp(ThrowBtn1) && isHolding)
+{
+    Destroy(activeGrenade);
+
+    // Check if the equipment is a knife
+    if (IsKnifeEquipped())
+    {
+        Animator.SetTrigger("pKnifeThrow"); // Set the knife throw trigger
+    }
+    else
+    {
+        Animator.SetTrigger("pFarThrow"); // Set the regular far throw trigger
+    }
+
+    Invoke(nameof(ThrowPrimary), ThrowDelay);
+    isHolding = false;
+    isFrozen = false;
+}
+
 
         if (Input.GetKeyDown(ThrowBtn2) && canThrow && EquipmentAmmo2 > 0)
         {
@@ -154,10 +174,6 @@ public class ThrowEquipment : MonoBehaviour
     if (grenadePrefab != null)
     {
         activeGrenade = Instantiate(grenadePrefab, HandTransform);
-
-        // local position and rotation to align in the hand
-        activeGrenade.transform.localPosition = new Vector3(0.000473f, 0.000127f, 0.000352f);
-        activeGrenade.transform.localRotation = Quaternion.Euler(new Vector3(-24.417f, 1.343f, 9.508f));
     }
 }
 
@@ -175,4 +191,10 @@ public class ThrowEquipment : MonoBehaviour
     {
         Animator.speed = 1;
     }
+
+    private bool IsKnifeEquipped()
+{
+    return ObjectToThrow1 != null && ObjectToThrow1.name == "ThrowingKnife";
+}
+
 }
