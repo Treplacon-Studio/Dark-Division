@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4516655578099730404}
   - component: {fileID: 2776255079097624516}
-  - component: {fileID: 6991940664693178768}
+  - component: {fileID: 2485931899181150055}
   m_Layer: 0
   m_Name: FragPrefab
   m_TagString: Untagged
@@ -61,8 +61,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &6991940664693178768
-SphereCollider:
+--- !u!136 &2485931899181150055
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -79,9 +79,11 @@ SphereCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.0008488572
-  m_Center: {x: 0, y: 0.00006865489, z: 0}
+  serializedVersion: 2
+  m_Radius: 0.055841938
+  m_Height: 0.15631965
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.011249095, z: 0}
 --- !u!1001 &1361488264771769117
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -92,15 +94,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b18d993fd4d666c4a8ed169606db2784, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.01
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b18d993fd4d666c4a8ed169606db2784, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.01
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b18d993fd4d666c4a8ed169606db2784, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.01
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b18d993fd4d666c4a8ed169606db2784, type: 3}
       propertyPath: m_LocalPosition.x
