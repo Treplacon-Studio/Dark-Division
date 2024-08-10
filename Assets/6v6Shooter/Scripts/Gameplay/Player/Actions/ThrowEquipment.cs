@@ -25,8 +25,8 @@ public class ThrowEquipment : MonoBehaviour
     public KeyCode ThrowBtn2 = KeyCode.H;
     public KeyCode ShortThrowBtn = KeyCode.F;
 
-    public float ThrowForce;
-    public float ThrowUpwardForce;
+    public float ThrowForce = 16;
+    public float ThrowUpwardForce = 15;
 
     private bool canThrow;
     private bool isHolding;
@@ -39,73 +39,66 @@ public class ThrowEquipment : MonoBehaviour
     }
 
     private void Update()
-    {
-        if (Input.GetKeyDown(ThrowBtn1) && canThrow && EquipmentAmmo1 > 0)
 {
-    // Check if the equipment is a knife
-    if (IsKnifeEquipped())
+    if (Input.GetKeyDown(ThrowBtn1) && canThrow && EquipmentAmmo1 > 0)
     {
-        Animator.SetTrigger("pKnifeThrow"); // Set the knife throw trigger
-    }
-    else
-    {
-        Animator.SetTrigger("pThrow"); // Set the regular throw trigger
-    }
-
-    isHolding = true;
-    isFrozen = false;
-    EquipmentAmmo1--;
-
-    if (Weapon != null)
-    {
-        DisableWeaponChildren();
-        EquipGrenade(StaticObjectToThrow1);
-    }
-}
-
-if (Input.GetKeyUp(ThrowBtn1) && isHolding)
-{
-    Destroy(activeGrenade);
-
-    // Check if the equipment is a knife
-    if (IsKnifeEquipped())
-    {
-        Animator.SetTrigger("pKnifeThrow"); // Set the knife throw trigger
-    }
-    else
-    {
-        Animator.SetTrigger("pFarThrow"); // Set the regular far throw trigger
-    }
-
-    Invoke(nameof(ThrowPrimary), ThrowDelay);
-    isHolding = false;
-    isFrozen = false;
-}
-
-
-        if (Input.GetKeyDown(ThrowBtn2) && canThrow && EquipmentAmmo2 > 0)
+        // Check if it's a knife or regular throw
+        if (IsKnifeEquipped())
         {
-            Animator.SetTrigger("pThrow");
-            isHolding = true;
-            isFrozen = false;
-            EquipmentAmmo2--;
-
-            if (Weapon != null)
-            {
-                DisableWeaponChildren();
-                EquipGrenade(StaticObjectToThrow2);
-            }
+            Animator.SetTrigger("pKnifeThrow"); // Set the knife throw trigger
+            Invoke(nameof(FreezeAnimation), 0.1f); // Freeze only for knife throw
+        }
+        else
+        {
+            Animator.SetTrigger("pThrow"); // Set the regular throw trigger
         }
 
-        if (Input.GetKeyUp(ThrowBtn2) && isHolding)
+        isHolding = true;
+        EquipmentAmmo1--;
+
+        if (Weapon != null)
         {
-            Destroy(activeGrenade);
-            Animator.SetTrigger("pFarThrow");
-            Invoke(nameof(ThrowSecondary), ThrowDelay);
-            isHolding = false;
-            isFrozen = false;
+            DisableWeaponChildren();
+            EquipGrenade(StaticObjectToThrow1);
         }
     }
+
+    if (Input.GetKeyUp(ThrowBtn1) && isHolding)
+    {
+        if (IsKnifeEquipped())
+        {
+            UnfreezeAnimation(); // Unfreeze only for knife throw
+            Animator.SetTrigger("pKnifeThrow"); // Finish the knife throw animation
+        }
+        else
+        {
+            Animator.SetTrigger("pFarThrow"); // Transition to the second animation for regular throw
+        }
+
+        Invoke(nameof(ThrowPrimary), ThrowDelay);
+        isHolding = false;
+    }
+
+    if (Input.GetKeyDown(ThrowBtn2) && canThrow && EquipmentAmmo2 > 0)
+    {
+        Animator.SetTrigger("pThrow"); // Regular throw, no freezing needed
+        isHolding = true;
+        EquipmentAmmo2--;
+
+        if (Weapon != null)
+        {
+            DisableWeaponChildren();
+            EquipGrenade(StaticObjectToThrow2);
+        }
+    }
+
+    if (Input.GetKeyUp(ThrowBtn2) && isHolding)
+    {
+        Animator.SetTrigger("pFarThrow"); // Transition to the second animation for regular throw
+        Invoke(nameof(ThrowSecondary), ThrowDelay);
+        isHolding = false;
+    }
+}
 
     private void ThrowPrimary()
     {
@@ -118,17 +111,16 @@ if (Input.GetKeyUp(ThrowBtn1) && isHolding)
     }
 
     private void PerformThrow(GameObject throwable)
-{
-    Throw(throwable);
-    
-    if (activeGrenade != null)
     {
-        activeGrenade = null;
+        Throw(throwable);
+        
+        if (activeGrenade != null)
+        {
+            activeGrenade = null;
+        }
+
+        Invoke(nameof(ReEnableWeaponChildren), 0.5f);
     }
-
-    Invoke(nameof(ReEnableWeaponChildren), 0.5f);
-}
-
 
     private void Throw(GameObject objectToThrow)
     {
@@ -170,31 +162,33 @@ if (Input.GetKeyUp(ThrowBtn1) && isHolding)
     }
 
     private void EquipGrenade(GameObject grenadePrefab)
-{
-    if (grenadePrefab != null)
     {
-        activeGrenade = Instantiate(grenadePrefab, HandTransform);
-    }
-}
-
-
-    public void FreezeAnimation()
-    {
-        if (isHolding && !isFrozen)
+        if (grenadePrefab != null)
         {
-            Animator.speed = 0;
-            isFrozen = true;
+            activeGrenade = Instantiate(grenadePrefab, HandTransform);
         }
     }
 
-    public void UnfreezeAnimation()
-    {
-        Animator.speed = 1;
-    }
-
-    private bool IsKnifeEquipped()
+    public void FreezeAnimation()
 {
-    return ObjectToThrow1 != null && ObjectToThrow1.name == "ThrowingKnife";
+    if (isHolding && !isFrozen && IsKnifeEquipped())
+    {
+        Animator.speed = 0; // Pause the animation only for knife throw
+        isFrozen = true;
+    }
 }
 
+public void UnfreezeAnimation()
+{
+    if (IsKnifeEquipped())
+    {
+        Animator.speed = 1; // Resume the animation only for knife throw
+        isFrozen = false;
+    }
+}
+
+    private bool IsKnifeEquipped()
+    {
+        return ObjectToThrow1 != null && ObjectToThrow1.name == "ThrowKnifePrefab";
+    }
 }
