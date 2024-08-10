@@ -12,6 +12,8 @@ public class HealthController : MonoBehaviourPunCallbacks
     public bool targetDummy;
 
     [SerializeField] PlayerSetup playerSetup;
+    [SerializeField] private Material hitEffect;
+    [SerializeField] private float maskAmount = 1;
     public GameObject resCanvas;
     public TextMeshProUGUI resCount;
 
@@ -31,11 +33,20 @@ public class HealthController : MonoBehaviourPunCallbacks
         healthBar.fillAmount = health / startHealth;
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyUp(KeyCode.Keypad4))
+        {
+            TakeDamage(10);
+        }
+    }
+
     [PunRPC]
     public void TakeDamage(float damage)
     {
         health -= damage;
         healthBar.fillAmount = health / startHealth;
+        hitEffect.SetFloat("_MaskAmount", health/100);
 
         if (health <= 0f)
             Die();
@@ -72,6 +83,7 @@ public class HealthController : MonoBehaviourPunCallbacks
 
     IEnumerator Respawn()
     {
+        hitEffect.SetFloat("_MaskAmount", 1f);
         yield return new WaitForSeconds(4f);
 
         string team = GetTeam();
@@ -111,6 +123,7 @@ public class HealthController : MonoBehaviourPunCallbacks
     {
         health = startHealth;
         healthBar.fillAmount = health / startHealth;
+        hitEffect.SetFloat("_MaskAmount", health / 100);
     }
 
     private string GetTeam()
