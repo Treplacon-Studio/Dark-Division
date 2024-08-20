@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ThrowEquipment : MonoBehaviour
@@ -17,7 +16,7 @@ public class ThrowEquipment : MonoBehaviour
     [SerializeField] private KeyCode ThrowTactical = KeyCode.H;
     [SerializeField] private KeyCode ThrowStyleChange = KeyCode.F;
 
-    [Header("SO references")]
+    [Header("SO References")]
     [SerializeField] private ThrowableSO lethalThrowableSO;
     [SerializeField] private ThrowableSO tacticalThrowableSO;
 
@@ -28,11 +27,11 @@ public class ThrowEquipment : MonoBehaviour
 
     private bool canThrow = true;
     private bool isHolding = false;
-    private bool isOverhandThrow = true;
+    private bool throwStyleFar = true;
 
     private void Start()
     {
-        // Spawn a dummy for the lethal and tactical
+        // Spawn a dummy for the lethal and tactical throwables
         lethalDummy = Instantiate(lethalThrowableSO.dummyPrefab);
         lethalDummy.SetActive(false);
         tacticalDummy = Instantiate(tacticalThrowableSO.dummyPrefab);
@@ -47,105 +46,113 @@ public class ThrowEquipment : MonoBehaviour
     }
 
     private void HandleThrowing(KeyCode throwKey, ThrowableSO throwable)
-{
-    if (Input.GetKeyDown(throwKey) && canThrow && throwable.HasAmmo())
     {
-        // Set the appropriate animation trigger
-        if (throwable.isThrowingKnife)
+        if (Input.GetKeyDown(throwKey) && canThrow && throwable.HasAmmo())
         {
-            animator.SetTrigger("pPrepThrowKnife");
+            currentThrowable = throwable;
+
+            // Set the appropriate animation trigger
+            if (throwable.isThrowingKnife)
+            {
+                animator.SetTrigger("pPrepThrowKnife");
+            }
+            else
+            {
+                animator.SetTrigger("pThrow");
+            }
+
+            isHolding = true;
+
+            // Select the appropriate dummy based on the throwable type
+            currentDummy = throwable == lethalThrowableSO ? lethalDummy : tacticalDummy;
+
+            // Move the dummy to the weaponSocket
+            currentDummy.transform.SetParent(weaponSocket.transform);
+            currentDummy.transform.localPosition = Vector3.zero;
+            currentDummy.transform.localRotation = Quaternion.identity;
+            currentDummy.transform.localScale = Vector3.one;
+            currentDummy.SetActive(true);
+
+            // Disable all other children in weaponSocket except for currentDummy
+            for (int i = 0; i < weaponSocket.transform.childCount; i++)
+            {
+                Transform child = weaponSocket.transform.GetChild(i);
+
+                if (child != currentDummy.transform)
+                {
+                    child.gameObject.SetActive(false);
+                }
+            }
         }
-        else
+
+        // Handle the key release for throwing the object
+        if (Input.GetKeyUp(throwKey) && isHolding)
         {
-            animator.SetTrigger("pThrow");
+            if (throwable.isThrowingKnife)
+            {
+                animator.SetTrigger("pKnifeThrow");
+            }
+            else
+            {
+                animator.SetTrigger(throwStyleFar ? "pFarThrow" : "pShortThrow");
+            }
+
+            isHolding = false;
         }
+    }
 
-        isHolding = true;
-
-        // Select the appropriate dummy based on the throwable type
-        currentDummy = throwable == lethalThrowableSO ? lethalDummy : tacticalDummy;
-
-        // Move the dummy to the weaponSocket
-        currentDummy.transform.SetParent(weaponSocket.transform);
-        currentDummy.transform.localPosition = Vector3.zero;
-        currentDummy.transform.localRotation = Quaternion.identity;
-        currentDummy.transform.localScale = Vector3.one;
-        currentDummy.SetActive(true);
-
-        // Disable all other children in weaponSocket except for currentDummy
+    public void ReenableChildren()
+    {
         for (int i = 0; i < weaponSocket.transform.childCount; i++)
         {
             Transform child = weaponSocket.transform.GetChild(i);
-
-            // Skip the currentDummy
-            if (child != currentDummy.transform)
-            {
-                child.gameObject.SetActive(false);
-            }
+            child.gameObject.SetActive(true);
         }
     }
-
-    // Handle the key release for throwing the object
-    if (Input.GetKeyUp(throwKey) && isHolding)
-    {
-        if (throwable.isThrowingKnife)
-        {
-            animator.SetTrigger("pKnifeThrow");
-        }
-        else
-        {
-            animator.SetTrigger("pFarThrow");
-        }
-
-        isHolding = false;
-        ThrowAnimation(throwable);
-    }
-}
-
-public void ReenableChildren()
-{
-    for (int i = 0; i < weaponSocket.transform.childCount; i++)
-    {
-        Transform child = weaponSocket.transform.GetChild(i);
-        child.gameObject.SetActive(true);
-    }
-}
-
-
 
     private void ChangeThrowStyle()
     {
-        if (Input.GetKeyDown(ThrowStyleChange) && isHolding)
+        if (Input.GetKeyDown(ThrowStyleChange))
         {
-            isOverhandThrow = !isOverhandThrow;
+            throwStyleFar = !throwStyleFar;
+            Debug.Log("Throw style changed to " + (throwStyleFar ? "Far" : "Short") + ".");
         }
-    }
-
-    private void ThrowAnimation(ThrowableSO throwable)
-    {
-        string triggerName = throwable.isThrowingKnife
-            ? (isOverhandThrow ? "pThrowKnifeOverhand" : "pThrowKnifeUnderhand")
-            : (isOverhandThrow ? "pFarThrow" : "pShortThrow");
-
-        animator.SetTrigger(triggerName);
     }
 
     public void Throw()
     {
         canThrow = false;
 
+        if (currentThrowable == null)
+        {
+            Debug.LogWarning("No throwable object is set.");
+            return;
+        }
+
         // Instantiate the throwable object (object pooling should be considered)
-        GameObject throwableInstance = Instantiate(lethalThrowableSO.actualPrefab, throwPoint.position, throwPoint.rotation);
+        GameObject throwableInstance = Instantiate(currentThrowable.actualPrefab, throwPoint.position, throwPoint.rotation);
         Rigidbody throwableRB = throwableInstance.GetComponent<Rigidbody>();
 
-        // Apply throw force
+        // Calculate the force based on the throw style
         Vector3 forceDirection = transform.forward;
-        Vector3 addForce = forceDirection * lethalThrowableSO.ThrowForce + transform.up * lethalThrowableSO.ThrowUpwardForce;
+        float forceMultiplier = throwStyleFar ? 1.0f : 0.5f; // Halve the force if throw style is short
+        Vector3 addForce = forceDirection * currentThrowable.ThrowForce * forceMultiplier +
+                           transform.up * currentThrowable.ThrowUpwardForce * forceMultiplier;
+
         throwableRB.AddForce(addForce, ForceMode.Impulse);
 
-        StartCoroutine(ThrowCooldown(lethalThrowableSO.coolDownTime));
+        StartCoroutine(ThrowCooldown(currentThrowable.coolDownTime));
+        
         if (currentDummy != null)
             currentDummy.SetActive(false);
+
+        StartCoroutine(DelayedReenableChildren());
+    }
+
+    // Slight delay to let the animation finish before reenabling
+    private IEnumerator DelayedReenableChildren()
+    {
+        yield return new WaitForSeconds(0.2f);
         ReenableChildren();
     }
 
