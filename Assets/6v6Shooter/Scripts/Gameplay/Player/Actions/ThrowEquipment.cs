@@ -140,6 +140,7 @@ public class ThrowEquipment : MonoBehaviour
                            transform.up * currentThrowable.ThrowUpwardForce * forceMultiplier;
 
         throwableRB.AddForce(addForce, ForceMode.Impulse);
+        currentThrowable.ammoCount -= 1;
 
         StartCoroutine(ThrowCooldown(currentThrowable.coolDownTime));
         
