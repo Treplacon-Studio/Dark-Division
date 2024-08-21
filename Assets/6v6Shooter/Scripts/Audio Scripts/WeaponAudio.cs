@@ -17,7 +17,7 @@ public class WeaponAudio : MonoBehaviour
     {
         if (soundData != null && soundData.fireSound.IsNull == false)
         {
-            //audioManager.PlayOneShot(soundData.fireSound, position);
+            audioManager.PlayOneShot(soundData.fireSound, position);
         }
     }
 
@@ -25,7 +25,7 @@ public class WeaponAudio : MonoBehaviour
     {
         if (soundData != null && soundData.reloadSound.IsNull == false)
         {
-            //audioManager.PlayOneShot(soundData.reloadSound, position);
+            audioManager.PlayOneShot(soundData.reloadSound, position);
         }
     }
 
@@ -33,7 +33,7 @@ public class WeaponAudio : MonoBehaviour
     {
         if (soundData != null && soundData.emptyClipSound.IsNull == false)
         {
-            //audioManager.PlayOneShot(soundData.emptyClipSound, position);
+            audioManager.PlayOneShot(soundData.emptyClipSound, position);
         }
     }
 }

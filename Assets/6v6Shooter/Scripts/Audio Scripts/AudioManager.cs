@@ -1,5 +1,5 @@
 using UnityEngine;
-using FMODUnity;
+using FMODUnity; // Required for EventReference
 using FMOD.Studio;
 using System.Collections.Generic;
 using System.Collections;
@@ -55,16 +55,19 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public static void PlayOneShot(string eventPath, Vector3 position)
+    public void PlayOneShot(EventReference eventReference, Vector3 position)
     {
-        RuntimeManager.PlayOneShot(eventPath, position);
+        if (eventReference.IsNull == false)
+        {
+            RuntimeManager.PlayOneShot(eventReference, position);
+        }
     }
 
-    public void PlayEvent(string eventPath, string eventId)
+    public void PlayEvent(EventReference eventReference, string eventId)
     {
         if (!eventInstances.ContainsKey(eventId))
         {
-            EventInstance instance = RuntimeManager.CreateInstance(eventPath);
+            EventInstance instance = RuntimeManager.CreateInstance(eventReference);
             eventInstances[eventId] = instance;
             instance.start();
         }
