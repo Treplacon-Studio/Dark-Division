@@ -65,18 +65,23 @@ public class Shooting : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RPC_AutomaticFire()
     {
+        //If we are swapping weapons you cann not shoot
         var componentHolder = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder;
         if (ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent() is null)
             return;
         
+        //If reloading you cannot shoot
         if (componentHolder.playerAnimationController.reloadingLock)
         {
             componentHolder.playerAnimationController.shootingLock = false;
             return;
         }
 
+        //Set flags based on input and time past
         var shootKeyClicked = Input.GetMouseButton(0);
         var bStopShooting = !shootKeyClicked && Time.time >= _fNextFireTime;
+
+        //Wait before shooting next bullet
         componentHolder.playerAnimationController.shootingLock = shootKeyClicked && Time.time >= _fNextFireTime;
         componentHolder.playerAnimationController.StopShooting(bStopShooting);
         

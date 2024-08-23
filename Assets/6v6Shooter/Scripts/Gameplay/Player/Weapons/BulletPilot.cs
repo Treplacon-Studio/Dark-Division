@@ -111,7 +111,14 @@ public class BulletPilot : MonoBehaviour
                 if (!_alreadyHitObjects.Contains(hitObject))
                 {
                     if (TargetIsOnSameTeam() is false)
+                    {
                         hitPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered, 10f);
+                        hitPhotonView.RPC("ReceiveBulletDirection", RpcTarget.AllBuffered, _rb.velocity);
+
+
+                        //Play hitmark sound
+                    }
+
 
                     Debug.Log($"{_bulletOwner.name} hits {hitObject.name}!");
                     _alreadyHitObjects.Add(hitObject);
