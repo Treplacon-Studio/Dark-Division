@@ -8,7 +8,7 @@ public class RemoteRPCSound : MonoBehaviourPunCallbacks
 {
     [SerializeField] private EventReference weaponShootSound;
 
-    public void PlaySoundLocally()
+    public void PlaySound()
     {
         if (photonView.IsMine)
         {

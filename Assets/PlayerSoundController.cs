@@ -9,6 +9,6 @@ public class PlayerSoundController : MonoBehaviour
     public void PlayWeaponShootSound()
     {
         Debug.Log("Shoot animation called 1x");
-        remoteRPCSound.PlaySoundLocally();
+        remoteRPCSound.PlaySound();
     }
 }
