@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ExitGames.Client.Photon.StructWrapping;
+using FMODUnity;
 using Photon.Pun;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -21,6 +22,9 @@ public class BulletPilot : MonoBehaviour
 
     [SerializeField] [Tooltip("Prefab that has to be spawned on walls and other objects")]
     private GameObject bulletHolePrefab;
+
+    [SerializeField]
+    private EventReference hitmarkerSound;
 
     private Ray currentRay;
     private RaycastHit currentHit;
@@ -115,8 +119,8 @@ public class BulletPilot : MonoBehaviour
                         hitPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered, 10f);
                         hitPhotonView.RPC("ReceiveBulletDirection", RpcTarget.AllBuffered, _rb.velocity);
 
-
                         //Play hitmark sound
+                        AudioManager.Instance.PlayOneShot(hitmarkerSound, transform.position);
                     }
 
 
