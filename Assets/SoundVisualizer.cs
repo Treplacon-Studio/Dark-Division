@@ -14,11 +14,7 @@ public class SoundVisualizer : MonoBehaviour
 
     private void Start()
     {
-        // Get the FMOD emitter component
         emitter = GetComponent<FMODUnity.StudioEventEmitter>();
-
-        // Optionally, you can set the minDistance and maxDistance values
-        // according to the FMOD event settings or specific game requirements
     }
 
     private void OnDrawGizmos()
