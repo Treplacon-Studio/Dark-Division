@@ -10,6 +10,7 @@ public class PlayerSoundController : MonoBehaviour
     public void PlayWeaponShootSound()
     {
         //Play shooting sound
+        Debug.Log("Play Weapon Sound");
         AudioManager.Instance.PlayOneShot(weaponShootSound, transform.position);
     }
 }

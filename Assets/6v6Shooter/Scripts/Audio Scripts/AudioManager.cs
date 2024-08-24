@@ -24,7 +24,7 @@ public class AudioManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject); // Ensure the AudioManager persists across scenes
-            InitializeBuses();
+            //InitializeBuses();
         }
         else
         {
@@ -32,12 +32,12 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void InitializeBuses()
-    {
-        audioBuses[musicBusPath] = RuntimeManager.GetBus(musicBusPath);
-        audioBuses[sfxBusPath] = RuntimeManager.GetBus(sfxBusPath);
-        audioBuses[uiBusPath] = RuntimeManager.GetBus(uiBusPath);
-    }
+    //private void InitializeBuses()
+    //{
+    //    audioBuses[musicBusPath] = RuntimeManager.GetBus(musicBusPath);
+    //    audioBuses[sfxBusPath] = RuntimeManager.GetBus(sfxBusPath);
+    //    audioBuses[uiBusPath] = RuntimeManager.GetBus(uiBusPath);
+    //}
 
     public void SetBusVolume(string busPath, float volume)
     {
