@@ -17,15 +17,19 @@ public class PlayerSoundController : MonoBehaviour
             Debug.Log("Play Weapon Sound Locally");
             AudioManager.Instance.PlayOneShot(weaponShootSound, transform.position);
 
-            // Broadcast the sound event to all other clients
+            // Broadcast the sound event to all other clients (but not yourself)
             photonView.RPC("RPC_PlayWeaponShootSound", RpcTarget.Others, transform.position);
         }
     }
 
     [PunRPC]
-    public void RPC_PlayWeaponShootSound(Vector3 shooterPosition)
+    public void RPC_PlayWeaponShootSound(Vector3 shooterPosition, PhotonMessageInfo info)
     {
-        // Play the sound at the position of the shooter (enemy or self)
-        AudioManager.Instance.PlayOneShot(weaponShootSound, shooterPosition);
+        // Check if the RPC call is not from the local player to prevent self-hearing
+        if (!photonView.IsMine)
+        {
+            // Play the sound at the position of the shooter (enemy or self)
+            AudioManager.Instance.PlayOneShot(weaponShootSound, shooterPosition);
+        }
     }
 }
