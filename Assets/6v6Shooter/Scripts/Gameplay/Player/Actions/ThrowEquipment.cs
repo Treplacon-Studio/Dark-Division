@@ -10,6 +10,8 @@ public class ThrowEquipment : MonoBehaviour
     [SerializeField] private GameObject weaponSocket;
     [SerializeField] private Transform throwPoint;
     [SerializeField] private float throwCooldown;
+    [SerializeField] private GameObject throwFarIcon;
+    [SerializeField] private GameObject throwCloseIcon;
 
     [Header("Throwing")]
     [SerializeField] private KeyCode ThrowLethal = KeyCode.G;
@@ -110,14 +112,21 @@ public class ThrowEquipment : MonoBehaviour
         }
     }
 
+
     private void ChangeThrowStyle()
     {
         if (Input.GetKeyDown(ThrowStyleChange))
         {
             throwStyleFar = !throwStyleFar;
-            Debug.Log("Throw style changed to " + (throwStyleFar ? "Far" : "Short") + ".");
+
+            // Toggle the icons based on the throw style
+            throwFarIcon.SetActive(throwStyleFar);
+            throwCloseIcon.SetActive(!throwStyleFar);
+
+            // Debug.Log("Throw style changed to " + (throwStyleFar ? "Far" : "Short") + ".");
         }
     }
+
 
     public void Throw()
     {
