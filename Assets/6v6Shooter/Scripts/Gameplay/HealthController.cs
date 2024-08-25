@@ -46,7 +46,9 @@ public class HealthController : MonoBehaviourPunCallbacks
     {
         health -= damage;
         healthBar.fillAmount = health / startHealth;
-        hitEffect.SetFloat("_MaskAmount", health/100);
+
+        // Adjusting the mask amount to be between 0 and 1.4
+        hitEffect.SetFloat("_MaskAmount", health / (100 / 1.4f));
 
         if (health <= 0f)
             Die();
@@ -123,8 +125,11 @@ public class HealthController : MonoBehaviourPunCallbacks
     {
         health = startHealth;
         healthBar.fillAmount = health / startHealth;
-        hitEffect.SetFloat("_MaskAmount", health / 100);
+
+        // Adjusting the mask amount to be between 0 and 1.4
+        hitEffect.SetFloat("_MaskAmount", health / (100 / 1.4f));
     }
+
 
     private string GetTeam()
     {
