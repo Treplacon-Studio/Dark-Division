@@ -118,9 +118,7 @@ public class BulletPilot : MonoBehaviour
                     {
                         hitPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered, 10f);
                         hitPhotonView.RPC("ReceiveBulletDirection", RpcTarget.AllBuffered, _rb.velocity);
-
-                        //Play hitmark sound
-                        AudioManager.Instance.PlayOneShot(hitmarkerSound, transform.position);
+                        HitFeedback();
                     }
 
 
@@ -131,7 +129,16 @@ public class BulletPilot : MonoBehaviour
             }
         }
     }
-    
+
+    private void HitFeedback()
+    {
+        //Play hitmark sound
+        AudioManager.Instance.PlayOneShot(hitmarkerSound, transform.position);
+
+        //Show Hitmarker
+
+    }
+
     private Vector3 GetShootDirection()
     {
         var screenCenterPoint = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
