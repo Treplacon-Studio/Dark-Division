@@ -31,13 +31,9 @@ public abstract class UIAudioBase : MonoBehaviour, IPointerEnterHandler, IPointe
     protected void PlaySound(EventReference sound)
     {
         if (AudioManager.Instance != null && !sound.IsNull)
-        {
             AudioManager.Instance.PlayOneShot(sound, Vector3.zero);
-        }
         else
-        {
             Debug.LogWarning("AudioManager or sound is not set.");
-        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
