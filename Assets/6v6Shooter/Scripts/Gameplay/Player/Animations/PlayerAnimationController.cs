@@ -10,6 +10,7 @@ using UnityEngine;
 [RequireComponent(typeof(Crouching))]
 [RequireComponent(typeof(Shooting))]
 [RequireComponent(typeof(Switching))]
+[RequireComponent(typeof(ThrowEquipment))]
 public class PlayerAnimationController : MonoBehaviour
 {
     [SerializeField] [Tooltip("List of all weapon animation states names that cannot .")]
