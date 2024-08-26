@@ -20,7 +20,6 @@ public class DebugController : MonoBehaviour
 
     public List<object> commandList;
     public static DebugCommand HELP;
-    public static DebugCommand RANDOM_DIRECTION_DAMAGE;
     public static DebugCommand<int> ADD_50_GRENADES;
     public static DebugCommand<int> ADD_50_STUNS;
     public static DebugCommand<int> ADD_50_FLASHBANGS;
@@ -40,11 +39,6 @@ public class DebugController : MonoBehaviour
             showHelp = true;
         });
 
-        RANDOM_DIRECTION_DAMAGE = new DebugCommand("RANDOM_DIRECTION_DAMAGE", "Take damage from a random angle", "random_direction_damage", () =>
-        {
-            playerHitIndicator.GenerateRandomImpact();
-        });
-
         ADD_50_GRENADES = new DebugCommand<int>("ADD_50_GRENADES", "Add 50 more grenades", "add_50_grenades", (x) =>
         {
             //ADD method call here
@@ -54,7 +48,6 @@ public class DebugController : MonoBehaviour
         commandList = new List<object>
         {
             HELP,
-            RANDOM_DIRECTION_DAMAGE,
             ADD_50_GRENADES,
             ADD_50_STUNS,
             ADD_50_FLASHBANGS,
