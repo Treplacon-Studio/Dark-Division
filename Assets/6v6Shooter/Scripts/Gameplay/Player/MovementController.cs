@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 /// Controls all physical variables of movement and operations on it.
 /// </summary>
 [RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(AudioSource))]
+//[RequireComponent(typeof(AudioSource))]
 public class MovementController : MonoBehaviourPunCallbacks
 {
     #region Properties

@@ -1,26 +1,18 @@
 using System.Collections.Generic;
-using ExitGames.Client.Photon.StructWrapping;
+using FMODUnity;
 using Photon.Pun;
-using Unity.VisualScripting;
 using UnityEngine;
-
 
 public class BulletPilot : MonoBehaviour
 {
-    [SerializeField] [Tooltip("Initial speed of the bullet.")]
-    private float initialSpeed = 100f;
-
-    [SerializeField] [Tooltip("Factor for lenght of the ray.")]
-    private float rayLengthFactor = 1f;
-
-    [SerializeField] [Tooltip("Layers that will be affected by bullet.")]
-    private LayerMask hitLayers;
-
-    [SerializeField] [Tooltip("Time after the bullet disappears.")]
-    private float fadeDuration = 0.3f;
-
-    [SerializeField] [Tooltip("Prefab that has to be spawned on walls and other objects")]
-    private GameObject bulletHolePrefab;
+    [SerializeField] private float initialSpeed = 100f;
+    [SerializeField] private float rayLengthFactor = 1f;
+    [SerializeField] private LayerMask hitLayers;
+    [SerializeField] private float fadeDuration = 0.3f;
+    [SerializeField] private GameObject bulletHolePrefab;
+    [SerializeField] private EventReference hitmarkerSound;
+    [SerializeField] private GameObject hitmarker;
+    [SerializeField] private Transform hitmarkerParent;
 
     private Ray currentRay;
     private RaycastHit currentHit;
@@ -49,9 +41,11 @@ public class BulletPilot : MonoBehaviour
         var cameras = FindObjectsOfType<Camera>();
         foreach (var cam in cameras)
         {
-            if (!cam.gameObject.name.Contains("Main Camera")) continue;
-            _playerCamera = cam;
-            break;
+            if (cam.gameObject.name.Contains("Main Camera"))
+            {
+                _playerCamera = cam;
+                break;
+            }
         }
         _rb = GetComponent<Rigidbody>();
     }
@@ -60,7 +54,7 @@ public class BulletPilot : MonoBehaviour
     {
         _recoil = recoil;
     }
-    
+
     private void OnEnable()
     {
         Invoke(nameof(Deactivate), fadeDuration);
@@ -90,19 +84,17 @@ public class BulletPilot : MonoBehaviour
             Debug.LogError("Camera not found.");
             return;
         }
-        
+
         var currentRayLength = initialSpeed * rayLengthFactor;
         if (Physics.Raycast(transform.position, _currentDirection, out var hit, currentRayLength, hitLayers))
         {
             var hitObject = hit.collider.gameObject;
 
-            //Get the PhotonView of the hit object
             PhotonView hitPhotonView = hitObject.GetComponent<PhotonView>();
 
-            //Player cannot hit himself
             if (hitPhotonView != null)
             {
-                if (hitObject.CompareTag("TargetDummy") is false)
+                if (hitObject.CompareTag("TargetDummy") == false)
                 {
                     if (hitPhotonView.Owner == _bulletOwnerPhotonView.Owner)
                         return;
@@ -110,15 +102,12 @@ public class BulletPilot : MonoBehaviour
 
                 if (!_alreadyHitObjects.Contains(hitObject))
                 {
-                    if (TargetIsOnSameTeam() is false)
+                    if (!TargetIsOnSameTeam())
                     {
                         hitPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered, 10f);
                         hitPhotonView.RPC("ReceiveBulletDirection", RpcTarget.AllBuffered, _rb.velocity);
-
-
-                        //Play hitmark sound
+                        HitFeedback();
                     }
-
 
                     Debug.Log($"{_bulletOwner.name} hits {hitObject.name}!");
                     _alreadyHitObjects.Add(hitObject);
@@ -127,18 +116,22 @@ public class BulletPilot : MonoBehaviour
             }
         }
     }
-    
+
+    private void HitFeedback()
+    {
+        BulletImpactManager.Instance?.TriggerHitFeedback(transform.position);
+    }
+
     private Vector3 GetShootDirection()
     {
         var screenCenterPoint = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
         var ray = _playerCamera.ScreenPointToRay(screenCenterPoint);
         var baseDir = ray.direction;
-        
+
         if (_recoil == null)
             return baseDir;
-        
-        //Direction changes when recoiling.
-        var finalDir = baseDir + _playerCamera.transform.rotation *  _recoil.GetRecoilOffset();
+
+        var finalDir = baseDir + _playerCamera.transform.rotation * _recoil.GetRecoilOffset();
         finalDir.Normalize();
         return finalDir;
     }
@@ -149,24 +142,18 @@ public class BulletPilot : MonoBehaviour
         var screenCenterPoint = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
 
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out var hit))
         {
             float positionMultiplier = 0.5f;
-            float spawnX = hit.point.x - ray.direction.x * positionMultiplier;
-            float spawnY = hit.point.x - ray.direction.y * positionMultiplier;
-            float spawnZ = hit.point.x - ray.direction.z * positionMultiplier;
-            Vector3 spawnPosition = new Vector3(spawnX, spawnY, spawnZ);
+            Vector3 spawnPosition = hit.point - ray.direction * positionMultiplier;
 
             GameObject spawnObject = Instantiate(bulletHolePrefab, spawnPosition, Quaternion.identity);
             Quaternion targetRotation = Quaternion.LookRotation(ray.direction);
-
             spawnObject.transform.rotation = targetRotation;
             spawnObject.transform.SetParent(null);
             spawnObject.transform.Rotate(Vector3.forward, UnityEngine.Random.Range(0f, 360f));
 
-            Destroy(spawnObject,bulletHoleDestroyDelay);
+            Destroy(spawnObject, bulletHoleDestroyDelay);
         }
         currentRay = ray;
         currentHit = hit;
@@ -189,8 +176,6 @@ public class BulletPilot : MonoBehaviour
 
     public bool TargetIsOnSameTeam()
     {
-        //Implement logic
-
-        return false;
+        return false; // Implement your logic
     }
 }
