@@ -1,12 +1,11 @@
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class DOTAnimator : MonoBehaviour
+public class DOTMaterialAnimator : MonoBehaviour
 {
     [Header("Color Parameters")]
-    public Color startColor = new Color(1f, 1f, 1f, 1f);  // Start color of the image (including alpha)
-    public Color endColor = new Color(1f, 1f, 1f, 0f);    // End color of the image (including alpha)
+    public Color startColor = new Color(1f, 1f, 1f, 1f);  // Start color of the material (including alpha)
+    public Color endColor = new Color(1f, 1f, 1f, 0f);    // End color of the material (including alpha)
 
     [Header("Scale Parameters")]
     public bool enableScaleAnimation = true; // Flag to enable or disable scale animation
@@ -16,7 +15,7 @@ public class DOTAnimator : MonoBehaviour
 
     [Header("Duration Parameters")]
     public bool loopAnimation = true;
-    public float fadeDuration = 1f;
+    public float animationDuration = 1f;
 
     [Header("Easing Types")]
     public bool useCustomCurveForColor = false;  // Toggle to choose between custom curve and Ease for color
@@ -25,9 +24,10 @@ public class DOTAnimator : MonoBehaviour
     public AnimationCurve colorCurve = AnimationCurve.Linear(0f, 0f, 1f, 1f); // Custom curve for color easing
 
     [Header("References")]
-    [SerializeField] private Image uiImage;
+    [SerializeField] private Renderer objectRenderer;  // Reference to the object's Renderer
 
-    private RectTransform rectTransform;
+    private Material objectMaterial;
+    private Transform objectTransform;
 
     void OnEnable()
     {
@@ -36,51 +36,53 @@ public class DOTAnimator : MonoBehaviour
 
     void OnDisable()
     {
-        if (uiImage != null)
+        if (objectMaterial != null)
         {
-            uiImage.DOKill();
+            objectMaterial.DOKill();
         }
-        if (rectTransform != null)
+        if (objectTransform != null)
         {
-            rectTransform.DOKill();
+            objectTransform.DOKill();
         }
     }
 
     void AnimateObject()
     {
-        if (uiImage != null)
+        if (objectRenderer != null)
         {
-            // Get the RectTransform component for scaling
-            rectTransform = GetComponent<RectTransform>();
-            if (rectTransform == null)
+            // Get the material and transform components
+            objectMaterial = objectRenderer.material;
+            objectTransform = transform;
+
+            if (objectMaterial == null)
             {
-                Debug.LogWarning("No RectTransform component found on " + gameObject.name);
+                Debug.LogWarning("No Material found on " + gameObject.name);
                 return;
             }
 
             // Set the initial color and scale
-            uiImage.color = startColor;
-            rectTransform.localScale = startScale;
+            objectMaterial.color = startColor;
+            objectTransform.localScale = startScale;
 
             // Create the color animation
             Tweener colorTween;
             if (useCustomCurveForColor)
             {
-                colorTween = uiImage.DOColor(endColor, fadeDuration)
-                                   .SetEase(colorCurve);  // Use the custom animation curve for color
+                colorTween = objectMaterial.DOColor(endColor, animationDuration)
+                                           .SetEase(colorCurve);  // Use the custom animation curve for color
             }
             else
             {
-                colorTween = uiImage.DOColor(endColor, fadeDuration)
-                                   .SetEase(colorEasing);  // Use the predefined Ease type for color
+                colorTween = objectMaterial.DOColor(endColor, animationDuration)
+                                           .SetEase(colorEasing);  // Use the predefined Ease type for color
             }
 
             // Create the scale animation if enabled
             Tweener scaleTween = null;
             if (enableScaleAnimation)
             {
-                scaleTween = rectTransform.DOScale(endScale, fadeDuration)
-                                          .SetEase(scaleCurve);  // Use the custom curve for scaling
+                scaleTween = objectTransform.DOScale(endScale, animationDuration)
+                                            .SetEase(scaleCurve);  // Use the custom curve for scaling
             }
 
             // Combine the tweens into a sequence if looping
@@ -101,7 +103,7 @@ public class DOTAnimator : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No Image component found on " + gameObject.name);
+            Debug.LogWarning("No Renderer component found on " + gameObject.name);
         }
     }
 }

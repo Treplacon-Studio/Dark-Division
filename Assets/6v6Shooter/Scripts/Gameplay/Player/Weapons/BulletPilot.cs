@@ -9,6 +9,7 @@ public class BulletPilot : MonoBehaviour
     [SerializeField] private LayerMask hitLayers;
     [SerializeField] private float fadeDuration = 0.3f;
     [SerializeField] private GameObject bulletHolePrefab;  // Bullet hole decal prefab
+    [SerializeField] private bool hasSpawnedDecal = false; // Track if decal is spawned
 
     private Ray currentRay;
     private RaycastHit currentHit;
@@ -56,6 +57,7 @@ public class BulletPilot : MonoBehaviour
         Invoke(nameof(Deactivate), fadeDuration);
         _currentDirection = GetShootDirection();
         _rb.velocity = _currentDirection * initialSpeed;
+        hasSpawnedDecal = false; // Reset decal spawn flag when bullet is enabled
     }
 
     private void OnDisable()
@@ -87,7 +89,13 @@ public class BulletPilot : MonoBehaviour
             var hitObject = hit.collider.gameObject;
 
             PhotonView hitPhotonView = hitObject.GetComponent<PhotonView>();
-            SpawnHitDecal(hit.point, hit.normal);  // Spawn bullet hole decal
+
+            // Check if a decal has already been spawned
+            if (!hasSpawnedDecal)
+            {
+                SpawnHitDecal(hit.point, hit.normal);  // Spawn bullet hole decal
+                hasSpawnedDecal = true; // Set the flag to prevent further decal spawns
+            }
 
             if (hitPhotonView != null)
             {
@@ -108,7 +116,7 @@ public class BulletPilot : MonoBehaviour
 
                     Debug.Log($"{_bulletOwner.name} hits {hitObject.name}!");
                     _alreadyHitObjects.Add(hitObject);
-                    
+
                     Invoke(nameof(Deactivate), fadeDuration);
                 }
             }
