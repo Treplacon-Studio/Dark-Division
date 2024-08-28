@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using FMODUnity;
 using Photon.Pun;
 using UnityEngine;
 
@@ -9,10 +8,7 @@ public class BulletPilot : MonoBehaviour
     [SerializeField] private float rayLengthFactor = 1f;
     [SerializeField] private LayerMask hitLayers;
     [SerializeField] private float fadeDuration = 0.3f;
-    [SerializeField] private GameObject bulletHolePrefab;
-    [SerializeField] private EventReference hitmarkerSound;
-    [SerializeField] private GameObject hitmarker;
-    [SerializeField] private Transform hitmarkerParent;
+    [SerializeField] private GameObject bulletHolePrefab;  // Bullet hole decal prefab
 
     private Ray currentRay;
     private RaycastHit currentHit;
@@ -91,6 +87,7 @@ public class BulletPilot : MonoBehaviour
             var hitObject = hit.collider.gameObject;
 
             PhotonView hitPhotonView = hitObject.GetComponent<PhotonView>();
+            SpawnHitDecal(hit.point, hit.normal);  // Spawn bullet hole decal
 
             if (hitPhotonView != null)
             {
@@ -106,20 +103,16 @@ public class BulletPilot : MonoBehaviour
                     {
                         hitPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered, 10f);
                         hitPhotonView.RPC("ReceiveBulletDirection", RpcTarget.AllBuffered, _rb.velocity);
-                        HitFeedback();
+                        BulletImpactManager.Instance?.TriggerHitFeedback(hit.point); // Trigger hit feedback
                     }
 
                     Debug.Log($"{_bulletOwner.name} hits {hitObject.name}!");
                     _alreadyHitObjects.Add(hitObject);
+                    
                     Invoke(nameof(Deactivate), fadeDuration);
                 }
             }
         }
-    }
-
-    private void HitFeedback()
-    {
-        BulletImpactManager.Instance?.TriggerHitFeedback(transform.position);
     }
 
     private Vector3 GetShootDirection()
@@ -136,28 +129,28 @@ public class BulletPilot : MonoBehaviour
         return finalDir;
     }
 
-    private void SpawnHitDecal()
+    private void SpawnHitDecal(Vector3 hitPoint, Vector3 hitNormal)
     {
-        Debug.Log("Decal time!");
-        var screenCenterPoint = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
+        Debug.Log("Trying to spawn a decal");
 
-        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-        if (Physics.Raycast(ray, out var hit))
-        {
-            float positionMultiplier = 0.5f;
-            Vector3 spawnPosition = hit.point - ray.direction * positionMultiplier;
+        // Offset the hit point slightly away from the surface
+        float decalOffset = -0.05f;
+        Vector3 decalPosition = hitPoint + hitNormal * decalOffset;
 
-            GameObject spawnObject = Instantiate(bulletHolePrefab, spawnPosition, Quaternion.identity);
-            Quaternion targetRotation = Quaternion.LookRotation(ray.direction);
-            spawnObject.transform.rotation = targetRotation;
-            spawnObject.transform.SetParent(null);
-            spawnObject.transform.Rotate(Vector3.forward, UnityEngine.Random.Range(0f, 360f));
+        // Determine the rotation based on the hit normal
+        Quaternion rotation = Quaternion.FromToRotation(Vector3.forward, hitNormal);
 
-            Destroy(spawnObject, bulletHoleDestroyDelay);
-        }
-        currentRay = ray;
-        currentHit = hit;
+        // Instantiate the bullet hole decal
+        GameObject bulletHole = Instantiate(bulletHolePrefab, decalPosition, rotation);
+        bulletHole.transform.SetParent(null);
+
+        // Apply a random rotation around the forward axis
+        bulletHole.transform.Rotate(Vector3.forward, UnityEngine.Random.Range(0f, 360f));
+
+        // Destroy the decal after a delay
+        Destroy(bulletHole, bulletHoleDestroyDelay);
     }
+
 
     public void ResetHits()
     {
