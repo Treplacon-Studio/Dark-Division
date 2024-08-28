@@ -4,6 +4,7 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using TMPro;
 
 public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
 {
@@ -62,44 +63,76 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
         UpdateCountdownUI();
     }
 
-    [PunRPC]
-    public void ShareKillFeed()
+[PunRPC]
+public void ShareKillFeed(string victimName, string killerName)
+{
+    Debug.Log("Sharing KillFeed across all players");
+    Debug.Log(victimName);
+
+    foreach (GameObject player in players)
     {
-        Debug.Log("Sharing KillFeed across all players");
-
-        foreach (GameObject player in players)
+        Transform playerHUDTransform = player.transform.Find("PlayerHUD");
+        if (playerHUDTransform == null)
         {
-            Transform playerHUDTransform = player.transform.Find("PlayerHUD");
-            if (playerHUDTransform == null)
-            {
-                Debug.LogWarning("PlayerHUD not found for " + player.name);
-                continue;
-            }
-
-            Transform hudCanvasTransform = playerHUDTransform.Find("HUDCanvas");
-            if (hudCanvasTransform == null)
-            {
-                Debug.LogWarning("HUDCanvas not found for " + player.name);
-                continue;
-            }
-
-            // Locate KillFeed
-            Transform killFeedTransform = hudCanvasTransform.Find("Killfeed");
-            if (killFeedTransform == null)
-            {
-                Debug.LogWarning("KillFeed object not found in PlayerHUD for " + player.name);
-                continue;
-            }
-
-            killFeedTransform.gameObject.SetActive(true);
-            Debug.Log("KillFeed triggered for " + player.name);
-            StartCoroutine(RemoveFeed(killFeedTransform.gameObject));
+            Debug.LogWarning("PlayerHUD not found for " + player.name);
+            continue;
         }
+        Transform hudCanvasTransform = playerHUDTransform.Find("HUDCanvas");
+        if (hudCanvasTransform == null)
+        {
+            Debug.LogWarning("HUDCanvas not found for " + player.name);
+            continue;
+        }
+
+        Transform killFeedTransform = hudCanvasTransform.Find("KillFeed");
+        if (killFeedTransform == null)
+        {
+            Debug.LogWarning("KillFeed object not found in HUDCanvas for " + player.name);
+            continue;
+        }
+        Transform killFeedElementTransform = killFeedTransform.Find("KillFeedElement");
+        if (killFeedElementTransform == null)
+        {
+            Debug.LogWarning("KillFeedElement object not found in KillFeed for " + player.name);
+            continue;
+        }
+        Transform victimNameTextTransform = killFeedElementTransform.Find("VictimNameText");
+        if (victimNameTextTransform == null)
+        {
+            Debug.LogWarning("VictimNameText object not found in KillFeedElement for " + player.name);
+            continue;
+        }
+        Transform killerNameTextTransform = killFeedElementTransform.Find("KillerNameText");
+        if (victimNameTextTransform == null)
+        {
+            Debug.LogWarning("KillerNameText object not found in KillFeedElement for " + player.name);
+            continue;
+        }
+
+        TextMeshProUGUI victimNameText = victimNameTextTransform.GetComponent<TextMeshProUGUI>();
+        if (victimNameText != null)
+        {
+            victimNameText.text = victimName;
+        }
+
+
+        TextMeshProUGUI killerNameText = killerNameTextTransform.GetComponent<TextMeshProUGUI>();
+        if (victimNameText != null)
+        {
+            killerNameText.text = killerName;
+        }
+
+
+        killFeedTransform.gameObject.SetActive(true);
+        Debug.Log("KillFeed triggered for " + player.name);
+        StartCoroutine(RemoveFeed(killFeedTransform.gameObject));
     }
+}
+
 
     private IEnumerator RemoveFeed(GameObject killFeed)
     {
-        yield return new WaitForSeconds(10.0f); 
+        yield return new WaitForSeconds(6f); 
         if (killFeed != null)
         {
             killFeed.SetActive(false);
