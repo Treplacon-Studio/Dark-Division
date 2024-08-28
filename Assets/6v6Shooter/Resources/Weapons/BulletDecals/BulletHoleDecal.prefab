@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6904523285332660283}
   - component: {fileID: 5836078416656452577}
+  - component: {fileID: 6128672000545709199}
   m_Layer: 0
   m_Name: BulletHoleDecal
   m_TagString: Untagged
@@ -44,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: f40e198c3d7f0fc4385e6f6d75fe64d8, type: 2}
+  m_Material: {fileID: -876546973899608171, guid: 295445171fa7d2c4c8cf629335d42d87, type: 3}
   m_DrawDistance: 1000
   m_FadeScale: 0.9
   m_StartAngleFade: 180
@@ -54,5 +55,95 @@ MonoBehaviour:
   m_DecalLayerMask: 1
   m_ScaleMode: 0
   m_Offset: {x: 0, y: 0, z: 0.5}
-  m_Size: {x: 0.75, y: 0.75, z: 1}
+  m_Size: {x: 0.1, y: 0.1, z: 1}
   m_FadeFactor: 1
+--- !u!114 &6128672000545709199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5640596512813233541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a058de89e4f1084eb2582c7039e6d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableOpacityAnimation: 1
+  startOpacity: 4
+  endOpacity: 0
+  useCustomCurveForOpacity: 1
+  opacityCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -0.010608673
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.8879074
+      value: 0.038075864
+      inSlope: 0.26294294
+      outSlope: 0.26294294
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.09756583
+      outWeight: 1
+    - serializedVersion: 3
+      time: 1.000006
+      value: 0.9832988
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableScaleAnimation: 1
+  startScale: {x: 1, y: 1, z: 1}
+  endScale: {x: 0.6, y: 0.6, z: 0.6}
+  scaleCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.004032135
+      value: 0.009048462
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.8981936
+      value: 0.058450937
+      inSlope: 0.28273904
+      outSlope: 0.28273904
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.0685097
+      outWeight: 1
+    - serializedVersion: 3
+      time: 1
+      value: 1.0135803
+      inSlope: 4.04794
+      outSlope: 4.04794
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.47524977
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  enableRandomZRotation: 1
+  rotationRangeZ: 45
+  loopAnimation: 0
+  animationDuration: 5
+  decalProjector: {fileID: 5836078416656452577}

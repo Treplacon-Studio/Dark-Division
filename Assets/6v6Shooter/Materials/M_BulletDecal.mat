@@ -21,8 +21,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_BulletDecal
-  m_Shader: {fileID: -6465566751694194690, guid: 9b4e681081e2b4c469111bb649e2f7ee, type: 3}
-  m_Parent: {fileID: 2100000, guid: b7927239e7571954f82b74a9196a2245, type: 2}
+  m_Shader: {fileID: -6465566751694194690, guid: 295445171fa7d2c4c8cf629335d42d87, type: 3}
+  m_Parent: {fileID: -876546973899608171, guid: 295445171fa7d2c4c8cf629335d42d87, type: 3}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -44,7 +44,19 @@ Material:
         m_Texture: {fileID: 2800000, guid: 2007583b9622b174dbd7616451825edf, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Albedo:
+        m_Texture: {fileID: 2800000, guid: 6b4966c2096db6a4a8629080d9abf1c6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 2800000, guid: 2007583b9622b174dbd7616451825edf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
-    m_Floats: []
-    m_Colors: []
+    m_Floats:
+    - Normal_Blend: 0.17
+    - _AlphaAmount: 0
+    - _Opacity: 4
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
