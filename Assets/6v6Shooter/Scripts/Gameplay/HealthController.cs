@@ -54,6 +54,7 @@ public class HealthController : MonoBehaviourPunCallbacks
             Die();
     }
 
+
     void Die()
     {
         if (photonView != null && photonView.IsMine)
@@ -66,6 +67,7 @@ public class HealthController : MonoBehaviourPunCallbacks
             {
                 Team? team = TeamManager.GetTeam(PhotonNetwork.LocalPlayer);
                 TeamDeathmatchManager.instance.GetComponent<PhotonView>().RPC("AddPointForTeam", RpcTarget.AllBuffered, team);
+                TeamDeathmatchManager.instance.GetComponent<PhotonView>().RPC("ShareKillFeed", RpcTarget.AllBuffered);
                 playerSetup.DisableHUD();
                 resCanvas.SetActive(true);
                 playerSetup.GetComponent<PhotonView>().RPC("EnableRagdollRPC", RpcTarget.All);

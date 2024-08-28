@@ -3,6 +3,7 @@ using TMPro;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
 {
@@ -60,6 +61,58 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
 
         UpdateCountdownUI();
     }
+[PunRPC]
+public void ShareKillFeed()
+{
+    Debug.Log("Sharing KillFeed across all players");
+
+    // Loop through all players
+    foreach (GameObject player in players)
+    {
+        // Locate PlayerHUD
+        Transform playerHUDTransform = player.transform.Find("PlayerHUD");
+        if (playerHUDTransform == null)
+        {
+            Debug.LogWarning("PlayerHUD not found for " + player.name);
+            continue;
+        }
+
+        // Locate HUDCanvas
+        Transform hudCanvasTransform = playerHUDTransform.Find("HUDCanvas");
+        if (hudCanvasTransform == null)
+        {
+            Debug.LogWarning("HUDCanvas not found for " + player.name);
+            continue;
+        }
+
+        // Locate KillFeed
+        Transform killFeedTransform = hudCanvasTransform.Find("Killfeed");
+        if (killFeedTransform == null)
+        {
+            Debug.LogWarning("KillFeed object not found in PlayerHUD for " + player.name);
+            continue;
+        }
+
+        // Enable the KillFeed object and start coroutine to remove it after a delay
+        killFeedTransform.gameObject.SetActive(true);
+        Debug.Log("KillFeed triggered for " + player.name);
+        StartCoroutine(RemoveFeed(killFeedTransform.gameObject));
+    }
+}
+
+// Coroutine to remove KillFeed after a delay
+private IEnumerator RemoveFeed(GameObject killFeed)
+{
+    yield return new WaitForSeconds(10.0f); // Adjust delay as needed
+    if (killFeed != null)
+    {
+        killFeed.SetActive(false);
+        Debug.Log("KillFeed removed.");
+    }
+}
+
+
+
 
     void HandleEndGame()
     {
