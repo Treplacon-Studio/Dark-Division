@@ -1,20 +1,19 @@
 using System.Collections;
-using System.Linq;
 
 using UnityEngine;
 
-
+/// <summary>
+/// DSR50 specific stuff class.
+/// </summary>
 public class Dsr50 : MonoBehaviour
 {
-    [SerializeField] [Tooltip("Delay to wait until cogh when reloading animation is started.")]
-    private float coghDelay;
+    [SerializeField] private float coghDelay;
+    [SerializeField] private float coghHalf;
+    [SerializeField] private float coghReleaseDelay;
 
-    [SerializeField] [Tooltip("Time after cogh starts to return to first position.")]
-    private float coghHalf;
-
-    [SerializeField] [Tooltip("Delay to wait until cogh when reloading animation is released.")]
-    private float coghReleaseDelay;
-
+    [SerializeField] private AnimationClip adsCoghClip;
+    [SerializeField] private AnimationClip hfrCoghClip;
+    
     private bool _lockReload;
     private bool _previousShootingLock;
     private Animator _anim;
@@ -40,33 +39,9 @@ public class Dsr50 : MonoBehaviour
 
     void SetProperFireRate()
     {
-        var animator = ActionsManager.GetInstance(_pnc.GetInstanceID()).ComponentHolder.playerAnimationController.anim;
-        var stateName = ActionsManager.GetInstance(_pnc.GetInstanceID()).ComponentHolder.playerAnimationController.aimingLock ? "AN_FPS_DSR-50_CoghADS" : "AN_FPS_DSR-50_CoghHFR";
+        var clip = ActionsManager.GetInstance(_pnc.GetInstanceID())
+            .ComponentHolder.playerAnimationController.aimingLock ? adsCoghClip : hfrCoghClip;
         
-        if (animator == null)
-        {
-            Debug.LogError("Animator is null.");
-            return;
-        }
-        
-        var overrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
-        AnimationClip clip = null;
-        
-        foreach (var binding in overrideController.animationClips)
-        {
-            if (binding.name == stateName)
-            {
-                clip = binding;
-                break;
-            }
-        }
-
-        if (clip == null)
-        {
-            Debug.LogError("DSR-50 cogh clip not found or empty in character animation.");
-            return;
-        }
-
         var clipLength = clip.length + 0.05f;
         
         var weapon = GetComponent<Weapon>();

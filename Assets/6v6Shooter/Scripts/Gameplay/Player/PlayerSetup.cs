@@ -118,11 +118,14 @@ public class PlayerSetup : MonoBehaviourPun
     [PunRPC]
     private void RPC_AutoLoadAllWeapons()
     {
+        /*Temporary attachments management down there
+        Weapon changing in player root in inspector in PlayerSetup script -> All guns 
+        (change paths to proper weapon in weapons directory).*/
         int[,] attachments =
         {
-            {0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0},
-            {0, -1, -1, -1, -1, 0},
+            //Mag barrel sight stock ubarrel stand
+            {  0,    0,    0,    0,     0,     0   }, //First weapon attachments
+            {  0,    0,    0,    0,     0,     0   } //Second weapon attachments
         };
         
         ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.SetNewEquipment(allGuns, attachments);

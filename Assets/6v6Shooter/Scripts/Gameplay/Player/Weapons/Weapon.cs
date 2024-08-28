@@ -114,11 +114,8 @@ public class Weapon : MonoBehaviour
         foreach (var m in mags)
             m.SetActive(false);
 
-        if (ind == -1)
+        if (ind == -1 || ind >= mags.Length)
             return;
-
-        if (ind >= mags.Length)
-            Debug.LogError($"There is no mag with index given: {ind}.");
 
         mags[ind].SetActive(true);
         _mag = mags[ind];
@@ -129,11 +126,8 @@ public class Weapon : MonoBehaviour
         foreach (var m in barrels)
             m.SetActive(false);
 
-        if (ind == -1)
+        if (ind == -1 || ind >= barrels.Length)
             return;
-
-        if (ind >= barrels.Length)
-            Debug.LogError($"There is no barrel with index given: {ind}.");
 
         barrels[ind].SetActive(true);
         _barrel = barrels[ind];
@@ -144,11 +138,8 @@ public class Weapon : MonoBehaviour
         foreach (var m in underBarrels)
             m.SetActive(false);
 
-        if (ind == -1)
+        if (ind == -1 || ind >= underBarrels.Length)
             return;
-
-        if (ind >= underBarrels.Length)
-            Debug.LogError($"There is no under barrel with index given: {ind}.");
 
         underBarrels[ind].SetActive(true);
         _underBarrel = underBarrels[ind];
@@ -159,11 +150,8 @@ public class Weapon : MonoBehaviour
         foreach (var m in sights)
             m.SetActive(false);
 
-        if (ind == -1)
+        if (ind == -1 || ind >= sights.Length)
             return;
-
-        if (ind >= sights.Length)
-            Debug.LogError($"There is no sight with index given: {ind}.");
 
         sights[ind].SetActive(true);
         _sight = sights[ind];
@@ -174,11 +162,8 @@ public class Weapon : MonoBehaviour
         foreach (var m in stocks)
             m.SetActive(false);
 
-        if (ind == -1)
+        if (ind == -1 || ind >= stocks.Length)
             return;
-
-        if (ind >= stocks.Length)
-            Debug.LogError($"There is no stock with index given: {ind}.");
 
         stocks[ind].SetActive(true);
         _stock = stocks[ind];
@@ -189,11 +174,8 @@ public class Weapon : MonoBehaviour
         foreach (var m in stands)
             m.SetActive(false);
 
-        if (ind == -1)
+        if (ind == -1 || ind >= stands.Length)
             return;
-
-        if (ind >= stands.Length)
-            Debug.LogError($"There is no stand with index given: {ind}.");
 
         stands[ind].SetActive(true);
         _stand = stands[ind];
