@@ -51,7 +51,7 @@ public class HealthController : MonoBehaviourPunCallbacks
         hitEffect.SetFloat("_MaskAmount", health / (100 / 1.4f));
 
         if (health <= 0f)
-            Die(shooterName);  // Pass shooter's name to Die()
+            Die(shooterName); 
     }
 
     void Die(string shooterName)
