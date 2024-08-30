@@ -59,9 +59,11 @@ public class PlayerAnimationController : MonoBehaviour
     }
 
     //Shooting
-    public void PlayShootAnimation(bool isAiming)
+    public void PlayShootAnimation()
     {
-        anim.SetTrigger(isAiming ? "pShootingADS" : "pShooting");
+        anim.ResetTrigger("pShootingADS");
+        anim.ResetTrigger("pShooting");
+        anim.SetTrigger(anim.GetBool("pAiming") ? "pShootingADS" : "pShooting");
     }
 
     public void StopShooting(bool stop)

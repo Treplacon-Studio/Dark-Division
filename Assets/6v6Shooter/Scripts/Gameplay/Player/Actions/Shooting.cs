@@ -65,47 +65,69 @@ public class Shooting : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RPC_AutomaticFire()
     {
-        //If we are swapping weapons you cann not shoot
+        //If we are swapping weapons you cannot shoot
         var componentHolder = ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder;
+        
+        //Wait until weapon is loaded
         if (ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent() is null)
             return;
         
-        //If reloading you cannot shoot
+        //Cannot shoot when reloading
         if (componentHolder.playerAnimationController.reloadingLock)
         {
+            //Release shooting lock, player is not shooting now, because he is reloading
             componentHolder.playerAnimationController.shootingLock = false;
             return;
         }
 
-        //Set flags based on input and time past
+        //Get shoot key and check if clicked
         var shootKeyClicked = Input.GetMouseButton(0);
-        var bStopShooting = !shootKeyClicked && Time.time >= _fNextFireTime;
 
-        //Wait before shooting next bullet
-        componentHolder.playerAnimationController.shootingLock = shootKeyClicked && Time.time >= _fNextFireTime;
+        //Check if delay between shoots is over
+        var bDelayBetweenShootsIsOver = Time.time >= _fNextFireTime;
+        
+        //Set stop shooting boolean if player not clicking shoot key but can shoot (delay between shoots is over)
+        var bStopShooting = !shootKeyClicked && bDelayBetweenShootsIsOver;
+
+        //Set variable that says if player has any ammo in mag
+        var bHasAmmo = componentHolder.bulletPoolingManager.GetAmmoPrimary() > 0;
+
+        //We lock action for shooting when player click shooting key and can shoot (delay between shoots is over)
+        componentHolder.playerAnimationController.shootingLock = shootKeyClicked && bDelayBetweenShootsIsOver;
+        
+        //Inform animator to change stop shooting parameter
         componentHolder.playerAnimationController.StopShooting(bStopShooting);
         
         //Trigger for animator to know that is returning to ADS/HFR from shooting.
         componentHolder.playerAnimationController.TriggerStopShooting(bStopShooting && !_bLastStopShooting);
         
+        //Save value of the bStopShooting variable from last frame
         _bLastStopShooting = bStopShooting;
         
-        if (!shootKeyClicked || !(Time.time >= _fNextFireTime))
+        //Player not clicked shooting button or delay between shots is not over yet - shoot won't happen
+        if (!shootKeyClicked || !bDelayBetweenShootsIsOver || !bHasAmmo)
             return;
         
+        //Get a weapon of current weapon ID (current - the one we have in hands)
         var currentWeaponID = ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.GetCurrentWeaponID();
         
-        //No ammo
-        if (componentHolder.bulletPoolingManager.GetAmmoPrimary() <= 0)
-            return;
-
+        //We take a weapon to variable
         var wc = ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent();
+        
+        //We will be shooting in next lines - we start recoil
         wc.gameObject.GetComponent<Recoil>().StartRecoil(0.03f);
+        
+        //Calculate next time when player will be able to shoot
         _fNextFireTime = Time.time + wc.Info().Stats().FireRate;
+        
+        //Get the transform place where the bullet will start
         _bulletStartPoint ??= ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent().GetStartPoint().transform;
-       
+        
+        //Spawn bullet from pool
         componentHolder.bulletPoolingManager.SpawnFromPool(currentWeaponID, _bulletStartPoint.transform);
-        componentHolder.playerAnimationController.PlayShootAnimation(ActionsManager.GetInstance(pnc.GetInstanceID()).Aiming.IsAiming());
+        
+        //Tell animator to show the proper shoot animation
+        componentHolder.playerAnimationController.PlayShootAnimation();
     }
 
     /// <summary>
@@ -137,8 +159,10 @@ public class Shooting : MonoBehaviourPunCallbacks
             _fTransitionUnAimed -= _fTransitionState * transitionAnimLen/Time.deltaTime;
         
         //Apply state in case of aiming or not
+        var ts = bIsAiming ? _fTransitionState : _fTransitionUnAimed;
+        ts = Mathf.Clamp01(ts);
         ActionsManager.GetInstance(pnc.GetInstanceID()).ComponentHolder.playerAnimationController
-            .SetShootingTransitionState(bIsAiming ? _fTransitionState : _fTransitionUnAimed);
+            .SetShootingTransitionState(ts);
         
         //Update aiming state for next frame.
         _bLastAiming = bIsAiming;
