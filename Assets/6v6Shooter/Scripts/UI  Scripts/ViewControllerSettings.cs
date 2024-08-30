@@ -14,17 +14,26 @@ public class ViewControllerSettings : MonoBehaviour
     public SettingsInfoSO[] settingsInfoList; // Array of settings info
 
     private SettingsInfoSO currentSettingInfo;
-    private List<Resolution> availableResolutions;
+    private List<Resolution> predefinedResolutions;
 
     private void Start()
     {
-        InitializeAvailableResolutions();
+        InitializePredefinedResolutions();
         CreateSettingCells();
     }
 
-    private void InitializeAvailableResolutions()
+    private void InitializePredefinedResolutions()
     {
-        availableResolutions = new List<Resolution>(Screen.resolutions);
+        // Predefine the list of resolutions
+        predefinedResolutions = new List<Resolution>
+        {
+            new Resolution { width = 1920, height = 1080 },  // 1080p
+            new Resolution { width = 1280, height = 720 },   // 720p
+            new Resolution { width = 1600, height = 900 },   // 900p
+            new Resolution { width = 1366, height = 768 },   // 768p
+            new Resolution { width = 2560, height = 1440 },  // 1440p
+            new Resolution { width = 3840, height = 2160 }   // 4K
+        };
     }
 
     private void CreateSettingCells()
@@ -81,8 +90,8 @@ public class ViewControllerSettings : MonoBehaviour
     private void AdjustResolution(int delta)
     {
         int currentResolutionIndex = GetResolutionIndex();
-        int newResolutionIndex = Mathf.Clamp(currentResolutionIndex + delta, 0, availableResolutions.Count - 1);
-        Resolution newResolution = availableResolutions[newResolutionIndex];
+        int newResolutionIndex = Mathf.Clamp(currentResolutionIndex + delta, 0, predefinedResolutions.Count - 1);
+        Resolution newResolution = predefinedResolutions[newResolutionIndex];
 
         Screen.SetResolution(newResolution.width, newResolution.height, Screen.fullScreen);
 
@@ -112,9 +121,9 @@ public class ViewControllerSettings : MonoBehaviour
         }
         if (settingTitle == "Resolution")
         {
-            if (valueIndex >= 0 && valueIndex < availableResolutions.Count)
+            if (valueIndex >= 0 && valueIndex < predefinedResolutions.Count)
             {
-                var res = availableResolutions[valueIndex];
+                var res = predefinedResolutions[valueIndex];
                 return $"{res.width} x {res.height}";
             }
         }
@@ -124,8 +133,8 @@ public class ViewControllerSettings : MonoBehaviour
 
     private int GetResolutionIndex()
     {
-        var currentResolution = Screen.currentResolution;
-        return availableResolutions.FindIndex(res => res.width == currentResolution.width && res.height == currentResolution.height);
+        Resolution currentResolution = Screen.currentResolution;
+        return predefinedResolutions.FindIndex(res => res.width == Screen.width && res.height == Screen.height);
     }
 
     private SettingsInfoSO GetSettingInfoByTitle(string title)
