@@ -5,48 +5,138 @@ using System.Collections.Generic;
 
 public class ViewControllerSettings : MonoBehaviour
 {
-    [Header("Settings Prefab")]
-    public GameObject settingCellPrefab;  // Assign the prefab with SettingCell script
+    public GameObject settingCellPrefab;
+    public Transform settingsPanel;
+    public TextMeshProUGUI settingTitleText;
+    public TextMeshProUGUI settingDescriptionText;
+    public Image settingImage;
 
-    [Header("Settings Data")]
-    public SettingsInfoSO[] settingsData;  // Assign the array of ScriptableObjects here
+    public SettingsInfoSO[] settingsInfoList; // Array of settings info
 
-    [Header("Settings Container")]
-    public Transform settingsContainer;  // The parent transform where the setting cells will be spawned
-
-    private List<SettingCell> settingCells = new List<SettingCell>();
+    private SettingsInfoSO currentSettingInfo;
+    private List<Resolution> availableResolutions;
 
     private void Start()
     {
-        InitializeSettings();
+        InitializeAvailableResolutions();
+        CreateSettingCells();
     }
 
-    private void InitializeSettings()
+    private void InitializeAvailableResolutions()
     {
-        foreach (var settingInfo in settingsData)
+        availableResolutions = new List<Resolution>(Screen.resolutions);
+    }
+
+    private void CreateSettingCells()
+    {
+        foreach (var settingInfo in settingsInfoList)
         {
-            GameObject cell = Instantiate(settingCellPrefab, settingsContainer);
-            SettingCell settingCell = cell.GetComponent<SettingCell>();
+            GameObject cellObj = Instantiate(settingCellPrefab, settingsPanel);
+            SettingCell settingCell = cellObj.GetComponent<SettingCell>();
+
             if (settingCell != null)
             {
                 settingCell.Setup(settingInfo, this);
-                settingCells.Add(settingCell);
-            }
-            else
-            {
-                Debug.LogError("SettingCell component missing on prefab.");
             }
         }
     }
 
-    public void ChangeSettingValue(SettingsInfoSO settingInfo, int delta)
+    public void UpdateSettingPanel(SettingsInfoSO settingInfo)
     {
-        // Here you should handle the actual setting change logic
-        // For example, you might save it to player preferences or apply it directly to game settings
-        int currentValue = settingInfo.GetDefaultValue(); // This should actually retrieve the current value
-        settingInfo.ChangeValue(ref currentValue, delta);
+        if (settingInfo == null) return;
 
-        Debug.Log($"Setting {settingInfo.setting}: Value changed to {currentValue}");
-        // Optionally update UI or save new value
+        currentSettingInfo = settingInfo;
+
+        settingTitleText.text = settingInfo.title;
+        settingDescriptionText.text = settingInfo.description;
+        settingImage.sprite = settingInfo.image;
+    }
+
+    public void ChangeSettingValue(string settingTitle, int delta)
+    {
+        switch (settingTitle)
+        {
+            case "Quality":
+                AdjustQualitySettings(delta);
+                break;
+            case "Resolution":
+                AdjustResolution(delta);
+                break;
+                // Add more cases for other settings if needed
+        }
+    }
+
+    private void AdjustQualitySettings(int delta)
+    {
+        int currentQuality = QualitySettings.GetQualityLevel();
+        int qualityCount = QualitySettings.names.Length;
+
+        int newQualityIndex = Mathf.Clamp(currentQuality + delta, 0, qualityCount - 1);
+        QualitySettings.SetQualityLevel(newQualityIndex, true);
+
+        // Optionally update the UI to reflect the change
+        UpdateSettingPanel(GetSettingInfoByTitle("Quality")); // Assuming "Quality" is the title for quality settings
+    }
+
+    private void AdjustResolution(int delta)
+    {
+        int currentResolutionIndex = GetResolutionIndex();
+        int newResolutionIndex = Mathf.Clamp(currentResolutionIndex + delta, 0, availableResolutions.Count - 1);
+        Resolution newResolution = availableResolutions[newResolutionIndex];
+
+        Screen.SetResolution(newResolution.width, newResolution.height, Screen.fullScreen);
+
+        // Optionally update the UI to reflect the change
+        UpdateSettingPanel(GetSettingInfoByTitle("Resolution")); // Assuming "Resolution" is the title for resolution settings
+    }
+
+    public int GetSettingValueIndex(string settingTitle)
+    {
+        if (settingTitle == "Quality")
+        {
+            return QualitySettings.GetQualityLevel();
+        }
+        if (settingTitle == "Resolution")
+        {
+            return GetResolutionIndex();
+        }
+        // Add more cases for other settings if needed
+        return 0;
+    }
+
+    public string GetCurrentSettingValueText(string settingTitle, int valueIndex)
+    {
+        if (settingTitle == "Quality")
+        {
+            return QualitySettings.names[valueIndex];
+        }
+        if (settingTitle == "Resolution")
+        {
+            if (valueIndex >= 0 && valueIndex < availableResolutions.Count)
+            {
+                var res = availableResolutions[valueIndex];
+                return $"{res.width} x {res.height}";
+            }
+        }
+        // Add more cases for other settings if needed
+        return "Unknown";
+    }
+
+    private int GetResolutionIndex()
+    {
+        var currentResolution = Screen.currentResolution;
+        return availableResolutions.FindIndex(res => res.width == currentResolution.width && res.height == currentResolution.height);
+    }
+
+    private SettingsInfoSO GetSettingInfoByTitle(string title)
+    {
+        foreach (var settingInfo in settingsInfoList)
+        {
+            if (settingInfo.title == title)
+            {
+                return settingInfo;
+            }
+        }
+        return null;
     }
 }
