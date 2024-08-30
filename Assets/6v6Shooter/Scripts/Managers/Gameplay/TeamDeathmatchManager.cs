@@ -3,6 +3,8 @@ using TMPro;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using TMPro;
 
 public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
 {
@@ -28,6 +30,8 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
     public GameObject drawText;
     public TextMeshProUGUI endGameCountdownTxt;
     public TextMeshProUGUI startGameCountdownTxt;
+
+    public GameObject killFeedElementPrefab;
     public float countdownDuration = 10.0f;
     public bool GameInPlay;
     private List<GameObject> players = new List<GameObject>();
@@ -60,6 +64,83 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
 
         UpdateCountdownUI();
     }
+
+    [PunRPC]
+    public void ShareKillFeed(string victimName, string killerName)
+    {
+        foreach (GameObject player in players)
+        {
+            // Find PlayerHUD and KillFeed container for each player
+            Transform playerHUDTransform = player.transform.Find("PlayerHUD");
+            if (playerHUDTransform == null)
+            {
+                Debug.LogWarning("PlayerHUD not found for " + player.name);
+                continue;
+            }
+
+            Transform hudCanvasTransform = playerHUDTransform.Find("HUDCanvas");
+            if (hudCanvasTransform == null)
+            {
+                Debug.LogWarning("HUDCanvas not found for " + player.name);
+                continue;
+            }
+
+            Transform killFeedTransform = hudCanvasTransform.Find("KillFeed");
+            if (killFeedTransform == null)
+            {
+                Debug.LogWarning("KillFeed container not found for " + player.name);
+                continue;
+            }
+
+            // Instantiate a new KillFeedElement
+            GameObject killFeedElement = Instantiate(killFeedElementPrefab, killFeedTransform);
+
+            // Set the text for victim and killer names
+            TextMeshProUGUI victimNameText = killFeedElement.transform.Find("VictimNameText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI killerNameText = killFeedElement.transform.Find("KillerNameText").GetComponent<TextMeshProUGUI>();
+
+            if (victimNameText != null) victimNameText.text = victimName;
+            if (killerNameText != null) killerNameText.text = killerName;
+
+            // Activate the KillFeedElement
+            killFeedElement.SetActive(true);
+
+            // Start the coroutine to remove this specific killFeedElement after a delay
+            StartCoroutine(RemoveFeed(killFeedElement));
+        }
+    }
+
+
+     private IEnumerator RemoveFeed(GameObject killFeedElement)
+    {
+        CanvasGroup canvasGroup = killFeedElement.GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            Debug.LogError("No CanvasGroup component found.");
+            yield break;
+        }
+
+        // Wait for the display time
+        yield return new WaitForSeconds(6f);
+
+        // Fade out the element
+        float fadeDuration = 1f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
+            yield return null;
+        }
+
+        // Deactivate or destroy the element after it fades out
+        canvasGroup.alpha = 0f;
+        killFeedElement.SetActive(false);
+
+        Destroy(killFeedElement); // Clean up the object
+    }
+
 
     void HandleEndGame()
     {

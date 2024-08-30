@@ -109,7 +109,8 @@ public class BulletPilot : MonoBehaviour
                 {
                     if (!TargetIsOnSameTeam())
                     {
-                        hitPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered, 10f);
+                        string shooterName = _bulletOwnerPhotonView.Owner.NickName;  
+                        hitPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered, 10f, shooterName); 
                         hitPhotonView.RPC("ReceiveBulletDirection", RpcTarget.AllBuffered, _rb.velocity);
                         BulletImpactManager.Instance?.TriggerHitFeedback(hit.point); // Trigger hit feedback
                     }

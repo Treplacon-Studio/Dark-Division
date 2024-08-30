@@ -35,26 +35,26 @@ public class HealthController : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if(Input.GetKeyUp(KeyCode.Keypad4))
-        {
-            TakeDamage(10);
-        }
+        // if(Input.GetKeyUp(KeyCode.Keypad4))
+        // {
+        //     TakeDamage(10);
+        // }
     }
 
     [PunRPC]
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, string shooterName)
     {
         health -= damage;
         healthBar.fillAmount = health / startHealth;
 
-        // Adjusting the mask amount to be between 0 and 1.4
+        
         hitEffect.SetFloat("_MaskAmount", health / (100 / 1.4f));
 
         if (health <= 0f)
-            Die();
+            Die(shooterName); 
     }
 
-    void Die()
+    void Die(string shooterName)
     {
         if (photonView != null && photonView.IsMine)
         {
@@ -64,8 +64,11 @@ public class HealthController : MonoBehaviourPunCallbacks
             }
             else
             {
+                string playerName = PhotonNetwork.LocalPlayer.NickName;
+
                 Team? team = TeamManager.GetTeam(PhotonNetwork.LocalPlayer);
                 TeamDeathmatchManager.instance.GetComponent<PhotonView>().RPC("AddPointForTeam", RpcTarget.AllBuffered, team);
+                TeamDeathmatchManager.instance.GetComponent<PhotonView>().RPC("ShareKillFeed", RpcTarget.AllBuffered, playerName, shooterName); 
                 playerSetup.DisableHUD();
                 resCanvas.SetActive(true);
                 playerSetup.GetComponent<PhotonView>().RPC("EnableRagdollRPC", RpcTarget.All);
@@ -74,7 +77,7 @@ public class HealthController : MonoBehaviourPunCallbacks
                 StartCoroutine(CountdownTimer(4));
             }
         }
-        else 
+        else
         {
             if (targetDummy)
             {
@@ -82,6 +85,7 @@ public class HealthController : MonoBehaviourPunCallbacks
             }
         }
     }
+
 
     IEnumerator Respawn()
     {
