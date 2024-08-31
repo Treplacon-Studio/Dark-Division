@@ -5,13 +5,20 @@ using System.Collections.Generic;
 
 public class ViewControllerSettings : MonoBehaviour
 {
+    [System.Serializable]
+    public class CategoryPanel
+    {
+        public SettingsCategory category;  // Category enum
+        public Transform settingsPanel;    // The panel where settings of this category will be spawned
+    }
+
     public GameObject settingCellPrefab;
-    public Transform settingsPanel;
     public TextMeshProUGUI settingTitleText;
     public TextMeshProUGUI settingDescriptionText;
     public Image settingImage;
 
-    public SettingsInfoSO[] settingsInfoList; // Array of settings info
+    public SettingsInfoSO[] settingsInfoList;      // Array of settings info
+    public CategoryPanel[] categoryPanels;         // Array of category panels
 
     private SettingsInfoSO currentSettingInfo;
     private List<Resolution> predefinedResolutions;
@@ -24,7 +31,6 @@ public class ViewControllerSettings : MonoBehaviour
 
     private void InitializePredefinedResolutions()
     {
-        // Predefine the list of resolutions
         predefinedResolutions = new List<Resolution>
         {
             new Resolution { width = 1920, height = 1080 },  // 1080p
@@ -38,14 +44,29 @@ public class ViewControllerSettings : MonoBehaviour
 
     private void CreateSettingCells()
     {
+        // Create a dictionary to map category enums to their respective panels
+        Dictionary<SettingsCategory, Transform> categoryPanelDict = new Dictionary<SettingsCategory, Transform>();
+        foreach (var categoryPanel in categoryPanels)
+        {
+            categoryPanelDict.Add(categoryPanel.category, categoryPanel.settingsPanel);
+        }
+
+        // Iterate over the settings info list and create cells in the appropriate panel
         foreach (var settingInfo in settingsInfoList)
         {
-            GameObject cellObj = Instantiate(settingCellPrefab, settingsPanel);
-            SettingCell settingCell = cellObj.GetComponent<SettingCell>();
-
-            if (settingCell != null)
+            if (categoryPanelDict.TryGetValue(settingInfo.category, out Transform panel))
             {
-                settingCell.Setup(settingInfo, this);
+                GameObject cellObj = Instantiate(settingCellPrefab, panel);
+                SettingCell settingCell = cellObj.GetComponent<SettingCell>();
+
+                if (settingCell != null)
+                {
+                    settingCell.Setup(settingInfo, this);
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"No panel found for category: {settingInfo.category}");
             }
         }
     }
@@ -83,8 +104,7 @@ public class ViewControllerSettings : MonoBehaviour
         int newQualityIndex = Mathf.Clamp(currentQuality + delta, 0, qualityCount - 1);
         QualitySettings.SetQualityLevel(newQualityIndex, true);
 
-        // Optionally update the UI to reflect the change
-        UpdateSettingPanel(GetSettingInfoByTitle("Quality")); // Assuming "Quality" is the title for quality settings
+        UpdateSettingPanel(GetSettingInfoByTitle("Quality"));
     }
 
     private void AdjustResolution(int delta)
@@ -95,8 +115,7 @@ public class ViewControllerSettings : MonoBehaviour
 
         Screen.SetResolution(newResolution.width, newResolution.height, Screen.fullScreen);
 
-        // Optionally update the UI to reflect the change
-        UpdateSettingPanel(GetSettingInfoByTitle("Resolution")); // Assuming "Resolution" is the title for resolution settings
+        UpdateSettingPanel(GetSettingInfoByTitle("Resolution"));
     }
 
     public int GetSettingValueIndex(string settingTitle)
@@ -109,7 +128,6 @@ public class ViewControllerSettings : MonoBehaviour
         {
             return GetResolutionIndex();
         }
-        // Add more cases for other settings if needed
         return 0;
     }
 
@@ -127,7 +145,6 @@ public class ViewControllerSettings : MonoBehaviour
                 return $"{res.width} x {res.height}";
             }
         }
-        // Add more cases for other settings if needed
         return "Unknown";
     }
 
