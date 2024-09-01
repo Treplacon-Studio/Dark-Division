@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6541982308605353698}
   - component: {fileID: 2927719076646446346}
   - component: {fileID: 1813207596547488698}
+  - component: {fileID: 693654147142205641}
   m_Layer: 0
   m_Name: '[Assault rifle] M4A1-Sentinel 254'
   m_TagString: Untagged
@@ -49,38 +50,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: 1
+  weaponAttachments: {fileID: 11400000, guid: d1f0901b5c26dfe43b6f3f3ad373af9b, type: 2}
   bulletStartPoint: {fileID: 7639359509926760832}
+  barrelSocket: {fileID: 2871282347364841196}
+  underbarrelSocket: {fileID: 4782825027695463724}
   magSocket: {fileID: 7975352880834661207}
-  mags:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  barrels:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  underBarrels:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  sights:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  stocks:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  stockSocket: {fileID: 7023719643404452274}
+  sightSocket: {fileID: 514606374202624929}
+  standSocket: {fileID: 0}
+  mags: []
+  barrels: []
+  underBarrels: []
+  sights: []
+  stocks: []
   stands: []
 --- !u!114 &2927719076646446346
 MonoBehaviour:
@@ -131,6 +113,19 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &693654147142205641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4564080529314688232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8721c03ccc60c97438dc6c2294364f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundData: {fileID: 11400000, guid: f739f88359ffe9b49a2113e019dcf694, type: 2}
 --- !u!1 &7639359509926760832
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,6 +221,16 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 638951832195507260}
   m_SourcePrefab: {fileID: 100100000, guid: 9ced5a03c84d4124a95cb131969e201b, type: 3}
+--- !u!1 &514606374202624929 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5260945445142490528, guid: 9ced5a03c84d4124a95cb131969e201b, type: 3}
+  m_PrefabInstance: {fileID: 3592010172927400385}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2871282347364841196 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1585753248905211693, guid: 9ced5a03c84d4124a95cb131969e201b, type: 3}
+  m_PrefabInstance: {fileID: 3592010172927400385}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3914713594479001130 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9ced5a03c84d4124a95cb131969e201b, type: 3}
@@ -246,7 +251,7 @@ Animator:
   m_GameObject: {fileID: 4402281733104362640}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fe2daad4b552fef4aa62133a1cea7af2, type: 2}
+  m_Controller: {fileID: 9100000, guid: fd08586e9f65db34b8b343be941906dd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -257,6 +262,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &4782825027695463724 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8338802001174303981, guid: 9ced5a03c84d4124a95cb131969e201b, type: 3}
+  m_PrefabInstance: {fileID: 3592010172927400385}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7023719643404452274 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3413691177203722125, guid: 9ced5a03c84d4124a95cb131969e201b, type: 3}
+  m_PrefabInstance: {fileID: 3592010172927400385}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7975352880834661207 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6879045055758504598, guid: 9ced5a03c84d4124a95cb131969e201b, type: 3}

@@ -81,38 +81,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: 0
+  weaponAttachments: {fileID: 11400000, guid: 53c7436d3de163040b9c58b7a334fc6d, type: 2}
   bulletStartPoint: {fileID: 2570752462317037683}
-  magSocket: {fileID: 0}
-  mags:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  barrels:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  underBarrels:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  sights:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  stocks:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  barrelSocket: {fileID: 3560870670654251447}
+  underbarrelSocket: {fileID: 1442319912732554591}
+  magSocket: {fileID: 5265542518434095895}
+  stockSocket: {fileID: 6656306538356831848}
+  sightSocket: {fileID: 5265542518434095895}
+  standSocket: {fileID: 0}
+  mags: []
+  barrels: []
+  underBarrels: []
+  sights: []
+  stocks: []
   stands: []
 --- !u!114 &5157489233543223284
 MonoBehaviour:
@@ -224,6 +205,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4506283377404715015, guid: 748790cf81cd05b48887d675808700f6, type: 3}
+      propertyPath: m_Name
+      value: Socket - Sight
+      objectReference: {fileID: 0}
+    - target: {fileID: -276748169928541340, guid: 748790cf81cd05b48887d675808700f6, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0e52de18486e19f48af5ca47e5bbd1b1, type: 2}
     - target: {fileID: 919132149155446097, guid: 748790cf81cd05b48887d675808700f6, type: 3}
       propertyPath: m_Name
       value: Weapon - SCAR-Enforcer 557 animations
@@ -251,7 +240,7 @@ Animator:
   m_GameObject: {fileID: 334930968143757759}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 79e2f113d0024744cad73e485e0fac2b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6fb303ec621193f4da42723b425d53f6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -265,5 +254,25 @@ Animator:
 --- !u!4 &1147918024453184261 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 748790cf81cd05b48887d675808700f6, type: 3}
+  m_PrefabInstance: {fileID: 604749129204219118}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1442319912732554591 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -7178554803334362703, guid: 748790cf81cd05b48887d675808700f6, type: 3}
+  m_PrefabInstance: {fileID: 604749129204219118}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3560870670654251447 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5112076907516158631, guid: 748790cf81cd05b48887d675808700f6, type: 3}
+  m_PrefabInstance: {fileID: 604749129204219118}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5265542518434095895 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4506283377404715015, guid: 748790cf81cd05b48887d675808700f6, type: 3}
+  m_PrefabInstance: {fileID: 604749129204219118}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6656306538356831848 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3153799954310378874, guid: 748790cf81cd05b48887d675808700f6, type: 3}
   m_PrefabInstance: {fileID: 604749129204219118}
   m_PrefabAsset: {fileID: 0}

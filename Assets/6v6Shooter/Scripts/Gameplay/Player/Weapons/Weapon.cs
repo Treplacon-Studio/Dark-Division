@@ -9,11 +9,22 @@ public class Weapon : MonoBehaviour
     [SerializeField] [Tooltip("Weapon name.")]
     private WeaponInfo.WeaponName weaponName;
 
+    [SerializeField] [Tooltip("Scriptable Object for weapon attachments.")]
+    private WeaponAttachments weaponAttachments;
+
     [SerializeField] [Tooltip("Bullet start point game object.")]
     private GameObject bulletStartPoint;
 
-    [SerializeField] [Tooltip("Mag socket of the weapon.")]
-    private GameObject magSocket;
+    [Space]
+
+    [SerializeField] private GameObject barrelSocket;
+    [SerializeField] private GameObject underbarrelSocket;
+    [SerializeField] private GameObject magSocket;
+    [SerializeField] private GameObject stockSocket;
+    [SerializeField] private GameObject sightSocket;
+    [SerializeField] private GameObject standSocket;
+
+    [Space]
 
     [SerializeField] [Tooltip("Weapon mags attachments.")]
     private GameObject[] mags;
@@ -29,7 +40,7 @@ public class Weapon : MonoBehaviour
 
     [SerializeField] [Tooltip("Weapon stocks attachments.")]
     private GameObject[] stocks;
-    
+
     [SerializeField] [Tooltip("Weapon stands attachments (snipers only)")]
     private GameObject[] stands;
 
@@ -69,30 +80,38 @@ public class Weapon : MonoBehaviour
 
     public void ApplyAttachmentsAssaultRifle(int[,] attachments, int index)
     {
-        if (attachments is null)
+        if (weaponAttachments == null)
         {
-            HandleMagChange(0);
-            HandleBarrelChange(-1);
-            HandleSightChange(-1);
-            HandleStockChange(-1);
-            HandleUnderBarrelChange(-1);
+            Debug.LogError("WeaponAttachments ScriptableObject is not assigned.");
+            return;
+        }
 
-            if (HasStand())
+        ResetAttachments();
+
+        if (attachments == null)
+        {
+            if (magSocket != null) HandleMagChange(0);
+            if (barrelSocket != null) HandleBarrelChange(-1);
+            if (sightSocket != null) HandleSightChange(-1);
+            if (stockSocket != null) HandleStockChange(-1);
+            if (underbarrelSocket != null) HandleUnderBarrelChange(-1);
+
+            if (HasStand() && standSocket != null)
                 HandleStandChange(-1);
         }
         else
         {
-            HandleMagChange(attachments[index, 0]);
-            HandleBarrelChange(attachments[index, 1]);
-            HandleSightChange(attachments[index, 2]);
-            HandleStockChange(attachments[index, 3]);
-            HandleUnderBarrelChange(attachments[index, 4]);
-            
-            if(HasStand())
+            if (magSocket != null) HandleMagChange(attachments[index, 0]);
+            if (barrelSocket != null) HandleBarrelChange(attachments[index, 1]);
+            if (sightSocket != null) HandleSightChange(attachments[index, 2]);
+            if (stockSocket != null) HandleStockChange(attachments[index, 3]);
+            if (underbarrelSocket != null) HandleUnderBarrelChange(attachments[index, 4]);
+
+            if (HasStand() && standSocket != null)
                 HandleStandChange(attachments[index, 5]);
         }
-     
     }
+
 
     public GameObject GetStartPoint()
     {
@@ -101,89 +120,132 @@ public class Weapon : MonoBehaviour
 
     private void ResetAttachments()
     {
-        foreach (var o in mags) o.SetActive(false);
-        foreach (var o in barrels) o.SetActive(false);
-        foreach (var o in underBarrels) o.SetActive(false);
-        foreach (var o in sights) o.SetActive(false);
-        foreach (var o in stocks) o.SetActive(false);
-        foreach (var o in stands) o.SetActive(false);
+        if (weaponAttachments == null) return;
+
+        if (magSocket != null)
+        {
+            foreach (var o in weaponAttachments.mags) o.SetActive(false);
+        }
+
+        if (barrelSocket != null)
+        {
+            foreach (var o in weaponAttachments.barrels) o.SetActive(false);
+        }
+
+        if (underbarrelSocket != null)
+        {
+            foreach (var o in weaponAttachments.underBarrels) o.SetActive(false);
+        }
+
+        if (sightSocket != null)
+        {
+            foreach (var o in weaponAttachments.sights) o.SetActive(false);
+        }
+
+        if (stockSocket != null)
+        {
+            foreach (var o in weaponAttachments.stocks) o.SetActive(false);
+        }
+
+        if (standSocket != null)
+        {
+            foreach (var o in weaponAttachments.stands) o.SetActive(false);
+        }
     }
+
 
     private void HandleMagChange(int ind)
     {
-        foreach (var m in mags)
+        if (weaponAttachments == null || magSocket == null) return;
+
+        foreach (var m in weaponAttachments.mags)
             m.SetActive(false);
 
-        if (ind == -1 || ind >= mags.Length)
+        if (ind == -1 || ind >= weaponAttachments.mags.Length)
             return;
 
-        mags[ind].SetActive(true);
-        _mag = mags[ind];
+        weaponAttachments.mags[ind].SetActive(true);
+        _mag = weaponAttachments.mags[ind];
     }
+
 
     private void HandleBarrelChange(int ind)
     {
-        foreach (var m in barrels)
+        if (weaponAttachments == null || barrelSocket == null) return;
+
+        foreach (var m in weaponAttachments.barrels)
             m.SetActive(false);
 
-        if (ind == -1 || ind >= barrels.Length)
+        if (ind == -1 || ind >= weaponAttachments.barrels.Length)
             return;
 
-        barrels[ind].SetActive(true);
-        _barrel = barrels[ind];
+        weaponAttachments.barrels[ind].SetActive(true);
+        _barrel = weaponAttachments.barrels[ind];
     }
+
 
     private void HandleUnderBarrelChange(int ind)
     {
-        foreach (var m in underBarrels)
+        if (weaponAttachments == null || underbarrelSocket == null) return;
+
+        foreach (var m in weaponAttachments.underBarrels)
             m.SetActive(false);
 
-        if (ind == -1 || ind >= underBarrels.Length)
+        if (ind == -1 || ind >= weaponAttachments.underBarrels.Length)
             return;
 
-        underBarrels[ind].SetActive(true);
-        _underBarrel = underBarrels[ind];
+        weaponAttachments.underBarrels[ind].SetActive(true);
+        _underBarrel = weaponAttachments.underBarrels[ind];
     }
 
     private void HandleSightChange(int ind)
     {
-        foreach (var m in sights)
+        if (weaponAttachments == null || sightSocket == null) return;
+
+        foreach (var m in weaponAttachments.sights)
             m.SetActive(false);
 
-        if (ind == -1 || ind >= sights.Length)
+        if (ind == -1 || ind >= weaponAttachments.sights.Length)
             return;
 
-        sights[ind].SetActive(true);
-        _sight = sights[ind];
+        weaponAttachments.sights[ind].SetActive(true);
+        _sight = weaponAttachments.sights[ind];
     }
+
 
     private void HandleStockChange(int ind)
     {
-        foreach (var m in stocks)
+        if (weaponAttachments == null || stockSocket == null) return;
+
+        foreach (var m in weaponAttachments.stocks)
             m.SetActive(false);
 
-        if (ind == -1 || ind >= stocks.Length)
+        if (ind == -1 || ind >= weaponAttachments.stocks.Length)
             return;
 
-        stocks[ind].SetActive(true);
-        _stock = stocks[ind];
+        weaponAttachments.stocks[ind].SetActive(true);
+        _stock = weaponAttachments.stocks[ind];
     }
-    
+
+
     private void HandleStandChange(int ind)
     {
-        foreach (var m in stands)
+        if (weaponAttachments == null || standSocket == null) return;
+
+        foreach (var m in weaponAttachments.stands)
             m.SetActive(false);
 
-        if (ind == -1 || ind >= stands.Length)
+        if (ind == -1 || ind >= weaponAttachments.stands.Length)
             return;
 
-        stands[ind].SetActive(true);
-        _stand = stands[ind];
+        weaponAttachments.stands[ind].SetActive(true);
+        _stand = weaponAttachments.stands[ind];
     }
 }
 
 
-public class WeaponInfo
+
+    public class WeaponInfo
 {
     //All weapons available in game
     public enum WeaponName

@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 736683669689532463}
   - component: {fileID: 7863538091948719926}
   - component: {fileID: 7002942313147984838}
+  - component: {fileID: 3394614800853958654}
   m_Layer: 7
   m_Name: '[Pistol] FN Five - Eight'
   m_TagString: Untagged
@@ -81,30 +82,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: 9
+  weaponAttachments: {fileID: 11400000, guid: 153709d56baeb8b49a56c0e339e7c296, type: 2}
   bulletStartPoint: {fileID: 5175365673486092522}
-  magSocket: {fileID: 0}
-  mags:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  barrels:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  underBarrels:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  sights:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  barrelSocket: {fileID: 3751350750864050825}
+  underbarrelSocket: {fileID: 1435121229138914858}
+  magSocket: {fileID: 5649401135693355506}
+  stockSocket: {fileID: 8854784528556296058}
+  sightSocket: {fileID: 4652449944038553108}
+  standSocket: {fileID: 0}
+  mags: []
+  barrels: []
+  underBarrels: []
+  sights: []
   stocks: []
   stands: []
 --- !u!114 &736683669689532463
@@ -171,6 +160,19 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &3394614800853958654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5335120217176302087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8721c03ccc60c97438dc6c2294364f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundData: {fileID: 11400000, guid: f739f88359ffe9b49a2113e019dcf694, type: 2}
 --- !u!1001 &8128229199899283251
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -235,9 +237,34 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1088534272495133252}
   m_SourcePrefab: {fileID: 100100000, guid: 22ca691ea59d4fb4ea02f3507227ce43, type: 3}
+--- !u!1 &1435121229138914858 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -2078457115990154983, guid: 22ca691ea59d4fb4ea02f3507227ce43, type: 3}
+  m_PrefabInstance: {fileID: 8128229199899283251}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3751350750864050825 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4268782677742467654, guid: 22ca691ea59d4fb4ea02f3507227ce43, type: 3}
+  m_PrefabInstance: {fileID: 8128229199899283251}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4652449944038553108 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5738263261321594585, guid: 22ca691ea59d4fb4ea02f3507227ce43, type: 3}
+  m_PrefabInstance: {fileID: 8128229199899283251}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5649401135693355506 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4707403991132891455, guid: 22ca691ea59d4fb4ea02f3507227ce43, type: 3}
+  m_PrefabInstance: {fileID: 8128229199899283251}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8595115598672373976 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 22ca691ea59d4fb4ea02f3507227ce43, type: 3}
+  m_PrefabInstance: {fileID: 8128229199899283251}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8854784528556296058 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8489347998414976951, guid: 22ca691ea59d4fb4ea02f3507227ce43, type: 3}
   m_PrefabInstance: {fileID: 8128229199899283251}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8938568518555234914 stripped
