@@ -30,7 +30,7 @@ public class WeaponMuzzleFlash : MonoBehaviour
 
     public void PlayMuzzleOnce()
     {
-        Debug.Log("Playing muzzle");
+        // Debug.Log("Playing muzzle");
         muzzleFlash?.Play();
     }
 }

@@ -76,53 +76,53 @@ public class BulletPilot : MonoBehaviour
     }
 
     void ShootRay()
+{
+    if (_playerCamera == null)
     {
-        if (_playerCamera == null)
+        Debug.LogError("Camera not found.");
+        return;
+    }
+
+    var currentRayLength = initialSpeed * rayLengthFactor;
+    if (Physics.Raycast(transform.position, _currentDirection, out var hit, currentRayLength, hitLayers))
+    {
+        var hitObject = hit.collider.gameObject;
+
+        PhotonView hitPhotonView = hitObject.GetComponent<PhotonView>();
+
+        if (!hasSpawnedDecal)
         {
-            Debug.LogError("Camera not found.");
-            return;
+            SpawnHitDecal(hit.point, hit.normal);  // Spawn bullet hole decal
+            hasSpawnedDecal = true; // Set the flag to prevent further decal spawns
         }
 
-        var currentRayLength = initialSpeed * rayLengthFactor;
-        if (Physics.Raycast(transform.position, _currentDirection, out var hit, currentRayLength, hitLayers))
+        if (hitPhotonView != null)
         {
-            var hitObject = hit.collider.gameObject;
-
-            PhotonView hitPhotonView = hitObject.GetComponent<PhotonView>();
-
-            // Check if a decal has already been spawned
-            if (!hasSpawnedDecal)
+            if (hitObject.CompareTag("TargetDummy") == false)
             {
-                SpawnHitDecal(hit.point, hit.normal);  // Spawn bullet hole decal
-                hasSpawnedDecal = true; // Set the flag to prevent further decal spawns
+                if (hitPhotonView.Owner == _bulletOwnerPhotonView.Owner)
+                    return;
             }
 
-            if (hitPhotonView != null)
+            if (!_alreadyHitObjects.Contains(hitObject))
             {
-                if (hitObject.CompareTag("TargetDummy") == false)
+                if (!TargetIsOnSameTeam())
                 {
-                    if (hitPhotonView.Owner == _bulletOwnerPhotonView.Owner)
-                        return;
+                    PhotonView shooterPhotonView = _bulletOwnerPhotonView;
+                    hitPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered, 10f, shooterPhotonView.ViewID);  // Pass ViewID
+                    hitPhotonView.RPC("ReceiveBulletDirection", RpcTarget.AllBuffered, _rb.velocity);
+                    BulletImpactManager.Instance?.TriggerHitFeedback(hit.point);
                 }
 
-                if (!_alreadyHitObjects.Contains(hitObject))
-                {
-                    if (!TargetIsOnSameTeam())
-                    {
-                        string shooterName = _bulletOwnerPhotonView.Owner.NickName;  
-                        hitPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered, 10f, shooterName); 
-                        hitPhotonView.RPC("ReceiveBulletDirection", RpcTarget.AllBuffered, _rb.velocity);
-                        BulletImpactManager.Instance?.TriggerHitFeedback(hit.point); // Trigger hit feedback
-                    }
+                Debug.Log($"{_bulletOwner.name} hits {hitObject.name}!");
+                _alreadyHitObjects.Add(hitObject);
 
-                    Debug.Log($"{_bulletOwner.name} hits {hitObject.name}!");
-                    _alreadyHitObjects.Add(hitObject);
-
-                    Invoke(nameof(Deactivate), fadeDuration);
-                }
+                Invoke(nameof(Deactivate), fadeDuration);
             }
         }
     }
+}
+
 
     private Vector3 GetShootDirection()
     {
