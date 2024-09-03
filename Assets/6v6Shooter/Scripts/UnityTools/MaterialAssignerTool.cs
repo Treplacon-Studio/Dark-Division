@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
@@ -95,3 +96,4 @@ public class PrefixMaterialPair
     public string prefix;
     public Material material;
 }
+#endif
