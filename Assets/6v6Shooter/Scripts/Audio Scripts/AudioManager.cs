@@ -38,7 +38,7 @@ public class AudioManager : MonoBehaviour
     //    audioBuses[sfxBusPath] = RuntimeManager.GetBus(sfxBusPath);
     //    audioBuses[uiBusPath] = RuntimeManager.GetBus(uiBusPath);
     //}
-
+    
     public void SetBusVolume(string busPath, float volume)
     {
         if (audioBuses.ContainsKey(busPath))
@@ -54,77 +54,12 @@ public class AudioManager : MonoBehaviour
             audioBuses[busPath].setMute(mute);
         }
     }
-
-    public void PlayOneShot(EventReference eventReference, Vector3 position)
-    {
-        if (eventReference.IsNull == false)
-        {
-            RuntimeManager.PlayOneShot(eventReference, position);
-        }
-    }
-
-    public void PlayEvent(EventReference eventReference, string eventId)
-    {
-        if (!eventInstances.ContainsKey(eventId))
-        {
-            EventInstance instance = RuntimeManager.CreateInstance(eventReference);
-            eventInstances[eventId] = instance;
-            instance.start();
-        }
-    }
-
-    public void StopEvent(string eventId)
-    {
-        if (eventInstances.ContainsKey(eventId))
-        {
-            eventInstances[eventId].stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            eventInstances[eventId].release();
-            eventInstances.Remove(eventId);
-        }
-    }
-
+    
     public void SetParameter(string eventId, string parameterName, float value)
     {
         if (eventInstances.ContainsKey(eventId))
         {
             eventInstances[eventId].setParameterByName(parameterName, value);
         }
-    }
-
-    public void FadeOutEvent(string eventId, float fadeDuration)
-    {
-        if (eventInstances.ContainsKey(eventId))
-        {
-            StartCoroutine(FadeOutCoroutine(eventId, fadeDuration));
-        }
-    }
-
-    private IEnumerator FadeOutCoroutine(string eventId, float fadeDuration)
-    {
-        if (eventInstances.TryGetValue(eventId, out EventInstance instance))
-        {
-            instance.getVolume(out float currentVolume);
-            float time = 0f;
-
-            while (time < fadeDuration)
-            {
-                float volume = Mathf.Lerp(currentVolume, 0f, time / fadeDuration);
-                instance.setVolume(volume);
-                time += Time.deltaTime;
-                yield return null;
-            }
-
-            StopEvent(eventId);
-        }
-    }
-
-    public void StopAllSounds()
-    {
-        foreach (var instance in eventInstances.Values)
-        {
-            instance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            instance.release();
-        }
-        eventInstances.Clear();
     }
 }

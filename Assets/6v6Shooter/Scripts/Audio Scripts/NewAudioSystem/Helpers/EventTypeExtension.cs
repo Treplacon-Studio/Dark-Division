@@ -17,6 +17,9 @@ namespace _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem.Helpers
                 case SoundEvent.Type.OnButtonHoverEnter:
                 case SoundEvent.Type.OnButtonHoverExit:
                    return SoundEvent.Category.UI;
+                
+                case SoundEvent.Type.HitMarker:
+                    return SoundEvent.Category.Gameplay;
 
                 default:
                     throw new System.ArgumentException("Unknown event type");

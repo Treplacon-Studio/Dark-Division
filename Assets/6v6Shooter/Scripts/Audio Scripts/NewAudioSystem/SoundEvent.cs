@@ -8,6 +8,7 @@ namespace _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem
     {
         public enum Category
         {
+            Gameplay,
             Weapon,
             PlayerEvents,
             UI
@@ -17,6 +18,7 @@ namespace _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem
         {
             Fire,
             Reload,
+            HitMarker,
             OnButtonPress,
             OnButtonRelease,
             OnButtonHover,
@@ -38,7 +40,7 @@ namespace _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem
             RuntimeManager.PlayOneShotAttached(eventReference, targetObject);
         }
 
-        public static void PlayOneShot(Category eventCategory, Type eventType,int id)
+        public static void PlayOneShot(Category eventCategory, Type eventType, int id)
         {
             if (AudioAssets.Instance.soundEventLibrary == null)
             {
@@ -49,8 +51,21 @@ namespace _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem
             EventReference eventReference = AudioAssets.Instance.soundEventLibrary.GetEventReference(eventCategory, eventType,id);
             
             RuntimeManager.PlayOneShot(eventReference);
-            
         }
+        
+        public static void PlayOneShotAtPosition(Category eventCategory, Type eventType, int id, Vector3 position)
+        {
+            if (AudioAssets.Instance.soundEventLibrary == null)
+            {
+                Debug.LogError("SoundEventLibrary is not assigned to the SoundManager.");
+                return;
+            }
+            
+            EventReference eventReference = AudioAssets.Instance.soundEventLibrary.GetEventReference(eventCategory, eventType,id);
+            
+            RuntimeManager.PlayOneShot(eventReference, position);
+        }
+
         
     }
 }

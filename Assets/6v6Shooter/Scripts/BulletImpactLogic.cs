@@ -1,4 +1,6 @@
 using System;
+using _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem;
+using _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem.Helpers;
 using FMODUnity;
 using UnityEngine;
 
@@ -23,7 +25,9 @@ public class BulletImpactLogic : MonoBehaviour
         // Play hitmarker sound
         if (AudioManager.Instance != null && !hitmarkerSound.IsNull)
         {
-            AudioManager.Instance.PlayOneShot(hitmarkerSound, position);
+            SoundEventBuilder.Create()
+                .WithEventType(SoundEvent.Type.HitMarker)
+                .PlayOneShotAtPosition(position);
         }
 
         // Instantiate hitmarker with random rotation
