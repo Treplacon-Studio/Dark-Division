@@ -1,6 +1,8 @@
 using UnityEngine;
 using Photon.Pun;
 using System;
+using _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem;
+using _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem.Helpers;
 
 /// <summary>
 /// Class handles shooting feature.
@@ -94,6 +96,11 @@ public class Shooting : MonoBehaviourPunCallbacks
             // No ammo
             if (componentHolder.bulletPoolingManager.GetAmmoPrimary() <= 0)
                 return;
+            
+            SoundEventBuilder.Create()
+                .WithEventType(SoundEvent.Type.Fire)
+                .WithId(currentWeaponID)
+                .PlayOneShotAttached(gameObject);
 
             var wc = ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.WeaponComponent();
             wc.gameObject.GetComponent<Recoil>().StartRecoil(0.03f);

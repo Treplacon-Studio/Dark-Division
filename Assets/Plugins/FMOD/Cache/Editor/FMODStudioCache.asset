@@ -378,6 +378,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-4824616192916397711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Shoot/auto
+  m_EditorClassIdentifier: 
+  Name: auto
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2386204561
+    data2: 3446479518
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-4662844312303670296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,6 +429,35 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 75
   Length: 0
+--- !u!114 &-4443898921520376951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Weapons/Guns/SCAR-H/Shoot
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Weapons/Guns/SCAR-H/Shoot
+  Guid:
+    Data1: -1314153956
+    Data2: 1279290515
+    Data3: 1707767220
+    Data4: -164281401
+  Banks:
+  - {fileID: 5181238676281998605}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -4824616192916397711}
+  - {fileID: 2861496930228306308}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2700
 --- !u!114 &-3938652300357511560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -621,6 +674,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-2187061248765935098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Semi/FireRate
+  m_EditorClassIdentifier: 
+  Name: FireRate
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2332794292
+    data2: 568221326
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-2161100770266777655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -640,6 +717,30 @@ MonoBehaviour:
   FileSizes:
   - Name: 
     Value: 2120
+  Exists: 1
+--- !u!114 &-2159362461494809240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Auto/FireRate
+  m_EditorClassIdentifier: 
+  Name: FireRate
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2332794292
+    data2: 568221326
+  Type: 0
+  IsGlobal: 0
+  Labels: []
   Exists: 1
 --- !u!114 &-1670769209033895599
 MonoBehaviour:
@@ -759,19 +860,22 @@ MonoBehaviour:
   - {fileID: 1876968525177102415}
   - {fileID: -8762596939057242061}
   - {fileID: 3067026726367290541}
-  - {fileID: 978893604326183717}
   - {fileID: -2333631519860865254}
   - {fileID: 7880823268783378203}
   - {fileID: -5224576977696402189}
   - {fileID: -7998391934545829852}
   - {fileID: -20790266414480128}
   - {fileID: 2019773542328499175}
+  - {fileID: -4443898921520376951}
+  - {fileID: 8127949700207129299}
+  - {fileID: 7819467833882422803}
+  - {fileID: 4509599890274901849}
   EditorParameters: []
   MasterBanks:
   - {fileID: 8572926291394990469}
   StringsBanks:
   - {fileID: 1556277137701203271}
-  cacheTime: 638609099358218264
+  cacheTime: 638610296228896758
   cacheVersion: 131618
 --- !u!114 &137058367264883491
 MonoBehaviour:
@@ -822,33 +926,6 @@ MonoBehaviour:
   - {fileID: 5725272539686985378}
   IsStream: 0
   Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
---- !u!114 &978893604326183717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Weapons/Guns/SCAR-H/Fire
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/Weapons/Guns/SCAR-H/Fire
-  Guid:
-    Data1: 959195074
-    Data2: 1141267608
-    Data3: 1731323521
-    Data4: 1694800188
-  Banks:
-  - {fileID: 5181238676281998605}
-  IsStream: 0
-  Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -950,10 +1027,10 @@ MonoBehaviour:
   Path: Assets/6v6Shooter/Audio/Banks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638609099358028528
+  lastModified: 638610296228249308
   FileSizes:
   - Name: 
-    Value: 2120
+    Value: 2356
   Exists: 1
 --- !u!114 &1876968525177102415
 MonoBehaviour:
@@ -1009,6 +1086,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &2861496930228306308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Shoot/FireRate
+  m_EditorClassIdentifier: 
+  Name: FireRate
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2332794292
+    data2: 568221326
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &3067026726367290541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1144,6 +1245,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &4509599890274901849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/DefaultEventNotFound
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/DefaultEventNotFound
+  Guid:
+    Data1: -107656478
+    Data2: 1216429569
+    Data3: -1069743441
+    Data4: 853616792
+  Banks:
+  - {fileID: 5181238676281998605}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4000
 --- !u!114 &4744304263381270011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1186,7 +1314,7 @@ MonoBehaviour:
   Path: Assets/6v6Shooter/Audio/Banks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638609099358218264
+  lastModified: 638610296228896758
   FileSizes: []
   Exists: 1
 --- !u!114 &5211441754717744419
@@ -1360,6 +1488,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &7819467833882422803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Weapons/Guns/SCAR-H/Semi
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Weapons/Guns/SCAR-H/Semi
+  Guid:
+    Data1: 959195074
+    Data2: 1141267608
+    Data3: 1731323521
+    Data4: 1694800188
+  Banks:
+  - {fileID: 5181238676281998605}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -2187061248765935098}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 550
 --- !u!114 &7831247861756227679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1441,6 +1597,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2050
+--- !u!114 &8127949700207129299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Weapons/Guns/SCAR-H/Auto
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Weapons/Guns/SCAR-H/Auto
+  Guid:
+    Data1: -677958582
+    Data2: 1276637179
+    Data3: 346195389
+    Data4: 725127753
+  Banks:
+  - {fileID: 5181238676281998605}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -2159362461494809240}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 9
 --- !u!114 &8220303273587624521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1510,7 +1694,7 @@ MonoBehaviour:
   Path: Assets/6v6Shooter/Audio/Banks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638609099358028528
+  lastModified: 638610296228229363
   FileSizes: []
   Exists: 1
 --- !u!114 &8712376453553530117

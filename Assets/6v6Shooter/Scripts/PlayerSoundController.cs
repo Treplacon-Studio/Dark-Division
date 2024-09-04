@@ -19,6 +19,6 @@ public class PlayerSoundController : MonoBehaviourPunCallbacks
     public void PlayWeaponShootSound()
     {
         Debug.Log("Shoot animation called 1x");
-        remoteRPCSound.PlaySound();
+        //remoteRPCSound.PlaySound();
     }
 }

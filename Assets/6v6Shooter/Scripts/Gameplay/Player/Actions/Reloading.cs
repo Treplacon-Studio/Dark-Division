@@ -1,4 +1,5 @@
 using System.Collections;
+using _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem;
 using UnityEngine;
 
 /// <summary>
@@ -92,6 +93,9 @@ public class Reloading : MonoBehaviour
             {
                 _locker = true;
                 componentHolder.playerAnimationController.PlayReloadAnimation();
+                
+                var currentWeaponID = ActionsManager.GetInstance(pnc.GetInstanceID()).Switching.GetCurrentWeaponID();
+                //SoundManager.PlayOneShotAttached(SoundManager.WeaponEvent.Reload, currentWeaponID, gameObject);
             }
         }
     }
