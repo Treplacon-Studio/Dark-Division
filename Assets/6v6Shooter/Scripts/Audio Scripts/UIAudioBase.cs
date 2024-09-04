@@ -1,3 +1,5 @@
+using _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem;
+using _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem.Helpers;
 using FMODUnity;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -40,7 +42,9 @@ public abstract class UIAudioBase : MonoBehaviour, IPointerEnterHandler, IPointe
     {
         if (playOnHoverEnter)
         {
-            PlaySound(onHoverEnterSound);
+            SoundEventBuilder.Create()
+                .WithEventType(SoundEvent.Type.OnButtonHoverEnter)
+                .PlayOneShot();
         }
     }
 
@@ -48,7 +52,9 @@ public abstract class UIAudioBase : MonoBehaviour, IPointerEnterHandler, IPointe
     {
         if (playOnHoverExit)
         {
-            PlaySound(onHoverExitSound); // Optionally change this to another sound if needed
+            SoundEventBuilder.Create()
+                .WithEventType(SoundEvent.Type.OnButtonHoverExit)
+                .PlayOneShot(); 
         }
     }
 
@@ -56,7 +62,9 @@ public abstract class UIAudioBase : MonoBehaviour, IPointerEnterHandler, IPointe
     {
         if (playOnPress)
         {
-            PlaySound(onPressSound);
+            SoundEventBuilder.Create()
+                .WithEventType(SoundEvent.Type.OnButtonPress)
+                .PlayOneShot();
         }
     }
 
@@ -64,7 +72,9 @@ public abstract class UIAudioBase : MonoBehaviour, IPointerEnterHandler, IPointe
     {
         if (playOnRelease)
         {
-            PlaySound(onReleaseSound);
+            SoundEventBuilder.Create()
+                .WithEventType(SoundEvent.Type.OnButtonRelease)
+                .PlayOneShot();
         }
     }
 }

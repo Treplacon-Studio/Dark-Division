@@ -34,6 +34,11 @@ namespace _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem.Helpers
         {
             SoundEvent.PlayOneShotAttached(category, eventType, id, targetObject);
         }
+
+        public void PlayOneShot()
+        {
+            SoundEvent.PlayOneShot(category, eventType, id);
+        }
     }
 
 }

@@ -1,3 +1,5 @@
+using _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem;
+using _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem.Helpers;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -19,6 +21,11 @@ public class SliderAudio : UIAudioBase
 
     protected override void SubscribeToUIEvents()
     {
-        slider.onValueChanged.AddListener((value) => PlaySound(onClickSound));
+        slider.onValueChanged.AddListener((value) =>
+        {
+            SoundEventBuilder.Create()
+                .WithEventType(SoundEvent.Type.OnButtonPress)
+                .PlayOneShot();
+        });
     }
 }

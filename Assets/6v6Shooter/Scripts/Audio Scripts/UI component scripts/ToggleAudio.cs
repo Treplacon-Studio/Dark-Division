@@ -1,3 +1,5 @@
+using _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem;
+using _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem.Helpers;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -19,6 +21,11 @@ public class ToggleAudio : UIAudioBase
 
     protected override void SubscribeToUIEvents()
     {
-        toggle.onValueChanged.AddListener((isOn) => PlaySound(onClickSound));
+        toggle.onValueChanged.AddListener((isOn) =>
+        {
+            SoundEventBuilder.Create()
+                .WithEventType(SoundEvent.Type.OnButtonPress)
+                .PlayOneShot();
+        });
     }
 }

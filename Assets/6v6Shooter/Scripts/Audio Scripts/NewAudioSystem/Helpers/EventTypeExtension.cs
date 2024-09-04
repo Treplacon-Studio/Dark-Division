@@ -11,9 +11,12 @@ namespace _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem.Helpers
                 case SoundEvent.Type.Reload:
                     return SoundEvent.Category.Weapon;
 
-                //case SoundManager.EventType.Jump:
-                //case SoundManager.EventType.Hit:
-                   // return SoundManager.EventsCategory.PlayerEvents;
+                case SoundEvent.Type.OnButtonPress:
+                case SoundEvent.Type.OnButtonHover:
+                case SoundEvent.Type.OnButtonRelease:
+                case SoundEvent.Type.OnButtonHoverEnter:
+                case SoundEvent.Type.OnButtonHoverExit:
+                   return SoundEvent.Category.UI;
 
                 default:
                     throw new System.ArgumentException("Unknown event type");
