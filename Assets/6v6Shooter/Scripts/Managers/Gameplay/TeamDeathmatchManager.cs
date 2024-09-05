@@ -70,21 +70,21 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
     {
         foreach (GameObject player in players)
         {
-            Transform playerHUDTransform = player.transform.Find("PlayerHUD");
+            Transform playerHUDTransform = player.transform.Find("PF_Player_HUD");
             if (playerHUDTransform == null)
             {
                 Debug.LogWarning("PlayerHUD not found for " + player.name);
                 continue;
             }
 
-            Transform hudCanvasTransform = playerHUDTransform.Find("HUDCanvas");
+            Transform hudCanvasTransform = playerHUDTransform.Find("PF_HUD_Canvas");
             if (hudCanvasTransform == null)
             {
                 Debug.LogWarning("HUDCanvas not found for " + player.name);
                 continue;
             }
 
-            Transform killFeedTransform = hudCanvasTransform.Find("KillFeed");
+            Transform killFeedTransform = hudCanvasTransform.Find("PF_HUD_KillFeed");
             if (killFeedTransform == null)
             {
                 Debug.LogWarning("KillFeed container not found for " + player.name);
@@ -207,7 +207,7 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
         {
             players.Add(player);
             MovementController movement = player.GetComponent<MovementController>();
-            Transform playerHUDTransform = player.transform.Find("PlayerHUD");
+            Transform playerHUDTransform = player.transform.Find("PF_Player_HUD");
 
             if (movement != null)
                 movement.enabled = false;
@@ -236,7 +236,7 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
         foreach (GameObject player in players)
         {
             MovementController movement = player.GetComponent<MovementController>();
-            Transform playerHUDTransform = player.transform.Find("PlayerHUD");
+            Transform playerHUDTransform = player.transform.Find("PF_Player_HUD");
 
             if (movement != null)
                 movement.enabled = true;
