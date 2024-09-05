@@ -70,29 +70,27 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
     {
         foreach (GameObject player in players)
         {
-            // Find PlayerHUD and KillFeed container for each player
-            Transform playerHUDTransform = player.transform.Find("PlayerHUD");
+            Transform playerHUDTransform = player.transform.Find("PF_Player_HUD");
             if (playerHUDTransform == null)
             {
                 Debug.LogWarning("PlayerHUD not found for " + player.name);
                 continue;
             }
 
-            Transform hudCanvasTransform = playerHUDTransform.Find("HUDCanvas");
+            Transform hudCanvasTransform = playerHUDTransform.Find("PF_HUD_Canvas");
             if (hudCanvasTransform == null)
             {
                 Debug.LogWarning("HUDCanvas not found for " + player.name);
                 continue;
             }
 
-            Transform killFeedTransform = hudCanvasTransform.Find("KillFeed");
+            Transform killFeedTransform = hudCanvasTransform.Find("PF_HUD_KillFeed");
             if (killFeedTransform == null)
             {
                 Debug.LogWarning("KillFeed container not found for " + player.name);
                 continue;
             }
 
-            // Instantiate a new KillFeedElement
             GameObject killFeedElement = Instantiate(killFeedElementPrefab, killFeedTransform);
 
             // Set the text for victim and killer names
@@ -102,10 +100,7 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
             if (victimNameText != null) victimNameText.text = victimName;
             if (killerNameText != null) killerNameText.text = killerName;
 
-            // Activate the KillFeedElement
             killFeedElement.SetActive(true);
-
-            // Start the coroutine to remove this specific killFeedElement after a delay
             StartCoroutine(RemoveFeed(killFeedElement));
         }
     }
@@ -120,10 +115,8 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
             yield break;
         }
 
-        // Wait for the display time
         yield return new WaitForSeconds(6f);
 
-        // Fade out the element
         float fadeDuration = 1f;
         float elapsedTime = 0f;
 
@@ -138,7 +131,7 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
         canvasGroup.alpha = 0f;
         killFeedElement.SetActive(false);
 
-        Destroy(killFeedElement); // Clean up the object
+        Destroy(killFeedElement);
     }
 
 
@@ -214,7 +207,7 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
         {
             players.Add(player);
             MovementController movement = player.GetComponent<MovementController>();
-            Transform playerHUDTransform = player.transform.Find("PlayerHUD");
+            Transform playerHUDTransform = player.transform.Find("PF_Player_HUD");
 
             if (movement != null)
                 movement.enabled = false;
@@ -243,7 +236,7 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
         foreach (GameObject player in players)
         {
             MovementController movement = player.GetComponent<MovementController>();
-            Transform playerHUDTransform = player.transform.Find("PlayerHUD");
+            Transform playerHUDTransform = player.transform.Find("PF_Player_HUD");
 
             if (movement != null)
                 movement.enabled = true;

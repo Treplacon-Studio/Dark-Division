@@ -42,19 +42,20 @@ public class HealthController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void TakeDamage(float damage, string shooterName)
+    public void TakeDamage(float damage, int shooterViewID)
     {
         health -= damage;
         healthBar.fillAmount = health / startHealth;
 
-        
         hitEffect.SetFloat("_MaskAmount", health / (100 / 1.4f));
 
         if (health <= 0f)
-            Die(shooterName); 
+        {
+            Die(shooterViewID);
+        }
     }
 
-    void Die(string shooterName)
+    void Die(int shooterViewID)
     {
         if (photonView != null && photonView.IsMine)
         {
@@ -65,14 +66,19 @@ public class HealthController : MonoBehaviourPunCallbacks
             else
             {
                 string playerName = PhotonNetwork.LocalPlayer.NickName;
-
                 Team? team = TeamManager.GetTeam(PhotonNetwork.LocalPlayer);
-                TeamDeathmatchManager.instance.GetComponent<PhotonView>().RPC("AddPointForTeam", RpcTarget.AllBuffered, team);
-                TeamDeathmatchManager.instance.GetComponent<PhotonView>().RPC("ShareKillFeed", RpcTarget.AllBuffered, playerName, shooterName); 
+                TeamDeathmatchManager.instance.GetComponent<PhotonView>()
+                    .RPC("AddPointForTeam", RpcTarget.AllBuffered, team);
+                TeamDeathmatchManager.instance.GetComponent<PhotonView>()
+                    .RPC("ShareKillFeed", RpcTarget.AllBuffered, playerName, PhotonView.Find(shooterViewID).Owner.NickName);
+
+                // Disable player HUD, activate respawn canvas, and handle ragdoll
                 playerSetup.DisableHUD();
                 resCanvas.SetActive(true);
                 playerSetup.GetComponent<PhotonView>().RPC("EnableRagdollRPC", RpcTarget.All);
                 playerSetup.SwitchToRagdollCamera();
+
+                // Handle respawn
                 StartCoroutine(Respawn());
                 StartCoroutine(CountdownTimer(4));
             }
@@ -84,7 +90,16 @@ public class HealthController : MonoBehaviourPunCallbacks
                 RegainHealth();
             }
         }
+
+        // **Trigger Kill Notification for the Shooter**
+        PhotonView shooterPhotonView = PhotonView.Find(shooterViewID);
+        if (shooterPhotonView != null && shooterPhotonView.IsMine)
+        {
+            shooterPhotonView.GetComponent<PlayerKillNotification>().TriggerKillNotification();
+        }
     }
+
+
 
 
     IEnumerator Respawn()
