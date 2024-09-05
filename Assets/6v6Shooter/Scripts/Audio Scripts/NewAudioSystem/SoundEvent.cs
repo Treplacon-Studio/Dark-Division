@@ -11,7 +11,8 @@ namespace _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem
             Gameplay,
             Weapon,
             PlayerEvents,
-            UI
+            UI,
+            Test
         }
 
         public enum Type
