@@ -21,11 +21,6 @@ public class ButtonAudio : UIAudioBase
 
     protected override void SubscribeToUIEvents()
     {
-        button.onClick.AddListener(() =>
-        {
-            SoundEventBuilder.Create()
-                .WithEventType(SoundEvent.Type.OnButtonPress)
-                .PlayOneShot();
-        });
+        button.onClick.AddListener(OnPointerClick);
     }
 }

@@ -23,6 +23,14 @@ public abstract class UIAudioBase : MonoBehaviour, IPointerEnterHandler, IPointe
 
     // Abstract method that must be implemented by derived classes
     protected abstract void SubscribeToUIEvents();
+
+    protected void OnPointerClick()
+    {
+        SoundEventBuilder.Create()
+            .WithEventType(SoundEvent.Type.OnButtonPress)
+            .PlayOneShot();
+    }
+    
     
     public void OnPointerEnter(PointerEventData eventData)
     {
