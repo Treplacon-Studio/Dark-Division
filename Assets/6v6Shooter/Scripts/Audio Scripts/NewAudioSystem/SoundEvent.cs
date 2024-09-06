@@ -8,24 +8,28 @@ namespace _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem
     {
         public enum Category
         {
-            Gameplay,
-            Weapon,
-            PlayerEvents,
-            UI,
-            Test
+            Gameplay = 0,
+            Weapon = 1,
+            UI = 3,
+
         }
 
         public enum Type
         {
-            Fire,
-            Reload,
-            HitMarker,
-            OnButtonPress,
-            OnButtonRelease,
-            OnButtonHover,
-            OnButtonHoverEnter,
-            OnButtonHoverExit
+            //Weapon Category
+            Fire = 0,
+            Reload = 1,
+            //Gameplay Category
+            HitMarker = 2,
+            //Ui Category
+            OnButtonPress = 3,
+            OnButtonRelease = 4,
+            OnButtonHover = 5,
+            OnButtonHoverEnter = 6,
+            OnButtonHoverExit = 7,
+            
         }
+        
         
         
         public static void PlayOneShotAttached(Category eventCategory,Type eventType, int id, GameObject targetObject)

@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem.Helpers;
 using AYellowpaper.SerializedCollections;
 using FMODUnity;
 using UnityEngine;
@@ -10,7 +10,7 @@ namespace _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem
     public class SoundEventLibrary : ScriptableObject
     {
         //public List<SoundEventCategory> sfxEventCategories;
-        [SerializedDictionary("SoundEvent Category", "Dictionary of Sound Event Category")]
+        //[SerializedDictionary("SoundEvent Category", "Dictionary of Sound Event Category")]
         public SerializedDictionary<SoundEvent.Category, SoundEventCategory> soundEventCategories;
         
         
@@ -20,6 +20,11 @@ namespace _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem
             //public SoundEvent.Category categoryName;
             [SerializedDictionary("SoundEvent Type", "Dictionary of Sound Event Types")]
             public SerializedDictionary<SoundEvent.Type, SoundEventType> soundEventTypes;
+
+            public SoundEventCategory()
+            {
+                soundEventTypes = new SerializedDictionary<SoundEvent.Type, SoundEventType>();
+            }
         }
 
         [Serializable]
@@ -27,7 +32,7 @@ namespace _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem
         {
             //public SoundEvent.Type eventName;
 
-            [SerializedDictionary("EventId", "EventReference")]
+            //[SerializedDictionary("EventId", "EventReference")]
             public SerializedDictionary<int, EventReference> eventReferences;
         }
 
@@ -57,6 +62,46 @@ namespace _6v6Shooter.Scripts.Audio_Scripts.NewAudioSystem
                 return new EventReference { Path = "event:/SFX/DefaultEventNotFound" };
             }
             
+        }
+
+        public void OnValidate()
+        {
+            foreach (SoundEvent.Category category in Enum.GetValues(typeof(SoundEvent.Category)))
+            {
+                //dd
+                if (!soundEventCategories.ContainsKey(category))
+                {
+                    var newEventCategory = new SoundEventCategory(); 
+                    soundEventCategories.Add(category, newEventCategory);
+
+                    foreach (SoundEvent.Type soundEvent in Enum.GetValues(typeof(SoundEvent.Type)))
+                    {
+                        if (soundEvent.GetCategory() == category)
+                        {
+                            newEventCategory.soundEventTypes.Add(soundEvent, new SoundEventType());
+                        }
+                    }
+                }
+                else
+                {
+                    var dicCategory = soundEventCategories[category];
+                    
+                    foreach (SoundEvent.Type soundEvent in Enum.GetValues(typeof(SoundEvent.Type)))
+                    {
+                        if (soundEvent.GetCategory() == category)
+                        {
+                            if (!dicCategory.soundEventTypes.ContainsKey(soundEvent))
+                            {
+                                dicCategory.soundEventTypes.Add(soundEvent, new SoundEventType());
+                            }
+                        }
+                        else
+                        {
+                            dicCategory.soundEventTypes.Remove(soundEvent);
+                        }
+                    }
+                }
+            }
         }
     }
 }
