@@ -10,6 +10,7 @@ public class HealthController : MonoBehaviourPunCallbacks
     public float health;
     public float startHealth = 100;
     public bool targetDummy;
+    private bool isDead = false;
 
     [SerializeField] PlayerSetup playerSetup;
     [SerializeField] private Material hitEffect;
@@ -40,8 +41,6 @@ public class HealthController : MonoBehaviourPunCallbacks
         //     TakeDamage(10);
         // }
     }
-
-    private bool isDead = false;
 
     [PunRPC]
     public void TakeDamage(float damage, int shooterViewID, string weaponName)
@@ -131,7 +130,6 @@ public class HealthController : MonoBehaviourPunCallbacks
         photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
         playerSetup.GetComponent<PhotonView>().RPC("DisableRagdollRPC", RpcTarget.All);
         playerSetup.SwitchToMainCamera();
-
         isDead = false;
     }
 

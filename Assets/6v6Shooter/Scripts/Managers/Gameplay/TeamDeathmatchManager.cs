@@ -154,8 +154,6 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
         }
     }
 
-
-
      private IEnumerator RemoveFeed(GameObject killFeedElement)
     {
         CanvasGroup canvasGroup = killFeedElement.GetComponent<CanvasGroup>();
