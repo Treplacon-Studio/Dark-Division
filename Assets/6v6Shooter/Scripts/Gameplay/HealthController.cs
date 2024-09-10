@@ -41,6 +41,8 @@ public class HealthController : MonoBehaviourPunCallbacks
         // }
     }
 
+    private bool isDead = false;
+
     [PunRPC]
     public void TakeDamage(float damage, int shooterViewID, string weaponName)
     {
@@ -57,6 +59,10 @@ public class HealthController : MonoBehaviourPunCallbacks
 
     void Die(int shooterViewID, string weaponName)
     {
+        if (isDead) return;
+
+        isDead = true;
+
         if (photonView != null && photonView.IsMine)
         {
             if (targetDummy)
@@ -125,7 +131,10 @@ public class HealthController : MonoBehaviourPunCallbacks
         photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
         playerSetup.GetComponent<PhotonView>().RPC("DisableRagdollRPC", RpcTarget.All);
         playerSetup.SwitchToMainCamera();
+
+        isDead = false;
     }
+
 
     IEnumerator CountdownTimer(int seconds)
     {
