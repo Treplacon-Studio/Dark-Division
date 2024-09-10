@@ -13,6 +13,7 @@ public class Weapon : MonoBehaviour
     private GameObject bulletStartPoint;
 
     [SerializeField] [Tooltip("Mag socket of the weapon.")]
+    
     private GameObject magSocket;
 
     [SerializeField] [Tooltip("Weapon mags attachments.")]

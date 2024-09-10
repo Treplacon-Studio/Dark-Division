@@ -14,9 +14,9 @@ public class ThrowEquipment : MonoBehaviour
     [SerializeField] private GameObject throwCloseIcon;
 
     [Header("Throwing")]
-    [SerializeField] private KeyCode ThrowLethal = KeyCode.G;
-    [SerializeField] private KeyCode ThrowTactical = KeyCode.H;
-    [SerializeField] private KeyCode ThrowStyleChange = KeyCode.F;
+    [SerializeField] private KeyCode ThrowLethal = KeyCode.E;
+    [SerializeField] private KeyCode ThrowTactical = KeyCode.Q;
+    [SerializeField] private KeyCode ThrowStyleChange = KeyCode.F; // debbug 
 
     [Header("SO References")]
     [SerializeField] private ThrowableSO lethalThrowableSO;

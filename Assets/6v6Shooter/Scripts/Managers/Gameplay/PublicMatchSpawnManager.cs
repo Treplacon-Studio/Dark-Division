@@ -102,7 +102,11 @@ public class PublicMatchSpawnManager : MonoBehaviourPunCallbacks
         }
 
         GameObject newPlayer = PhotonNetwork.Instantiate(Path.Combine("Gameplay", "Player_M01"), spawnPoint.position, spawnPoint.rotation);
+
+        var throwable = newPlayer.AddComponent<ThrowEquipment>();
+        
         PhotonView playerPhotonView = newPlayer.GetComponent<PhotonView>();
+        
 
         photonView.RPC("MarkSpawnPointOccupied", RpcTarget.AllBuffered, spawnPoint.position, spawnPoint.rotation, team);
     }

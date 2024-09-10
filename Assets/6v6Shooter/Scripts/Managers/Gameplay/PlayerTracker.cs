@@ -23,6 +23,7 @@ public class PlayerTracker : MonoBehaviour, IPunObservable
         // on the client before the player is spawned so that they can be added to the tracker.
         string team = TeamManager.GetTeam(PhotonNetwork.NickName);
         PublicMatchSpawnManager.instance.SpawnPlayer(team);
+        
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
