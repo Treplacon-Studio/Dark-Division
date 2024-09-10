@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 using System.Collections;
@@ -31,10 +32,22 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
     public TextMeshProUGUI endGameCountdownTxt;
     public TextMeshProUGUI startGameCountdownTxt;
 
-    public GameObject killFeedElementPrefab;
     public float countdownDuration = 10.0f;
     public bool GameInPlay;
     private List<GameObject> players = new List<GameObject>();
+
+    [Header("KillFeed")]
+    public GameObject killFeedElementPrefab;
+    public Sprite M4A1Icon;
+    public Sprite scarIcon;
+    public Sprite tac45Icon;
+    public Sprite vectorIcon;
+    public Sprite velIcon;
+    public Sprite stoegerIcon;
+    public Sprite gauge320Icon;
+    public Sprite fnFiveIcon;
+    public Sprite dsr50Icon;
+    public Sprite balistaIcon;
 
     void Awake() {
         if(instance == null) 
@@ -65,9 +78,23 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
         UpdateCountdownUI();
     }
 
-    [PunRPC]
-    public void ShareKillFeed(string victimName, string killerName)
+   [PunRPC]
+    public void ShareKillFeed(string victimName, string killerName, string weaponName)
     {
+        Dictionary<string, Sprite> weaponIcons = new Dictionary<string, Sprite>
+        {
+            { "M4A1Sentinel254", M4A1Icon },
+            { "ScarEnforcer557", scarIcon },
+            { "Tac45", tac45Icon },
+            { "VectorGhost500", vectorIcon },
+            { "VelIronclad308", velIcon },
+            { "Stoeger22", stoegerIcon },
+            { "Gauge320", gauge320Icon },
+            { "FnFive8", fnFiveIcon },
+            { "Dsr50", dsr50Icon },
+            { "BalistaVortex", balistaIcon },
+        };
+
         foreach (GameObject player in players)
         {
             Transform playerHUDTransform = player.transform.Find("PF_Player_HUD");
@@ -93,17 +120,40 @@ public class TeamDeathmatchManager : MonoBehaviourPunCallbacks
 
             GameObject killFeedElement = Instantiate(killFeedElementPrefab, killFeedTransform);
 
-            // Set the text for victim and killer names
+            // find/set prefab
             TextMeshProUGUI victimNameText = killFeedElement.transform.Find("VictimNameText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI killerNameText = killFeedElement.transform.Find("KillerNameText").GetComponent<TextMeshProUGUI>();
+            Transform gunIconTransform = killFeedElement.transform.Find("GunIcon");
 
             if (victimNameText != null) victimNameText.text = victimName;
             if (killerNameText != null) killerNameText.text = killerName;
+
+            if (gunIconTransform != null)
+            {
+                Image gunIconImage = gunIconTransform.GetComponent<Image>();
+                if (gunIconImage != null)
+                {
+                    if (weaponIcons.TryGetValue(weaponName, out Sprite weaponIcon))
+                    {
+                        gunIconImage.sprite = weaponIcon;
+                        gunIconImage.enabled = true;
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Image component not found on GunIcon.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("GunIcon not found in the kill feed element.");
+            }
 
             killFeedElement.SetActive(true);
             StartCoroutine(RemoveFeed(killFeedElement));
         }
     }
+
 
 
      private IEnumerator RemoveFeed(GameObject killFeedElement)

@@ -42,7 +42,7 @@ public class HealthController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void TakeDamage(float damage, int shooterViewID)
+    public void TakeDamage(float damage, int shooterViewID, string weaponName)
     {
         health -= damage;
         healthBar.fillAmount = health / startHealth;
@@ -51,11 +51,11 @@ public class HealthController : MonoBehaviourPunCallbacks
 
         if (health <= 0f)
         {
-            Die(shooterViewID);
+            Die(shooterViewID, weaponName);
         }
     }
 
-    void Die(int shooterViewID)
+    void Die(int shooterViewID, string weaponName)
     {
         if (photonView != null && photonView.IsMine)
         {
@@ -70,7 +70,7 @@ public class HealthController : MonoBehaviourPunCallbacks
                 TeamDeathmatchManager.instance.GetComponent<PhotonView>()
                     .RPC("AddPointForTeam", RpcTarget.AllBuffered, team);
                 TeamDeathmatchManager.instance.GetComponent<PhotonView>()
-                    .RPC("ShareKillFeed", RpcTarget.AllBuffered, playerName, PhotonView.Find(shooterViewID).Owner.NickName);
+                    .RPC("ShareKillFeed", RpcTarget.AllBuffered, playerName, PhotonView.Find(shooterViewID).Owner.NickName, weaponName);
 
                 // Disable player HUD, activate respawn canvas, and handle ragdoll
                 playerSetup.DisableHUD();
