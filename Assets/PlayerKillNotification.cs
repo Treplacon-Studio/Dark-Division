@@ -20,17 +20,7 @@ public class PlayerKillNotification : MonoBehaviour
             return;
         }
 
-        Debug.Log("TriggerKillNotification: XP Prefab and Spawn Point are set.");
-
         GameObject xpInstance = Instantiate(xpPrefab, notificationSpawnPoint);
-        if (xpInstance != null)
-        {
-            Debug.Log("XP Instance successfully instantiated.");
-        }
-        else
-        {
-            Debug.LogError("Failed to instantiate XP Instance.");
-        }
 
         Debug.Log("TriggerKillNotification: Starting notification animation.");
         StartCoroutine(ScaleAndFadeNotification(xpInstance, 3f));
@@ -38,7 +28,6 @@ public class PlayerKillNotification : MonoBehaviour
 
     private IEnumerator ScaleAndFadeNotification(GameObject xpInstance, float fadeDuration)
     {
-        Debug.Log("ScaleAndFadeNotification: Starting scaling and fading.");
 
         float scaleDuration = 0.2f;
         float targetScale = 1.5f;
@@ -50,7 +39,6 @@ public class PlayerKillNotification : MonoBehaviour
 
     private IEnumerator ScaleObject(GameObject xpInstance, float targetScale, float duration)
     {
-        // Debug.Log("ScaleObject: Scaling up to " + targetScale);
 
         Vector3 originalScale = xpInstance.transform.localScale;
         Vector3 targetScaleVector = originalScale * targetScale;
@@ -66,8 +54,6 @@ public class PlayerKillNotification : MonoBehaviour
 
         xpInstance.transform.localScale = targetScaleVector;
 
-        // Debug.Log("ScaleObject: Scale up completed. Now scaling down.");
-
         timer = 0f;
         while (timer <= duration)
         {
@@ -77,12 +63,10 @@ public class PlayerKillNotification : MonoBehaviour
         }
 
         xpInstance.transform.localScale = originalScale;
-        // Debug.Log("ScaleObject: Scaling completed.");
     }
 
     private IEnumerator FadeOutNotification(GameObject xpInstance, float fadeDuration)
     {
-        Debug.Log("FadeOutNotification: Starting fade out.");
 
         CanvasGroup canvasGroup = xpInstance.GetComponent<CanvasGroup>();
 
@@ -101,9 +85,7 @@ public class PlayerKillNotification : MonoBehaviour
         }
 
         canvasGroup.alpha = 0;
-        Debug.Log("FadeOutNotification: Fading completed.");
 
         Destroy(xpInstance);
-        Debug.Log("FadeOutNotification: Notification destroyed.");
     }
 }

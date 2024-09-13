@@ -246,6 +246,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &787752488
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 787752490}
+  - component: {fileID: 787752489}
+  m_Layer: 0
+  m_Name: KillFeedManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &787752489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787752488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d0f3aad097513458ca66b372390d9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  killFeedElementPrefab: {fileID: 2365930205408418739, guid: 75177d257204e294cb74cca00d8a98f6, type: 3}
+  M4A1Icon: {fileID: 3286163911610860551, guid: 80918eb61776c5a47acaadc4dd377634, type: 3}
+  scarIcon: {fileID: 3286163911610860551, guid: b4af8950eeec0bc4db34f3f9b2d7ae91, type: 3}
+  tac45Icon: {fileID: 3286163911610860551, guid: 6bdc3729c7af77642a451b22aacd9a14, type: 3}
+  vectorIcon: {fileID: 3286163911610860551, guid: b782eee989521e74eafdb960211680ac, type: 3}
+  velIcon: {fileID: 3286163911610860551, guid: 61744aa26e7073b45b1c407c608c2df2, type: 3}
+  stoegerIcon: {fileID: 3286163911610860551, guid: 6203f2b269e45ae4d9bae941110107be, type: 3}
+  gauge320Icon: {fileID: 3286163911610860551, guid: 301bf9dae09cf4441b6545d5f05a019a, type: 3}
+  fnFiveIcon: {fileID: 3286163911610860551, guid: 174e030453066d1458927f2ebef15be6, type: 3}
+  dsr50Icon: {fileID: 3286163911610860551, guid: 120fba4da2a665748a99b308868ec9c2, type: 3}
+  balistaIcon: {fileID: 3286163911610860551, guid: 79578a2cc42699c40906b43ec135c865, type: 3}
+--- !u!4 &787752490
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787752488}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 354.6243, y: 518.2593, z: -334.22202}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &818387267
 GameObject:
   m_ObjectHideFlags: 0
@@ -1226,3 +1281,4 @@ SceneRoots:
   - {fileID: 1950936407}
   - {fileID: 4506932371471042973}
   - {fileID: 1840570078}
+  - {fileID: 787752490}

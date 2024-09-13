@@ -62,6 +62,9 @@ public class HealthController : MonoBehaviourPunCallbacks
 
         isDead = true;
 
+        Debug.Log($"Die method: photonView.IsMine: {photonView.IsMine}");
+
+
         if (photonView != null && photonView.IsMine)
         {
             if (targetDummy)
@@ -74,12 +77,14 @@ public class HealthController : MonoBehaviourPunCallbacks
                 Team? team = TeamManager.GetTeam(PhotonNetwork.LocalPlayer);
                 TeamDeathmatchManager.instance.GetComponent<PhotonView>()
                     .RPC("AddPointForTeam", RpcTarget.AllBuffered, team);
-                TeamDeathmatchManager.instance.GetComponent<PhotonView>()
+                KillFeedManager.Instance.GetComponent<PhotonView>()
                     .RPC("ShareKillFeed", RpcTarget.AllBuffered, playerName, PhotonView.Find(shooterViewID).Owner.NickName, weaponName);
 
                 // Disable player HUD, activate respawn canvas, and handle ragdoll
                 playerSetup.DisableHUD();
+                Debug.Log("HUD Disabled");
                 resCanvas.SetActive(true);
+                Debug.Log("Respawn canvas enabled");
                 playerSetup.GetComponent<PhotonView>().RPC("EnableRagdollRPC", RpcTarget.All);
                 playerSetup.SwitchToRagdollCamera();
 
