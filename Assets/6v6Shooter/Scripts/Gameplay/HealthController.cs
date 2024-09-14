@@ -77,8 +77,9 @@ public class HealthController : MonoBehaviourPunCallbacks
                 Team? team = TeamManager.GetTeam(PhotonNetwork.LocalPlayer);
                 TeamDeathmatchManager.instance.GetComponent<PhotonView>()
                     .RPC("AddPointForTeam", RpcTarget.AllBuffered, team);
-                KillFeedManager.Instance.GetComponent<PhotonView>()
-                    .RPC("ShareKillFeed", RpcTarget.AllBuffered, playerName, PhotonView.Find(shooterViewID).Owner.NickName, weaponName);
+                    //trigger killfeed
+                  KillFeedManager.Instance.GetComponent<PhotonView>()
+                     .RPC("ShareKillFeed", RpcTarget.AllBuffered, playerName, PhotonView.Find(shooterViewID).Owner.NickName, weaponName);
 
                 // Disable player HUD, activate respawn canvas, and handle ragdoll
                 playerSetup.DisableHUD();

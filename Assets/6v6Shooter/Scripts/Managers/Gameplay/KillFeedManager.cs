@@ -26,17 +26,17 @@ public class KillFeedManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance == null)
         {
-            Destroy(gameObject); // Ensures only one instance exists
+            Instance = this;
         }
         else
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // Optional: preserves across scenes
+            Destroy(gameObject); // Prevent multiple instances
         }
-
-        InitializeWeaponIcons();
+        
+        // Optional: Make sure it doesn't get destroyed across scenes
+        DontDestroyOnLoad(gameObject);
     }
 
     private void InitializeWeaponIcons()
@@ -56,7 +56,6 @@ public class KillFeedManager : MonoBehaviourPunCallbacks
         };
     }
 
-    // Broadcast the kill feed info to all players
     [PunRPC]
     public void ShareKillFeed(string victimName, string killerName, string weaponName)
     {
@@ -70,11 +69,10 @@ public class KillFeedManager : MonoBehaviourPunCallbacks
             new Photon.Realtime.RaiseEventOptions { Receivers = Photon.Realtime.ReceiverGroup.All }, 
             new ExitGames.Client.Photon.SendOptions { Reliability = true }
         );
+
+        Debug.Log("PhotonNetwork.RaiseEvent called successfully.");
     }
 
-
-
-    // Local method to be called by players to update their own UI
     public void UpdateKillFeedLocally(string victimName, string killerName, string weaponName, Transform killFeedTransform)
     {
         Debug.Log($"UpdateKillFeedLocally called with victim: {victimName}, killer: {killerName}, weapon: {weaponName}");
@@ -101,9 +99,6 @@ public class KillFeedManager : MonoBehaviourPunCallbacks
         killFeedElement.SetActive(true);
         StartCoroutine(RemoveFeed(killFeedElement));
     }
-
-
-
 
     private IEnumerator RemoveFeed(GameObject killFeedElement)
     {
@@ -132,3 +127,4 @@ public class KillFeedManager : MonoBehaviourPunCallbacks
         Destroy(killFeedElement);
     }
 }
+
