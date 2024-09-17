@@ -14,7 +14,6 @@ Material:
   m_ValidKeywords:
   - _EMISSION
   - _HALFTONESHAPE_DOT
-  - _NORMALMAP
   - _OUTLINE
   - _RIMLIGHTING_ON
   - _SPECULARHIGHLIGHTS_OFF
@@ -31,19 +30,26 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 83e189dd133f1d3408550a7de0df5598, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7eb61dce7daa35643921c8d0c59a0c54, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 4ee3a1079f7dcaf44bd64f5cd4e0ceeb, type: 3}
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 2800000, guid: 7eb61dce7daa35643921c8d0c59a0c54, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 83e189dd133f1d3408550a7de0df5598, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7eb61dce7daa35643921c8d0c59a0c54, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
-    m_Floats: []
+    m_Floats:
+    - _Metallic: 0.11
+    - _OutlineEnabled: 1
+    - _OutlineWidth: 6.48
     m_Colors:
     - _EmissionColor: {r: 0.2838254, g: 0.2838254, b: 0.2838254, a: 1}
   m_BuildTextureStacks: []
