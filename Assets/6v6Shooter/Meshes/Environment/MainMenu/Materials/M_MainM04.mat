@@ -12,6 +12,7 @@ Material:
   m_Parent: {fileID: 2100000, guid: f5de0f12c38a1f14aa62d3e7f07e2d04, type: 2}
   m_ModifiedSerializedProperties: 18
   m_ValidKeywords:
+  - _ALPHATEST_ON
   - _EMISSION
   - _HALFTONESHAPE_DOT
   - _OUTLINE
@@ -21,9 +22,9 @@ Material:
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2050
+  m_CustomRenderQueue: 2500
   stringTagMap:
-    RenderType: Opaque
+    RenderType: TransparentCutout
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -46,7 +47,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
-    m_Floats: []
+    m_Floats:
+    - _AlphaClip: 1
+    - _Cutoff: 0.293
+    - _DstBlend: 0
+    - _SrcBlend: 1
+    - _Surface: 0
+    - _ZWrite: 1
     m_Colors:
     - _EmissionColor: {r: 0.2838254, g: 0.2838254, b: 0.2838254, a: 1}
   m_BuildTextureStacks: []
