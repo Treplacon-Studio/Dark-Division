@@ -6,28 +6,38 @@ using UnityEngine;
 public class PlayerKillFeedListener : MonoBehaviour, IOnEventCallback
 {
     [SerializeField] private Transform killfeedContainer;
+
+    private void Awake()
+    {
+        Debug.Log("PlayerKillFeedListener instance created.");
+    }
     private void OnEnable()
     {
-        PhotonNetwork.AddCallbackTarget(this);
+        Debug.Log("Adding callback target.");
+        // PhotonNetwork.AddCallbackTarget(this);
+        PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
     }
 
     private void OnDisable()
     {
-        PhotonNetwork.RemoveCallbackTarget(this);
+        Debug.Log("Removing callback target.");
+        // PhotonNetwork.RemoveCallbackTarget(this);
+        PhotonNetwork.NetworkingClient.EventReceived -= OnEvent;
     }
 
-    // This method is required by the IOnEventCallback interface
+
     public void OnEvent(EventData photonEvent)
     {
-        if (photonEvent.Code == 0) // Assuming event code 0 for kill feed
+        if (photonEvent.Code == 0)
         {
             object[] data = (object[])photonEvent.CustomData;
 
-            string victimName = (string)data[0];
-            string killerName = (string)data[1];
-            string weaponName = (string)data[2];
+            string victimName = (string)data[1];
+            string killerName = (string)data[2];
+            string weaponName = (string)data[3];
 
             Debug.Log($"OnEvent received with victim: {victimName}, killer: {killerName}, weapon: {weaponName}");
+            Debug.Log($"OnEvent received on {PhotonNetwork.LocalPlayer.NickName}'s client");
 
             // Call a method to update the local kill feed UI for this player
             UpdateKillFeed(victimName, killerName, weaponName);
@@ -39,7 +49,6 @@ public class PlayerKillFeedListener : MonoBehaviour, IOnEventCallback
     {
         Debug.Log($"Updating local kill feed with victim: {victimName}, killer: {killerName}, weapon: {weaponName}");
     
-    // Assuming the KillFeedManager is a singleton
         KillFeedManager.Instance.UpdateKillFeedLocally(victimName, killerName, weaponName, killfeedContainer );
     }
 }

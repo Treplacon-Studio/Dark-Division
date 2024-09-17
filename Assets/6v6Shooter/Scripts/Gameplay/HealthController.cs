@@ -79,7 +79,7 @@ public class HealthController : MonoBehaviourPunCallbacks
                     .RPC("AddPointForTeam", RpcTarget.AllBuffered, team);
                     //trigger killfeed
                   KillFeedManager.Instance.GetComponent<PhotonView>()
-                     .RPC("ShareKillFeed", RpcTarget.AllBuffered, playerName, PhotonView.Find(shooterViewID).Owner.NickName, weaponName);
+                     .RPC("ShareKillFeed", RpcTarget.All, playerName, PhotonView.Find(shooterViewID).Owner.NickName, weaponName);
 
                 // Disable player HUD, activate respawn canvas, and handle ragdoll
                 playerSetup.DisableHUD();

@@ -4,25 +4,27 @@ using TMPro;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VectorGraphics;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
 
 public class KillFeedManager : MonoBehaviourPunCallbacks
 {
     public static KillFeedManager Instance { get; private set; }
 
-    [Header("KillFeed")]
-    public GameObject killFeedElementPrefab;
-    public Sprite M4A1Icon;
-    public Sprite scarIcon;
-    public Sprite tac45Icon;
-    public Sprite vectorIcon;
-    public Sprite velIcon;
-    public Sprite stoegerIcon;
-    public Sprite gauge320Icon;
-    public Sprite fnFiveIcon;
-    public Sprite dsr50Icon;
-    public Sprite balistaIcon;
-
-    private Dictionary<string, Sprite> weaponIcons;
+        [Header("KillFeed")]
+        public GameObject killFeedElementPrefab;
+        public Sprite M4A1Icon;
+        public Sprite scarIcon;
+        public Sprite tac45Icon;
+        public Sprite vectorIcon;
+        public Sprite velIcon;
+        public Sprite stoegerIcon;
+        public Sprite gauge320Icon;
+        public Sprite fnFiveIcon;
+        public Sprite dsr50Icon;
+        public Sprite balistaIcon;
+        private const byte KILL_FEED_EVENT_ID = 0;
 
     private void Awake()
     {
@@ -30,18 +32,29 @@ public class KillFeedManager : MonoBehaviourPunCallbacks
         {
             Instance = this;
         }
-        else
-        {
-            Destroy(gameObject); // Prevent multiple instances
-        }
-        
-        // Optional: Make sure it doesn't get destroyed across scenes
-        DontDestroyOnLoad(gameObject);
     }
 
-    private void InitializeWeaponIcons()
+    [PunRPC]
+    public void ShareKillFeed(string victimName, string killerName, string weaponName)
     {
-        weaponIcons = new Dictionary<string, Sprite>
+        Debug.Log($"ShareKillFeed called with victim: {victimName}, killer: {killerName}, weapon: {weaponName}");
+
+        object[] data = new object[] { base.photonView.ViewID, victimName, killerName, weaponName };
+
+        PhotonNetwork.RaiseEvent(
+            KILL_FEED_EVENT_ID, 
+            data, 
+            RaiseEventOptions.Default, 
+            SendOptions.SendReliable
+        );
+    }
+
+
+    public void UpdateKillFeedLocally(string victimName, string killerName, string weaponName, Transform killFeedTransform)
+    {
+        Debug.Log($"UpdateKillFeedLocally called with victim: {victimName}, killer: {killerName}, weapon: {weaponName}");
+
+        Dictionary<string, Sprite> weaponIcons = new Dictionary<string, Sprite>
         {
             { "M4A1Sentinel254", M4A1Icon },
             { "ScarEnforcer557", scarIcon },
@@ -54,28 +67,6 @@ public class KillFeedManager : MonoBehaviourPunCallbacks
             { "Dsr50", dsr50Icon },
             { "BalistaVortex", balistaIcon },
         };
-    }
-
-    [PunRPC]
-    public void ShareKillFeed(string victimName, string killerName, string weaponName)
-    {
-        Debug.Log($"ShareKillFeed called with victim: {victimName}, killer: {killerName}, weapon: {weaponName}");
-
-        object[] data = new object[] { victimName, killerName, weaponName };
-
-        PhotonNetwork.RaiseEvent(
-            0, 
-            data, 
-            new Photon.Realtime.RaiseEventOptions { Receivers = Photon.Realtime.ReceiverGroup.All }, 
-            new ExitGames.Client.Photon.SendOptions { Reliability = true }
-        );
-
-        Debug.Log("PhotonNetwork.RaiseEvent called successfully.");
-    }
-
-    public void UpdateKillFeedLocally(string victimName, string killerName, string weaponName, Transform killFeedTransform)
-    {
-        Debug.Log($"UpdateKillFeedLocally called with victim: {victimName}, killer: {killerName}, weapon: {weaponName}");
 
         GameObject killFeedElement = Instantiate(killFeedElementPrefab, killFeedTransform);
 
@@ -88,17 +79,20 @@ public class KillFeedManager : MonoBehaviourPunCallbacks
 
         if (gunIconTransform != null)
         {
-            Image gunIconImage = gunIconTransform.GetComponent<Image>();
-            if (gunIconImage != null && weaponIcons.TryGetValue(weaponName, out Sprite weaponIcon))
+            SVGImage gunIconImage = gunIconTransform.GetComponent<SVGImage>();
+            if (gunIconImage != null)
             {
-                gunIconImage.sprite = weaponIcon;
-                gunIconImage.enabled = true;
+                if (weaponIcons.TryGetValue(weaponName, out Sprite weaponIcon))
+                {
+                    gunIconImage.sprite = weaponIcon;
+                    gunIconImage.enabled = true;
+                }
             }
         }
-
         killFeedElement.SetActive(true);
         StartCoroutine(RemoveFeed(killFeedElement));
     }
+
 
     private IEnumerator RemoveFeed(GameObject killFeedElement)
     {
@@ -109,7 +103,7 @@ public class KillFeedManager : MonoBehaviourPunCallbacks
             yield break;
         }
 
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(10f);
 
         float fadeDuration = 1f;
         float elapsedTime = 0f;
