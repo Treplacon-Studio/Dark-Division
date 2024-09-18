@@ -52,7 +52,6 @@ public class KillFeedManager : MonoBehaviourPunCallbacks
 
     public void UpdateKillFeedLocally(string victimName, string killerName, string weaponName, Transform killFeedTransform)
     {
-        Debug.Log($"UpdateKillFeedLocally called with victim: {victimName}, killer: {killerName}, weapon: {weaponName}");
 
         Dictionary<string, Sprite> weaponIcons = new Dictionary<string, Sprite>
         {

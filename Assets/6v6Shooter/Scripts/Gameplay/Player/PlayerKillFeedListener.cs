@@ -36,10 +36,6 @@ public class PlayerKillFeedListener : MonoBehaviour, IOnEventCallback
             string killerName = (string)data[2];
             string weaponName = (string)data[3];
 
-            Debug.Log($"OnEvent received with victim: {victimName}, killer: {killerName}, weapon: {weaponName}");
-            Debug.Log($"OnEvent received on {PhotonNetwork.LocalPlayer.NickName}'s client");
-
-            // Call a method to update the local kill feed UI for this player
             UpdateKillFeed(victimName, killerName, weaponName);
         }
     }
@@ -47,7 +43,6 @@ public class PlayerKillFeedListener : MonoBehaviour, IOnEventCallback
 
     private void UpdateKillFeed(string victimName, string killerName, string weaponName)
     {
-        Debug.Log($"Updating local kill feed with victim: {victimName}, killer: {killerName}, weapon: {weaponName}");
     
         KillFeedManager.Instance.UpdateKillFeedLocally(victimName, killerName, weaponName, killfeedContainer );
     }

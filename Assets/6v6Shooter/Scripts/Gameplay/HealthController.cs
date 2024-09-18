@@ -83,9 +83,7 @@ public class HealthController : MonoBehaviourPunCallbacks
 
                 // Disable player HUD, activate respawn canvas, and handle ragdoll
                 playerSetup.DisableHUD();
-                Debug.Log("HUD Disabled");
                 resCanvas.SetActive(true);
-                Debug.Log("Respawn canvas enabled");
                 playerSetup.GetComponent<PhotonView>().RPC("EnableRagdollRPC", RpcTarget.All);
                 playerSetup.SwitchToRagdollCamera();
 
