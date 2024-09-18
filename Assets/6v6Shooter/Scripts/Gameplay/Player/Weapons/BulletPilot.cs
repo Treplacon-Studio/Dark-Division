@@ -108,8 +108,10 @@ public class BulletPilot : MonoBehaviour
             {
                 if (!TargetIsOnSameTeam())
                 {
+                    Weapon weapon = _bulletOwner.GetComponentInChildren<Weapon>();
+                    string weaponName = weapon != null ? weapon.Info().Name().ToString() : "UnknownWeapon";
                     PhotonView shooterPhotonView = _bulletOwnerPhotonView;
-                    hitPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered, 10f, shooterPhotonView.ViewID);  // Pass ViewID
+                    hitPhotonView.RPC("TakeDamage", RpcTarget.AllBuffered, 10f, shooterPhotonView.ViewID, weaponName); 
                     hitPhotonView.RPC("ReceiveBulletDirection", RpcTarget.AllBuffered, _rb.velocity);
                     BulletImpactManager.Instance?.TriggerHitFeedback(hit.point);
                 }

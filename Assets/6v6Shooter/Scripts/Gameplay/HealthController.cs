@@ -10,6 +10,7 @@ public class HealthController : MonoBehaviourPunCallbacks
     public float health;
     public float startHealth = 100;
     public bool targetDummy;
+    private bool isDead = false;
 
     [SerializeField] PlayerSetup playerSetup;
     [SerializeField] private Material hitEffect;
@@ -42,7 +43,7 @@ public class HealthController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void TakeDamage(float damage, int shooterViewID)
+    public void TakeDamage(float damage, int shooterViewID, string weaponName)
     {
         health -= damage;
         healthBar.fillAmount = health / startHealth;
@@ -51,12 +52,19 @@ public class HealthController : MonoBehaviourPunCallbacks
 
         if (health <= 0f)
         {
-            Die(shooterViewID);
+            Die(shooterViewID, weaponName);
         }
     }
 
-    void Die(int shooterViewID)
+    void Die(int shooterViewID, string weaponName)
     {
+        if (isDead) return;
+
+        isDead = true;
+
+        Debug.Log($"Die method: photonView.IsMine: {photonView.IsMine}");
+
+
         if (photonView != null && photonView.IsMine)
         {
             if (targetDummy)
@@ -69,8 +77,9 @@ public class HealthController : MonoBehaviourPunCallbacks
                 Team? team = TeamManager.GetTeam(PhotonNetwork.LocalPlayer);
                 TeamDeathmatchManager.instance.GetComponent<PhotonView>()
                     .RPC("AddPointForTeam", RpcTarget.AllBuffered, team);
-                TeamDeathmatchManager.instance.GetComponent<PhotonView>()
-                    .RPC("ShareKillFeed", RpcTarget.AllBuffered, playerName, PhotonView.Find(shooterViewID).Owner.NickName);
+                    //trigger killfeed
+                  KillFeedManager.Instance.GetComponent<PhotonView>()
+                     .RPC("ShareKillFeed", RpcTarget.All, playerName, PhotonView.Find(shooterViewID).Owner.NickName, weaponName);
 
                 // Disable player HUD, activate respawn canvas, and handle ragdoll
                 playerSetup.DisableHUD();
@@ -125,7 +134,9 @@ public class HealthController : MonoBehaviourPunCallbacks
         photonView.RPC("RegainHealth", RpcTarget.AllBuffered);
         playerSetup.GetComponent<PhotonView>().RPC("DisableRagdollRPC", RpcTarget.All);
         playerSetup.SwitchToMainCamera();
+        isDead = false;
     }
+
 
     IEnumerator CountdownTimer(int seconds)
     {
