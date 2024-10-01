@@ -3,6 +3,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro; 
 using System.Collections;
+using System;
 
 public class MainMenuManager : MonoBehaviourPunCallbacks
 {
@@ -11,6 +12,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     {
         PublicMatch,
         ChangeGamertag,
+        JoinPracticeRange,
         None
     }
 
@@ -27,23 +29,28 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     [Header("GAME MODE")]
     public GameObject SelectGamePanel;
     public GameObject SelectGameModeContainer;
+    public GameObject SelectPraticeModeContainer;
     public GameObject SelectGameTypeContainer;
     public GameObject SelectNavRow;
     public GameObject loadoutList; 
     private int hoveredLoadoutIndex = -1;
+    public GameObject joinScreen;
+    public TMP_InputField roomCodeInputField;
 
     [Header("Loadout UI")]
     public GameObject[] loadoutButtons;
-    public GameObject renameScreen; 
+    public GameObject renameScreen;  
 
     public GameObject inputFieldGameObject;
     private TMP_InputField inputField;
     [SerializeField] private GameObject errMsg;
+    private static readonly string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     #region Unity Methods
 
     private void Start()
     {
+        currentState = MenuNavigationState.None;
         SetPanelViewability();
         ConnectToPhotonServer();
         inputField = inputFieldGameObject.GetComponent<TMP_InputField>();
@@ -73,6 +80,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
                                     bool gameTypeContainer = false,
                                     bool navRow = false,
                                     bool gameModeContainer = false,
+                                    bool praticeModeContainer = false,
                                     bool shopPanel = false,
                                     bool settingsPanel = false)
     {
@@ -83,6 +91,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         SelectGameTypeContainer.SetActive(gameTypeContainer);
         SelectNavRow.SetActive(navRow);
         SelectGameModeContainer.SetActive(gameModeContainer);
+        SelectPraticeModeContainer.SetActive(praticeModeContainer);
         ShopPanel.SetActive(shopPanel);
         SettingsPanel.SetActive(settingsPanel);
     }
@@ -94,7 +103,44 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     }
     public void OnQuickplaySelected() => SetPanelViewability(selectGamePanel:true, gameModeContainer:true, navRow:true);
     public void OnRankedPlaySelected() {}
-    public void OnPracticeRangeSelected() => GameManager.instance.StartLoadingBar("S05_PracticeRange", false);
+    public void OnPracticeRangeSelected() => SetPanelViewability(selectGamePanel:true, praticeModeContainer:true, navRow:true);
+    public void OnHostPracticeRangeSelected() 
+    {
+        string roomCode = GenerateRoomCode(6);
+        RoomManager.SetRoomCode(roomCode);
+
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.MaxPlayers = 4; 
+
+        PhotonNetwork.CreateRoom(roomCode, roomOptions);
+
+        Debug.Log("Practice range room created with code: " + roomCode);
+        GameManager.instance.StartLoadingBar("S05_PracticeRange", true);
+    }
+
+    public void OnJoinPracticeRangeSelected() => joinScreen.SetActive(true);
+    private string targetRoomCode; // Store the room code of the practice range we want to join
+
+    public void OnJoinRangeRoomSelected() 
+    {
+        string roomCode = roomCodeInputField.text;  // Get room code from the input field
+        if (!string.IsNullOrEmpty(roomCode))
+        {
+            currentState = MenuNavigationState.JoinPracticeRange;  // Set the current state to joining practice range
+            targetRoomCode = roomCode;  // Store the room code
+
+            Debug.Log("Leaving current room to join practice range: " + roomCode);
+
+            // Leave the current room before joining the target room
+            PhotonNetwork.LeaveRoom();  // This triggers OnLeftRoom
+        }
+        else
+        {
+            Debug.LogWarning("Room code is empty, cannot join.");
+        }
+    }
+
+
     public void OnCreateClassSelected() 
     {
         SetPanelViewability(selectLoadoutPanel:true);
@@ -123,6 +169,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     }
     public void OnBackToSelectLoadoutButtonClicked() => SetPanelViewability(selectLoadoutPanel:true);
     public void OnCancelRename() => renameScreen.SetActive(false);
+    public void OnCancelJoin() => joinScreen.SetActive(false);
 
     public void FindAnOpenMatch()
     {
@@ -146,11 +193,22 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
+    private string mainMenuRoomCode;
+
     public override void OnConnectedToMaster()
     {
         Debug.Log(PhotonNetwork.NickName + " connected to Photon Server");
-        CreateRoom();
+
+        // Step 1: Generate a unique room code for the player's session in the main menu
+        mainMenuRoomCode = GenerateRoomCode(6);
+
+        // Step 2: Create a room with the generated room code
+        RoomOptions roomOptions = new RoomOptions { MaxPlayers = 1 }; // Only 1 player in the main menu room
+        PhotonNetwork.CreateRoom(mainMenuRoomCode, roomOptions);
+
+        Debug.Log("Main Menu room created with code: " + mainMenuRoomCode);
     }
+
 
     public override void OnConnected() => Debug.Log("Connected to Internet");
 
@@ -178,22 +236,68 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        Debug.Log($"{PhotonNetwork.NickName} joined the room!");
-        GameManager.instance.CloseLoadingScreen();
+        Debug.Log("Successfully joined room: " + PhotonNetwork.CurrentRoom.Name);
+
+        if (currentState == MenuNavigationState.JoinPracticeRange)
+        {
+            // Load the practice range scene
+            GameManager.instance.StartLoadingBar("S05_PracticeRange", true);
+        }
+        else
+        {
+            Debug.LogError("Current state is not set to JoinPracticeRange when joining a room.");
+        }
+    }
+
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        Debug.Log($"Failed to join room: {message}");
     }
 
     public override void OnLeftRoom()
     {
         Debug.Log($"{PhotonNetwork.NickName} left the room!");
-        PhotonNetwork.Disconnect();
-        
-        if (currentState == MenuNavigationState.PublicMatch)
-            GameManager.instance.StartLoadingBar("S02_Lobby", false);
-        else if (currentState == MenuNavigationState.ChangeGamertag)
-            GameManager.instance.StartLoadingBar("S00_UserLogin", false);
-        else
-            Debug.Log("Menu navigation state was not specified!");
+
+        // Check if still connected to Photon
+        if (!PhotonNetwork.IsConnectedAndReady)
+        {
+            Debug.LogError("Not connected to Photon, reconnecting...");
+            PhotonNetwork.ConnectUsingSettings(); // Optionally reconnect if disconnected
+            return; // Exit early if we are not connected
+        }
+
+        switch (currentState)
+        {
+            case MenuNavigationState.PublicMatch:
+                GameManager.instance.StartLoadingBar("S02_Lobby", false);
+                break;
+
+            case MenuNavigationState.ChangeGamertag:
+                GameManager.instance.StartLoadingBar("S00_UserLogin", false);
+                break;
+
+            case MenuNavigationState.JoinPracticeRange:
+                if (!string.IsNullOrEmpty(targetRoomCode))
+                {
+                    // Attempt to join the target room after leaving
+                    PhotonNetwork.JoinRoom(targetRoomCode);
+                    Debug.Log("Attempting to join practice range with code: " + targetRoomCode);
+                    targetRoomCode = null; // Clear the code after attempting to join
+                }
+                else
+                {
+                    Debug.LogError("Room code is null or empty!");
+                }
+                break;
+
+            default:
+                Debug.Log("Menu navigation state was not specified!");
+                break;
+        }
     }
+
+
 
     #endregion
 
@@ -252,7 +356,18 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         errMsg.SetActive(false);
     }
 
+    private string GenerateRoomCode(int length = 6)
+    {
+        char[] roomCode = new char[length];
+        System.Random random = new System.Random();
 
+        for (int i = 0; i < length; i++)
+        {
+            roomCode[i] = letters[random.Next(letters.Length)];
+        }
 
+        return new string(roomCode);
+    }
+    
     #endregion
 }
