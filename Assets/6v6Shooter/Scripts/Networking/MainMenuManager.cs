@@ -12,6 +12,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     {
         PublicMatch,
         ChangeGamertag,
+        HostPracticeRange,
         JoinPracticeRange,
         None
     }
@@ -25,6 +26,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public GameObject EditLoadoutPanel;
     public GameObject ShopPanel;
     public GameObject SettingsPanel;
+    private string playerRoomCode;
 
     [Header("GAME MODE")]
     public GameObject SelectGamePanel;
@@ -45,6 +47,8 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     private TMP_InputField inputField;
     [SerializeField] private GameObject errMsg;
     private static readonly string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private string targetRoomCode; // Store the room code of the practice range we want to join
+    private bool isRejoiningRoom = false;
 
     #region Unity Methods
 
@@ -106,33 +110,36 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     public void OnPracticeRangeSelected() => SetPanelViewability(selectGamePanel:true, praticeModeContainer:true, navRow:true);
     public void OnHostPracticeRangeSelected() 
     {
+        currentState = MenuNavigationState.HostPracticeRange;
         string roomCode = GenerateRoomCode(6);
+        targetRoomCode = roomCode;
         RoomManager.SetRoomCode(roomCode);
 
-        RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 4; 
-
-        PhotonNetwork.CreateRoom(roomCode, roomOptions);
-
-        Debug.Log("Practice range room created with code: " + roomCode);
-        GameManager.instance.StartLoadingBar("S05_PracticeRange", true);
+        if (PhotonNetwork.IsConnectedAndReady) {
+            // We are already connected to the Master Server, so create the room
+            CreatePracticeRangeRoom(roomCode);
+        } else {
+            Debug.Log("Not connected to Master Server. Connecting...");
+            PhotonNetwork.ConnectUsingSettings(); // Ensure we connect to the Master Server
+        }
     }
 
     public void OnJoinPracticeRangeSelected() => joinScreen.SetActive(true);
-    private string targetRoomCode; // Store the room code of the practice range we want to join
 
     public void OnJoinRangeRoomSelected() 
     {
-        string roomCode = roomCodeInputField.text;  // Get room code from the input field
+        string roomCode = roomCodeInputField.text;
         if (!string.IsNullOrEmpty(roomCode))
         {
-            currentState = MenuNavigationState.JoinPracticeRange;  // Set the current state to joining practice range
-            targetRoomCode = roomCode;  // Store the room code
+            currentState = MenuNavigationState.JoinPracticeRange;
+            targetRoomCode = roomCode;
 
             Debug.Log("Leaving current room to join practice range: " + roomCode);
 
-            // Leave the current room before joining the target room
-            PhotonNetwork.LeaveRoom();  // This triggers OnLeftRoom
+            // Set rejoining flag to true
+            isRejoiningRoom = true;
+
+            PhotonNetwork.LeaveRoom(); 
         }
         else
         {
@@ -193,28 +200,46 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    private string mainMenuRoomCode;
-
     public override void OnConnectedToMaster()
     {
-        Debug.Log(PhotonNetwork.NickName + " connected to Photon Server");
+        if (isRejoiningRoom && !string.IsNullOrEmpty(targetRoomCode))
+        {
+            TryJoinTargetRoom();
+        }
 
-        // Step 1: Generate a unique room code for the player's session in the main menu
-        mainMenuRoomCode = GenerateRoomCode(6);
+        if (currentState == MenuNavigationState.None)
+        {
+            Debug.Log(PhotonNetwork.NickName + " connected to Photon Server");
 
-        // Step 2: Create a room with the generated room code
-        RoomOptions roomOptions = new RoomOptions { MaxPlayers = 1 }; // Only 1 player in the main menu room
-        PhotonNetwork.CreateRoom(mainMenuRoomCode, roomOptions);
+            playerRoomCode = GenerateRoomCode(6);
 
-        Debug.Log("Main Menu room created with code: " + mainMenuRoomCode);
+            RoomOptions roomOptions = new RoomOptions { MaxPlayers = 1, IsVisible = true, IsOpen = true };
+            PhotonNetwork.CreateRoom(playerRoomCode, roomOptions, TypedLobby.Default);
+
+            Debug.Log("Main Menu room created with code: " + playerRoomCode);
+        }
+        else if (currentState == MenuNavigationState.HostPracticeRange)
+    {
+        // Handle the Practice Range room creation
+        Debug.Log("Connected to Master. Preparing to create a practice range room.");
+        RoomOptions roomOptions = new RoomOptions { MaxPlayers = 4, IsVisible = true, IsOpen = true };
+
+        // Create the room for the practice range
+        PhotonNetwork.CreateRoom(targetRoomCode, roomOptions, TypedLobby.Default);
+        Debug.Log("Practice range room created with code: " + targetRoomCode);
+
+        // Start the loading screen for the practice range
+        GameManager.instance.StartLoadingBar("S05_PracticeRange", true);
     }
+    }
+
 
 
     public override void OnConnected() => Debug.Log("Connected to Internet");
 
     public void CreateRoom()
     {
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 1});
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 4});
     }
 
     public void JoinOrCreateRoom()
@@ -234,21 +259,32 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
         GameManager.instance.CloseLoadingScreen();
     }
 
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        Debug.LogError($"Room creation failed: {message} (Error Code: {returnCode})");
+    }
+
     public override void OnJoinedRoom()
     {
         Debug.Log("Successfully joined room: " + PhotonNetwork.CurrentRoom.Name);
 
         if (currentState == MenuNavigationState.JoinPracticeRange)
         {
-            // Load the practice range scene
+            // Load the practice range scene for all players in the room
             GameManager.instance.StartLoadingBar("S05_PracticeRange", true);
-        }
-        else
-        {
-            Debug.LogError("Current state is not set to JoinPracticeRange when joining a room.");
         }
     }
 
+    private void CreatePracticeRangeRoom(string roomCode)
+    {
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.MaxPlayers = 4; 
+
+        PhotonNetwork.CreateRoom(roomCode, roomOptions);
+        Debug.Log("Practice range room created with code: " + roomCode);
+
+        GameManager.instance.StartLoadingBar("S05_PracticeRange", true);
+    }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
@@ -259,31 +295,47 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
     {
         Debug.Log($"{PhotonNetwork.NickName} left the room!");
 
-        // Check if still connected to Photon
+        // Reconnect if not connected to Photon
         if (!PhotonNetwork.IsConnectedAndReady)
         {
             Debug.LogError("Not connected to Photon, reconnecting...");
-            PhotonNetwork.ConnectUsingSettings(); // Optionally reconnect if disconnected
-            return; // Exit early if we are not connected
+            PhotonNetwork.ConnectUsingSettings();
+            return;
+        }
+
+        Debug.Log("Current state is: " + currentState);
+
+        if (isRejoiningRoom && PhotonNetwork.IsConnectedAndReady)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                TryJoinTargetRoom();
+            }
+            else
+            {
+                Debug.Log("Waiting to connect back to the Master Server before joining room...");
+            }
         }
 
         switch (currentState)
         {
             case MenuNavigationState.PublicMatch:
+                Debug.Log("Switch case: PublicMatch");
                 GameManager.instance.StartLoadingBar("S02_Lobby", false);
                 break;
 
             case MenuNavigationState.ChangeGamertag:
+                Debug.Log("Switch case: ChangeGamertag");
                 GameManager.instance.StartLoadingBar("S00_UserLogin", false);
                 break;
 
             case MenuNavigationState.JoinPracticeRange:
+                Debug.Log("Switch case: JoinPracticeRange");
                 if (!string.IsNullOrEmpty(targetRoomCode))
                 {
-                    // Attempt to join the target room after leaving
                     PhotonNetwork.JoinRoom(targetRoomCode);
                     Debug.Log("Attempting to join practice range with code: " + targetRoomCode);
-                    targetRoomCode = null; // Clear the code after attempting to join
+                    targetRoomCode = null;
                 }
                 else
                 {
@@ -296,6 +348,7 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
                 break;
         }
     }
+
 
 
 
@@ -368,6 +421,21 @@ public class MainMenuManager : MonoBehaviourPunCallbacks
 
         return new string(roomCode);
     }
+
+    private void TryJoinTargetRoom()
+{
+    if (!string.IsNullOrEmpty(targetRoomCode))
+    {
+        Debug.Log("Attempting to join practice range with code: " + targetRoomCode);
+        PhotonNetwork.JoinRoom(targetRoomCode);
+        targetRoomCode = null;
+        isRejoiningRoom = false; // Reset the flag
+    }
+    else
+    {
+        Debug.LogError("Room code is null or empty!");
+    }
+}
     
     #endregion
 }

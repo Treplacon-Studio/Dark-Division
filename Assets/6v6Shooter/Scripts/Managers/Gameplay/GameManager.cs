@@ -28,74 +28,73 @@ public class GameManager : MonoBehaviour
 
         string currentScene = SceneHandler.Instance.GetCurrentSceneName();
         Debug.Log("Current Scene: " + currentScene);
-        
-        // change game state
+
+        // Change game state
         SceneHandler.Instance.ChangeGameState(SceneHandler.GameState.Playing);
     }
 
     public void OpenLoadingScreen() => LoadingScreenCanvas.SetActive(true);
+    
     public void CloseLoadingScreen() 
     {   
-        Debug.Log("LOADING SCREEN STARTED...");
+        Debug.Log("Loading screen closed.");
         LoadingScreenCanvas.SetActive(false);
     }
 
     public void StartLoadingBar(string sceneName, bool loadWithPhoton, Sprite background = null)
     {
+        // Display the loading screen and optionally set the background
         if (background != null)
-        {   
+        {
             BGImage.sprite = background;
             BGImage.color = Color.white;
         }
         else
         {
-            BGImage.color = Color.black;   
+            BGImage.color = Color.black;
         }
 
         OpenLoadingScreen();
         loadingBar.fillAmount = 0f;
+
+        // Load scene with or without Photon
         if (loadWithPhoton)
             StartCoroutine(LoadWithPhoton(sceneName));
         else
             StartCoroutine(LoadAsynchronously(sceneName));
     }
 
-    IEnumerator LoadWithPhoton(string sceneName)
+    private IEnumerator LoadWithPhoton(string sceneName)
     {
+        // Start loading the scene with Photon
         PhotonNetwork.LoadLevel(sceneName);
-        float progress = 0f;
-        while (progress < 1f)
-        {
-            progress += Time.deltaTime / 3;
-            loadingBar.fillAmount = progress;
-            yield return null;
-        }
         
-        CloseLoadingScreen();
-        
+        // Wait until the level is fully loaded
         while (PhotonNetwork.LevelLoadingProgress < 1f)
         {
-            if (PhotonNetwork.LevelLoadingProgress == 1f)
-                CloseLoadingScreen();
-                
+            // Update the loading bar with Photon loading progress
             loadingBar.fillAmount = PhotonNetwork.LevelLoadingProgress;
             yield return null;
         }
+
+        // Ensure the loading screen is closed only after loading is complete
+        CloseLoadingScreen();
+        Debug.Log("Scene load complete with Photon.");
     }
 
-    IEnumerator LoadAsynchronously(string sceneName)
+    private IEnumerator LoadAsynchronously(string sceneName)
     {
-        Debug.Log("Starting scene load");
+        Debug.Log("Starting scene load asynchronously.");
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+
         while (!operation.isDone)
         {
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
-            Debug.Log($"Loading progress: {progress}");
             loadingBar.fillAmount = progress;
             yield return null;
         }
 
-        Debug.Log("Scene load complete");
+        Debug.Log("Scene load complete asynchronously.");
         CloseLoadingScreen();
     }
 }

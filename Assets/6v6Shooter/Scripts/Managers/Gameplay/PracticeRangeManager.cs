@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System.IO;
+using Photon.Realtime;
 
 public class PracticeRangeManager : MonoBehaviourPunCallbacks
 {
@@ -12,38 +13,34 @@ public class PracticeRangeManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        // Each player spawns themselves in the practice range
         SpawnPlayerInPracticeRange();
 
-        // Only the Master Client should spawn the targets
         if (PhotonNetwork.IsMasterClient)
         {
             SpawnTargetsInPracticeRange();
         }
     }
 
-     private void SpawnPlayerInPracticeRange()
+    private void SpawnPlayerInPracticeRange()
     {
         // Instantiate player at the designated spawn position
-        Vector3 spawnPosition = practiceRangeSpawnPosition.position + new Vector3(Random.Range(-2, 2), 0, Random.Range(-2, 2));
-        PhotonNetwork.Instantiate(Path.Combine("Gameplay", "Player_M01"), spawnPosition, practiceRangeSpawnPosition.rotation);
+        practiceRangeSpawnPosition.position = new Vector3(-25, 0, 0);
+        PhotonNetwork.Instantiate(Path.Combine("Gameplay", "Player_M01"), practiceRangeSpawnPosition.position, practiceRangeSpawnPosition.rotation);
     }
 
     private void SpawnTargetsInPracticeRange()
     {
-        // Spawn first type of practice dummies
-        foreach (Transform spawnPosition in practiceDummyType1SpawnPositions)
+        // Example: Spawn Type 1 Dummies
+        foreach (var spawnPosition in practiceDummyType1SpawnPositions)
         {
             PhotonNetwork.Instantiate(Path.Combine("TargetPractice", "SM_DummyOnStick"), spawnPosition.position, spawnPosition.rotation);
         }
 
-        // Spawn second type of practice dummies
-        foreach (Transform spawnPosition in practiceDummyType2SpawnPositions)
+        // Example: Spawn Type 2 Dummies
+        foreach (var spawnPosition in practiceDummyType2SpawnPositions)
         {
             PhotonNetwork.Instantiate(Path.Combine("TargetPractice", "DummiesOnstick"), spawnPosition.position, spawnPosition.rotation);
         }
-
-        Debug.Log("All targets spawned in the practice range.");
     }
 
     // This callback is triggered when the local player successfully joins a room
@@ -56,5 +53,13 @@ public class PracticeRangeManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         Debug.Log(otherPlayer.NickName + " has left the room.");
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+        
+        // Example: Send current game state to the new player
+        photonView.RPC("SyncGameState", newPlayer);
     }
 }
