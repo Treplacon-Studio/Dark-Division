@@ -7,13 +7,14 @@ using Photon.Realtime;
 
 public class PracticeRangeManager : MonoBehaviourPunCallbacks
 {
-    public Transform practiceRangeSpawnPosition;
+    public Transform[] playerSpawnPositions; 
     public Transform[] practiceDummyType1SpawnPositions;
     public Transform[] practiceDummyType2SpawnPositions;
 
-    void Start()
+    public override void OnJoinedRoom()
     {
-        SpawnPlayerInPracticeRange();
+        Debug.Log("Player joined the practice range room: " + PhotonNetwork.CurrentRoom.Name);
+        StartCoroutine(DelayedPlayerSpawn());  // Add a small delay to ensure network readiness
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -21,11 +22,31 @@ public class PracticeRangeManager : MonoBehaviourPunCallbacks
         }
     }
 
+    // Coroutine to delay player spawn for network readiness
+    private IEnumerator DelayedPlayerSpawn()
+    {
+        yield return new WaitForSeconds(1f);
+        SpawnPlayerInPracticeRange();
+    }
+
     private void SpawnPlayerInPracticeRange()
     {
-        // Instantiate player at the designated spawn position
-        practiceRangeSpawnPosition.position = new Vector3(-25, 0, 0);
-        PhotonNetwork.Instantiate(Path.Combine("Gameplay", "Player_M01"), practiceRangeSpawnPosition.position, practiceRangeSpawnPosition.rotation);
+        int spawnIndex = PhotonNetwork.LocalPlayer.ActorNumber % playerSpawnPositions.Length;
+        Vector3 spawnPosition = playerSpawnPositions[spawnIndex].position;
+        Quaternion spawnRotation = playerSpawnPositions[spawnIndex].rotation;
+
+        Debug.Log($"Spawning player at position {spawnPosition}");
+
+        // Attempt to instantiate the player and log errors if any
+        try
+        {
+            PhotonNetwork.Instantiate(Path.Combine("Gameplay", "Player_M01"), spawnPosition, spawnRotation);
+            Debug.Log("Player prefab instantiated successfully.");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Error instantiating player: " + e.Message);
+        }
     }
 
     private void SpawnTargetsInPracticeRange()
@@ -43,13 +64,6 @@ public class PracticeRangeManager : MonoBehaviourPunCallbacks
         }
     }
 
-    // This callback is triggered when the local player successfully joins a room
-    public override void OnJoinedRoom()
-    {
-        Debug.Log("Player joined the practice range room: " + PhotonNetwork.CurrentRoom.Name);
-    }
-
-    // If you want to handle specific player actions on leaving the room, implement this callback
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         Debug.Log(otherPlayer.NickName + " has left the room.");
@@ -58,8 +72,7 @@ public class PracticeRangeManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         base.OnPlayerEnteredRoom(newPlayer);
-        
-        // Example: Send current game state to the new player
-        photonView.RPC("SyncGameState", newPlayer);
+        Debug.Log("New player entered the room: " + newPlayer.NickName);
+        // You can handle additional logic for the new player here if necessary
     }
 }
